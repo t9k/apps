@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: label-studio
+spec:
+  selector:
+    matchLabels:
+      app: label-studio
+  template:
+    metadata:
+      labels:
+        app: label-studio
+    spec:
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: label-studio-pvc
+      containers:
+        - name: label-studio
+          image: heartexlabs/label-studio:latest
+          env:
+            - name: LABEL_STUDIO_HOST
+              value: https://proxy.nc201.kube.tensorstack.net/apps/label-studio/
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2000Mi
+          volumeMounts:
+            - name: storage
+              mountPath: "/label-studio/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: label-studio-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: label-studio
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: label-studio
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: label-studio
+spec:
+  hosts:
+    - '*'
+  gateways:
+    - t9k-system/t9k
+  http:
+    - match:
+        - uri:
+            prefix: /apps/label-studio/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: label-studio
+            port:
+              number: 8080
