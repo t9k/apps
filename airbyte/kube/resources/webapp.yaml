@@ -6,6 +6,7 @@ spec:
   type: NodePort
   ports:
     - port: 80
+      targetPort: 4180
       protocol: TCP
   selector:
     airbyte: webapp
@@ -26,7 +27,7 @@ spec:
     spec:
       containers:
         - name: airbyte-webapp-container
-          image: airbyte/webapp
+          image: tsz.io/t9k/airbyte-webapp:0.32.5-alpha
           env:
             - name: AIRBYTE_VERSION
               valueFrom:
@@ -60,3 +61,49 @@ spec:
                   key: INTERNAL_API_HOST
           ports:
             - containerPort: 80
+        - command: ["/app/pep-proxy"]
+          args:
+          - --http-address=0.0.0.0:4180
+          - --upstream=http://127.0.0.1:80/
+          - --client-id=t9k-client
+          - --security-server-address=http://security-console-server.t9k-system:8080
+          - --redeem-url=https://proxy.nc201.kube.tensorstack.net/t9k/security/server/apis/v1/login/auth-code
+          - --redirect-url=/apps/airbyte/oauth2/callback
+          - --oidc-issuer-url=https://kc.kube.tensorstack.net/auth/realms/t9k-realm
+          image: tsz.io/t9k/pep-proxy:1.0.4
+          name: pep-proxy
+          ports:
+          - containerPort: 4180
+            name: proxy
+          resources:
+            limits:
+              cpu: 400m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: airbyte-webapp-vs
+spec:
+  hosts:
+    - '*'
+  gateways:
+    - t9k-system/t9k
+  http:
+    - headers:
+        request:
+          add:
+            x-auth-request-redirect: /apps/airbyte/
+      match:
+        - uri:
+            prefix: /apps/airbyte/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: airbyte-webapp-svc
+            port:
+              number: 80
