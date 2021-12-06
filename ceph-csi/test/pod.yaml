@@ -6,7 +6,7 @@ metadata:
 spec:
   containers:
     - name: web-server
-      image: docker.io/library/nginx:latest
+      image: tsz.io/t9kmirror/nginx:latest
       volumeMounts:
         - name: mypvc
           mountPath: /var/lib/www/html
