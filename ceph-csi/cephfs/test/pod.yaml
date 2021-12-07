@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cephfs-demo-pod
+spec:
+  containers:
+    - name: web-server
+      image: tsz.io/t9kmirror/nginx:latest
+      volumeMounts:
+        - name: mypvc
+          mountPath: /var/lib/www
+  volumes:
+    - name: mypvc
+      persistentVolumeClaim:
+        claimName: cephfs-pvc
+        readOnly: false

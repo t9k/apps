@@ -2,7 +2,7 @@
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-   name: tsz-ceph
+   name: tsz-ceph-rbd
 provisioner: rbd.csi.ceph.com
 # If topology based provisioning is desired, delayed provisioning of
 # PV is required and is enabled using the following attribute

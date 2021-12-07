@@ -2,14 +2,14 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: csi-rbd-demo-pod
+  name: rbd-demo-pod
 spec:
   containers:
     - name: web-server
       image: tsz.io/t9kmirror/nginx:latest
       volumeMounts:
         - name: mypvc
-          mountPath: /var/lib/www/html
+          mountPath: /var/lib/www
   volumes:
     - name: mypvc
       persistentVolumeClaim:

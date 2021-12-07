@@ -2,11 +2,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: rbd-pvc
+  name: cephfs-pvc
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
-      storage: 1Gi
-  storageClassName: tsz-ceph
+      storage: 10Gi
+  storageClassName: tsz-cephfs
