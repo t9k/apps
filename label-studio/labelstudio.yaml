@@ -17,7 +17,7 @@ spec:
             claimName: label-studio-pvc
       containers:
         - name: label-studio
-          image: heartexlabs/label-studio:latest
+          image: tsz.io/t9kmirror/heartexlabs-label-studio:1.4.0
           env:
             - name: LABEL_STUDIO_HOST
               value: https://proxy.nc201.kube.tensorstack.net/apps/label-studio/
