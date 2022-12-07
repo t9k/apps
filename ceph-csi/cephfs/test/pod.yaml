@@ -7,6 +7,10 @@ spec:
   containers:
     - name: web-server
       image: tsz.io/t9kmirror/nginx:latest
+      resources:
+        limits:
+          cpu: 200m
+          memory: 500Mi
       volumeMounts:
         - name: mypvc
           mountPath: /var/lib/www
@@ -14,4 +18,3 @@ spec:
     - name: mypvc
       persistentVolumeClaim:
         claimName: cephfs-pvc
-        readOnly: false
