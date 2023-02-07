@@ -1,0 +1,17 @@
+ceph:
+  storageClassName: tsz-cephfs
+  driverName: cephfs.csi.ceph.com
+  clusterID: 47f20cbc-914f-11ed-93dc-9f2800951ba2
+  fsName: nuc
+  adminID: nuc
+  adminKey: AQB7JL5jugJwFxAA+szhrjIi48JhJbZsI3feRg==
+  monitors:
+    - "100.64.4.85:6789"
+    - "100.64.4.45:6789"
+  images:
+    cephCSI: tsz.io/t9kmirror/cephcsi:canary
+    csiProvisioner: tsz.io/t9kmirror/csi-provisioner:v3.0.0
+    csiResizer: tsz.io/t9kmirror/csi-resizer:v1.3.0
+    csiSnapshotter: tsz.io/t9kmirror/csi-snapshotter:v4.2.0
+    csiAttacher: tsz.io/t9kmirror/csi-attacher:v3.3.0
+    csiNodeDriverRegistrar: tsz.io/t9kmirror/csi-node-driver-registrar:v2.3.0
