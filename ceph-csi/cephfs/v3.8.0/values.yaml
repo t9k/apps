@@ -1,0 +1,16 @@
+ceph:
+  storageClassName: tsz-cephfs
+  driverName: cephfs.csi.ceph.com
+  clusterID: 80090ffe-566a-11ec-a526-bffaeb107119
+  fsName: cephfs
+  adminID: k8s-cephfs
+  adminKey: AQAj/K5hhG3fCRAAw+U89cwrQn17GczD86AZGA==
+  metricsPort: 8681
+  monitors:
+    - "100.64.4.102:6789"
+  images:
+    cephCSI: tsz.io/t9kmirror/cephcsi:v3.8-canary
+    csiProvisioner: tsz.io/t9kmirror/csi-provisioner:v3.3.0
+    csiResizer: tsz.io/t9kmirror/csi-resizer:v1.6.0
+    csiSnapshotter: tsz.io/t9kmirror/csi-snapshotter:v6.1.0
+    csiNodeDriverRegistrar: tsz.io/t9kmirror/csi-node-driver-registrar:v2.6.2

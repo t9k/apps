@@ -1,13 +1,13 @@
 ceph:
-  storageClassName: tsz-cephfs
-  driverName: cephfs.csi.ceph.com
-  clusterID: 47f20cbc-914f-11ed-93dc-9f2800951ba2
-  fsName: nuc
-  adminID: nuc
-  adminKey: AQB7JL5jugJwFxAA+szhrjIi48JhJbZsI3feRg==
+  storageClassName: cephfs-ds04-test
+  driverName: cephfs.ds04.csi.ceph.com
+  clusterID: 765bdaf8-6fd3-11ed-afcf-835f7abe64c8
+  fsName: k8s_202
+  adminID: k8s_202
+  adminKey: AQA8wQpkRt0zFhAAIAniOqA4oVe21pE+Zoax0g==
+  metricsPort: 8683
   monitors:
-    - "100.64.4.85:6789"
-    - "100.64.4.45:6789"
+    - "100.64.4.104:6789"
   images:
     cephCSI: tsz.io/t9kmirror/cephcsi:canary
     csiProvisioner: tsz.io/t9kmirror/csi-provisioner:v3.0.0

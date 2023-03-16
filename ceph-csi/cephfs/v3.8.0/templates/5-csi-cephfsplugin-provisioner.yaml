@@ -48,11 +48,13 @@ spec:
           image: {{ .Values.ceph.images.csiProvisioner }}
           args:
             - "--csi-address=$(ADDRESS)"
-            - "--v=5"
+            - "--v=1"
             - "--timeout=150s"
             - "--leader-election=true"
             - "--retry-interval-start=500ms"
             - "--feature-gates=Topology=false"
+            - "--feature-gates=HonorPVReclaimPolicy=true"
+            - "--prevent-volume-mode-conversion=true"
             - "--extra-create-metadata=true"
           env:
             - name: ADDRESS
@@ -65,11 +67,12 @@ spec:
           image: {{ .Values.ceph.images.csiResizer }}
           args:
             - "--csi-address=$(ADDRESS)"
-            - "--v=5"
+            - "--v=1"
             - "--timeout=150s"
             - "--leader-election"
             - "--retry-interval-start=500ms"
             - "--handle-volume-inuse-error=false"
+            - "--feature-gates=RecoverVolumeExpansionFailure=true"
           env:
             - name: ADDRESS
               value: unix:///csi/csi-provisioner.sock
@@ -81,9 +84,10 @@ spec:
           image: {{ .Values.ceph.images.csiSnapshotter }}
           args:
             - "--csi-address=$(ADDRESS)"
-            - "--v=5"
+            - "--v=1"
             - "--timeout=150s"
             - "--leader-election=true"
+            - "--extra-create-metadata=true"
           env:
             - name: ADDRESS
               value: unix:///csi/csi-provisioner.sock
@@ -91,22 +95,7 @@ spec:
           volumeMounts:
             - name: socket-dir
               mountPath: /csi
-        - name: csi-cephfsplugin-attacher
-          image: {{ .Values.ceph.images.csiAttacher }}
-          args:
-            - "--v=5"
-            - "--csi-address=$(ADDRESS)"
-            - "--leader-election=true"
-            - "--retry-interval-start=500ms"
-          env:
-            - name: ADDRESS
-              value: /csi/csi-provisioner.sock
-          imagePullPolicy: "IfNotPresent"
-          volumeMounts:
-            - name: socket-dir
-              mountPath: /csi
         - name: csi-cephfsplugin
-          # for stable functionality replace canary with latest release version
           image: {{ .Values.ceph.images.cephCSI }}
           args:
             - "--nodeid=$(NODE_ID)"
@@ -117,6 +106,7 @@ spec:
             - "--drivername={{ .Values.ceph.driverName }}"
             - "--pidlimit=-1"
             - "--enableprofiling=false"
+            - "--setmetadata=true"
           env:
             - name: POD_IP
               valueFrom:
@@ -128,6 +118,12 @@ spec:
                   fieldPath: spec.nodeName
             - name: CSI_ENDPOINT
               value: unix:///csi/csi-provisioner.sock
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          # - name: KMS_CONFIGMAP_NAME
+          #   value: encryptionConfig
           imagePullPolicy: "IfNotPresent"
           volumeMounts:
             - name: socket-dir
@@ -167,7 +163,9 @@ spec:
           imagePullPolicy: "IfNotPresent"
       volumes:
         - name: socket-dir
-          emptyDir: { medium: "Memory" }
+          emptyDir: {
+            medium: "Memory"
+          }
         - name: host-sys
           hostPath:
             path: /sys
@@ -184,4 +182,6 @@ spec:
           configMap:
             name: ceph-csi-config
         - name: keys-tmp-dir
-          emptyDir: { medium: "Memory" }
+          emptyDir: {
+            medium: "Memory"
+          }
