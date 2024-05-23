@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "stable-diffusion-webui-aki.fullname" . }}
+  labels:
+    {{- include "stable-diffusion-webui-aki.labels" . | nindent 4 }}
+spec:
+  gateways:
+  - project-gateway
+  hosts:
+  - '*'
+  http:
+  - headers:
+      request:
+        remove: 
+        - cookie
+    match:
+    - uri:
+        prefix: /t9k/app/stable-diffusion-webui-aki/{{ .Release.Namespace }}/{{ .Release.Name }}/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: {{ .Release.Name }}-stable-diffusion-webui-aki
+        port:
+          number: {{ .Values.service.port }}

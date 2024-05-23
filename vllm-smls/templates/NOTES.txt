@@ -1,0 +1,1 @@
+Run command `kubectl get smls {{ .Release.Name }}-vllm -ojsonpath='{.status.address.url}'` to get endpoint.

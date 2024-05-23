@@ -1,0 +1,52 @@
+apiVersion: tensorstack.dev/v1beta1
+kind: SimpleMLService
+metadata:
+  name: {{ include "vllm.fullname" . }}
+  labels:
+    {{- include "vllm.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  {{- if .Values.t9k.queue }}
+  scheduler:
+    t9kScheduler:
+      queue: {{ .Values.t9k.queue }}
+  {{- end }}
+  storage:
+    pvc:
+      {{- if .Values.model.volume.existingClaim }}
+      name: {{ .Values.model.volume.existingClaim }}
+      {{- else }}
+      name: {{ include "vllm.fullname" . }}
+      {{- end }}
+      subPath: {{ .Values.model.volume.subPath }}
+  service:
+    type: ClusterIP
+    ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.port }}
+      protocol: TCP
+  custom:
+    spec:
+      {{- if .Values.model.source }}
+      initContainers:
+        - name: wait-for-datacube
+          image: bitnami/kubectl:1.27
+          command: ["/bin/sh", "-c"]
+          args: ["kubectl wait --for=condition=Complete datacube/{{ .Release.Name }}-vllm --timeout=-1s"]
+      serviceAccount: managed-project-sa
+      serviceAccountName: managed-project-sa
+      {{- end }}
+      containers:
+      - name: server
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        # command: ["sleep", "infinity"]
+        args:
+          - --model=/var/lib/t9k/model
+          - --served-model-name={{ .Values.model.name }}
+          - --trust-remote-code
+        ports:
+        - containerPort: {{ .Values.service.port }}
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}

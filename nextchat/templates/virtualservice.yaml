@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "nextchat.fullname" . }}
+  labels:
+    {{- include "nextchat.labels" . | nindent 4 }}
+spec:
+  gateways:
+  - project-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        prefix: /t9k/app/nextchat/{{ .Release.Namespace }}/{{ .Release.Name }}/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: {{ .Release.Name }}-nextchat
+        port:
+          number: {{ .Values.service.port }}

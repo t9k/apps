@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "search-with-lepton.fullname" . }}
+  labels:
+    {{- include "search-with-lepton.labels" . | nindent 4 }}
+spec:
+  gateways:
+  - project-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        prefix: /t9k/app/search-with-lepton/{{ .Release.Namespace }}/{{ .Release.Name }}/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: {{ .Release.Name }}-search-with-lepton
+        port:
+          number: {{ .Values.service.port }}

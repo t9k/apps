@@ -1,0 +1,104 @@
+# Default values for gpt-researcher.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: t9kpublic/gpt-researcher
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "20240520"
+
+service:
+  type: ClusterIP
+  port: 8000
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  limits:
+    cpu: 1
+    memory: 2Gi
+  requests:
+    cpu: 500m
+    memory: 1Gi
+
+llm:
+  # 使用的模型提供商
+  # 应为 "openai"、"azureopenai" 或 "google"
+  provider: "openai"
+  api_key: ""
+  openai:
+    # 兼容 OpenAI API 的服务器的 URL
+    # 如使用 OpenAI API，请设为 "https://api.openai.com/v1"
+    base_url: ""
+    fast_model: "gpt-3-turbo-16k"
+    fast_token_limit: "2000"
+    smart_model: "gpt-4-turbo"
+    smart_token_limit: "4000"
+    browse_chunk_max_length: "8192"
+    summary_token_limit: "700"
+    temperature: "0.55"
+    
+  azureopenai:
+    endpoint: ""
+    api_version: ""
+    embedding_model: ""
+    fast_model: "gpt-3-turbo-16k"
+    fast_token_limit: "2000"
+    smart_model: "gpt-4-turbo"
+    smart_token_limit: "4000"
+    browse_chunk_max_length: "8192"
+    summary_token_limit: "700"
+    temperature: "0.55"
+
+  google:
+    fast_model: "gpt-3-turbo-16k"
+    fast_token_limit: "2000"
+    smart_model: "gpt-4-turbo"
+    smart_token_limit: "4000"
+    browse_chunk_max_length: "8192"
+    summary_token_limit: "700"
+    temperature: "0.55"
+
+retriever:
+  # 使用的搜索引擎提供商
+  # 应为 "BingSearch"、"google"、"searx"、"serpapi"、"googleSerp" 或 "tavily"
+  provider: ""
+  api_key: ""
+  google:
+    cx_key: ""
+
+app:
+  # 应用的其他设置
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0"
+  max_search_results_per_query: "5"
+  memory_backend: "local"
+  total_words: "800"
+  report_format: "APA"
+  max_iterations: "3"
+  agent_role: None
+  scraper: "bs"
+  max_subtopics: "3"
+
+env:
+  # HTTP 和 HTTPS 代理
+  - name: HTTP_PROXY
+    value: ""
+  - name: HTTPS_PROXY
+    value: ""
