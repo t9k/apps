@@ -7,7 +7,7 @@ metadata:
   - T9k
   - IDE
   description: "T9k Notebook allows you to easily create and manage Jupyter Notebook and Rstudio. Whether you are a beginner or a professional, it can meet your needs for data analysis and programming."
-  icon: "file://$APP_DIR/user-console/notebook/icon.png"
+  icon: "file://$APP_DIR/icon.png"
 template:
   crd:
     group: tensorstack.dev

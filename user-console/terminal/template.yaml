@@ -9,7 +9,7 @@ metadata:
   description: "This is a APP Template Demo"
   # 可以填写实际图片路径或本地图片
   # icon: "https://striking-kindness-e0d93214bb.media.strapiapp.com/Stable_Diffusion_logo_2b68efd6c7.png"
-  icon: "file://$APP_DIR/user-console/terminal/icon.png"
+  icon: "file://$APP_DIR/icon.png"
 template:
   helm: 
     repo: "oci://docker.io/t9kpublic"
