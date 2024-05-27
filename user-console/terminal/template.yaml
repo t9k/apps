@@ -1,0 +1,61 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: terminal
+  displayName: Terminal
+  # 可选，如果为填写，则将 app 的第一个版本视作 defaultVersion
+  defaultVersion: "0.1.0"
+  category: ["Tool"]
+  description: "This is a APP Template Demo"
+  # 可以填写实际图片路径或本地图片
+  # icon: "https://striking-kindness-e0d93214bb.media.strapiapp.com/Stable_Diffusion_logo_2b68efd6c7.png"
+  icon: "file://$APP_DIR/user-console/terminal/icon.png"
+template:
+  helm: 
+    repo: "oci://docker.io/t9kpublic"
+    chart: "terminal"
+    versions:
+    - version: 0.1.1
+      urls: 
+      - name: terminal
+        url: /t9k/app/terminal/{{ .Release.Namespace }}/{{ .Release.Name }}/
+      # readiness 定义如何检测一个 APP 是否正常运行
+      #
+      # readinessProbe:
+      #   tcpSocket: 
+      #     port: 80
+      #     host: "{{ .go-template }}"
+      #   httpGet:
+      #     scheme: http
+      #     port: 80
+      #     host: "{{ .go-template }}"
+      #     path: /healthz
+      #     httpHeaders: 
+      #     - name: header-name
+      #       value: "{{ .go-template }}"
+      #   resources:
+      #   - group: tensorstack.dev
+      #     version: v1beta1
+      #     resource: notebooks
+      #     name: {{ .go-template }}
+      #     currentStatus: "{{ .go-template }}"
+      #     desiredStatus: "True"
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: deployments
+          name: terminal-{{ .Release.Name }}
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      # dependences 说明 APP 依赖哪些 CRD 和服务
+      # 
+      # dependences:
+      #   crds:
+      #   - group: tensorstack.dev
+      #     version: v1beta1
+      #     resources: notebook
+      #   services: 
+      #   - namespace: t9k-system
+      #     name: build-console-web
+      dependences: {}

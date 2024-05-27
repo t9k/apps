@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: terminal-{{ .Release.Name }}
+  name: terminal-{{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: terminal-{{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: terminal-{{ .Release.Name }}
+    spec:
+      containers:
+        - name: terminal
+          image: tsz.io/t9k/terminal:240522
+          command:
+          - ttyd
+          - -p
+          - "8080"
+          - --ping-interval
+          - "{{ .Values.pingIntervalSeconds }}"
+          - {{ .Values.shell }}
+          resources: 
+            {{- toYaml .Values.resources | nindent 12 }}
+    {{- if and .Values.pvc (gt (len .Values.pvc) 0) }}
+          volumeMounts:
+        {{- range $index, $element := .Values.pvc }}
+          - mountPath: {{ $element.mountPath }}
+            name: pvc-{{ $index }}
+        {{- end }}
+      volumes:
+      {{- range $index, $element := .Values.pvc }}
+      - name: pvc-{{ $index }}
+        persistentVolumeClaim:
+          claimName: {{ $element.name }}
+      {{- end }}
+    {{- end }}
+      serviceAccountName: managed-project-sa

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: terminal-{{ .Release.Name }}
+  name: terminal-{{ .Release.Name }}
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: terminal-{{ .Release.Name }}
+  type: ClusterIP

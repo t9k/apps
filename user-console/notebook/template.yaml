@@ -1,0 +1,30 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: t9k-notebook
+  displayName: "T9k Notebook"
+  category: 
+  - T9k
+  - IDE
+  description: "T9k Notebook allows you to easily create and manage Jupyter Notebook and Rstudio. Whether you are a beginner or a professional, it can meet your needs for data analysis and programming."
+  icon: "file://$APP_DIR/user-console/notebook/icon.png"
+template:
+  crd:
+    group: tensorstack.dev
+    resources: notebook
+    versions:
+    - version: v1beta1
+      template: "apiVersion: tensorstack.dev/v1beta1\nkind: Notebook\nmetadata:\n  name: tutorial\nspec:\n  type: jupyter\n  template:\n    spec:\n      containers:\n        - name: notebook\n          image: t9kpublic/torch-2.1.0-notebook:1.77.1\n          volumeMounts:\n            - name: workingdir\n              mountPath: /t9k/mnt\n          resources:\n            requests:\n              cpu: \"8\"\n              memory: 16Gi\n              nvidia.com/gpu: 1\n            limits:\n              cpu: \"16\"\n              memory: 32Gi\n              nvidia.com/gpu: 1\n      volumes:\n        - name: workingdir\n          persistentVolumeClaim:\n            claimName: tutorial"
+      readme: "快速部署一个 Notebook 应用（支持 JupyterLab 和 RStudio 两种类型的服务），同时本应用还提供 GPU 支持、SSH 访问支持等功能。"
+      note: "{{- $status := \"未就绪\" -}}{{- range .status.conditions -}}{{- if and (eq .type \"Suspended\") (eq .status \"True\") -}}{{- $status = \"暂停\" -}}{{- break -}}{{- else if and (eq .type \"Ready\") (eq .status \"True\") -}}{{- $status = \"运行中\" -}}{{- break -}}{{- end -}}{{- end -}}状态:  {{ $status }}\n类型:  {{ .spec.type }}\n镜像:  {{ (index .spec.template.spec.containers 0).image }}\n\n资源:\n  CPU:  {{ if (index .spec.template.spec.containers 0).resources.requests.cpu }}{{ (index .spec.template.spec.containers 0).resources.requests.cpu }}{{- else -}}-{{end}}/{{ if (index .spec.template.spec.containers 0).resources.limits.cpu }}{{ (index .spec.template.spec.containers 0).resources.limits.cpu }}{{- else -}}-{{end}}\n  内存:  {{ if (index .spec.template.spec.containers 0).resources.requests.memory }}{{ (index .spec.template.spec.containers 0).resources.requests.memory }}{{- else -}}-{{end}}/{{ if (index .spec.template.spec.containers 0).resources.limits.memory }}{{ (index .spec.template.spec.containers 0).resources.limits.memory }}{{- else -}}-{{end}}"
+      url: 
+      - name: "notebook: {{ .spec.type }}"
+        url: "/t9k/notebooks/projects/{{ .metadata.namespace }}/name/{{ .metadata.name }}/lab"
+      readinessProbe:
+        resources:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: notebook
+          name: "{{ .metadata.name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"

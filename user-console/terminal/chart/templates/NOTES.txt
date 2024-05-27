@@ -1,0 +1,3 @@
+T9K APP URL:
+- Name: terminal
+  URL: /t9k/app/terminal/{{ .Release.Namespace }}/{{ .Release.Name }}/
