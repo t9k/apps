@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  labels:
+    app: terminal-{{ .Release.Name }}
+  name: terminal-{{ .Release.Name }}
+spec:
+  gateways:
+  - project-gateway
+  hosts:
+  - '*'
+  http:
+  - headers:
+      request:
+        remove: 
+        - cookie
+    match:
+    - uri:
+        prefix: /t9k/app/terminal/{{ .Release.Namespace }}/{{ .Release.Name }}/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: terminal-{{ .Release.Name }}
+        port:
+          number: 8080
