@@ -2,8 +2,11 @@
 
 使用如下命令注册 user-console 文件夹下所有 APP：
 
-```
-t9k-app registry -f */template.yaml
+```bash
+export APIKEY='xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+export APP_SERVER='https://home.example.t9kcloud.cn/t9k/app/server'
+
+t9k-app registry -k $APIKEY -s $APP_SERVER -f "*/template.yaml" -u
 ```
 
 ## APP Template 说明
@@ -15,7 +18,7 @@ metadata:
   name: terminal
   displayName: Terminal
   defaultVersion: "0.1.0"
-  category: ["Tool"]
+  categories: ["Tool"]
   description: "This is a APP Template Demo"
   icon: "file://$APP_DIR/icon.png"
 template:

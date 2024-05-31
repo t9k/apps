@@ -3,8 +3,8 @@ kind: Template
 metadata:
   name: terminal
   displayName: Terminal
-  defaultVersion: "0.1.0"
-  category: ["Tool"]
+  defaultVersion: "0.1.1"
+  categories: ["Tool"]
   description: "The Terminal APP is a powerful tool that allows you to open and operate a cluster terminal directly in your browser. You can also easily access and manage your cluster through this APP."
   icon: "file://$APP_DIR/icon.png"
 template:
