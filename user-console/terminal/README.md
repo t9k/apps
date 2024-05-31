@@ -1,8 +1,8 @@
 # Terminal
 
-在 Namespace 中部署一个 Terminal 程序，用户可以远程连接到该终端。通过该终端，用户可以管理当前 Namespace 中的 K8s 资源，也可以将该 APP 作为一个主机使用。
+一个提供通过 Web 使用的 Terminal 应用。用户可以使用浏览器连接到该终端，进行各项工作，包括使用 `kubectl` 管理 K8s 资源，运行 `helm` 等其它命令行程序。
 
-该 APP 中已下载以下工具：tmux、kubectl、helm、zsh。更多内容请自行探索。
+该 APP 中已安装以下工具：tmux、kubectl、helm、vim 等。
 
 ## 文件结构
 
