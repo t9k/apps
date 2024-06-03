@@ -8,12 +8,12 @@ metadata:
   description: "The Terminal APP is a powerful tool that allows you to open and operate a cluster terminal directly in your browser. You can also easily access and manage your cluster through this APP."
   icon: "file://$APP_DIR/icon.png"
 template:
-  helm: 
+  helm:
     repo: "oci://docker.io/t9kpublic"
     chart: "terminal"
     versions:
     - version: 0.1.1
-      urls: 
+      urls:
       - name: terminal
         url: /t9k/app/terminal/{{ .Release.Namespace }}/{{ .Release.Name }}/
       readinessProbe:
