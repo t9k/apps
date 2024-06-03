@@ -1,0 +1,36 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: postgresql
+  displayName: "PostgreSQL"
+  categories: ["Database"]
+  description: "PostgreSQL (Postgres) is an open source object-relational database known for reliability and data integrity. ACID-compliant, it supports foreign keys, joins, views, triggers and stored procedures."
+  icon: "file://$APP_DIR/icon.svg"
+template:
+  helm:
+    repo: "oci://registry-1.docker.io/bitnamicharts"
+    chart: "postgresql"
+    versions:
+    - version: 15.5.0
+      urls: []
+      # readinessProbe:
+      #   resources:
+      #   - group: apps
+      #     version: v1
+      #     resource: statefulset
+      #     name: {{ .Release.Name }}-postgresql
+      #     currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
+      #     desiredStatus: "True"
+      dependences: {}
+    - version: 14.3.3
+      urls: []
+      dependences: {}
+    - version: 13.4.4
+      urls: []
+      dependences: {}
+    - version: 12.12.10
+      urls: []
+      dependences: {}
+    - version: 11.9.13
+      urls: []
+      dependences: {}

@@ -1,0 +1,24 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: qdrant
+  displayName: "Qdrant"
+  categories: ["Database"]
+  description: "Qdrant - Vector Database for the next generation of AI applications."
+  icon: "file://$APP_DIR/icon.svg"
+template:
+  helm:
+    repo: "https://qdrant.github.io/qdrant-helm"
+    chart: "qdrant"
+    versions:
+    - version: 0.9.0
+      urls: []
+      # readinessProbe:
+      #   resources:
+      #   - group: apps
+      #     version: v1
+      #     resource: statefulset
+      #     name: {{ .Release.Name }}-qdrant
+      #     currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
+      #     desiredStatus: "True"
+      dependences: {}

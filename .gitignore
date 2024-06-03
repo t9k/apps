@@ -1,2 +1,5 @@
 # Mac generated files
 .DS_Store
+
+# For local test
+local-test/

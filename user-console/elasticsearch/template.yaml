@@ -1,0 +1,24 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: elasticsearch
+  displayName: "ElasticSearch"
+  categories: ["Database"]
+  description: "Elasticsearch 是一个分布式、RESTful 风格的搜索和数据分析引擎，能够解决不断涌现出的各种用例。作为 Elastic Stack 的核心，Elasticsearch 会集中存储您的数据，让您飞快完成搜索，微调相关性，进行强大的分析，并轻松缩放规模。"
+  icon: "file://$APP_DIR/icon.svg"
+template:
+  helm:
+    repo: "https://helm.elastic.co"
+    chart: "elasticsearch"
+    versions:
+    - version: 7.17.3
+      urls: []
+      # readinessProbe:
+      #   resources:
+      #   - group: apps
+      #     version: v1
+      #     resource: statefulset
+      #     name: elasticsearch-master
+      #     currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
+      #     desiredStatus: "True"
+      dependences: {}
