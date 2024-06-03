@@ -8,11 +8,13 @@ metadata:
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm:
-    repo: "https://qdrant.github.io/qdrant-helm"
+    repo: "oci://docker.io/t9kpublic"
     chart: "qdrant"
     versions:
     - version: 0.9.0
-      urls: []
+      urls:
+      - name: UI
+        url: /t9k/app/qdrant/{{ .Release.Namespace }}/{{ .Release.Name }}/
       # readinessProbe:
       #   resources:
       #   - group: apps
