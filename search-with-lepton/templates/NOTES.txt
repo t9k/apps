@@ -1,3 +1,0 @@
-T9K APP URL:
-- Name: UI
-  URL: /t9k/app/search-with-lepton/{{ .Release.Namespace }}/{{ .Release.Name }}/
