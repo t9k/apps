@@ -49,14 +49,3 @@ Selector labels
 app.kubernetes.io/name: {{ include "stable-diffusion-webui-aki.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
-
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "stable-diffusion-webui-aki.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "stable-diffusion-webui-aki.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
-{{- end }}
