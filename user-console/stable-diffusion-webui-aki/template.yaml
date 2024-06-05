@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: stable-diffusion-webui-aki
   displayName: "Stable Diffusion WebUI aki"
-  category: ["AI"]
+  categories: ["AI"]
   description: "bilibili@秋葉aaaki 的 Stable Diffusion 整合包，基于开源项目 Stable Diffusion WebUI 制作。"
   icon: "file://$APP_DIR/icon.png"
 template:

@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: search-with-lepton
   displayName: "Search with Lepton"
-  category: ["AI"]
+  categories: ["AI"]
   description: "Search with Lepton 是一个开源的对话式搜索引擎（conversational search engine）。"
   icon: "file://$APP_DIR/icon.png"
 template:

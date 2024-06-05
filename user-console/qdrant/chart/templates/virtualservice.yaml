@@ -24,5 +24,7 @@ spec:
         host: {{ .Release.Name }}-qdrant
         port:
           {{- range .Values.service.ports }}
-          {{- if eq .targetPort "6333" }}
+          {{- if eq (.targetPort | toString ) "6333" }}
           number: {{ .port }}
+          {{- end }}
+          {{- end }}

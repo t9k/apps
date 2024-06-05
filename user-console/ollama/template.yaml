@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: ollama
   displayName: Ollama
-  category: ["AI"]
+  categories: ["AI"]
   description: "Get up and running with large language models locally."
   icon: "file://$APP_DIR/icon.png"
 template:
