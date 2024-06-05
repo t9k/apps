@@ -1,0 +1,76 @@
+## @param replicaCount Number of replicas for the deployment
+##
+replicaCount: 1
+
+## @param image.registry [default: ghcr.io] Repository registry for the Docker image
+## @param image.repository [default: open-webui/open-webui] Repository name for the Docker image
+## @param image.tag Image tag for the Docker image (immutable tags are recommended)
+## @param image.pullPolicy Image pull policy for the Docker image
+##
+image:
+  registry: ghcr.io
+  repository: open-webui/open-webui
+  tag: latest
+  pullPolicy: Always
+
+## @param service.type Service type for the Kubernetes service
+## @param service.port Port for the Kubernetes service
+## @param service.containerPort Port on the container to expose
+## @param service.nodePort Port to bind to on the host
+##
+service:
+  type: ClusterIP
+  port: 80
+  containerPort: 8080
+  nodePort: ""
+
+## @param ingress.enabled Enable/disable Kubernetes ingress
+## @param ingress.class Ingress class name
+## @param ingress.annotations Annotations for Kubernetes ingress
+## @param ingress.host Hostname for the Kubernetes ingress
+## @param ingress.tls Enable/disable TLS for Kubernetes ingress
+## @param ingress.existingSecret Existing TLS secret for Kubernetes ingress
+##
+ingress:
+  enabled: false
+  class: ""
+  # -- Use appropriate annotations for your Ingress controller, e.g., for NGINX:
+  # nginx.ingress.kubernetes.io/rewrite-target: /
+  annotations: {}
+  host: ""
+  tls: false
+  existingSecret: ""
+
+## @param ollama.enabled Enable/disable installation of Ollama Helm chart
+## @param ollama.ollama.gpu.enabled Enable/disable GPU support for Ollama
+## @param ollama.ollama.gpu.type GPU type for Ollama (e.g., nvidia)
+## @param ollama.ollama.gpu.number Number of GPUs to allocate for Ollama
+## @param ollama.ollama.models List of models to be deployed with Ollama
+## @param ollama.persistentVolume.enabled Enable/disable persistent volume claim (PVC) for model persistence
+##
+ollama:
+  enabled: true
+  ollama:
+    gpu:
+      enabled: false
+      type: 'nvidia'
+      number: 1
+    models:
+      - llama3
+  persistentVolume:
+    enabled: true
+
+## @param ollamaUrls A list of Ollama API endpoints. These can be added in lieu of automatically installing the Ollama Helm chart, or in addition to it.
+##
+ollamaUrls: []
+
+## @param env Array of extra environment variables
+##
+extraEnvVars: []
+  # - name: OPENAI_API_KEY
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: openai-api-key
+  #       key: api-key
+  # - name: OLLAMA_DEBUG
+  #   value: "1"
