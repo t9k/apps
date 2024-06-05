@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "user-console/stable-diffusion-webui-aki/chart/Chart.yaml"
+      - "user-console/stable-diffusion-webui-aki/chart/**"
 
 jobs:
   release:

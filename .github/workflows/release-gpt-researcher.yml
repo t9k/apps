@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "user-console/gpt-researcher/chart/Chart.yaml"
+      - "user-console/gpt-researcher/chart/**"
 
 jobs:
   release:

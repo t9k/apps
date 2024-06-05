@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "user-console/nextchat/chart/Chart.yaml"
+      - "user-console/nextchat/chart/**"
 
 jobs:
   release:

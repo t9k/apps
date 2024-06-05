@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "user-console/open-webui/chart/Chart.yaml"
+      - "user-console/open-webui/chart/**"
 
 jobs:
   release:

@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "user-console/vllm-smls/chart/Chart.yaml"
+      - "user-console/vllm-smls/chart/**"
 
 jobs:
   release:

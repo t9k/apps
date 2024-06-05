@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "user-console/search-with-lepton/chart/Chart.yaml"
+      - "user-console/search-with-lepton/chart/**"
 
 jobs:
   release:

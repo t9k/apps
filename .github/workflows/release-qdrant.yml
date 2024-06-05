@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "user-console/qdrant/chart/Chart.yaml"
+      - "user-console/qdrant/chart/**"
 
 jobs:
   release:

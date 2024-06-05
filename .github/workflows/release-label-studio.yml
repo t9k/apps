@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "user-console/label-studio/chart/Chart.yaml"
+      - "user-console/label-studio/chart/**"
 
 jobs:
   release:

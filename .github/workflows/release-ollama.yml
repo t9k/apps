@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "user-console/ollama/chart/Chart.yaml"
+      - "user-console/ollama/chart/**"
 
 jobs:
   release:
