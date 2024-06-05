@@ -51,17 +51,6 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
-Create the name of the service account to use
-*/}}
-{{- define "gpt-researcher.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "gpt-researcher.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
-{{- end }}
-
-{{/*
 Get the enviroment variables
 */}}
 {{- define "gpt-researcher.envs" -}}

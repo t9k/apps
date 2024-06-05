@@ -1,0 +1,162 @@
+## @param replicaCount Number of replicas for the deployment
+##
+replicaCount: 1
+
+## @param image.registry [default: docker.io] Repository registry for the Docker image
+## @param image.repository [default: t9kpublic/gpt-researcher] Repository name for the Docker image
+## @param image.tag Image tag for the Docker image (immutable tags are recommended)
+## @param image.pullPolicy Image pull policy for the Docker image
+##
+image:
+  registry: docker.io
+  repository: t9kpublic/gpt-researcher
+  tag: 0.2.4
+  pullPolicy: IfNotPresent
+
+## @param service.type Service type for the Kubernetes service
+## @param service.port Port for the Kubernetes service
+##
+service:
+  type: ClusterIP
+  port: 8000
+
+## @param ingress.enabled Enable/disable Kubernetes ingress
+## @param ingress.className Ingress class name
+## @param ingress.annotations Annotations for Kubernetes ingress
+## @param ingress.hosts List of hosts for Kubernetes ingress
+## @param ingress.tls TLS configuration for Kubernetes ingress
+##
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+## @param resources.limits.cpu CPU limit for Kubernetes resources
+## @param resources.limits.memory Memory limit for Kubernetes resources
+##
+resources:
+  limits:
+    cpu: 1
+    memory: 2Gi
+
+## @param llm.provider Provider of the language model (`openai`, `azureopenai`, or `google`)
+## @param llm.api_key API key for the language model provider
+##
+llm:
+  # 使用的模型提供商
+  # 应为 "openai"、"azureopenai" 或 "google"
+  provider: "openai"
+  api_key: ""
+
+  ## @param llm.openai.base_url Base URL for OpenAI API-compatible servers
+  ## @param llm.openai.fast_model Fast model for OpenAI API
+  ## @param llm.openai.fast_token_limit Fast token limit for OpenAI API
+  ## @param llm.openai.smart_model Smart model for OpenAI API
+  ## @param llm.openai.smart_token_limit Smart token limit for OpenAI API
+  ## @param llm.openai.browse_chunk_max_length Browse chunk max length for OpenAI API
+  ## @param llm.openai.summary_token_limit Summary token limit for OpenAI API
+  ## @param llm.openai.temperature Temperature for OpenAI API
+  ##
+  openai:
+    # 兼容 OpenAI API 的服务器的 URL
+    # 如使用 OpenAI API，请设为 "https://api.openai.com/v1"
+    base_url: ""
+    fast_model: "gpt-3-turbo-16k"
+    fast_token_limit: "2000"
+    smart_model: "gpt-4-turbo"
+    smart_token_limit: "4000"
+    browse_chunk_max_length: "8192"
+    summary_token_limit: "700"
+    temperature: "0.55"
+    
+  ## @param llm.azureopenai.endpoint Endpoint for Azure-OpenAI API
+  ## @param llm.azureopenai.api_version API version for Azure-OpenAI API
+  ## @param llm.azureopenai.embedding_model Embedding model for Azure-OpenAI API
+  ## @param llm.azureopenai.fast_model Fast model for Azure-OpenAI API
+  ## @param llm.azureopenai.fast_token_limit Fast token limit for Azure-OpenAI API
+  ## @param llm.azureopenai.smart_model Smart model for Azure-OpenAI API
+  ## @param llm.azureopenai.smart_token_limit Smart token limit for Azure-OpenAI API
+  ## @param llm.azureopenai.browse_chunk_max_length Browse chunk max length for Azure-OpenAI API
+  ## @param llm.azureopenai.summary_token_limit Summary token limit for Azure-OpenAI API
+  ## @param llm.azureopenai.temperature Temperature for Azure-OpenAI API
+  azureopenai:
+    endpoint: ""
+    api_version: ""
+    embedding_model: ""
+    fast_model: "gpt-3-turbo-16k"
+    fast_token_limit: "2000"
+    smart_model: "gpt-4-turbo"
+    smart_token_limit: "4000"
+    browse_chunk_max_length: "8192"
+    summary_token_limit: "700"
+    temperature: "0.55"
+
+  ## @param llm.google.fast_model Fast model for Google API
+  ## @param llm.google.fast_token_limit Fast token limit for Google API
+  ## @param llm.google.smart_model Smart model for Google API
+  ## @param llm.google.smart_token_limit Smart token limit for Google API
+  ## @param llm.google.browse_chunk_max_length Browse chunk max length for Google API
+  ## @param llm.google.summary_token_limit Summary token limit for Google API
+  ## @param llm.google.temperature Temperature for Google API
+  google:
+    fast_model: "gpt-3-turbo-16k"
+    fast_token_limit: "2000"
+    smart_model: "gpt-4-turbo"
+    smart_token_limit: "4000"
+    browse_chunk_max_length: "8192"
+    summary_token_limit: "700"
+    temperature: "0.55"
+
+## @param retriever.provider Provider of the search engine (`BingSearch`, `google`, `searx`, `serpapi`, `googleSerp`, or `tavily`)
+## @param retriever.api_key API key for the search engine provider
+## @param retriever.google.cx_key CX key for Google search engine provider
+##
+retriever:
+  # 使用的搜索引擎提供商
+  # 应为 "BingSearch"、"google"、"searx"、"serpapi"、"googleSerp" 或 "tavily"
+  provider: ""
+  api_key: ""
+  google:
+    cx_key: ""
+
+## @param app.user_agent User agent string for the application
+## @param app.max_search_results_per_query Maximum search results per query for the application
+## @param app.memory_backend Memory backend for the application
+## @param app.total_words Total words for the application
+## @param app.report_format Report format for the application
+## @param app.max_iterations Maximum iterations for the application
+## @param app.agent_role Role of the agent for the application
+## @param app.scraper Scraper for the application
+## @param app.max_subtopics Maximum subtopics for the application
+##
+app:
+  # 应用的其他设置
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0"
+  max_search_results_per_query: "5"
+  memory_backend: "local"
+  total_words: "800"
+  report_format: "APA"
+  max_iterations: "3"
+  agent_role: None
+  scraper: "bs"
+  max_subtopics: "3"
+
+## @param env Array of extra environment variables
+##
+env: []
+  # # HTTP 和 HTTPS 代理
+  # - name: HTTP_PROXY
+  #   value: ""
+  # - name: HTTPS_PROXY
+  #   value: ""

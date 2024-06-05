@@ -1,0 +1,26 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: gpt-researcher
+  displayName: "GPT Researcher"
+  category: ["AI"]
+  description: "GPT Researcher 是一个智能体代理，专为各种任务的综合在线研究而设计。"
+  icon: "https://s2.loli.net/2024/06/05/KuShAgEN9zWXnPH.png"
+template:
+  helm:
+    repo: "oci://docker.io/t9kpublic"
+    chart: "gpt-researcher"
+    versions:
+    - version: 0.1.2
+      urls: 
+      - name: UI
+        url: /t9k/app/gpt-researcher/{{ .Release.Namespace }}/{{ .Release.Name }}/
+      # readinessProbe:
+      #   resources:
+      #   - group: apps
+      #     version: v1
+      #     resource: deployments
+      #     name: terminal-{{ .Release.Name }}
+      #     currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+      #     desiredStatus: "True"
+      dependences: {}
