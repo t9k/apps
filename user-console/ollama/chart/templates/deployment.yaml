@@ -40,7 +40,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag |  default (ternary (printf "%s-rocm" .Chart.AppVersion) (.Chart.AppVersion) (and (.Values.ollama.gpu.enabled) (eq .Values.ollama.gpu.type "amd"))) }}"
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag |  default (ternary (printf "%s-rocm" .Chart.AppVersion) (.Chart.AppVersion) (and (.Values.ollama.gpu.enabled) (eq .Values.ollama.gpu.type "amd"))) }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
