@@ -49,7 +49,9 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
             {{- include "search-with-lepton.envs" . | nindent 12 }}
+            {{- if gt (len .Values.env) 0 }}
             {{- toYaml .Values.env | nindent 12 }}
+            {{- end }}
           envFrom:
             - secretRef:
                 name: {{ include "search-with-lepton.fullname" . }}
