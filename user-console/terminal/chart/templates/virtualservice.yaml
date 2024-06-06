@@ -12,8 +12,8 @@ spec:
   http:
   - headers:
       request:
-        remove: 
-        - cookie
+        add:
+          x-auth-request-redirect: /t9k/app/terminal/{{ .Release.Namespace }}/{{ .Release.Name }}/
     match:
     - uri:
         prefix: /t9k/app/terminal/{{ .Release.Namespace }}/{{ .Release.Name }}/
@@ -24,3 +24,9 @@ spec:
         host: terminal-{{ .Release.Name }}
         port:
           number: 8080
+  {{- if not .Values.global.t9k.securityService.enabled }}
+    headers:
+      request:
+        remove: 
+        - cookie
+  {{- end }}

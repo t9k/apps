@@ -1,0 +1,30 @@
+apiVersion: tensorstack.dev/v1beta1
+kind: Notebook
+metadata:
+  name: tutorial
+spec:
+  type: jupyter
+  template:
+    spec:
+      containers:
+        - name: notebook
+          image: t9kpublic/torch-2.1.0-notebook:1.77.1
+          volumeMounts:
+            - name: workingdir
+              mountPath: /t9k/mnt
+          ## @param spec.template.spec.containers[0].resources.requests.cpu The minimum number of CPU the notebook requests.
+          ## @param spec.template.spec.containers[0].resources.requests.memory The minimum number of memory the notebook requests.
+          ## @param spec.template.spec.containers[0].resources.limits.cpu The maximum number of CPU the notebook can use.
+          ## @param spec.template.spec.containers[0].resources.limits.memory The maximum number of CPU the notebook can use.
+          resources:
+            requests:
+              cpu: "8"
+              memory: 16Gi
+            limits:
+              cpu: "16"
+              memory: 32Gi
+      volumes:
+        - name: workingdir
+          persistentVolumeClaim:
+            ## @param spec.template.spec.volumes[0].persistentVolumeClaim.claimName Mount a pvc as notebook working directory.
+            claimName: tutorial

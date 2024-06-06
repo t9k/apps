@@ -26,13 +26,49 @@ spec:
           - {{ .Values.shell }}
           resources: 
             {{- toYaml .Values.resources | nindent 12 }}
-    {{- if and .Values.pvc (gt (len .Values.pvc) 0) }}
+      {{- if and .Values.pvc (gt (len .Values.pvc) 0) }}
           volumeMounts:
         {{- range $index, $element := .Values.pvc }}
           - mountPath: {{ $element.mountPath }}
             name: pvc-{{ $index }}
         {{- end }}
+      {{- end }}
+      {{- if .Values.global.t9k.securityService.enabled }}
+        - command: ["/app/pep-proxy"]
+          args:
+          - --http-address=0.0.0.0:4180
+          - --upstream=http://127.0.0.1:8080/
+          - --client-id={{ .Values.global.t9k.pepProxy.args.clientID }}
+          - --redeem-url={{ .Values.global.t9k.securityService.endpoints.securityServer }}/apis/v1/login/auth-code
+          - --redirect-url={{ .Values.global.t9k.homeURL }}/t9k/app/terminal/{{ .Release.Namespace }}/{{ .Release.Name }}/oauth2/callback
+          - --oidc-issuer-url={{ .Values.global.t9k.securityService.endpoints.oidc }}
+          - --pep-config=/t9kconfig/pep-config.yaml
+          image: {{ .Values.global.t9k.pepProxy.image }}
+          imagePullPolicy: IfNotPresent
+          name: pep-proxy
+          ports:
+          - containerPort: 4180
+            name: proxy
+          volumeMounts:
+            - name: pep-config
+              mountPath: /t9kconfig
+          resources:
+            limits:
+              cpu: 500m
+              memory: 300Mi
+            requests:
+              cpu: 10m
+              memory: 50Mi
+      {{- end }}
+    {{- if or .Values.global.t9k.securityService.enabled (and .Values.pvc (gt (len .Values.pvc) 0))}}
       volumes:
+    {{- end}}
+    {{- if .Values.global.t9k.securityService.enabled }}
+      - name: pep-config
+        configMap:
+          name: pep-config-app-{{ .Release.Name }}
+    {{- end }}
+    {{- if and .Values.pvc (gt (len .Values.pvc) 0) }}
       {{- range $index, $element := .Values.pvc }}
       - name: pvc-{{ $index }}
         persistentVolumeClaim:
@@ -40,3 +76,23 @@ spec:
       {{- end }}
     {{- end }}
       serviceAccountName: managed-project-sa
+
+{{- if .Values.global.t9k.securityService.enabled }}
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pep-config-app-{{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+data:
+  pep-config.yaml: |
+    policyEnforcer:
+      securityServerAddress: http://security-console-server.t9k-system:8080
+      paths:
+      - path: "/"
+        resourceName: "/project:{{ .Release.Namespace }}"
+        methods:
+        - method: "*"
+          scope: "use"
+{{- end }}
