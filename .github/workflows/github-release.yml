@@ -1,0 +1,43 @@
+name: Release Charts
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Add dependency chart repos
+        run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo add heartex https://charts.heartex.com/
+          helm repo add qdrant https://qdrant.github.io/qdrant-helm
+          helm repo add ollama-helm https://otwld.github.io/ollama-helm/
+          helm repo add open-webui https://helm.openwebui.com/
+          helm repo add douban https://douban.github.io/charts/
+
+      - name: Run chart-releaser
+        uses: ./.github/actions/chart-releaser-action
+        with:
+          charts_dir: user-console
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
