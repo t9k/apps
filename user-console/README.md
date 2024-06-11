@@ -6,7 +6,17 @@
 export APIKEY='xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
 export APP_SERVER='https://home.example.t9kcloud.cn/t9k/app/server'
 
-t9k-app registry -k $APIKEY -s $APP_SERVER -f "*/template.yaml" -u
+# 使用如下命令注册 Terminal APP
+t9k-app registry -k $APIKEY -s $APP_SERVER -f user-console/terminal/template.yaml
+
+# 如果当前 APP 已注册，但是需要更新 APP 信息（如添加新版本），则在上述注册命令后面加上 -u 参数，表示：如果 APP 已存在则更新该 APP
+t9k-app registry -k $APIKEY -s $APP_SERVER -f user-console/terminal/template.yaml -u
+
+# 管理员可以同时注册多个 APP，具体方式包括：
+# 1. 使用 -f 参数设置多个模版文件
+t9k-app registry -k $APIKEY -s $APP_SERVER -f user-console/terminal/template.yaml -f user-console/notebook/template.yaml
+# 2. 使用通配符 * 匹配多个模版文件（含有通配符的路径在有些 shell 中会被处理为最接近的文件路径，需要加上双引号来保证 t9k-app 能接收到未被处理的路径）
+t9k-app registry -k $APIKEY -s $APP_SERVER -f "user-console/*/template.yaml"
 ```
 
 ## APP Template 说明
@@ -99,15 +109,15 @@ pvcs: []
 
 global:
   t9k:
-    homeURL: "$(HOME_URL)"
+    homeURL: "$(T9K_HOME_URL)"
     securityService:
       enabled: true
       endpoints:
-        oidc: "$(OIDC_ENDPOINT)"
+        oidc: "$(T9K_OIDC_ENDPOINT)"
         securityServer: "$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)"
     pepProxy:
       args:
-        clientID: $(APP_AUTH_CLINET_ID)
+        clientID: $(T9K_APP_AUTH_CLINET_ID)
 ```
 
 其中：
@@ -115,8 +125,17 @@ global:
 * User Console 的部署页面会识别所有以 `## @param` 开头的注释，并将整合这些注释所指定的字段为一个表单，方便用户填写。
   * 注释的格式为 `## @param <field-path> <field-description>`。
 * 在部署 APP 实例时，APP 实例控制器提供一些内置变量，以简化用户填写内容。
-  * 在清单中，变量的格式为 `$(<variable-name>)`，例如 `"$(HOME_URL)"`。
-  * 管理员可以修改控制器的配置文件，以添加或修改内置变量，修改方式参考管理员文档。
+  * 在清单中，变量的格式为 `$(<variable-name>)`，例如 `"$(T9K_HOME_URL)"`。
+  * 目前，部署清单模版中支持使用的变量请参考[清单变量](#清单变量)
+
+#### 清单变量
+
+目前，APP 清单模版中支持使用以下变量：
+
+1. `$(T9K_HOME_URL)`：TensorStack 平台暴露服务所使用的域名。管理员可以在 APP 模版中配置 APP 使用该域名暴露 APP 服务。
+2. `$(T9K_OIDC_ENDPOINT)`：TensorStack 平台的 OIDC 服务地址。
+3. `$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)`：TensorStack 平台的 Security Console 服务器地址。
+4. `$(T9K_APP_AUTH_CLINET_ID)`：表示一个 Client ID（OAuth 协议中的概念），需要授权的 APP 应使用该 Client ID 向授权服务器申请授权。
 
 ### ReadinessProbe
 

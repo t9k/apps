@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: terminal
-          image: tsz.io/t9k/terminal:240522
+          image: t9kpublic/terminal:240611
           command:
           - ttyd
           - -p

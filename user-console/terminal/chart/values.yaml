@@ -25,6 +25,6 @@ global:
         oidc: ""
         securityServer: ""
     pepProxy:
-      image: "tsz.io/t9k/pep-proxy:1.0.10"
+      image: "docker.io/t9kpublic/pep-proxy:1.0.10"
       args:
         clientID: ""
