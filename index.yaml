@@ -1,0 +1,237 @@
+apiVersion: v1
+entries:
+  dify:
+  - apiVersion: v2
+    appVersion: 0.6.10
+    created: "2024-06-11T08:30:46.967106191Z"
+    dependencies:
+    - condition: redis.embedded
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: ~19.1.1
+    - condition: postgresql.embedded
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: ~15.2.5
+    - condition: minio.embedded
+      name: minio
+      repository: https://charts.bitnami.com/bitnami
+      version: ~14.1.7
+    - name: qdrant
+      repository: https://qdrant.github.io/qdrant-helm
+      version: ~0.9.0
+    description: Dify 是一个开源的 LLM 应用开发平台。其直观的界面结合了 AI 工作流、RAG 管道、Agent、模型管理、可观测性功能等，让您可以快速从原型到生产。
+    digest: a19502084c2bb2bd13444129be95f1a0ddb42364a67c5e019b6695e247fb02d9
+    home: https://github.com/langgenius/dify
+    maintainers:
+    - name: douban
+    name: dify
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/dify-0.3.7/dify-0.3.7.tgz
+    version: 0.3.7
+  gpt-researcher:
+  - apiVersion: v2
+    appVersion: 0.2.4
+    created: "2024-06-11T08:30:47.150892592Z"
+    description: GPT Researcher 是一个智能体代理，专为各种任务的综合在线研究而设计。
+    digest: 42662bde827b4f968bc0768e3a643c8bda145e0b6db0e5192acca67b6c75cb5f
+    name: gpt-researcher
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/gpt-researcher-0.1.2/gpt-researcher-0.1.2.tgz
+    version: 0.1.2
+  label-studio:
+  - apiVersion: v2
+    appVersion: 1.12.1
+    created: "2024-06-11T08:30:47.368791291Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.13.2
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.9.13
+    description: Label Studio is a data labeling tool
+    digest: 33cf216684baf4e0b4ced8179b1395b9dec4b5b6474750c631992b96590828aa
+    home: https://labelstud.io/
+    icon: https://raw.githubusercontent.com/heartexlabs/label-studio/master/images/logo.png
+    kubeVersion: '>= 1.14.0-0'
+    name: label-studio
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/label-studio-1.4.8/label-studio-1.4.8.tgz
+    version: 1.4.8
+  nextchat:
+  - apiVersion: v2
+    appVersion: 2.12.2
+    created: "2024-06-11T08:30:47.533875229Z"
+    description: NextChat 是一个设计精良的 ChatGPT 网页 UI，支持 ChatGPT、Claude、Gemini 和本地部署的兼容
+      OpenAI API 的推理服务。
+    digest: a72a627567d899cf36ee84cdfeaadbfb8b9971d18f41fbdf757cd1c57413af0f
+    name: nextchat
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/nextchat-0.1.1/nextchat-0.1.1.tgz
+    version: 0.1.1
+  ollama:
+  - annotations:
+      artifacthub.io/category: ai-machine-learning
+      artifacthub.io/changes: |
+        - kind: added
+          description: add support for initContainers
+        - kind: added
+          description: add annotation to service
+    apiVersion: v2
+    appVersion: 0.1.41
+    created: "2024-06-11T08:30:47.71239464Z"
+    description: Get up and running with large language models locally.
+    digest: 224c7ea22c823f7707b3e164f6f237c9eedc0d34d107b56f52196bd84c3ac783
+    home: https://ollama.ai/
+    icon: https://ollama.ai/public/ollama.png
+    keywords:
+    - ai
+    - llm
+    - llama
+    - mistral
+    kubeVersion: ^1.16.0-0
+    maintainers:
+    - email: tech@outworld.fr
+      name: Outworld
+    name: ollama
+    sources:
+    - https://github.com/ollama/ollama
+    - https://github.com/otwld/ollama-helm
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/ollama-0.29.2/ollama-0.29.2.tgz
+    version: 0.29.2
+  open-webui:
+  - annotations:
+      licenses: MIT
+    apiVersion: v2
+    appVersion: latest
+    created: "2024-06-11T08:30:47.914070712Z"
+    dependencies:
+    - condition: ollama.enabled
+      import-values:
+      - child: service
+        parent: ollama.service
+      name: ollama
+      repository: https://otwld.github.io/ollama-helm/
+      version: '>=0.24.0'
+    description: "Open WebUI: A User-Friendly Web Interface for Chat Interactions
+      \U0001F44B"
+    digest: 3d654047f5aab970f5ac1bdc35c987722e9e32cfa7e3832626786ff0e90ef6a5
+    home: https://www.openwebui.com/
+    icon: https://raw.githubusercontent.com/open-webui/open-webui/main/static/favicon.png
+    keywords:
+    - llm
+    - chat
+    - web-ui
+    name: open-webui
+    sources:
+    - https://github.com/open-webui/helm-charts
+    - https://github.com/open-webui/open-webui/pkgs/container/open-webui
+    - https://github.com/otwld/ollama-helm/
+    - https://hub.docker.com/r/ollama/ollama
+    urls:
+    - https://github.com/t9k/apps/releases/download/open-webui-2.1.0/open-webui-2.1.0.tgz
+    version: 2.1.0
+  qdrant:
+  - annotations:
+      artifacthub.io/category: database
+      artifacthub.io/changes: |
+        - kind: added
+          description: Update Qdrant to v1.9.1
+        - kind: added
+          description: Add labels to ConfigMap and Secret
+          links:
+            - name: Github Issue
+              url: https://github.com/qdrant/qdrant-helm/pull/174
+        - kind: added
+          description: Make lifecycle hooks configurable
+          links:
+            - name: Github Issue
+              url: https://github.com/qdrant/qdrant-helm/pull/175
+        - kind: added
+          description: Support storing snapshots in a separate PVC
+          links:
+            - name: Github Issue
+              url: https://github.com/qdrant/qdrant-helm/pull/177
+        - kind: added
+          description: Add both storage and snapshot volume names to values.yaml
+          links:
+            - name: Github Issue
+              url: https://github.com/qdrant/qdrant-helm/pull/181
+    apiVersion: v2
+    appVersion: v1.9.1
+    created: "2024-06-11T08:30:48.097167493Z"
+    description: Qdrant - Vector Database for the next generation of AI applications.
+    digest: 0694806694f74b618733528d427bb90c20b65584dccd0050ee30debbe40af658
+    home: https://qdrant.tech
+    icon: https://qdrant.github.io/qdrant-helm/logo_with_text.svg
+    keywords:
+    - vector database
+    maintainers:
+    - email: info@qdrant.com
+      name: qdrant
+      url: https://github.com/qdrant
+    name: qdrant
+    sources:
+    - https://github.com/qdrant/qdrant
+    - https://github.com/qdrant/qdrant-helm
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/qdrant-0.9.0/qdrant-0.9.0.tgz
+    version: 0.9.0
+  search-with-lepton:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2024-06-11T08:30:48.272416491Z"
+    description: Search with Lepton 是一个开源的对话式搜索引擎（conversational search engine）。
+    digest: e5bee0fc42b19f56e4364579e799adb9041ed9b96abefc8a6e97dff8e299f643
+    name: search-with-lepton
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/search-with-lepton-0.1.1/search-with-lepton-0.1.1.tgz
+    version: 0.1.1
+  stable-diffusion-webui-aki:
+  - apiVersion: v2
+    appVersion: "4.8"
+    created: "2024-06-11T08:30:48.452462011Z"
+    description: bilibili@秋葉aaaki 的 Stable Diffusion 整合包，基于开源项目 Stable Diffusion WebUI
+      制作.
+    digest: c374cca10144e57cc00dfaf3e89c6e566ac802a980beadd410327131cb280abb
+    name: stable-diffusion-webui-aki
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/stable-diffusion-webui-aki-0.1.2/stable-diffusion-webui-aki-0.1.2.tgz
+    version: 0.1.2
+  terminal:
+  - apiVersion: v2
+    appVersion: 0.1.1
+    created: "2024-06-11T08:30:48.633573698Z"
+    description: The Terminal APP is a powerful tool that allows you to open and operate
+      a cluster terminal directly in your browser. You can easily access and manage
+      your cluster through this APP.
+    digest: 5d43bd14699e2f8fb45ce91ee51e56b9af82335b0c075e7e7758ede3a1cc196b
+    name: terminal
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/terminal-0.1.1/terminal-0.1.1.tgz
+    version: 0.1.1
+  vllm-smls:
+  - apiVersion: v2
+    appVersion: v0.4.3
+    created: "2024-06-11T08:30:48.842179822Z"
+    description: vLLM 是一个用于大语言模型的高吞吐量和内存高效的推理和服务引擎。
+    digest: 9ae37699e92fe8083dfae9f3f6707eb6eb539d5833c5b184bb8f4a469a450561
+    name: vllm-smls
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
+    version: 0.1.2
+generated: "2024-06-11T08:30:48.842191484Z"
