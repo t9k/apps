@@ -13,7 +13,7 @@ template:
     versions:
     - version: 0.9.0
       urls:
-      - name: UI
+      - name: dashboard
         url: /t9k/app/qdrant/{{ .Release.Namespace }}/{{ .Release.Name }}/
       # readinessProbe:
       #   resources:

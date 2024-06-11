@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "ls-app.fullname" . }}
+  labels:
+    {{- include "ls-app.labels" . | nindent 4 }}
+spec:
+  gateways:
+  - project-gateway
+  hosts:
+  - '*'
+  http:
+  - match:
+    - uri:
+        prefix: /t9k/app/label-studio/{{ .Release.Namespace }}/{{ .Release.Name }}/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: {{ include "ls-app.fullname" . }}
+        port:
+          number: {{ .Values.app.service.port }}

@@ -1,0 +1,84 @@
+## @param replicaCount Number of replicas for the deployment
+##
+replicaCount: 1
+
+## @param image.registry [default: docker.io] Repository registry for the Docker image
+## @param image.repository [default: t9kpublic/search-with-lepton] Repository name for the Docker image
+## @param image.tag Image tag for the Docker image (immutable tags are recommended)
+## @param image.pullPolicy Image pull policy for the Docker image
+##
+image:
+  registry: docker.io
+  repository: t9kpublic/search-with-lepton
+  tag: "20240208"
+  pullPolicy: IfNotPresent
+
+## @param service.type Service type for the Kubernetes service
+## @param service.port Port for the Kubernetes service
+##
+service:
+  type: ClusterIP
+  port: 8080
+
+## @param ingress.enabled Enable/disable Kubernetes ingress
+## @param ingress.className Ingress class name
+## @param ingress.annotations Annotations for Kubernetes ingress
+## @param ingress.hosts List of hosts for Kubernetes ingress
+## @param ingress.tls TLS configuration for Kubernetes ingress
+##
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+## @param resources.limits.cpu CPU limit for Kubernetes resources
+## @param resources.limits.memory Memory limit for Kubernetes resources
+##
+resources:
+  limits:
+    cpu: 1
+    memory: 2Gi
+
+## @param llm.base_url URL of the server compatible with the OpenAI API
+## @param llm.api_key API key for accessing the OpenAI API
+## @param llm.model_name Name of the model to be used, e.g., "gpt-3.5-turbo", "gpt-4-turbo", or "gpt-4o"
+##
+llm:
+  # 兼容 OpenAI API 的服务器的 URL
+  # 如使用 OpenAI API，请设为 "https://api.openai.com/v1"
+  base_url: "https://api.openai.com/v1"
+  api_key: ""
+  # 使用的模型名称，例如 "gpt-3.5-turbo"、"gpt-4-turbo" 或 "gpt-4o"
+  model_name: ""
+
+## @param searchEngine.provider Search engine provider to be used (`BING`, `GOOGLE`, `SERPER`, or `SEARCHAPI`)
+## @param searchEngine.api_key API key for accessing the search engine provider's API
+## @param searchEngine.google.cx_key Custom search engine (Google) key
+##
+searchEngine:
+  # 使用的搜索引擎提供商
+  # 应为 "BING"、"GOOGLE"、"SERPER" 或 "SEARCHAPI"
+  provider: ""
+  api_key: ""
+  google:
+    cx_key: ""
+
+## @param env Array of extra environment variables
+##
+env: []
+  # # HTTP 和 HTTPS 代理
+  # - name: HTTP_PROXY
+  #   value: ""
+  # - name: HTTPS_PROXY
+  #   value: ""

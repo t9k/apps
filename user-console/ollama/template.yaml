@@ -1,0 +1,26 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: ollama
+  displayName: Ollama
+  categories: ["AI"]
+  description: "Get up and running with large language models locally."
+  icon: "file://$APP_DIR/icon.png"
+template:
+  helm:
+    repo: "oci://docker.io/t9kpublic"
+    chart: "ollama"
+    versions:
+    - version: 0.29.2
+      urls:
+      - name: api
+        url: /t9k/app/ollama/{{ .Release.Namespace }}/{{ .Release.Name }}/
+      # readinessProbe:
+      #   resources:
+      #   - group: apps
+      #     version: v1
+      #     resource: deployments
+      #     name: terminal-{{ .Release.Name }}
+      #     currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+      #     desiredStatus: "True"
+      dependences: {}

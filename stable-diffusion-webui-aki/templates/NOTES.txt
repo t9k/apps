@@ -1,3 +1,0 @@
-T9K APP URL:
-- Name: UI
-  URL: /t9k/app/stable-diffusion-webui-aki/{{ .Release.Namespace }}/{{ .Release.Name }}/

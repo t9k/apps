@@ -1,0 +1,26 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: stable-diffusion-webui-aki
+  displayName: "Stable Diffusion WebUI aki"
+  categories: ["AI"]
+  description: "bilibili@秋葉aaaki 的 Stable Diffusion 整合包，基于开源项目 Stable Diffusion WebUI 制作。"
+  icon: "file://$APP_DIR/icon.png"
+template:
+  helm:
+    repo: "oci://docker.io/t9kpublic"
+    chart: "stable-diffusion-webui-aki"
+    versions:
+    - version: 0.1.2
+      urls: 
+      - name: UI
+        url: /t9k/app/stable-diffusion-webui-aki/{{ .Release.Namespace }}/{{ .Release.Name }}/
+      # readinessProbe:
+      #   resources:
+      #   - group: apps
+      #     version: v1
+      #     resource: deployments
+      #     name: terminal-{{ .Release.Name }}
+      #     currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+      #     desiredStatus: "True"
+      dependences: {}
