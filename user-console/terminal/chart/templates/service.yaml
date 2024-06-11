@@ -9,7 +9,11 @@ spec:
   - name: http
     port: 8080
     protocol: TCP
+  {{- if .Values.global.t9k.securityService.enabled }}
+    targetPort: 4180
+  {{- else }}
     targetPort: 8080
+  {{- end }}
   selector:
     app: terminal-{{ .Release.Name }}
   type: ClusterIP

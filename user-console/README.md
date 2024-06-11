@@ -6,7 +6,17 @@
 export APIKEY='xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
 export APP_SERVER='https://home.example.t9kcloud.cn/t9k/app/server'
 
-t9k-app registry -k $APIKEY -s $APP_SERVER -f "*/template.yaml" -u
+# 使用如下命令注册 Terminal APP
+t9k-app registry -k $APIKEY -s $APP_SERVER -f user-console/terminal/template.yaml
+
+# 如果当前 APP 已注册，但是需要更新 APP 信息（如添加新版本），则在上述注册命令后面加上 -u 参数，表示：如果 APP 已存在则更新该 APP
+t9k-app registry -k $APIKEY -s $APP_SERVER -f user-console/terminal/template.yaml -u
+
+# 管理员可以同时注册多个 APP，具体方式包括：
+# 1. 使用 -f 参数设置多个模版文件
+t9k-app registry -k $APIKEY -s $APP_SERVER -f user-console/terminal/template.yaml -f user-console/notebook/template.yaml
+# 2. 使用通配符 * 匹配多个模版文件（含有通配符的路径在有些 shell 中会被处理为最接近的文件路径，需要加上双引号来保证 t9k-app 能接收到未被处理的路径）
+t9k-app registry -k $APIKEY -s $APP_SERVER -f "user-console/*/template.yaml"
 ```
 
 ## APP Template 说明
@@ -27,6 +37,7 @@ template:
     chart: "terminal"
     versions:
     - version: 0.1.1
+      template: "file://$APP_DIR/manifests/v0_1_1.yaml"
       urls: 
       - name: terminal
         url: /t9k/app/terminal/{{ .Release.Namespace }}/{{ .Release.Name }}/
@@ -46,10 +57,85 @@ template:
   * `defaultVersion`：默认 APP 版本，在 APP 有多个版本的情况下，前端默认展示、创建该版本的 APP。如果管理员在注册 APP 时没有设置该字段，则视后面定义的第一个 APP 版本为默认版本（具体参考 `template.crd.versions` 和 `template.helm.versions`）。
   * `icon`：APP 图标 url，指向图标文件地址。可以用变量 `$APP_DIR` 表示模板文件所在文件夹， 方便指定本地文件系统中的文件。
 * `template` 定义 APP 模版的具体内容
-  * Helm APP 和 CRD APP 分别通过 `template.helm` 和 `template.crd` 字段定义，常见 Helm、CRD 的字段（如 `repo`、`chart`、`group`、`resource`）这里省去介绍，。
-  * `urls`：APP 的访问链接，需要根据 APP 实例配置来生成，所以 `name` 和 `url` 两个子字段都可以用 go template 格式填写。（Go Template 格式字符串的替换规则见 [Go Template 替换规则](#go-template-替换规则)）
-  * `readinessProbe`：记录如何检查一个 APP 是否正常运行。配置方法参考 [ReadinessProbe](#readinessprobe)。
-  * `dependenes`：记录一个 APP 依赖的集群环境，包括 CRD 和集群中的服务。配置方法参考 [Dependences](#dependences)。
+  * Helm APP 和 CRD APP 分别通过 `template.helm` 和 `template.crd` 字段定义，常见 Helm、CRD 的字段（如 `repo`、`chart`、`group`、`resource`）这里省去介绍。
+  * `versions`：记录 APP 各版本信息，主要包含以下字段：
+    * `urls`：APP 的访问链接，需要根据 APP 实例配置来生成，所以 `name` 和 `url` 两个子字段都可以用 go template 格式填写。（Go Template 格式字符串的替换规则见 [Go Template 替换规则](#go-template-替换规则)）
+    * `template`：APP 的部署配置模版，可以是模版的具体内容（YAML 字符串），也可以引用一个本地文件。
+    * `readinessProbe`：记录如何检查一个 APP 是否正常运行。配置方法参考 [ReadinessProbe](#readinessprobe)。
+    * `dependenes`：记录一个 APP 依赖的集群环境，包括 CRD 和集群中的服务。配置方法参考 [Dependences](#dependences)。
+
+### 部署清单模版
+
+在部署一个 APP 时，用户需要提交一个部署清单来提供 APP 实例部署所需的必要信息。管理员在注册 APP 时，可以通过 `template.helm.versions[@].template` 和 `template.crd.versions[@].template` 两个字段分别为 Helm APP 和 CRD APP 设置部署清单模版，以帮助用户生成部署清单。
+
+上述两个字段，都支持使用文件路径和模版内容两种方式填写：
+
+```yaml
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+template:
+  helm: 
+    versions:
+    # 使用本地文件路径填写
+    # 本地文件路径用 `file://` 开头，如果需要使用相对路径，则用 $APP_DIR 表示当前 APP Template 所在文件夹
+    - template: "file://$APP_DIR/manifests/v0_1_1.yaml"
+---
+
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+template:
+  helm: 
+    versions:
+    # 使用模版内容填写
+    - template: "# sh, bash or zsh\n## @param shell Select a shell to start terminal.\nshell: bash\n\n## @param resources.limits.cpu The maximum number of CPU the terminal can use.\n## @param resources.limits.memory The maximum number of memory the terminal can use.\nresources:\n  limits:\n    cpu: 200m\n    memory: 200Mi\n\n## @param resources.limits.cpu Mount pvcs to terminal.\npvcs: []\n\nglobal:\n  t9k:\n    homeURL: \"$(HOME_URL)\"\n    securityService:\n      enabled: true\n      endpoints:\n        oidc: \"$(OIDC_ENDPOINT)\"\n        securityServer: \"$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)\"\n    pepProxy:\n      args:\n        clientID: $(APP_AUTH_CLINET_ID)"
+```
+
+以下为 Terminal 部署清单模版：
+
+```yaml
+# sh, bash or zsh
+## @param shell Select a shell to start terminal.
+shell: bash
+
+resources:
+  limits:
+    ## @param resources.limits.cpu The maximum number of CPU the terminal can use.
+    ## @param resources.limits.memory The maximum number of memory the terminal can use.
+    cpu: 200m
+    memory: 200Mi
+
+## @param resources.limits.cpu Mount pvcs to terminal.
+pvcs: []
+
+global:
+  t9k:
+    homeURL: "$(T9K_HOME_URL)"
+    securityService:
+      enabled: true
+      endpoints:
+        oidc: "$(T9K_OIDC_ENDPOINT)"
+        securityServer: "$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)"
+    pepProxy:
+      args:
+        clientID: $(T9K_APP_AUTH_CLINET_ID)
+```
+
+其中：
+
+* User Console 的部署页面会识别所有以 `## @param` 开头的注释，并将整合这些注释所指定的字段为一个表单，方便用户填写。
+  * 注释的格式为 `## @param <field-path> <field-description>`。
+* 在部署 APP 实例时，APP 实例控制器提供一些内置变量，以简化用户填写内容。
+  * 在清单中，变量的格式为 `$(<variable-name>)`，例如 `"$(T9K_HOME_URL)"`。
+  * 目前，部署清单模版中支持使用的变量请参考[清单变量](#清单变量)
+
+#### 清单变量
+
+目前，APP 清单模版中支持使用以下变量：
+
+1. `$(T9K_HOME_URL)`：TensorStack 平台暴露服务所使用的域名。管理员可以在 APP 模版中配置 APP 使用该域名暴露 APP 服务。
+2. `$(T9K_OIDC_ENDPOINT)`：TensorStack 平台的 OIDC 服务地址。
+3. `$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)`：TensorStack 平台的 Security Console 服务器地址。
+4. `$(T9K_APP_AUTH_CLINET_ID)`：表示一个 Client ID（OAuth 协议中的概念），需要授权的 APP 应使用该 Client ID 向授权服务器申请授权。
 
 ### ReadinessProbe
 
@@ -183,6 +269,14 @@ template:
 ```
 
 假定用户部署一个 terminal APP 实例，名为 `demo`，根据 [Helm APP 变量](#helm-app-变量) 中的规则，上述 `name` 字段为 `terminal-demo`。所以根据 `readinessProbe`，实例控制器需要检查 `terminal-demo` Deployment 的状态，上述 `currentStatus` 中的变量引用的就是该 Deployment 的字段，其逻辑为：查找 `type` 字段为 `Available` 的 `.status.conditions` 返回其 `status` 子字段。
+
+## 用户权限
+
+用户部署应用时，需要具有特定 K8s 资源的权限，管理员在注册新应用时，应确定具体需要哪些权限并设置给用户：
+
+```
+kubectl edit clusterrole project-operator-project-role
+```
 
 ## user-console 文件夹组织结构
 

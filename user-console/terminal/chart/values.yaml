@@ -1,20 +1,30 @@
 # sh, bash or zsh
-## @param shell Select a shell to start terminal.
 shell: bash
 
 pingIntervalSeconds: 30
 
 resources:
-  ## @param resources.limits.cpu The maximum number of CPU the terminal can use.
-  ## @param resources.limits.memory The maximum number of memory the terminal can use.
   limits:
     cpu: 200m
     memory: 200Mi
 
-## @param resources.limits.cpu Mount pvcs to terminal.
-# pvcs:
+pvcs: []
+
 # - name: <pvc-1>
 #   mountPath: /mnt/one
 # - name: <pvc-2>
 #   mountPath: /mnt/two
 pvcs: []
+
+global:
+  t9k:
+    homeURL: ""
+    securityService:
+      enabled: false
+      endpoints:
+        oidc: ""
+        securityServer: ""
+    pepProxy:
+      image: "docker.io/t9kpublic/pep-proxy:1.0.10"
+      args:
+        clientID: ""
