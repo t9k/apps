@@ -14,12 +14,12 @@ pvcs: []
 
 global:
   t9k:
-    homeURL: "$(HOME_URL)"
+    homeURL: "$(T9K_HOME_URL)"
     securityService:
       enabled: true
       endpoints:
-        oidc: "$(OIDC_ENDPOINT)"
+        oidc: "$(T9K_OIDC_ENDPOINT)"
         securityServer: "$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)"
     pepProxy:
       args:
-        clientID: $(APP_AUTH_CLINET_ID)
+        clientID: $(T9K_APP_AUTH_CLINET_ID)

@@ -12,14 +12,9 @@ spec:
           volumeMounts:
             - name: workingdir
               mountPath: /t9k/mnt
-          ## @param spec.template.spec.containers[0].resources.requests.cpu The minimum number of CPU the notebook requests.
-          ## @param spec.template.spec.containers[0].resources.requests.memory The minimum number of memory the notebook requests.
           ## @param spec.template.spec.containers[0].resources.limits.cpu The maximum number of CPU the notebook can use.
           ## @param spec.template.spec.containers[0].resources.limits.memory The maximum number of CPU the notebook can use.
           resources:
-            requests:
-              cpu: "8"
-              memory: 16Gi
             limits:
               cpu: "16"
               memory: 32Gi
