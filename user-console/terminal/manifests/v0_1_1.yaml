@@ -9,7 +9,7 @@ resources:
     cpu: 200m
     memory: 200Mi
 
-## @param resources.limits.cpu Mount pvcs to terminal.
+## @param pvcs Mount pvcs to terminal.
 pvcs: []
 
 global:

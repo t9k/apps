@@ -5,7 +5,7 @@ metadata:
   displayName: NextChat
   categories: ["AI"]
   description: "NextChat 是一个设计精良的 ChatGPT 网页 UI，支持 ChatGPT、Claude、Gemini 和本地部署的兼容 OpenAI API 的推理服务。"
-  icon: "file://$APP_DIR/icon.png"
+  icon: "https://raw.githubusercontent.com/ChatGPTNextWeb/ChatGPT-Next-Web/main/public/android-chrome-192x192.png"
 template:
   helm:
     repo: "oci://docker.io/t9kpublic"

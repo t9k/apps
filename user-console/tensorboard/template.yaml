@@ -1,0 +1,29 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: tensorboard
+  displayName: "TensorBoard"
+  categories: 
+  - Tool
+  description: "TensorBoard 是 TensorFlow 的可视化工具，它可以展示你的 TensorFlow 网络模型运行过程中的各种可视化数据。"
+  icon: "https://raw.githubusercontent.com/tensorflow/tensorboard/67dcad9af7d4a3481ce1de6fda66840072f66b5e/tensorboard/logo/sublogo.svg"
+template:
+  crd:
+    group: tensorstack.dev
+    resource: tensorboards
+    versions:
+    - version: v1beta1
+      template: "file://$APP_DIR/manifests/tensorboard_v1beta1.yaml"
+      readme: "TensorBoard 是 TensorFlow 的可视化工具，它可以展示你的 TensorFlow 网络模型运行过程中的各种可视化数据。"
+      note: "{{- $status := \"未就绪\" -}}{{- range .status.conditions -}}{{- if and (eq .type \"Suspended\") (eq .status \"True\") -}}{{- $status = \"暂停\" -}}{{- break -}}{{- else if and (eq .type \"Ready\") (eq .status \"True\") -}}{{- $status = \"运行中\" -}}{{- break -}}{{- end -}}{{- end -}}状态:  {{ $status }}\n镜像:  {{ .spec.image }}\n\n资源:\n  CPU:  {{ if .spec.resources.requests.cpu }}{{ .spec.resources.requests.cpu }}{{- else -}}-{{end}}/{{ if .spec.resources.limits.cpu }}{{ .spec.resources.limits.cpu }}{{- else -}}-{{end}}\n  内存:  {{ if .spec.resources.requests.memory }}{{ .spec.resources.requests.memory }}{{- else -}}-{{end}}/{{ if .spec.resources.limits.memory }}{{ .spec.resources.limits.memory }}{{- else -}}-{{end}}"
+      urls: 
+      - name: "tensorboard"
+        url: "/t9k/tensorboards/projects/{{ .metadata.namespace }}/name/{{ .metadata.name }}/"
+      readinessProbe:
+        resources:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: tensorboards
+          name: "{{ .metadata.name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"

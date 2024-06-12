@@ -3,15 +3,15 @@ kind: Notebook
 metadata:
   name: ""
 spec:
-  type: rstudio
+  type: jupyter
   template:
     spec:
       containers:
         - name: notebook
-          image: t9kpublic/rocker-4.2.3-rstudio:1.72.1
+          image: t9kpublic/torch-2.1.0-notebook:1.77.1
           volumeMounts:
             - name: workingdir
-              mountPath: /t9k/mnt/workspace
+              mountPath: /t9k/mnt
           ## @param spec.template.spec.containers[0].resources.limits.cpu The maximum number of CPU the notebook can use.
           ## @param spec.template.spec.containers[0].resources.limits.memory The maximum number of CPU the notebook can use.
           resources:

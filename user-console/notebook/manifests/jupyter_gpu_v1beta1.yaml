@@ -1,7 +1,7 @@
 apiVersion: tensorstack.dev/v1beta1
 kind: Notebook
 metadata:
-  name: tutorial
+  name: ""
 spec:
   type: jupyter
   template:
@@ -18,8 +18,9 @@ spec:
             limits:
               cpu: "16"
               memory: 32Gi
+              nvidia.com/gpu.shared: 1
       volumes:
         - name: workingdir
           persistentVolumeClaim:
             ## @param spec.template.spec.volumes[0].persistentVolumeClaim.claimName Mount a pvc as notebook working directory.
-            claimName: tutorial
+            claimName: ""

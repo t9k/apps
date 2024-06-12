@@ -1,0 +1,62 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: filebrowser
+  displayName: "FileBrowser"
+  categories: 
+  - Tool
+  description: "FileBrowser 在指定目录中提供了一个文件管理界面，可用于上传、删除、预览、重命名和编辑您的文件。"
+  icon: "https://raw.githubusercontent.com/filebrowser/logo/7165c2c4d2281f4d733896752f41ef8bb1b864b2/icon.svg"
+template:
+  crd:
+    group: tensorstack.dev
+    resource: explorers
+    versions:
+    - version: v1beta1
+      template: "file://$APP_DIR/manifests/filebrowser_v1beta1.yaml"
+      readme: "FileBrowser 在指定目录中提供了一个文件管理界面，可用于上传、删除、预览、重命名和编辑您的文件。"
+      note: "{{- $status := \"未就绪\" -}}{{- range .status.conditions -}}{{- if and (eq .type \"Suspended\") (eq .status \"True\") -}}{{- $status = \"暂停\" -}}{{- break -}}{{- else if and (eq .type \"Ready\") (eq .status \"True\") -}}{{- $status = \"运行中\" -}}{{- break -}}{{- end -}}{{- end -}}状态:  {{ $status }}\nPVC:  {{ .spec.storageName }}"
+      urls: 
+      - name: "filebrowser"
+        url: "/t9k/build-console/projects/{{ .metadata.namespace }}/explorers/{{ .metadata.name }}/filebrowser/"
+      readinessProbe:
+        resources:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: explorers
+          name: "{{ .metadata.name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+
+---
+
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: codeserver
+  displayName: "CodeServer"
+  categories: 
+  - Tool
+  description: "CodeServer 是一个可以通过浏览器访问的 VSCode。"
+  icon: "https://raw.githubusercontent.com/coder/code-server/0c802ba1652296c79d26ff3e990578e67e6734b1/src/browser/media/favicon.svg"
+template:
+  crd:
+    group: tensorstack.dev
+    resource: explorers
+    versions:
+    - version: v1beta1
+      template: "file://$APP_DIR/manifests/codeserver_v1beta1.yaml"
+      readme: "CodeServer 是一个可以通过浏览器访问的 VSCode。"
+      note: "{{- $status := \"未就绪\" -}}{{- range .status.conditions -}}{{- if and (eq .type \"Suspended\") (eq .status \"True\") -}}{{- $status = \"暂停\" -}}{{- break -}}{{- else if and (eq .type \"Ready\") (eq .status \"True\") -}}{{- $status = \"运行中\" -}}{{- break -}}{{- end -}}{{- end -}}状态:  {{ $status }}\nPVC:  {{ .spec.storageName }}"
+      urls: 
+      - name: "codeserver"
+        url: "/t9k/build-console/projects/{{ .metadata.namespace }}/explorers/{{ .metadata.name }}/codeserver/"
+      readinessProbe:
+        resources:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: explorers
+          name: "{{ .metadata.name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+

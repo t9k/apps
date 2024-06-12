@@ -1,11 +1,11 @@
 apiVersion: app.tensorstack.dev/v1beta1
 kind: Template
 metadata:
-  name: jupyter-lab
-  displayName: "Jupyter Lab"
+  name: jupyter-lab-cpu
+  displayName: "Jupyter Lab (CPU)"
   categories: 
   - IDE
-  description: "Jupyter is the latest web-based interactive development environment for notebooks, code, and data. Its flexible interface allows users to configure and arrange workflows in data science, scientific computing, computational journalism, and machine learning."
+  description: "Jupyter Lab 是最新的基于 Web 的交互式开发环境，用于代码开发和数据处理。其灵活的界面允许用户配置和安排数据科学、科学计算、计算新闻和机器学习中的工作流程。"
   icon: "https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg"
 template:
   crd:
@@ -13,8 +13,8 @@ template:
     resource: notebooks
     versions:
     - version: v1beta1
-      template: "file://$APP_DIR/manifests/jupyter_v1beta1.yaml"
-      readme: "Jupyter is the latest web-based interactive development environment for notebooks, code, and data. Its flexible interface allows users to configure and arrange workflows in data science, scientific computing, computational journalism, and machine learning."
+      template: "file://$APP_DIR/manifests/jupyter_cpu_v1beta1.yaml"
+      readme: "Jupyter Lab 是最新的基于 Web 的交互式开发环境，用于代码开发和数据处理。其灵活的界面允许用户配置和安排数据科学、科学计算、计算新闻和机器学习中的工作流程。"
       note: "{{- $status := \"未就绪\" -}}{{- range .status.conditions -}}{{- if and (eq .type \"Suspended\") (eq .status \"True\") -}}{{- $status = \"暂停\" -}}{{- break -}}{{- else if and (eq .type \"Ready\") (eq .status \"True\") -}}{{- $status = \"运行中\" -}}{{- break -}}{{- end -}}{{- end -}}状态:  {{ $status }}\n类型:  {{ .spec.type }}\n镜像:  {{ (index .spec.template.spec.containers 0).image }}\n\n资源:\n  CPU:  {{ if (index .spec.template.spec.containers 0).resources.requests.cpu }}{{ (index .spec.template.spec.containers 0).resources.requests.cpu }}{{- else -}}-{{end}}/{{ if (index .spec.template.spec.containers 0).resources.limits.cpu }}{{ (index .spec.template.spec.containers 0).resources.limits.cpu }}{{- else -}}-{{end}}\n  内存:  {{ if (index .spec.template.spec.containers 0).resources.requests.memory }}{{ (index .spec.template.spec.containers 0).resources.requests.memory }}{{- else -}}-{{end}}/{{ if (index .spec.template.spec.containers 0).resources.limits.memory }}{{ (index .spec.template.spec.containers 0).resources.limits.memory }}{{- else -}}-{{end}}"
       urls: 
       - name: "jupyter"
@@ -23,7 +23,39 @@ template:
         resources:
         - group: tensorstack.dev
           version: v1beta1
-          resource: notebook
+          resource: notebooks
+          name: "{{ .metadata.name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+
+---
+
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: jupyter-lab-gpu
+  displayName: "Jupyter Lab (Nvidia Shared GPU)"
+  categories: 
+  - IDE
+  description: "Jupyter Lab (Nvidia Shared GPU) 是最新的基于 Web 的交互式开发环境，该 Jupyter Lab 配置了 Nvidia Shared GPU，用户可以在其中进行 GPU 训练代码的开发。"
+  icon: "https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg"
+template:
+  crd:
+    group: tensorstack.dev
+    resource: notebooks
+    versions:
+    - version: v1beta1
+      template: "file://$APP_DIR/manifests/jupyter_gpu_v1beta1.yaml"
+      readme: "Jupyter Lab 是最新的基于 Web 的交互式开发环境，用于代码开发和数据处理。其灵活的界面允许用户配置和安排数据科学、科学计算、计算新闻和机器学习中的工作流程。\n\nJupyter Lab (Nvidia GPU) 配置了 Nvidia Shared GPU，用户可以在其中进行 GPU 训练代码的开发。"
+      note: "{{- $status := \"未就绪\" -}}{{- range .status.conditions -}}{{- if and (eq .type \"Suspended\") (eq .status \"True\") -}}{{- $status = \"暂停\" -}}{{- break -}}{{- else if and (eq .type \"Ready\") (eq .status \"True\") -}}{{- $status = \"运行中\" -}}{{- break -}}{{- end -}}{{- end -}}状态:  {{ $status }}\n类型:  {{ .spec.type }}\n镜像:  {{ (index .spec.template.spec.containers 0).image }}\n\n资源:\n  CPU:  {{ if (index .spec.template.spec.containers 0).resources.requests.cpu }}{{ (index .spec.template.spec.containers 0).resources.requests.cpu }}{{- else -}}-{{end}}/{{ if (index .spec.template.spec.containers 0).resources.limits.cpu }}{{ (index .spec.template.spec.containers 0).resources.limits.cpu }}{{- else -}}-{{end}}\n  内存:  {{ if (index .spec.template.spec.containers 0).resources.requests.memory }}{{ (index .spec.template.spec.containers 0).resources.requests.memory }}{{- else -}}-{{end}}/{{ if (index .spec.template.spec.containers 0).resources.limits.memory }}{{ (index .spec.template.spec.containers 0).resources.limits.memory }}{{- else -}}-{{end}}"
+      urls: 
+      - name: "jupyter"
+        url: "/t9k/notebooks/projects/{{ .metadata.namespace }}/name/{{ .metadata.name }}/lab"
+      readinessProbe:
+        resources:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: notebooks
           name: "{{ .metadata.name }}"
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
@@ -37,7 +69,7 @@ metadata:
   displayName: RStudio
   categories: 
   - IDE
-  description: "RStudio integrated development environment (IDE) is a set of tools built to help you be more productive with R and Python."
+  description: "RStudio 集成开发环境 （IDE），旨在帮助你提高 R 和 Python 的工作效率。"
   icon: "https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg"
 template:
   crd:
@@ -46,16 +78,16 @@ template:
     versions:
     - version: v1beta1
       template: "file://$APP_DIR/manifests/rstudio_v1beta1.yaml"
-      readme: "RStudio integrated development environment (IDE) is a set of tools built to help you be more productive with R and Python."
+      readme: "RStudio 集成开发环境 （IDE），旨在帮助你提高 R 和 Python 的工作效率。"
       note: "{{- $status := \"未就绪\" -}}{{- range .status.conditions -}}{{- if and (eq .type \"Suspended\") (eq .status \"True\") -}}{{- $status = \"暂停\" -}}{{- break -}}{{- else if and (eq .type \"Ready\") (eq .status \"True\") -}}{{- $status = \"运行中\" -}}{{- break -}}{{- end -}}{{- end -}}状态:  {{ $status }}\n类型:  {{ .spec.type }}\n镜像:  {{ (index .spec.template.spec.containers 0).image }}\n\n资源:\n  CPU:  {{ if (index .spec.template.spec.containers 0).resources.requests.cpu }}{{ (index .spec.template.spec.containers 0).resources.requests.cpu }}{{- else -}}-{{end}}/{{ if (index .spec.template.spec.containers 0).resources.limits.cpu }}{{ (index .spec.template.spec.containers 0).resources.limits.cpu }}{{- else -}}-{{end}}\n  内存:  {{ if (index .spec.template.spec.containers 0).resources.requests.memory }}{{ (index .spec.template.spec.containers 0).resources.requests.memory }}{{- else -}}-{{end}}/{{ if (index .spec.template.spec.containers 0).resources.limits.memory }}{{ (index .spec.template.spec.containers 0).resources.limits.memory }}{{- else -}}-{{end}}"
       urls: 
       - name: "rstudio"
-        url: "/t9k/notebooks/projects/{{ .metadata.namespace }}/name/{{ .metadata.name }}/lab"
+        url: "/t9k/notebooks/projects/{{ .metadata.namespace }}/name/{{ .metadata.name }}/"
       readinessProbe:
         resources:
         - group: tensorstack.dev
           version: v1beta1
-          resource: notebook
+          resource: notebooks
           name: "{{ .metadata.name }}"
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
