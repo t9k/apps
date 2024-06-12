@@ -6,7 +6,7 @@ metadata:
   categories: 
   - Tool
   description: "TensorBoard 是 TensorFlow 的可视化工具，它可以展示你的 TensorFlow 网络模型运行过程中的各种可视化数据。"
-  icon: "https://raw.githubusercontent.com/tensorflow/tensorboard/67dcad9af7d4a3481ce1de6fda66840072f66b5e/tensorboard/logo/sublogo.svg"
+  icon: "file://$APP_DIR/icon.svg"
 template:
   crd:
     group: tensorstack.dev
