@@ -6,7 +6,7 @@ metadata:
   categories: 
   - IDE
   description: "Jupyter Lab 是最新的基于 Web 的交互式开发环境，用于代码开发和数据处理。其灵活的界面允许用户配置和安排数据科学、科学计算、计算新闻和机器学习中的工作流程。"
-  icon: "https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg"
+  icon: "file://$APP_DIR/icons/jupyter.svg"
 template:
   crd:
     group: tensorstack.dev
@@ -38,7 +38,7 @@ metadata:
   categories: 
   - IDE
   description: "Jupyter Lab (Nvidia Shared GPU) 是最新的基于 Web 的交互式开发环境，该 Jupyter Lab 配置了 Nvidia Shared GPU，用户可以在其中进行 GPU 训练代码的开发。"
-  icon: "https://upload.wikimedia.org/wikipedia/commons/3/38/Jupyter_logo.svg"
+  icon: "file://$APP_DIR/icons/jupyter.svg"
 template:
   crd:
     group: tensorstack.dev
@@ -70,7 +70,7 @@ metadata:
   categories: 
   - IDE
   description: "RStudio 集成开发环境 （IDE），旨在帮助你提高 R 和 Python 的工作效率。"
-  icon: "https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg"
+  icon: "file://$APP_DIR/icons/rstudio.svg"
 template:
   crd:
     group: tensorstack.dev
