@@ -67,6 +67,17 @@ entries:
   nextchat:
   - apiVersion: v2
     appVersion: 2.12.2
+    created: "2024-06-13T09:34:50.070487634Z"
+    description: NextChat 是一个设计精良的 ChatGPT 网页 UI，支持 ChatGPT、Claude、Gemini 和本地部署的兼容
+      OpenAI API 的推理服务。
+    digest: aedf3d4cea770875271c692d90c1db617c6a1d5fd76d9a0e2962eff895249f45
+    name: nextchat
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/nextchat-0.1.2/nextchat-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 2.12.2
     created: "2024-06-11T08:30:47.533875229Z"
     description: NextChat 是一个设计精良的 ChatGPT 网页 UI，支持 ChatGPT、Claude、Gemini 和本地部署的兼容
       OpenAI API 的推理服务。
@@ -256,4 +267,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-06-13T09:06:28.791646047Z"
+generated: "2024-06-13T09:34:50.070528581Z"
