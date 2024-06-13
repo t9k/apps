@@ -22,7 +22,7 @@ mv .cache/modelscope/hub/LLM-Research/$MODEL_NAME .
 
 ```bash
 APP_NAME=<YOUR_APP_NAME>
-address=$(kubectl get smls $APP_NAME-vllm-llama3 -ojsonpath='{.status.address.url}')
+ADDRESS=$(kubectl get smls $APP_NAME-vllm-llama3 -ojsonpath='{.status.address.url}')
 
 DEPLOY_NAME=<YOUR_DEPLOY_NAME>
 # 聊天

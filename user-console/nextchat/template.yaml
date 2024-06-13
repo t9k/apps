@@ -9,6 +9,7 @@ metadata:
 template:
   helm:
     repo: "oci://docker.io/t9kpublic"
+    # repo: "https://t9k.github.io/apps/"
     chart: "nextchat"
     versions:
     - version: 0.1.2

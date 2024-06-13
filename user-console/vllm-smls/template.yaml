@@ -9,6 +9,7 @@ metadata:
 template:
   helm:
     repo: "oci://docker.io/t9kpublic"
+    # repo: "https://t9k.github.io/apps/"
     chart: "vllm"
     versions:
     - version: 0.1.3
