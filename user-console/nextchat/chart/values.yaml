@@ -63,11 +63,11 @@ llm:
   # 使用的模型提供商
   # 应为 "openai"、"azure"、"anthropic"" 或 "google"
   provider: "openai"
-  api_key: "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"
+  api_key: ""
   openai:
     # 兼容 OpenAI API 的服务器的 URL
     # 如使用 OpenAI API，请设为 "https://api.openai.com"
-    base_url: "https://api.openai-proxy.com"
+    base_url: "https://api.openai.com"
     
   azure:
     url: ""
