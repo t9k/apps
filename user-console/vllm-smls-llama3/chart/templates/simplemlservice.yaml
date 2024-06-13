@@ -13,12 +13,8 @@ spec:
   {{- end }}
   storage:
     pvc:
-      {{- if .Values.model.volume.existingClaim }}
-      name: {{ .Values.model.volume.existingClaim }}
-      {{- else }}
-      name: {{ include "vllm.fullname" . }}
-      {{- end }}
-      subPath: {{ .Values.model.volume.subPath }}
+      name: {{ .Values.model.existingClaim }}
+      subPath: {{ .Values.model.subPath }}
   service:
     type: ClusterIP
     ports:
@@ -28,15 +24,6 @@ spec:
       protocol: TCP
   custom:
     spec:
-      {{- if .Values.model.source }}
-      initContainers:
-        - name: wait-for-datacube
-          image: bitnami/kubectl:1.27
-          command: ["/bin/sh", "-c"]
-          args: ["kubectl wait --for=condition=Complete datacube/{{ .Release.Name }}-vllm --timeout=-1s"]
-      serviceAccount: managed-project-sa
-      serviceAccountName: managed-project-sa
-      {{- end }}
       containers:
       - name: server
         image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
