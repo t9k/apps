@@ -1,0 +1,11 @@
+要获取服务端点，运行：
+
+  export ENDPOINT=$(kubectl get smls {{ .Release.Name }}-vllm-llama3 -ojsonpath='{.status.address.url}')
+  
+要测试聊天，运行：
+
+  curl $ENDPOINT:8000/v1/chat/completions -H "Content-Type: application/json" -d '{"model": "{{ .Values.model.deployName }}", "messages": [{"role": "user", "content": "hello"}], "temperature": 0.5, "stop_token_ids": [128001, 128009]}'
+  
+要测试生成文本，运行：
+
+  curl $ENDPOINT:8000/v1/completions -H "Content-Type: application/json" -d '{"model": "{{ .Values.model.deployName }}", "prompt": "Long long ago, there was", "max_tokens": 100, "temperature": 0.5, "stop_token_ids": [128001, 128009]}'

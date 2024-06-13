@@ -1,0 +1,40 @@
+## @param replicaCount Number of replicas for the deployment
+##
+replicaCount: 1
+
+## @param image.registry [default: docker.io] Repository registry for the Docker image
+## @param image.repository [default: t9kpublic/stable-diffusion-webui] Repository name for the Docker image
+## @param image.tag Image tag for the Docker image (immutable tags are recommended)
+## @param image.pullPolicy Image pull policy for the Docker image
+##
+image:
+  registry: docker.io
+  repository: vllm/vllm-openai
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "v0.3.3"
+  pullPolicy: IfNotPresent
+
+## @param resources.limits.cpu CPU limit for Kubernetes resources
+## @param resources.limits.memory Memory limit for Kubernetes resources
+## @param resources.limits.nvidia-gpu Nvidia GPU limit for Kubernetes resources
+##
+resources:
+  limits:
+    cpu: 4
+    memory: 64Gi
+    nvidia.com/gpu: 1
+
+## @param model.deployName Name by which the model is deployed
+## @param model.existingClaim PVC containing hte model files
+## @param model.subPath Subpath within the PVC where the model files are located
+##
+model:
+  # 模型以该名称被部署
+  deployName: "llama3-8b"
+  existingClaim: "vllm-llama3"
+  subPath: ""
+
+## @param t9k.queue Queue specified for the deployment
+##
+t9k:
+  queue: ""

@@ -1,6 +1,6 @@
 # vLLM
 
-[vLLM](https://github.com/vllm-project/vllm) 是一个用于 LLM 推理和服务的快速且易用的库。
+[vLLM](https://github.com/vllm-project/vllm) 是一个快速、灵活且易用的开源 LLM 推理和服务库。
 
 vLLM 的速度优势包括：
 
