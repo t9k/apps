@@ -223,6 +223,28 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/terminal-0.1.1/terminal-0.1.1.tgz
     version: 0.1.1
+  vllm:
+  - apiVersion: v2
+    appVersion: v0.3.3
+    created: "2024-06-13T09:06:28.613386389Z"
+    description: vLLM 是一个用于大语言模型的高吞吐量和内存高效的推理和服务引擎。
+    digest: 169a19b6d10dc5c4b61cd7852af4f5eb6a16c4351797602e550cc527e18bf27c
+    name: vllm
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/vllm-0.1.3/vllm-0.1.3.tgz
+    version: 0.1.3
+  vllm-llama3:
+  - apiVersion: v2
+    appVersion: v0.3.3
+    created: "2024-06-13T09:06:28.791633143Z"
+    description: 使用 vLLM 部署 Llama 3 系列模型。
+    digest: 495c69ca23a5617d8ef3c61819dbc516912616898709cece59f413b0df56a255
+    name: vllm-llama3
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/vllm-llama3-0.1.0/vllm-llama3-0.1.0.tgz
+    version: 0.1.0
   vllm-smls:
   - apiVersion: v2
     appVersion: v0.4.3
@@ -234,4 +256,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-06-11T08:30:48.842191484Z"
+generated: "2024-06-13T09:06:28.791646047Z"
