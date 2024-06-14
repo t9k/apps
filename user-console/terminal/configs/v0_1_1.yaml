@@ -7,7 +7,7 @@ shell: bash
 resources:
   limits:
     cpu: 200m
-    memory: 200Mi
+    memory: 400Mi
 
 ## @param pvcs Mount pvcs to terminal.
 pvcs: []
