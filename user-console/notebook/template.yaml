@@ -34,10 +34,10 @@ apiVersion: app.tensorstack.dev/v1beta1
 kind: Template
 metadata:
   name: jupyter-lab-gpu
-  displayName: "Jupyter Lab (Nvidia Shared GPU)"
+  displayName: "Jupyter Lab (Nvidia GPU)"
   categories: 
   - IDE
-  description: "Jupyter Lab (Nvidia Shared GPU) 是最新的基于 Web 的交互式开发环境，该 Jupyter Lab 配置了 Nvidia Shared GPU，用户可以在其中进行 GPU 训练代码的开发。"
+  description: "Jupyter Lab (Nvidia GPU) 是最新的基于 Web 的交互式开发环境，该 Jupyter Lab 配置了 Nvidia GPU，用户可以在其中进行 GPU 训练代码的开发。"
   icon: "file://$APP_DIR/jupyter-lab-gpu/icon.svg"
 template:
   crd:
