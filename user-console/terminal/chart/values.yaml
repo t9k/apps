@@ -8,8 +8,7 @@ resources:
     cpu: 200m
     memory: 200Mi
 
-pvcs: []
-
+# pvcs:
 # - name: <pvc-1>
 #   mountPath: /mnt/one
 # - name: <pvc-2>

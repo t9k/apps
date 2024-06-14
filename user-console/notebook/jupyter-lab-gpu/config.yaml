@@ -18,7 +18,7 @@ spec:
             limits:
               cpu: "16"
               memory: 32Gi
-              nvidia.com/gpu.shared: 1
+              nvidia.com/gpu: 1
       volumes:
         - name: workingdir
           persistentVolumeClaim:
