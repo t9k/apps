@@ -21,6 +21,6 @@ spec:
       uri: /
     route:
     - destination:
-        host: {{ .Release.Name }}-stable-diffusion-webui-aki
+        host: {{ .Release.Name }}
         port:
           number: {{ .Values.service.port }}

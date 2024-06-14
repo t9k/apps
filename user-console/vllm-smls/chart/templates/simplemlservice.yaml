@@ -33,7 +33,7 @@ spec:
         - name: wait-for-datacube
           image: bitnami/kubectl:1.27
           command: ["/bin/sh", "-c"]
-          args: ["kubectl wait --for=condition=Complete datacube/{{ .Release.Name }}-vllm --timeout=-1s"]
+          args: ["kubectl wait --for=condition=Complete datacube/{{ .Release.Name }} --timeout=-1s"]
       serviceAccount: managed-project-sa
       serviceAccountName: managed-project-sa
       {{- end }}

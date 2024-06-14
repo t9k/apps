@@ -12,14 +12,14 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "vllm"
     versions:
-    - version: 0.1.3
+    - version: 0.1.4
       urls: []
       readinessProbe:
         resources:
         - group: tensorstack.dev
           version: v1beta1
           resource: simplemlservices
-          name: "{{ .Release.Name }}-vllm"
+          name: "{{ .Release.Name }}"
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
       dependences: {}
