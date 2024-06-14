@@ -1,0 +1,12 @@
+{{- $status := "未就绪" -}}
+{{- range .status.conditions -}}
+{{- if and (eq .type "Suspended") (eq .status "True") -}}
+{{- $status = "暂停" -}}
+{{- break -}}
+{{- else if and (eq .type "Ready") (eq .status "True") -}}
+{{- $status = "运行中" -}}
+{{- break -}}
+{{- end -}}
+{{- end -}}
+状态:  {{ $status }}
+PVC:  {{ .spec.storageName }}

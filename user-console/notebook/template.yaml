@@ -6,16 +6,16 @@ metadata:
   categories: 
   - IDE
   description: "Jupyter Lab 是最新的基于 Web 的交互式开发环境，用于代码开发和数据处理。其灵活的界面允许用户配置和安排数据科学、科学计算、计算新闻和机器学习中的工作流程。"
-  icon: "file://$APP_DIR/icons/jupyter.svg"
+  icon: "file://$APP_DIR/jupyter-lab-cpu/icon.svg"
 template:
   crd:
     group: tensorstack.dev
     resource: notebooks
     versions:
     - version: v1beta1
-      template: "file://$APP_DIR/manifests/jupyter_cpu_v1beta1.yaml"
-      readme: "Jupyter Lab 是最新的基于 Web 的交互式开发环境，用于代码开发和数据处理。其灵活的界面允许用户配置和安排数据科学、科学计算、计算新闻和机器学习中的工作流程。"
-      note: "{{- $status := \"未就绪\" -}}{{- range .status.conditions -}}{{- if and (eq .type \"Suspended\") (eq .status \"True\") -}}{{- $status = \"暂停\" -}}{{- break -}}{{- else if and (eq .type \"Ready\") (eq .status \"True\") -}}{{- $status = \"运行中\" -}}{{- break -}}{{- end -}}{{- end -}}状态:  {{ $status }}\n类型:  {{ .spec.type }}\n镜像:  {{ (index .spec.template.spec.containers 0).image }}\n\n资源:\n  CPU:  {{ if (index .spec.template.spec.containers 0).resources.requests.cpu }}{{ (index .spec.template.spec.containers 0).resources.requests.cpu }}{{- else -}}-{{end}}/{{ if (index .spec.template.spec.containers 0).resources.limits.cpu }}{{ (index .spec.template.spec.containers 0).resources.limits.cpu }}{{- else -}}-{{end}}\n  内存:  {{ if (index .spec.template.spec.containers 0).resources.requests.memory }}{{ (index .spec.template.spec.containers 0).resources.requests.memory }}{{- else -}}-{{end}}/{{ if (index .spec.template.spec.containers 0).resources.limits.memory }}{{ (index .spec.template.spec.containers 0).resources.limits.memory }}{{- else -}}-{{end}}"
+      config: "file://$APP_DIR/jupyter-lab-cpu/config.yaml"
+      readme: "file://$APP_DIR/jupyter-lab-cpu/README.md"
+      note: "file://$APP_DIR/jupyter-lab-cpu/NOTE.txt"
       urls: 
       - name: "jupyter"
         url: "/t9k/notebooks/projects/{{ .metadata.namespace }}/name/{{ .metadata.name }}/lab"
@@ -38,16 +38,16 @@ metadata:
   categories: 
   - IDE
   description: "Jupyter Lab (Nvidia Shared GPU) 是最新的基于 Web 的交互式开发环境，该 Jupyter Lab 配置了 Nvidia Shared GPU，用户可以在其中进行 GPU 训练代码的开发。"
-  icon: "file://$APP_DIR/icons/jupyter.svg"
+  icon: "file://$APP_DIR/jupyter-lab-gpu/icon.svg"
 template:
   crd:
     group: tensorstack.dev
     resource: notebooks
     versions:
     - version: v1beta1
-      template: "file://$APP_DIR/manifests/jupyter_gpu_v1beta1.yaml"
-      readme: "Jupyter Lab 是最新的基于 Web 的交互式开发环境，用于代码开发和数据处理。其灵活的界面允许用户配置和安排数据科学、科学计算、计算新闻和机器学习中的工作流程。\n\nJupyter Lab (Nvidia GPU) 配置了 Nvidia Shared GPU，用户可以在其中进行 GPU 训练代码的开发。"
-      note: "{{- $status := \"未就绪\" -}}{{- range .status.conditions -}}{{- if and (eq .type \"Suspended\") (eq .status \"True\") -}}{{- $status = \"暂停\" -}}{{- break -}}{{- else if and (eq .type \"Ready\") (eq .status \"True\") -}}{{- $status = \"运行中\" -}}{{- break -}}{{- end -}}{{- end -}}状态:  {{ $status }}\n类型:  {{ .spec.type }}\n镜像:  {{ (index .spec.template.spec.containers 0).image }}\n\n资源:\n  CPU:  {{ if (index .spec.template.spec.containers 0).resources.requests.cpu }}{{ (index .spec.template.spec.containers 0).resources.requests.cpu }}{{- else -}}-{{end}}/{{ if (index .spec.template.spec.containers 0).resources.limits.cpu }}{{ (index .spec.template.spec.containers 0).resources.limits.cpu }}{{- else -}}-{{end}}\n  内存:  {{ if (index .spec.template.spec.containers 0).resources.requests.memory }}{{ (index .spec.template.spec.containers 0).resources.requests.memory }}{{- else -}}-{{end}}/{{ if (index .spec.template.spec.containers 0).resources.limits.memory }}{{ (index .spec.template.spec.containers 0).resources.limits.memory }}{{- else -}}-{{end}}"
+      config: "file://$APP_DIR/jupyter-lab-gpu/config.yaml"
+      readme: "file://$APP_DIR/jupyter-lab-gpu/README.md"
+      note: "file://$APP_DIR/jupyter-lab-gpu/NOTE.txt"
       urls: 
       - name: "jupyter"
         url: "/t9k/notebooks/projects/{{ .metadata.namespace }}/name/{{ .metadata.name }}/lab"
@@ -70,16 +70,16 @@ metadata:
   categories: 
   - IDE
   description: "RStudio 集成开发环境 （IDE），旨在帮助你提高 R 和 Python 的工作效率。"
-  icon: "file://$APP_DIR/icons/rstudio.svg"
+  icon: "file://$APP_DIR/rstudio/icon.svg"
 template:
   crd:
     group: tensorstack.dev
     resource: notebooks
     versions:
     - version: v1beta1
-      template: "file://$APP_DIR/manifests/rstudio_v1beta1.yaml"
-      readme: "RStudio 集成开发环境 （IDE），旨在帮助你提高 R 和 Python 的工作效率。"
-      note: "{{- $status := \"未就绪\" -}}{{- range .status.conditions -}}{{- if and (eq .type \"Suspended\") (eq .status \"True\") -}}{{- $status = \"暂停\" -}}{{- break -}}{{- else if and (eq .type \"Ready\") (eq .status \"True\") -}}{{- $status = \"运行中\" -}}{{- break -}}{{- end -}}{{- end -}}状态:  {{ $status }}\n类型:  {{ .spec.type }}\n镜像:  {{ (index .spec.template.spec.containers 0).image }}\n\n资源:\n  CPU:  {{ if (index .spec.template.spec.containers 0).resources.requests.cpu }}{{ (index .spec.template.spec.containers 0).resources.requests.cpu }}{{- else -}}-{{end}}/{{ if (index .spec.template.spec.containers 0).resources.limits.cpu }}{{ (index .spec.template.spec.containers 0).resources.limits.cpu }}{{- else -}}-{{end}}\n  内存:  {{ if (index .spec.template.spec.containers 0).resources.requests.memory }}{{ (index .spec.template.spec.containers 0).resources.requests.memory }}{{- else -}}-{{end}}/{{ if (index .spec.template.spec.containers 0).resources.limits.memory }}{{ (index .spec.template.spec.containers 0).resources.limits.memory }}{{- else -}}-{{end}}"
+      config: "file://$APP_DIR/rstudio/config.yaml"
+      readme: "file://$APP_DIR/rstudio/README.md"
+      note: "file://$APP_DIR/rstudio/NOTE.txt"
       urls: 
       - name: "rstudio"
         url: "/t9k/notebooks/projects/{{ .metadata.namespace }}/name/{{ .metadata.name }}/"

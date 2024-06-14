@@ -13,9 +13,9 @@ template:
     resource: tensorboards
     versions:
     - version: v1beta1
-      template: "file://$APP_DIR/manifests/tensorboard_v1beta1.yaml"
-      readme: "TensorBoard 是 TensorFlow 的可视化工具，它可以展示你的 TensorFlow 网络模型运行过程中的各种可视化数据。"
-      note: "{{- $status := \"未就绪\" -}}{{- range .status.conditions -}}{{- if and (eq .type \"Suspended\") (eq .status \"True\") -}}{{- $status = \"暂停\" -}}{{- break -}}{{- else if and (eq .type \"Ready\") (eq .status \"True\") -}}{{- $status = \"运行中\" -}}{{- break -}}{{- end -}}{{- end -}}状态:  {{ $status }}\n镜像:  {{ .spec.image }}\n\n资源:\n  CPU:  {{ if .spec.resources.requests.cpu }}{{ .spec.resources.requests.cpu }}{{- else -}}-{{end}}/{{ if .spec.resources.limits.cpu }}{{ .spec.resources.limits.cpu }}{{- else -}}-{{end}}\n  内存:  {{ if .spec.resources.requests.memory }}{{ .spec.resources.requests.memory }}{{- else -}}-{{end}}/{{ if .spec.resources.limits.memory }}{{ .spec.resources.limits.memory }}{{- else -}}-{{end}}"
+      config: "file://$APP_DIR/config.yaml"
+      readme: "file://$APP_DIR/README.md"
+      note: "file://$APP_DIR/NOTE.txt"
       urls: 
       - name: "tensorboard"
         url: "/t9k/tensorboards/projects/{{ .metadata.namespace }}/name/{{ .metadata.name }}/"
