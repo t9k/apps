@@ -37,7 +37,7 @@ template:
     chart: "terminal"
     versions:
     - version: 0.1.1
-      template: "file://$APP_DIR/manifests/v0_1_1.yaml"
+      config: "file://$APP_DIR/manifests/v0_1_1.yaml"
       urls: 
       - name: terminal
         url: /t9k/app/terminal/{{ .Release.Namespace }}/{{ .Release.Name }}/
@@ -60,13 +60,13 @@ template:
   * Helm APP 和 CRD APP 分别通过 `template.helm` 和 `template.crd` 字段定义，常见 Helm、CRD 的字段（如 `repo`、`chart`、`group`、`resource`）这里省去介绍。
   * `versions`：记录 APP 各版本信息，主要包含以下字段：
     * `urls`：APP 的访问链接，需要根据 APP 实例配置来生成，所以 `name` 和 `url` 两个子字段都可以用 go template 格式填写。（Go Template 格式字符串的替换规则见 [Go Template 替换规则](#go-template-替换规则)）
-    * `template`：APP 的部署配置模版，可以是模版的具体内容（YAML 字符串），也可以引用一个本地文件。
+    * `config`：APP 的部署配置模版，可以是模版的具体内容（YAML 字符串），也可以引用一个本地文件。
     * `readinessProbe`：记录如何检查一个 APP 是否正常运行。配置方法参考 [ReadinessProbe](#readinessprobe)。
     * `dependenes`：记录一个 APP 依赖的集群环境，包括 CRD 和集群中的服务。配置方法参考 [Dependences](#dependences)。
 
-### 部署清单模版
+### 部署配置
 
-在部署一个 APP 时，用户需要提交一个部署清单来提供 APP 实例部署所需的必要信息。管理员在注册 APP 时，可以通过 `template.helm.versions[@].template` 和 `template.crd.versions[@].template` 两个字段分别为 Helm APP 和 CRD APP 设置部署清单模版，以帮助用户生成部署清单。
+在部署一个 APP 时，用户需要提交一个部署配置来提供 APP 实例部署所需的必要信息。管理员在注册 APP 时，可以通过 `template.helm.versions[@].config` 和 `template.crd.versions[@].config` 两个字段分别为 Helm APP 和 CRD APP 设置部署配置模版，以帮助用户生成部署配置。
 
 上述两个字段，都支持使用文件路径和模版内容两种方式填写：
 
@@ -90,7 +90,7 @@ template:
     - template: "# sh, bash or zsh\n## @param shell Select a shell to start terminal.\nshell: bash\n\n## @param resources.limits.cpu The maximum number of CPU the terminal can use.\n## @param resources.limits.memory The maximum number of memory the terminal can use.\nresources:\n  limits:\n    cpu: 200m\n    memory: 200Mi\n\n## @param resources.limits.cpu Mount pvcs to terminal.\npvcs: []\n\nglobal:\n  t9k:\n    homeURL: \"$(HOME_URL)\"\n    securityService:\n      enabled: true\n      endpoints:\n        oidc: \"$(OIDC_ENDPOINT)\"\n        securityServer: \"$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)\"\n    pepProxy:\n      args:\n        clientID: $(APP_AUTH_CLINET_ID)"
 ```
 
-以下为 Terminal 部署清单模版：
+以下为 Terminal 部署配置模版：
 
 ```yaml
 # sh, bash or zsh
@@ -125,12 +125,12 @@ global:
 * User Console 的部署页面会识别所有以 `## @param` 开头的注释，并将整合这些注释所指定的字段为一个表单，方便用户填写。
   * 注释的格式为 `## @param <field-path> <field-description>`。
 * 在部署 APP 实例时，APP 实例控制器提供一些内置变量，以简化用户填写内容。
-  * 在清单中，变量的格式为 `$(<variable-name>)`，例如 `"$(T9K_HOME_URL)"`。
-  * 目前，部署清单模版中支持使用的变量请参考[清单变量](#清单变量)
+  * 在配置中，变量的格式为 `$(<variable-name>)`，例如 `"$(T9K_HOME_URL)"`。
+  * 目前，部署配置模版中支持使用的变量请参考[配置变量](#配置变量)
 
-#### 清单变量
+#### 配置变量
 
-目前，APP 清单模版中支持使用以下变量：
+目前，APP 配置模版中支持使用以下变量：
 
 1. `$(T9K_HOME_URL)`：TensorStack 平台暴露服务所使用的域名。管理员可以在 APP 模版中配置 APP 使用该域名暴露 APP 服务。
 2. `$(T9K_OIDC_ENDPOINT)`：TensorStack 平台的 OIDC 服务地址。
@@ -170,7 +170,7 @@ template:
 * `httpGet` 检查能否向一个指定路径发送 Get 请求。
 * `resources` 检查指定资源的状态。
 
-实例中所有 `{{ .go-template }}` 都表示当前字段可以用 go template 字符串来填写。值得注意的是，`resources[@].currentStatus` 字段的 go template 变量不是用部署 APP 时所用的清单（CR Object 定义、Helm Values）来填写的，而是用指定资源对象来填写，其他字段都是用部署 APP 时的清单填写。
+实例中所有 `{{ .go-template }}` 都表示当前字段可以用 go template 字符串来填写。值得注意的是，`resources[@].currentStatus` 字段的 go template 变量不是用部署 APP 时所用的配置（CR Object 定义、Helm Values）来填写的，而是用指定资源对象来填写，其他字段都是用部署 APP 时的配置填写。
 
 ### Dependences
 
@@ -209,25 +209,25 @@ template:
 
 1. `{{ .Release.Namespace }}`：APP 实例所在的命名空间。
 2. `{{ .Release.Name }}`：APP 实例名称。
-3. `{{ .Values.xxx }}`：APP 实例部署清单中的字段。
+3. `{{ .Values.xxx }}`：APP 实例部署配置中的字段。
 
-以下为 template APP 的部分部署清单：
+以下为 template APP 的部分部署配置：
 
 ```
 shell: bash
 pingIntervalSeconds: 30
 ```
 
-用户在 Go Template 中可以用 `{{ .Values.shell }}` 引用上述清单中 `shell` 字段的值。
+用户在 Go Template 中可以用 `{{ .Values.shell }}` 引用上述配置中 `shell` 字段的值。
 
 说明：
 [Helm Build-in Object](https://helm.sh/docs/chart_template_guide/builtin_objects/) 支持更多变量，但这些变量大多需要读取 Chart 文件、检查本地环境等，获取较为麻烦且在 APP Template 中用途较小。所以在 APP Template 中只支持 `{{ .Release.Namespace }}` 和 `{{ .Release.Name }}` 两个内置变量。
 
 #### APP 类型为 CRD
 
-CRD APP Template 中的 Go Template，可以引用 APP 部署清单中的字段。
+CRD APP Template 中的 Go Template，可以引用 APP 部署配置中的字段。
 
-以下为 t9k-notebook APP 的部分部署清单：
+以下为 t9k-notebook APP 的部分部署配置：
 
 ```
 apiVersion: tensorstack.dev/v1beta1
@@ -242,7 +242,7 @@ spec:
 
 用户可以用 `{{ .metadata.namespace }}` 引用 APP 实例所在命名空间，用 `{{ .spec.type }}` 引用 Notebook 类型。
 
-说明：如果 CRD APP 清单中 `.metadata.namespace` 字段如果没有填写，则 APP Server 会自动根据用户所在 namespace 填写该字段，所以不用担心 `{{ .metadata.namespace }}` 变量会引用空值。但其他字段则没有默认值，所以需要注意。
+说明：如果 CRD APP 配置中 `.metadata.namespace` 字段如果没有填写，则 APP Server 会自动根据用户所在 namespace 填写该字段，所以不用担心 `{{ .metadata.namespace }}` 变量会引用空值。但其他字段则没有默认值，所以需要注意。
 
 #### readinessProbe.resources[@].currentStatus
 

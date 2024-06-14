@@ -1,0 +1,16 @@
+{{- $status := "未就绪" -}}
+{{- range .status.conditions -}}
+{{- if and (eq .type "Suspended") (eq .status "True") -}}
+{{- $status = "暂停" -}}
+{{- break -}}
+{{- else if and (eq .type "Ready") (eq .status "True") -}}
+{{- $status = "运行中" -}}
+{{- break -}}
+{{- end -}}
+{{- end -}}
+状态:  {{ $status }}
+镜像:  {{ .spec.image }}
+
+资源:
+  CPU:  {{ if .spec.resources.requests.cpu }}{{ .spec.resources.requests.cpu }}{{- else -}}-{{end}}/{{ if .spec.resources.limits.cpu }}{{ .spec.resources.limits.cpu }}{{- else -}}-{{end}}
+  内存:  {{ if .spec.resources.requests.memory }}{{ .spec.resources.requests.memory }}{{- else -}}-{{end}}/{{ if .spec.resources.limits.memory }}{{ .spec.resources.limits.memory }}{{- else -}}-{{end}}
