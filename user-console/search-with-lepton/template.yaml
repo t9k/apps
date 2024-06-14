@@ -11,16 +11,16 @@ template:
     repo: "oci://docker.io/t9kpublic"
     chart: "search-with-lepton"
     versions:
-    - version: 0.1.1
+    - version: 0.1.2
       urls: 
       - name: UI
         url: /t9k/app/search-with-lepton/{{ .Release.Namespace }}/{{ .Release.Name }}/
-      # readinessProbe:
-      #   resources:
-      #   - group: apps
-      #     version: v1
-      #     resource: deployments
-      #     name: terminal-{{ .Release.Name }}
-      #     currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-      #     desiredStatus: "True"
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: deployments
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
       dependences: {}

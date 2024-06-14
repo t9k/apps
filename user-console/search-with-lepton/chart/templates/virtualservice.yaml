@@ -17,6 +17,6 @@ spec:
       uri: /
     route:
     - destination:
-        host: {{ .Release.Name }}-search-with-lepton
+        host: {{ .Release.Name }}
         port:
           number: {{ .Values.service.port }}
