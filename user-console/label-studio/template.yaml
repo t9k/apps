@@ -23,4 +23,4 @@ template:
           name: "{{ .Release.Name }}-ls-app"
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
-      dependences: {}
+      dependencies: {}

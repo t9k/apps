@@ -21,16 +21,16 @@ template:
       #     name: {{ .Release.Name }}-postgresql
       #     currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
       #     desiredStatus: "True"
-      dependences: {}
+      dependencies: {}
     - version: 14.3.3
       urls: []
-      dependences: {}
+      dependencies: {}
     - version: 13.4.4
       urls: []
-      dependences: {}
+      dependencies: {}
     - version: 12.12.10
       urls: []
-      dependences: {}
+      dependencies: {}
     - version: 11.9.13
       urls: []
-      dependences: {}
+      dependencies: {}

@@ -21,10 +21,10 @@ template:
       #     name: {{ .Release.Name }}-mongodb
       #     currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
       #     desiredStatus: "True"
-      dependences: {}
+      dependencies: {}
     - version: 14.13.0
       urls: []
-      dependences: {}
+      dependencies: {}
     - version: 13.18.5
       urls: []
-      dependences: {}
+      dependencies: {}
