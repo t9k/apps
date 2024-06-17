@@ -1,25 +1,68 @@
-# README
+# User-Console Application
 
-使用如下命令注册 user-console 文件夹下所有 APP：
+管理员在系统中注册 App 之后，用户就可以在 user-console 中部署+使用了。
+
+## 文件目录结构
+
+`user-console` 文件夹中保存可注册的 APPs，该文件夹组织如下：
+
+1. user-console 下每一个文件夹对应一个 APP，如 notebook、terminal。
+2. 在每一个 APP 文件夹中，创建 template.yaml 文件记录 APP 模版，该模版用于注册 APP。如果模版中使用本地图片，则将图片同样放在 APP 文件夹中，图片的引用方式参考 [APP Template 说明](#app-template-说明)。
+3. 其他 APP 开发文件，根据其开发方式在 APP 文件夹创建对应的文件夹存放，如 docker、chart 等。
+
+## 注册 Apps
+
+注册 App 需要设置 APIKEY 和服务地址：
 
 ```bash
 export APIKEY='xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
 export APP_SERVER='https://home.example.t9kcloud.cn/t9k/app/server'
+```
 
+注册单个 App 示例：
+
+```bash
 # 使用如下命令注册 Terminal APP
-t9k-app registry -k $APIKEY -s $APP_SERVER -f user-console/terminal/template.yaml
+t9k-app registry -k $APIKEY -s $APP_SERVER \
+  -f user-console/terminal/template.yaml
+```
 
-# 如果当前 APP 已注册，但是需要更新 APP 信息（如添加新版本），则在上述注册命令后面加上 -u 参数，表示：如果 APP 已存在则更新该 APP
-t9k-app registry -k $APIKEY -s $APP_SERVER -f user-console/terminal/template.yaml -u
+如果当前 APP 已注册，但是需要更新 APP 信息（如添加新版本）：
 
-# 管理员可以同时注册多个 APP，具体方式包括：
+```bash
+# 在上述注册命令后面加上 -u 参数以说明若 App 已存在则更新
+t9k-app registry -k $APIKEY -s $APP_SERVER \
+  -f user-console/terminal/template.yaml -u
+```
+
+
+使用如下命令注册 user-console 文件夹下所有 APP：
+
+```bash
 # 1. 使用 -f 参数设置多个模版文件
-t9k-app registry -k $APIKEY -s $APP_SERVER -f user-console/terminal/template.yaml -f user-console/notebook/template.yaml
-# 2. 使用通配符 * 匹配多个模版文件（含有通配符的路径在有些 shell 中会被处理为最接近的文件路径，需要加上双引号来保证 t9k-app 能接收到未被处理的路径）
+t9k-app registry -k $APIKEY -s $APP_SERVER \
+  -f user-console/terminal/template.yaml \
+  -f user-console/notebook/template.yaml
+
+# 2. 使用通配符 * 匹配多个模版文件
 t9k-app registry -k $APIKEY -s $APP_SERVER -f "user-console/*/template.yaml"
 ```
 
-## APP Template 说明
+### 用户权限
+
+一些应用可能需要特定的 RBAC 权限才能正确运行，管理员在注册新应用时，应确定这些 RBAC 需求的合理性，评估其风险。
+
+如需修改，可通过如下方式：
+
+```
+kubectl edit clusterrole project-operator-project-role
+```
+
+## Template 说明
+
+`Template` 描述了一个可注册 App 的信息。
+
+Terminal App 的示例：
 
 ```yaml
 apiVersion: app.tensorstack.dev/v1beta1
@@ -52,23 +95,23 @@ template:
       dependences: {}
 ```
 
-* `apiVersion` 和 `kind` 采用 K8s API 的 metav1.TypeMeta 标记 API 类型和版本，此处 `kind` 确定为 `Template` 表示 APP 模版。
+* `apiVersion` 和 `kind` 采用 K8s API 的 `metav1.TypeMeta` 标记 API 类型和版本。
 * `metadata` 记录 APP 的基本信息，包括名称、分类等。
-  * `defaultVersion`：默认 APP 版本，在 APP 有多个版本的情况下，前端默认展示、创建该版本的 APP。如果管理员在注册 APP 时没有设置该字段，则视后面定义的第一个 APP 版本为默认版本（具体参考 `template.crd.versions` 和 `template.helm.versions`）。
+  * `defaultVersion`：默认 APP 版本，在 APP 有多个版本的情况下，示意默认版本。如果管理员在注册 APP 时没有设置该字段，则 `versions[]` 中定义的第一个 APP 版本为默认版本（具体参考 `template.crd.versions` 和 `template.helm.versions`）。
   * `icon`：APP 图标 url，指向图标文件地址。可以用变量 `$APP_DIR` 表示模板文件所在文件夹， 方便指定本地文件系统中的文件。
 * `template` 定义 APP 模版的具体内容
-  * Helm APP 和 CRD APP 分别通过 `template.helm` 和 `template.crd` 字段定义，常见 Helm、CRD 的字段（如 `repo`、`chart`、`group`、`resource`）这里省去介绍。
+  * 目前支持 Helm 和 CRD 形式的 App，分别通过 `template.helm` 和 `template.crd` 字段定义。
   * `versions`：记录 APP 各版本信息，主要包含以下字段：
-    * `urls`：APP 的访问链接，需要根据 APP 实例配置来生成，所以 `name` 和 `url` 两个子字段都可以用 go template 格式填写。（Go Template 格式字符串的替换规则见 [Go Template 替换规则](#go-template-替换规则)）
-    * `config`：APP 的部署配置模版，可以是模版的具体内容（YAML 字符串），也可以引用一个本地文件。
-    * `readinessProbe`：记录如何检查一个 APP 是否正常运行。配置方法参考 [ReadinessProbe](#readinessprobe)。
-    * `dependenes`：记录一个 APP 依赖的集群环境，包括 CRD 和集群中的服务。配置方法参考 [Dependences](#dependences)。
+    * `urls`：APP 的访问链接，可根据 APP 实例安装/部署配置生成，`name` 和 `url` 两个子字段都可以用 go template 格式填写。（Go Template 格式字符串的替换规则见 [Go Template 替换规则](#go-template-替换规则)）
+    * `config`：APP 的 [部署配置](#部署配置)，可以是模版的具体内容（YAML 字符串），也可以引用一个本地文件。
+    * `readinessProbe`：探测 APP 是否正常运行。配置方法参考 [ReadinessProbe](#readinessprobe)。
+    * `dependences`：记录 APP 依赖的集群环境，包括 API 资源和集群中的服务。配置方法参考 [Dependences](#dependences)。
 
 ### 部署配置
 
-在部署一个 APP 时，用户需要提交一个部署配置来提供 APP 实例部署所需的必要信息。管理员在注册 APP 时，可以通过 `template.helm.versions[@].config` 和 `template.crd.versions[@].config` 两个字段分别为 Helm APP 和 CRD APP 设置部署配置模版，以帮助用户生成部署配置。
+在部署 APP 时，用户需要提交一个部署配置来提供 APP 实例部署所需的必要信息。管理员在注册 APP 时，可以通过 `template.helm.versions[@].config` 和 `template.crd.versions[@].config` 两个字段分别为 Helm APP 和 CRD APP 设置部署配置模版，以帮助用户生成部署配置。
 
-上述两个字段，都支持使用文件路径和模版内容两种方式填写：
+上述两个字段，都支持使用外部文件和内连内容（inline）两种方式填写：
 
 ```yaml
 apiVersion: app.tensorstack.dev/v1beta1
@@ -77,20 +120,19 @@ template:
   helm: 
     versions:
     # 使用本地文件路径填写
-    # 本地文件路径用 `file://` 开头，如果需要使用相对路径，则用 $APP_DIR 表示当前 APP Template 所在文件夹
-    - template: "file://$APP_DIR/manifests/v0_1_1.yaml"
+    - config: "file://$APP_DIR/manifests/v0_1_1.yaml"
 ---
 
 apiVersion: app.tensorstack.dev/v1beta1
 kind: Template
-template:
+config:
   helm: 
     versions:
-    # 使用模版内容填写
+    # 使用 inline 内容填写
     - template: "# sh, bash or zsh\n## @param shell Select a shell to start terminal.\nshell: bash\n\n## @param resources.limits.cpu The maximum number of CPU the terminal can use.\n## @param resources.limits.memory The maximum number of memory the terminal can use.\nresources:\n  limits:\n    cpu: 200m\n    memory: 200Mi\n\n## @param resources.limits.cpu Mount pvcs to terminal.\npvcs: []\n\nglobal:\n  t9k:\n    homeURL: \"$(HOME_URL)\"\n    securityService:\n      enabled: true\n      endpoints:\n        oidc: \"$(OIDC_ENDPOINT)\"\n        securityServer: \"$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)\"\n    pepProxy:\n      args:\n        clientID: $(APP_AUTH_CLINET_ID)"
 ```
 
-以下为 Terminal 部署配置模版：
+以下为 Terminal 部署配置：
 
 ```yaml
 # sh, bash or zsh
@@ -122,22 +164,15 @@ global:
 
 其中：
 
-* User Console 的部署页面会识别所有以 `## @param` 开头的注释，并将整合这些注释所指定的字段为一个表单，方便用户填写。
+* User Console 的部署页面会识别所有以 `## @param` 开头的注释，并将整合这些注释所指定的字段为一个表单（Web Form），方便用户填写。
   * 注释的格式为 `## @param <field-path> <field-description>`。
-* 在部署 APP 实例时，APP 实例控制器提供一些内置变量，以简化用户填写内容。
-  * 在配置中，变量的格式为 `$(<variable-name>)`，例如 `"$(T9K_HOME_URL)"`。
-  * 目前，部署配置模版中支持使用的变量请参考[配置变量](#配置变量)
+* 在部署 APP 实例时，APP 实例控制器提供一些系统变量，以简化用户填写内容。
+  * 在配置中，使用变量的语法为： `$(<variable-name>)`，例如 `"$(T9K_HOME_URL)"`。
+  * 目前，部署配置模版中支持使用的变量请参考 [系统变量](#系统变量)
 
-#### 配置变量
+### readinessProbe
 
-目前，APP 配置模版中支持使用以下变量：
-
-1. `$(T9K_HOME_URL)`：TensorStack 平台暴露服务所使用的域名。管理员可以在 APP 模版中配置 APP 使用该域名暴露 APP 服务。
-2. `$(T9K_OIDC_ENDPOINT)`：TensorStack 平台的 OIDC 服务地址。
-3. `$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)`：TensorStack 平台的 Security Console 服务器地址。
-4. `$(T9K_APP_AUTH_CLINET_ID)`：表示一个 Client ID（OAuth 协议中的概念），需要授权的 APP 应使用该 Client ID 向授权服务器申请授权。
-
-### ReadinessProbe
+定义如何探测 App 是否在正常运行。
 
 ```yaml
 template:
@@ -170,15 +205,17 @@ template:
 * `httpGet` 检查能否向一个指定路径发送 Get 请求。
 * `resources` 检查指定资源的状态。
 
-实例中所有 `{{ .go-template }}` 都表示当前字段可以用 go template 字符串来填写。值得注意的是，`resources[@].currentStatus` 字段的 go template 变量不是用部署 APP 时所用的配置（CR Object 定义、Helm Values）来填写的，而是用指定资源对象来填写，其他字段都是用部署 APP 时的配置填写。
+实例中所有 `{{ .go-template }}` 都表示当前字段可以用 go template 字符串来填写。
 
-### Dependences
+> 注意：`resources[@].currentStatus` 字段的 go template 变量是使用运行的 App 实例中的资源对象属性，而不是部署 APP 时所用的配置（CR Object 定义、Helm Values）配置填写。
+
+### dependencies
 
 ```yaml
 template:
   helm: 
     versions:
-    - dependences:
+    - dependencies:
         crds:
         - group: tensorstack.dev
           version: v1beta1
@@ -192,6 +229,16 @@ template:
 
 * `crds`：APP 依赖特定的 CRD。
 * `services`：APP 依赖特定的服务。（此处不检查服务是否可用，原因是服务可能因为网络波动等原因出现临时不可用的情况，当类似情况发生，容易出现 APP 在“可部署”和“不可部署”间波动。这里假设只要服务存在，即 Service 资源存在，就满足 APP 部署的前提）
+
+
+### 系统变量
+
+目前，APP 配置模版中支持使用以下变量：
+
+1. `$(T9K_HOME_URL)`：TensorStack 平台暴露服务所使用的域名。管理员可以在 APP 模版中配置 APP 使用该域名暴露 APP 服务。
+2. `$(T9K_OIDC_ENDPOINT)`：TensorStack 平台的 OIDC 服务地址。
+3. `$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)`：TensorStack 平台的 Security Console 服务器地址。
+4. `$(T9K_APP_AUTH_CLINET_ID)`：表示一个 Client ID（OAuth 协议中的概念），需要授权的 APP 应使用该 Client ID 向授权服务器申请授权。
 
 ### Go Template 替换规则
 
@@ -269,19 +316,3 @@ template:
 ```
 
 假定用户部署一个 terminal APP 实例，名为 `demo`，根据 [Helm APP 变量](#helm-app-变量) 中的规则，上述 `name` 字段为 `terminal-demo`。所以根据 `readinessProbe`，实例控制器需要检查 `terminal-demo` Deployment 的状态，上述 `currentStatus` 中的变量引用的就是该 Deployment 的字段，其逻辑为：查找 `type` 字段为 `Available` 的 `.status.conditions` 返回其 `status` 子字段。
-
-## 用户权限
-
-用户部署应用时，需要具有特定 K8s 资源的权限，管理员在注册新应用时，应确定具体需要哪些权限并设置给用户：
-
-```
-kubectl edit clusterrole project-operator-project-role
-```
-
-## user-console 文件夹组织结构
-
-user-console 文件夹中保存可在 User Console 平台中注册的 APPs，推荐开发者以如下方式使用该文件夹：
-
-1. user-console 下每一个文件夹对应一个 APP，如 notebook、terminal。
-2. 在每一个 APP 文件夹中，创建 template.yaml 文件记录 APP 模版，该模版用于注册 APP。如果模版中使用本地图片，则将图片同样放在 APP 文件夹中，图片的引用方式参考 [APP Template 说明](#app-template-说明)。
-3. 其他 APP 开发文件，根据其开发方式在 APP 文件夹创建对应的文件夹存放，如 docker、chart 等。
