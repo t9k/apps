@@ -1,13 +1,13 @@
-# User-Console Application
+# User-Console Applications
 
 管理员在系统中注册 App 之后，用户就可以在 user-console 中部署+使用了。
 
-## 文件目录结构
+## 目录结构
 
-`user-console` 文件夹中保存可注册的 APPs，该文件夹组织如下：
+`user-console` 文件夹中保存可注册的 APPs，组织如下：
 
 1. user-console 下每一个文件夹对应一个 APP，如 notebook、terminal。
-2. 在每一个 APP 文件夹中，创建 template.yaml 文件记录 APP 模版，该模版用于注册 APP。如果模版中使用本地图片，则将图片同样放在 APP 文件夹中，图片的引用方式参考 [APP Template 说明](#app-template-说明)。
+2. 在每一个 APP 文件夹中，创建 template.yaml 文件记录 APP 模版，该模版用于注册 APP。如果模版中使用本地图片，则将图片同样放在 APP 文件夹中，图片的引用方式参考 [Template 说明](#template-说明)。
 3. 其他 APP 开发文件，根据其开发方式在 APP 文件夹创建对应的文件夹存放，如 docker、chart 等。
 
 ## 注册 Apps
@@ -50,9 +50,9 @@ t9k-app registry -k $APIKEY -s $APP_SERVER -f "user-console/*/template.yaml"
 
 ### 用户权限
 
-一些应用可能需要特定的 RBAC 权限才能正确运行，管理员在注册新应用时，应确定这些 RBAC 需求的合理性，评估其风险。
+一些应用可能需要特定的 RBAC 权限才能正确运行，管理员在注册新应用时，应评估这些 RBAC 需求的合理性，及其风险。
 
-如需修改，可通过如下方式：
+如需修改项目的 RBAC 设置，可通过如下方式：
 
 ```
 kubectl edit clusterrole project-operator-project-role
@@ -62,7 +62,7 @@ kubectl edit clusterrole project-operator-project-role
 
 `Template` 描述了一个可注册 App 的信息。
 
-Terminal App 的示例：
+以 App Terminal 为例：
 
 ```yaml
 apiVersion: app.tensorstack.dev/v1beta1
@@ -166,9 +166,9 @@ global:
 
 * User Console 的部署页面会识别所有以 `## @param` 开头的注释，并将整合这些注释所指定的字段为一个表单（Web Form），方便用户填写。
   * 注释的格式为 `## @param <field-path> <field-description>`。
-* 在部署 APP 实例时，APP 实例控制器提供一些系统变量，以简化用户填写内容。
+* 在部署 APP 时，APP 控制器提供系统变量支持，实现灵活配置。
   * 在配置中，使用变量的语法为： `$(<variable-name>)`，例如 `"$(T9K_HOME_URL)"`。
-  * 目前，部署配置模版中支持使用的变量请参考 [系统变量](#系统变量)
+  * 部署配置模版中支持使用的变量请参考 [系统变量](#系统变量)
 
 ### readinessProbe
 
@@ -295,9 +295,9 @@ spec:
 
 指 `template.crd.versions[@].readinessProbe.resources[@].currentStatus` 和 `template.helm.versions[@].readinessProbe.resources[@].currentStatus` 这两个字段。
 
-与其他支持 Go Template 格式的字段不同：其他字段在部署 APP 实例时就会进行解析，而 currentStatus 是用于在 APP 实例部署后判断子资源状态。
+> 注意：与其他支持 Go Template 格式的字段不同：`currentStatus` 是用于在 APP 实例部署后判断子资源状态，而其他字段在部署 APP 实例时就会进行解析。
 
-以下为 template APP Template 的部分内容：
+以下面的 Template （App Terminal）片段为例：
 
 ```yaml
 apiVersion: app.tensorstack.dev/v1beta1
@@ -315,4 +315,4 @@ template:
           desiredStatus: "True"
 ```
 
-假定用户部署一个 terminal APP 实例，名为 `demo`，根据 [Helm APP 变量](#helm-app-变量) 中的规则，上述 `name` 字段为 `terminal-demo`。所以根据 `readinessProbe`，实例控制器需要检查 `terminal-demo` Deployment 的状态，上述 `currentStatus` 中的变量引用的就是该 Deployment 的字段，其逻辑为：查找 `type` 字段为 `Available` 的 `.status.conditions` 返回其 `status` 子字段。
+假定用户部署 App 名为 `demo`，根据 [Helm APP 变量](#app-类型为-helm) 中的规则，上述 `name` 字段为 `terminal-demo`。所以根据 `readinessProbe`，实例控制器需要检查 `terminal-demo` Deployment 的状态。上述 `currentStatus` 中的变量引用 Deployment 的字段，其逻辑为：查找 `type` 字段为 `Available` 的 `.status.conditions` 并返回其 `status` 子字段。
