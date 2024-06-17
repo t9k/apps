@@ -7,8 +7,8 @@
 `user-console` 文件夹中保存可注册的 APPs，组织如下：
 
 1. user-console 下每一个文件夹对应一个 APP，如 notebook、terminal。
-2. 在每一个 APP 文件夹中，创建 template.yaml 文件记录 APP 模版，该模版用于注册 APP。如果模版中使用本地图片，则将图片同样放在 APP 文件夹中，图片的引用方式参考 [Template 说明](#template-说明)。
-3. 其他 APP 开发文件，根据其开发方式在 APP 文件夹创建对应的文件夹存放，如 docker、chart 等。
+2. 在每一个 APP 文件夹中，`template.yaml` 文件记录 APP 模版，用于注册 APP。如果模版中使用本地图片，可将图片同样放在 APP 文件夹中，图片的引用方式参考 [Template 说明](#template-说明)。
+3. 其他 APP 开发文件。根据其开发方式在 APP 文件夹创建对应的文件夹存放，如 dockerbuild、helm charts 等。
 
 ## 注册 Apps
 
@@ -28,6 +28,8 @@ t9k-app registry -k $APIKEY -s $APP_SERVER \
 ```
 
 如果当前 APP 已注册，但是需要更新 APP 信息（如添加新版本）：
+
+> 说明：如果 App 未注册而使用 `-u`，则直接注册。
 
 ```bash
 # 在上述注册命令后面加上 -u 参数以说明若 App 已存在则更新
@@ -109,9 +111,13 @@ template:
 
 ### 部署配置
 
-在部署 APP 时，用户需要提交一个部署配置来提供 APP 实例部署所需的必要信息。管理员在注册 APP 时，可以通过 `template.helm.versions[@].config` 和 `template.crd.versions[@].config` 两个字段分别为 Helm APP 和 CRD APP 设置部署配置模版，以帮助用户生成部署配置。
+在部署 APP 时，用户需要提交一个部署配置来提供 APP 实例部署所需的必要信息。
 
-上述两个字段，都支持使用外部文件和内连内容（inline）两种方式填写：
+管理员在注册 APP 时，可以通过 `template.helm.versions[@].config` 和 `template.crd.versions[@].config` 两个字段分别为 Helm APP 和 CRD APP 设置部署配置模版，以帮助用户生成部署配置。
+
+上述两个字段，都支持使用外部文件和内连内容（inline）两种方式填写。
+
+外部文件：
 
 ```yaml
 apiVersion: app.tensorstack.dev/v1beta1
@@ -121,18 +127,21 @@ template:
     versions:
     # 使用本地文件路径填写
     - config: "file://$APP_DIR/manifests/v0_1_1.yaml"
----
+```
 
+内连（inline）内容：
+
+```yaml
 apiVersion: app.tensorstack.dev/v1beta1
 kind: Template
 config:
   helm: 
     versions:
     # 使用 inline 内容填写
-    - template: "# sh, bash or zsh\n## @param shell Select a shell to start terminal.\nshell: bash\n\n## @param resources.limits.cpu The maximum number of CPU the terminal can use.\n## @param resources.limits.memory The maximum number of memory the terminal can use.\nresources:\n  limits:\n    cpu: 200m\n    memory: 200Mi\n\n## @param resources.limits.cpu Mount pvcs to terminal.\npvcs: []\n\nglobal:\n  t9k:\n    homeURL: \"$(HOME_URL)\"\n    securityService:\n      enabled: true\n      endpoints:\n        oidc: \"$(OIDC_ENDPOINT)\"\n        securityServer: \"$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)\"\n    pepProxy:\n      args:\n        clientID: $(APP_AUTH_CLINET_ID)"
+    - config: "# sh, bash or zsh\n## @param shell Select a shell to start terminal.\nshell: bash\n\n## @param resources.limits.cpu The maximum number of CPU the terminal can use.\n## @param resources.limits.memory The maximum number of memory the terminal can use.\nresources:\n  limits:\n    cpu: 200m\n    memory: 200Mi\n\n## @param resources.limits.cpu Mount pvcs to terminal.\npvcs: []\n\nglobal:\n  t9k:\n    homeURL: \"$(HOME_URL)\"\n    securityService:\n      enabled: true\n      endpoints:\n        oidc: \"$(OIDC_ENDPOINT)\"\n        securityServer: \"$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)\"\n    pepProxy:\n      args:\n        clientID: $(APP_AUTH_CLINET_ID)"
 ```
 
-以下为 Terminal 部署配置：
+以下为 Terminal 部署的配置模版：
 
 ```yaml
 # sh, bash or zsh
