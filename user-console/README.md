@@ -92,7 +92,7 @@ template:
           name: terminal-{{ .Release.Name }}
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
-      dependences: {}
+      dependencies: {}
 ```
 
 * `apiVersion` 和 `kind` 采用 K8s API 的 `metav1.TypeMeta` 标记 API 类型和版本。
@@ -102,10 +102,10 @@ template:
 * `template` 定义 APP 模版的具体内容
   * 目前支持 Helm 和 CRD 形式的 App，分别通过 `template.helm` 和 `template.crd` 字段定义。
   * `versions`：记录 APP 各版本信息，主要包含以下字段：
-    * `urls`：APP 的访问链接，可根据 APP 实例安装/部署配置生成，`name` 和 `url` 两个子字段都可以用 go template 格式填写。（Go Template 格式字符串的替换规则见 [Go Template 替换规则](#go-template-替换规则)）
+    * `urls`：APP 的访问链接，可根据 APP 实例安装/部署配置生成，`name` 和 `url` 两个子字段都可以用 Go Template 格式填写。（Go Template 格式字符串的替换规则见 [Go Template 替换规则](#go-template-替换规则)）
     * `config`：APP 的 [部署配置](#部署配置)，可以是模版的具体内容（YAML 字符串），也可以引用一个本地文件。
     * `readinessProbe`：探测 APP 是否正常运行。配置方法参考 [ReadinessProbe](#readinessprobe)。
-    * `dependences`：记录 APP 依赖的集群环境，包括 API 资源和集群中的服务。配置方法参考 [Dependences](#dependences)。
+    * `dependencies`：记录 APP 依赖的集群环境，包括 API 资源和集群中的服务。配置方法参考 [Dependencies](#dependencies)。
 
 ### 部署配置
 
@@ -199,15 +199,17 @@ template:
           desiredStatus: "True"
 ```
 
-`Template` 中可以定义三种 `readinessProbe`，这些 `readinessProbe` 可以只使用一个也可以同时生效。
+`Template` 中可以定义三种 `readinessProbe`：
 
 * `tcpSocket` 检查一个 Host（当前环境下，指 Pod、Service 等）上指定端口能否连通。
 * `httpGet` 检查能否向一个指定路径发送 Get 请求。
-* `resources` 检查指定资源的状态。
+* `resources` 检查指定资源的状态；如果该字段填写了多个资源的判定条件，则只有所有资源都通过判定，该 `readinessProbe` 才通过判定。
 
-实例中所有 `{{ .go-template }}` 都表示当前字段可以用 go template 字符串来填写。
+`Template` 可以不填写 `readinessProbe`，表示 APP 实例一旦部署就处于 `Ready` 状态；也可以同时填写多个 `readinessProbe`，表示只有所有 `readinessProbe` 都通过验证，APP 实例才进入 `Ready` 状态。
 
-> 注意：`resources[@].currentStatus` 字段的 go template 变量是使用运行的 App 实例中的资源对象属性，而不是部署 APP 时所用的配置（CR Object 定义、Helm Values）配置填写。
+实例中所有 `{{ .go-template }}` 都表示当前字段可以用 Go Template 字符串来填写。
+
+> 注意：`resources[@].currentStatus` 字段的 Go Template 变量是使用运行的 App 实例中的资源对象属性，而不是部署 APP 时所用的配置（CR Object 定义、Helm Values）配置填写，参考 [Go Template 替换规则](#go-template-替换规则)。
 
 ### dependencies
 

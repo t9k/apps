@@ -22,4 +22,4 @@ template:
           name: "{{ .Release.Name }}"
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
-      dependences: {}
+      dependencies: {}

@@ -23,5 +23,5 @@ template:
           resource: deployments
           name: "{{ .Release.Name }}"
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
+      dependenciesStatus: "True"
       dependences: {}

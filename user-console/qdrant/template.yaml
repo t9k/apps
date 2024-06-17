@@ -23,4 +23,4 @@ template:
       #     name: {{ .Release.Name }}-qdrant
       #     currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
       #     desiredStatus: "True"
-      dependences: {}
+      dependencies: {}

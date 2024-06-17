@@ -21,10 +21,10 @@ template:
       #     name: {{ .Release.Name }}-redis-master
       #     currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
       #     desiredStatus: "True"
-      dependences: {}
+      dependencies: {}
     - version: 18.19.4
       urls: []
-      dependences: {}
+      dependencies: {}
     - version: 17.17.1
       urls: []
-      dependences: {}
+      dependencies: {}
