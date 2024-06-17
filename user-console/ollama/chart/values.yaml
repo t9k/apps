@@ -73,15 +73,21 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+## @param resources.requests.cpu CPU request for the Ollama server pod
+## @param resources.requests.memory Memory request for the Ollama server pod
 ## @param resources.limits.cpu CPU limit for the Ollama server pod
 ## @param resources.limits.memory Memory limit for the Ollama server pod
-## @param resources.limits.nvidia-gpu Nvidia GPU limit for the Ollama server pod
 ##
 resources:
-  limits:
+  requests:
     cpu: 8
-    memory: 64Gi
-    nvidia.com/gpu: 0
+    # cpu: 1  # if gpu is enabled
+    memory: 8Gi
+
+  limits:
+    cpu: 16
+    # cpu: 1  # if gpu is enabled
+    memory: 16Gi
 
 ## @param livenessProbe.enabled Enable livenessProbe
 ## @param livenessProbe.path Request path for livenessProbe

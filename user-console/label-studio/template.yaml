@@ -15,12 +15,12 @@ template:
       urls:
       - name: UI
         url: /t9k/app/label-studio/{{ .Release.Namespace }}/{{ .Release.Name }}/
-      # readinessProbe:
-      #   resources:
-      #   - group: apps
-      #     version: v1
-      #     resource: deployments
-      #     name: terminal-{{ .Release.Name }}
-      #     currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-      #     desiredStatus: "True"
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: deployments
+          name: "{{ .Release.Name }}-ls-app"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
       dependences: {}

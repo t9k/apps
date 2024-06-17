@@ -34,7 +34,7 @@ ollama
 {{- if .Values.ollama.enabled -}}
 {{- $clusterDomain := .Values.clusterDomain }}
 {{- $ollamaServicePort := .Values.ollama.service.port | toString }}
-{{- printf "http://%s-%s.%s.svc.%s:%s" (.Release.Name) (include "ollama.name" .) (.Release.Namespace) $clusterDomain $ollamaServicePort }}
+{{- printf "http://%s-%s.%s.svc.cluster.local:%s" (.Release.Name) (include "ollama.name" .) (.Release.Namespace) $ollamaServicePort }}
 {{- end }}
 {{- end }}
 

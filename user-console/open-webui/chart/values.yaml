@@ -41,11 +41,24 @@ ingress:
   tls: false
   existingSecret: ""
 
+## @param resources.limits.cpu CPU limit for the Ollama server pod
+## @param resources.limits.memory Memory limit for the Ollama server pod
+## @param resources.limits.nvidia-gpu Nvidia GPU limit for the Ollama server pod
+##
+resources:
+  limits:
+    cpu: 1
+    memory: 2Gi
+
 ## @param ollama.enabled Enable/disable installation of Ollama Helm chart
 ## @param ollama.ollama.gpu.enabled Enable/disable GPU support for Ollama
 ## @param ollama.ollama.gpu.type GPU type for Ollama (e.g., nvidia)
 ## @param ollama.ollama.gpu.number Number of GPUs to allocate for Ollama
 ## @param ollama.ollama.models List of models to be deployed with Ollama
+## @param ollama.resources.requests.cpu CPU request for the Ollama server pod
+## @param ollama.resources.requests.memory Memory request for the Ollama server pod
+## @param ollama.resources.limits.cpu CPU limit for the Ollama server pod
+## @param ollama.resources.limits.memory Memory limit for the Ollama server pod
 ## @param ollama.persistentVolume.enabled Enable/disable persistent volume claim (PVC) for model persistence
 ##
 ollama:
@@ -57,6 +70,15 @@ ollama:
       number: 1
     models:
       - llama3
+  resources:
+    requests:
+      cpu: 8
+      # cpu: 1  # if gpu is enabled
+      memory: 8Gi
+    limits:
+      cpu: 16
+      # cpu: 1  # if gpu is enabled
+      memory: 16Gi
   persistentVolume:
     enabled: true
 

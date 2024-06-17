@@ -9,18 +9,17 @@ metadata:
 template:
   helm:
     repo: "oci://docker.io/t9kpublic"
+    # repo: "https://t9k.github.io/apps/"
     chart: "ollama"
     versions:
-    - version: 0.29.2
-      urls:
-      - name: api
-        url: /t9k/app/ollama/{{ .Release.Namespace }}/{{ .Release.Name }}/
-      # readinessProbe:
-      #   resources:
-      #   - group: apps
-      #     version: v1
-      #     resource: deployments
-      #     name: terminal-{{ .Release.Name }}
-      #     currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-      #     desiredStatus: "True"
+    - version: 0.35.2
+      urls: []
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: deployments
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
       dependences: {}

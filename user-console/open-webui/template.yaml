@@ -9,18 +9,19 @@ metadata:
 template:
   helm:
     repo: "oci://docker.io/t9kpublic"
+    # repo: "https://t9k.github.io/apps/"
     chart: "open-webui"
     versions:
-    - version: 2.1.0
+    - version: 2.1.2
       urls:
       - name: UI
         url: /t9k/app/open-webui/{{ .Release.Namespace }}/{{ .Release.Name }}/
-      # readinessProbe:
-      #   resources:
-      #   - group: apps
-      #     version: v1
-      #     resource: deployments
-      #     name: terminal-{{ .Release.Name }}
-      #     currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-      #     desiredStatus: "True"
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: deployments
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
       dependences: {}
