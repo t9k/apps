@@ -13,24 +13,56 @@ template:
     versions:
     - version: 15.5.0
       urls: []
-      # readinessProbe:
-      #   resources:
-      #   - group: apps
-      #     version: v1
-      #     resource: statefulset
-      #     name: {{ .Release.Name }}-postgresql
-      #     currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
-      #     desiredStatus: "True"
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: statefulsets
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
+          desiredStatus: "True"
       dependencies: {}
     - version: 14.3.3
       urls: []
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: statefulsets
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
+          desiredStatus: "True"
       dependencies: {}
     - version: 13.4.4
       urls: []
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: statefulsets
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
+          desiredStatus: "True"
       dependencies: {}
     - version: 12.12.10
       urls: []
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: statefulsets
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
+          desiredStatus: "True"
       dependencies: {}
     - version: 11.9.13
       urls: []
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: statefulsets
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
+          desiredStatus: "True"
       dependencies: {}

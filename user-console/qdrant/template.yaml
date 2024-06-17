@@ -8,19 +8,17 @@ metadata:
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm:
-    repo: "oci://docker.io/t9kpublic"
+    repo: "https://qdrant.github.io/qdrant-helm"
     chart: "qdrant"
     versions:
-    - version: 0.9.0
-      urls:
-      - name: dashboard
-        url: /t9k/app/qdrant/{{ .Release.Namespace }}/{{ .Release.Name }}/
-      # readinessProbe:
-      #   resources:
-      #   - group: apps
-      #     version: v1
-      #     resource: statefulset
-      #     name: {{ .Release.Name }}-qdrant
-      #     currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
-      #     desiredStatus: "True"
+    - version: 0.9.1
+      urls: []
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: statefulsets
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
+          desiredStatus: "True"
       dependencies: {}
