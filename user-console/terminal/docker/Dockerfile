@@ -78,7 +78,7 @@ RUN update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1 &&
 ENV PATH=$PATH:/usr/local/bin
 
 # install vim and vim plugins
-RUN  git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim  && go get github.com/golang/lint || true
+RUN git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim  && go get github.com/golang/lint || true
 
 # RUN vim +PluginInstall +qall -e || true && \
 #       && git clone https://github.com/Valloric/YouCompleteMe ~/.vim/bundle/YouCompleteMe \
@@ -92,6 +92,8 @@ RUN wget https://get.helm.sh/helm-v3.7.1-linux-amd64.tar.gz \
     && rm -rf linux-amd64 helm-v3.7.1-linux-amd64.tar.gz
 
 RUN sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 
 # vim +PluginInstall +qall && vim +GoInstallBinaries &&
 # or using ttyd -p 8080 bash
