@@ -2,10 +2,8 @@ name: Release GPT Researcher Helm Charts
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - "user-console/gpt-researcher/chart/**"
+    tags:
+      - gpt-researcher-*
 
 jobs:
   release:

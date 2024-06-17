@@ -2,10 +2,8 @@ name: Release vLLM (Llama 3) Helm Charts
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - "user-console/vllm-smls-llama3/chart/**"
+    tags:
+      - vllm-llama3-*
 
 jobs:
   release:

@@ -2,10 +2,8 @@ name: Release NextChat Helm Charts
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - "user-console/nextchat/chart/**"
+    tags:
+      - nextchat-*
 
 jobs:
   release:

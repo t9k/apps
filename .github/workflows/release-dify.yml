@@ -2,10 +2,8 @@ name: Release Dify Helm Charts
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - "user-console/dify/chart/**"
+    tags:
+      - dify-*
 
 jobs:
   release:

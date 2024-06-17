@@ -2,10 +2,8 @@ name: Release Search with Lepton Helm Charts
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - "user-console/search-with-lepton/chart/**"
+    tags:
+      - search-with-lepton-*
 
 jobs:
   release:

@@ -2,10 +2,8 @@ name: Release vLLM Helm Charts
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - "user-console/vllm-smls/chart/**"
+    tags:
+      - "vllm-[0-9].[0-9].[0-9]"
 
 jobs:
   release:

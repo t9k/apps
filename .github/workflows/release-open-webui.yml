@@ -2,10 +2,8 @@ name: Release Open WebUI Helm Charts
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - "user-console/open-webui/chart/**"
+    tags:
+      - open-webui-*
 
 jobs:
   release:

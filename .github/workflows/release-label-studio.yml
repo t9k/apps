@@ -2,10 +2,8 @@ name: Release Label Studio Helm Charts
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - "user-console/label-studio/chart/**"
+    tags:
+      - label-studio-*
 
 jobs:
   release:

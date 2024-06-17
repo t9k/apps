@@ -2,10 +2,8 @@ name: Release Stable Diffusion WebUI aki Helm Charts
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - "user-console/stable-diffusion-webui-aki/chart/**"
+    tags:
+      - stable-diffusion-webui-aki
 
 jobs:
   release:

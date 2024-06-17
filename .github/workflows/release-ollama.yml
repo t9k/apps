@@ -2,10 +2,8 @@ name: Release Ollama Helm Charts
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - "user-console/ollama/chart/**"
+    tags:
+      - ollama-*
 
 jobs:
   release:
