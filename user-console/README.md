@@ -23,7 +23,7 @@ export APP_SERVER='https://home.example.t9kcloud.cn/t9k/app/server'
 
 ```bash
 # 使用如下命令注册 Terminal APP
-t9k-app registry -k $APIKEY -s $APP_SERVER \
+t9k-app register -k $APIKEY -s $APP_SERVER \
   -f user-console/terminal/template.yaml
 ```
 
@@ -33,7 +33,7 @@ t9k-app registry -k $APIKEY -s $APP_SERVER \
 
 ```bash
 # 在上述注册命令后面加上 -u 参数以说明若 App 已存在则更新
-t9k-app registry -k $APIKEY -s $APP_SERVER \
+t9k-app register -k $APIKEY -s $APP_SERVER \
   -f user-console/terminal/template.yaml -u
 ```
 
@@ -41,12 +41,12 @@ t9k-app registry -k $APIKEY -s $APP_SERVER \
 
 ```bash
 # 1. 使用 -f 参数设置多个模版文件
-t9k-app registry -k $APIKEY -s $APP_SERVER \
+t9k-app register -k $APIKEY -s $APP_SERVER \
   -f user-console/terminal/template.yaml \
   -f user-console/notebook/template.yaml
 
 # 2. 使用通配符 * 匹配多个模版文件
-t9k-app registry -k $APIKEY -s $APP_SERVER -f "user-console/*/template.yaml"
+t9k-app register -k $APIKEY -s $APP_SERVER -f "user-console/*/template.yaml"
 ```
 
 ### 用户权限
@@ -68,7 +68,7 @@ kubectl edit clusterrole project-operator-project-role
 使用以下命令注册（更新）一个或多个 APP：
 
 ```bash
-t9k-app registry -k $APIKEY -s $APP_SERVER \
+t9k-app register -k $APIKEY -s $APP_SERVER \
   -f user-console/terminal/template.yaml -u
 ```
 
@@ -77,8 +77,8 @@ t9k-app registry -k $APIKEY -s $APP_SERVER \
 * `-k`：一个具有管理员权限的 API Key。
 * `-s`：APP Server 服务地址。
 * `-f`：APP 模版文件地址。
-  * 一条命令中可以多次使用 `-f` 参数，读取多个模版文件，如 `t9k-app registry -f template-1.yaml -f template-2.yaml`。
-  * 模版文件地址中可以包含通配符，命令行工具会读取所有匹配的模版文件，如 `t9k-app registry -f apps/t9k_*/template.yaml`。
+  * 一条命令中可以多次使用 `-f` 参数，读取多个模版文件，如 `t9k-app register -f template-1.yaml -f template-2.yaml`。
+  * 模版文件地址中可以包含通配符，命令行工具会读取所有匹配的模版文件，如 `t9k-app register -f apps/t9k_*/template.yaml`。
   * APP 模版文件说明：
     * 必须用 YAML 格式填写;
     * 一个模版文件中可以填写多个 APP 模版，用 `---` 分割；
@@ -91,7 +91,7 @@ t9k-app registry -k $APIKEY -s $APP_SERVER \
 使用以下命令卸载 `terminal` APP：
 
 ```bash
-t9k-app unregistry -k $APIKEY -s $APP_SERVER terminal
+t9k-app unregister -k $APIKEY -s $APP_SERVER terminal
 ```
 
 > 注意：注销 APP 并不会删除已部署的 APP 实例。
