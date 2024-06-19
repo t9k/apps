@@ -55,13 +55,13 @@ Get the enviroment variables
 */}}
 {{- define "search-with-lepton.envs" -}}
 - name: OPENAI_BASE_URL
-  value: {{ .Values.llm.base_url | quote }}
+  value: {{ .Values.llm.baseUrl | quote }}
 - name: LLM_MODEL
-  value: {{ .Values.llm.model_name | quote }}
+  value: {{ .Values.llm.modelName | quote }}
 - name: BACKEND
   value: {{ .Values.searchEngine.provider | quote }}
 {{- if eq .Values.searchEngine.provider "GOOGLE" }}
 - name: GOOGLE_SEARCH_CX
-  value: {{ .Values.searchEngine.google.cx_key | quote }}
+  value: {{ .Values.searchEngine.google.cxKey | quote }}
 {{- end }}
 {{- end -}}

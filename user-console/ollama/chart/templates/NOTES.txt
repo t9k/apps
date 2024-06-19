@@ -1,6 +1,6 @@
 服务端点为：
 
-  export ENDPOINT={{ .Release.Name }}:11434
+  export ENDPOINT={{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local:11434
 
 要查看本地可用的模型，运行：
 

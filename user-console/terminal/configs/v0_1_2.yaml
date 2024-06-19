@@ -1,0 +1,25 @@
+# sh, bash or zsh
+## @param shell Select a shell to start terminal.
+shell: bash
+
+## @param resources.limits.cpu The maximum number of CPU the terminal can use.
+## @param resources.limits.memory The maximum number of memory the terminal can use.
+resources:
+  limits:
+    cpu: 200m
+    memory: 400Mi
+
+## @param pvcs Mount pvcs to terminal.
+pvcs: []
+
+global:
+  t9k:
+    homeURL: "$(T9K_HOME_URL)"
+    securityService:
+      enabled: true
+      endpoints:
+        oidc: "$(T9K_OIDC_ENDPOINT)"
+        securityServer: "$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)"
+    pepProxy:
+      args:
+        clientID: $(T9K_APP_AUTH_CLINET_ID)

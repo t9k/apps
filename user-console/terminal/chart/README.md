@@ -1,12 +1,41 @@
 # Terminal
 
-一个提供通过 Web 使用的 Terminal 应用。用户可以使用浏览器连接到该终端，进行各项工作，包括使用 `kubectl` 管理 K8s 资源，运行 `helm` 等其它命令行程序。
+一个通过 Web 使用的终端应用。用户可以在浏览器中连接到该终端以进行各项工作，包括使用 `kubectl` 管理 K8s 资源。
 
-该 APP 中已安装 tmux、kubectl、helm、vim 等工具。
+当前应用已安装 `kubectl`、`tmux`、`helm`、`vim` 等命令行工具。
 
 ## 配置
 
-| name                                                 | description                                                                    | value                                     |
+### 示例
+
+shell 选用 bash，未挂载存储卷：
+
+```yaml
+shell: bash
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 200Mi
+
+pvcs: []
+
+global:
+  t9k:
+    homeURL: "$(T9K_HOME_URL)"
+    securityService:
+      enabled: true
+      endpoints:
+        oidc: "$(T9K_OIDC_ENDPOINT)"
+        securityServer: "$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)"
+    pepProxy:
+      args:
+        clientID: $(T9K_APP_AUTH_CLINET_ID)
+```
+
+### 参数
+
+| 名称                                                 | 描述                                                                           | 值                                        |
 | ---------------------------------------------------- | ------------------------------------------------------------------------------ | ----------------------------------------- |
 | `shell`                                              | 终端中使用的 shell 类型，可以选择 sh、bash 或 zsh。                            | `bash`                                    |
 | `pingIntervalSeconds`                                | 为保证链接长时间可用，不会被关闭，设置该参数定期发送 ping 请求来保持链接活跃。 | `30`                                      |

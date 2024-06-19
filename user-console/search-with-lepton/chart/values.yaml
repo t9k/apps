@@ -46,29 +46,29 @@ resources:
     cpu: 1
     memory: 2Gi
 
-## @param llm.base_url URL of the server compatible with the OpenAI API
-## @param llm.api_key API key for accessing the OpenAI API
-## @param llm.model_name Name of the model to be used, e.g., "gpt-3.5-turbo", "gpt-4-turbo", or "gpt-4o"
+## @param llm.baseUrl URL of the server compatible with the OpenAI API
+## @param llm.apiKey API key for accessing the OpenAI API
+## @param llm.modelName Name of the model to be used, e.g., "gpt-3.5-turbo", "gpt-4-turbo", or "gpt-4o"
 ##
 llm:
   # 兼容 OpenAI API 的服务器的 URL
   # 如使用 OpenAI API，请设为 "https://api.openai.com/v1"
-  base_url: "https://api.openai.com/v1"
-  api_key: ""
-  # 使用的模型名称，例如 "gpt-3.5-turbo"、"gpt-4-turbo" 或 "gpt-4o"
-  model_name: ""
+  baseUrl: "https://api.openai.com/v1"
+  apiKey: ""
+  # 调用的模型名称，例如 "gpt-3.5-turbo"、"gpt-4-turbo" 或 "gpt-4o"
+  modelName: ""
 
 ## @param searchEngine.provider Search engine provider to be used (`BING`, `GOOGLE`, `SERPER`, or `SEARCHAPI`)
-## @param searchEngine.api_key API key for accessing the search engine provider's API
-## @param searchEngine.google.cx_key Custom search engine (Google) key
+## @param searchEngine.apiKey API key for accessing the search engine provider's API
+## @param searchEngine.google.cxKey Custom search engine (Google) key
 ##
 searchEngine:
   # 使用的搜索引擎提供商
   # 应为 "BING"、"GOOGLE"、"SERPER" 或 "SEARCHAPI"
   provider: ""
-  api_key: ""
+  apiKey: ""
   google:
-    cx_key: ""
+    cxKey: ""
 
 ## @param env Array of extra environment variables
 ##
@@ -78,3 +78,5 @@ env: []
   #   value: ""
   # - name: HTTPS_PROXY
   #   value: ""
+  # - name: NO_PROXY
+  #   value: ".cluster.local"

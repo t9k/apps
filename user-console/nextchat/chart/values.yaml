@@ -47,31 +47,31 @@ resources:
     memory: 2Gi
 
 ## @param llm.provider Provider of the language model (`openai`, `azure`, `anthropic`, or `google`)
-## @param llm.api_key API key for the language model provider
-## @param llm.openai.base_url Base URL for OpenAI API-compatible servers
+## @param llm.apiKey API key for the language model provider
+## @param llm.openai.baseUrl Base URL for OpenAI API-compatible servers
 ## @param llm.azure.url URL for Azure language model API
-## @param llm.azure.api_version API version for Azure language model API
+## @param llm.azure.apiVersion API version for Azure language model API
 ## @param llm.anthropic.url URL for Anthropic language model API
-## @param llm.anthropic.api_version API version for Anthropic language model API
+## @param llm.anthropic.apiVersion API version for Anthropic language model API
 ## @param llm.google.url URL for Google language model API
 ##
 llm:
   # 使用的模型提供商
   # 应为 "openai"、"azure"、"anthropic"" 或 "google"
   provider: "openai"
-  api_key: ""
+  apiKey: ""
   openai:
     # 兼容 OpenAI API 的服务器的 URL
     # 如使用 OpenAI API，请设为 "https://api.openai.com"
-    base_url: "https://api.openai.com"
+    baseUrl: "https://api.openai.com"
     
   azure:
     url: ""
-    api_version: ""
+    apiVersion: ""
 
   anthropic:
     url: ""
-    api_version: ""
+    apiVersion: ""
 
   google:
     url: ""

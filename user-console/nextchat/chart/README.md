@@ -2,9 +2,21 @@
 
 [NextChat](https://github.com/ChatGPTNextWeb/ChatGPT-Next-Web) 是一个设计精良的 ChatGPT 网页 UI，支持 ChatGPT、Claude、Gemini 和本地部署的兼容 OpenAI API 的推理服务。
 
+## 使用方法
+
+部署当前应用，在 `llm` 字段下正确填写模型提供商以及相应的 API Key 和 URL，必要时提供代理。待实例就绪后，点击相应的链接进入 web UI，即可开始聊天。
+
+web UI 提供一些“面具”和设置选项，请自行尝试。
+
+如要将兼容 OpenAI API 的本地推理服务（例如 vLLM 应用的推理服务）作为模型提供商，将 `llm.provider` 字段的值设为 `openai`，将 `llm.apiKey` 字段的值设为任意非空字符串，将 `llm.openai.baseUrl` 字段的值设为该本地推理服务的服务端点。此外还需要在 web UI 的设置中提供模型的部署名称并选择该名称（以 `mistral-7b` 为例）：
+
+![](https://s2.loli.net/2024/06/18/r6nc8sWwu2APReh.png)
+
 ## 配置
 
 ### 示例
+
+与 ChatGPT 聊天：
 
 ```yaml
 replicaCount: 1
@@ -33,17 +45,66 @@ resources:
 
 llm:
   provider: "openai"
-  api_key: "any"
+  apiKey: "<YOUR_OPENAI_API_KEY>"
   openai:
-    base_url: "http://<ENDPOINT>"  # 部署 vLLM 应用，查看其实例信息以获取服务端点
+    baseUrl: "https://api.openai.com"
 
   azure:
     url: ""
-    api_version: ""
+    apiVersion: ""
 
   anthropic:
     url: ""
-    api_version: ""
+    apiVersion: ""
+
+  google:
+    url: ""
+
+env:
+  - name: PROXY_URL
+    value: "<YOUR_PROXY>"
+```
+
+与 vLLM 应用的推理服务聊天：
+
+```yaml
+replicaCount: 1
+
+image:
+  registry: docker.io
+  repository: yidadaa/chatgpt-next-web
+  tag: v2.12.2
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 3000
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts: []
+  tls: []
+
+resources:
+  limits:
+    cpu: 1
+    memory: 2Gi
+
+llm:
+  provider: "openai"
+  apiKey: "any"
+  openai:
+    baseUrl: "http://<ENDPOINT>"  # 部署 vLLM 应用，查看其实例信息以获取服务端点
+
+  azure:
+    url: ""
+    apiVersion: ""
+
+  anthropic:
+    url: ""
+    apiVersion: ""
 
   google:
     url: ""
@@ -70,11 +131,11 @@ env: []
 | `resources.limits.cpu`      | Kubernetes 资源的 CPU 限制                              | `1`                        |
 | `resources.limits.memory`   | Kubernetes 资源的内存限制                               | `2Gi`                      |
 | `llm.provider`              | 模型提供商 (`openai`、`azure`、`anthropic` 或 `google`) | `openai`                   |
-| `llm.api_key`               | 访问语言模型提供商的 API 密钥                           | ``                         |
-| `llm.openai.base_url`       | 兼容 OpenAI API 的服务器的 URL                          | `https://api.openai.com`   |
+| `llm.apiKey`               | 访问语言模型提供商的 API 密钥                           | ``                         |
+| `llm.openai.baseUrl`       | 兼容 OpenAI API 的服务器的 URL                          | `https://api.openai.com`   |
 | `llm.azure.url`             | Azure 语言模型 API 的 URL                               | ``                         |
-| `llm.azure.api_version`     | Azure 语言模型 API 的版本                               | ``                         |
+| `llm.azure.apiVersion`     | Azure 语言模型 API 的版本                               | ``                         |
 | `llm.anthropic.url`         | Anthropic 语言模型 API 的 URL                           | ``                         |
-| `llm.anthropic.api_version` | Anthropic 语言模型 API 的版本                           | ``                         |
+| `llm.anthropic.apiVersion` | Anthropic 语言模型 API 的版本                           | ``                         |
 | `llm.google.url`            | Google 语言模型 API 的 URL                              | ``                         |
 | `env`                       | 额外的环境变量数组                                      | `[]`                       |

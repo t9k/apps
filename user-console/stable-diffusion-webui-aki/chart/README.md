@@ -2,9 +2,25 @@
 
 [Stable Diffusion web UI](https://github.com/AUTOMATIC1111/stable-diffusion-webui) 是一个用于运行 Stable Diffusion 模型的 gradio web UI。bilibili 用户 “秋葉 aaaki” 基于这一项目制作了[整合包](https://www.bilibili.com/video/BV1iM4y1y7oA/)。
 
+## 使用方法
+
+部署当前应用，待实例就绪后，点击相应的链接进入 web UI，即可开始生成想要的图片：
+
+![](https://s2.loli.net/2024/06/18/DEvIuZPtmCdkcz7.png)
+
+web UI 所加载的模型文件全部存储在随实例创建的存储卷 `app-stable-diffusion-webui-aki-xxxxxxxx` 的 `models` 目录下，已有的模型文件为镜像自带。你可以部署挂载该存储卷的 Terminal 或 Jupyter Lab 应用，向其中下载更多的模型文件或删除已有的模型文件，完成后在 web UI 点击相应的刷新按钮：
+
+![](https://s2.loli.net/2024/06/18/WRPoig1Uk59uF7B.png)
+
+生成的图像文件存储在同一个存储卷的 `outputs` 目录下，你可以在这里或 web UI 的 Infinite image browsing 标签页查看已生成的图片。
+
+默认的存储卷大小为 32 GiB，请根据要下载的模型文件的总大小以及要生成的图像文件的总大小进行适当的调整。此外，该存储卷在创建完成后也可以进行扩容。
+
 ## 配置
 
 ### 示例
+
+默认配置：
 
 ```yaml
 replicaCount: 1

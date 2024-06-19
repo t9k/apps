@@ -4,9 +4,9 @@
 
 ## 使用方法
 
-请按照以下步骤使用 vLLM 部署 Llama 3 系列模型：
+请按照以下步骤使用 vLLM 部署 Llama 3 系列模型为推理服务：
 
-1. 创建一个名为 `vllm-llama3`、大小 18GiB（对于 8B 模型）或 150GiB（对于 70B 模型）的存储卷，然后创建一个任意的 Jupyter Lab 应用挂载该存储卷。
+1. 创建一个名为 `vllm-llama3`、大小 18GiB（对于 8B 模型）或 150GiB（对于 70B 模型）的存储卷，然后部署一个任意的 Jupyter Lab 应用挂载该存储卷。
 
 2. 进入 Jupyter Lab 应用，启动一个终端，执行以下命令以下载模型文件：
 
@@ -18,40 +18,17 @@ python -c "from modelscope.models import Model; Model.from_pretrained('LLM-Resea
 mv .cache/modelscope/hub/LLM-Research/$MODEL_NAME .
 ```
 
-3. 创建此应用，注意需要将 `model.deployName` 字段的值修改为想要的名称，将`model.subPath` 字段的值修改为上一步中的 `$MODEL_NAME`。
+3. 部署当前应用，将 `model.deployName` 字段的值修改为想要的名称，将`model.subPath` 字段的值设为上一步中的 `$MODEL_NAME`。
 
-4. 回到 Jupyter Lab 应用，启动一个终端，执行以下命令以验证推理服务可用：
+4. 待实例就绪后，回到 Jupyter Lab 应用，启动一个终端，按照实例信息执行命令以验证推理服务可用。
 
-```bash
-APP_NAME=<YOUR_APP_NAME>
-ADDRESS=$(kubectl get smls $APP_NAME-vllm-llama3 -ojsonpath='{.status.address.url}')
-
-DEPLOY_NAME=<YOUR_DEPLOY_NAME>
-# 聊天
-curl $ADDRESS:8000/v1/chat/completions \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "'"$DEPLOY_NAME"'",
-    "messages": [{"role": "user", "content": "hello"}],
-    "temperature": 0.5,
-    "stop_token_ids": [128001, 128009]
-  }'
-# 生成文本
-curl $ADDRESS:8000/v1/completions \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "'"$DEPLOY_NAME"'",
-    "prompt": "Long long ago, there was",
-    "temperature": 0.5,
-    "stop_token_ids": [128001, 128009]
-  }'
-```
-
-5. 验证成功，此时 vLLM 可以作为使用 OpenAI API 的应用程序的即插即用替代品，即可以使用 `http://$ADDRESS:8000` 替代 `https://api.openai.com`。
+5. 验证成功，此时 vLLM 可以作为使用 OpenAI API 的应用程序的即插即用替代品，即可以使用 `http://$ENDPOINT` 替代 `https://api.openai.com`。
 
 ## 配置
 
 ### 示例
+
+部署 `Meta-Llama-3-8B-Instruct` 模型为推理服务：
 
 ```yaml
 replicaCount: 1

@@ -56,17 +56,17 @@ Get the enviroment variables
 {{- define "nextchat.envs" -}}
 {{- if eq .Values.llm.provider "openai" }}
 - name: BASE_URL
-  value: {{ .Values.llm.openai.base_url | quote }}
+  value: {{ .Values.llm.openai.baseUrl | quote }}
 {{- else if eq .Values.llm.provider "azure"}}
 - name: AZURE_URL
   value: {{ .Values.llm.azure.url | quote }}
 - name: AZURE_API_VERSION
-  value: {{ .Values.llm.azure.api_version | quote }}
+  value: {{ .Values.llm.azure.apiVersion | quote }}
 {{- else if eq .Values.llm.provider "anthropic"}}
 - name: ANTHROPIC_URL
   value: {{ .Values.llm.azure.url | quote }}
 - name: ANTHROPIC_API_VERSION
-  value: {{ .Values.llm.azure.api_version | quote }}
+  value: {{ .Values.llm.azure.apiVersion | quote }}
 {{- else if eq .Values.llm.provider "google" }}
 - name: GOOGLE_URL
   value: {{ .Values.llm.google.url | quote }}

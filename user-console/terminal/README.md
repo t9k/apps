@@ -42,5 +42,5 @@ Helm Chart 的开发方式参考 [Helm Getting Start](https://helm.sh/docs/chart
 
 ```bash
 helm package ./chart
-helm push terminal-0.1.1.tgz oci://docker.io/t9kpublic
+helm push terminal-0.1.2.tgz oci://docker.io/t9kpublic
 ```
