@@ -10,7 +10,7 @@ replicaCount: 1
 image:
   registry: docker.io
   repository: t9kpublic/gpt-researcher
-  tag: 0.2.4
+  tag: 0.2.6
   pullPolicy: IfNotPresent
 
 ## @param service.type Service type for the Kubernetes service
@@ -46,107 +46,88 @@ resources:
     cpu: 1
     memory: 2Gi
 
-## @param llm.provider Provider of the language model (`openai`, `azureopenai`, or `google`)
-## @param llm.api_key API key for the language model provider
+## @param llm.provider Provider of the language model (`openai` or `ollama`)
+## @param llm.apiKey API key for the language model provider
 ##
 llm:
   # 使用的模型提供商
-  # 应为 "openai"、"azureopenai" 或 "google"
-  provider: "openai"
-  api_key: ""
+  # 应为 "openai" 或 "ollama"
+  provider: ""
+  apiKey: ""
 
-  ## @param llm.openai.base_url Base URL for OpenAI API-compatible servers
-  ## @param llm.openai.fast_model Fast model for OpenAI API
-  ## @param llm.openai.fast_token_limit Fast token limit for OpenAI API
-  ## @param llm.openai.smart_model Smart model for OpenAI API
-  ## @param llm.openai.smart_token_limit Smart token limit for OpenAI API
-  ## @param llm.openai.browse_chunk_max_length Browse chunk max length for OpenAI API
-  ## @param llm.openai.summary_token_limit Summary token limit for OpenAI API
-  ## @param llm.openai.temperature Temperature for OpenAI API
+  ## @param llm.openai.baseUrl Base URL for OpenAI API-compatible service
+  ## @param llm.openai.fastModel Model name for fast LLM operations such summaries
+  ## @param llm.openai.smartModel Model name for smart operations like generating research reports and reasoning
+  ## @param llm.openai.fastTokenLimit Maximum token limit for fast LLM responses
+  ## @param llm.openai.smartTokenLimit Maximum token limit for smart LLM responses
+  ## @param llm.openai.summaryTokenLimit Maximum token limit for generating summaries
+  ## @param llm.openai.temperature Sampling temperature for LLM responses, typically between 0 and 1. A higher value results in more randomness and creativity, while a lower value results in more focused and deterministic responses
   ##
   openai:
-    # 兼容 OpenAI API 的服务器的 URL
+    # 兼容 OpenAI API 的服务的 URL
     # 如使用 OpenAI API，请设为 "https://api.openai.com/v1"
-    base_url: ""
-    fast_model: "gpt-3-turbo-16k"
-    fast_token_limit: "2000"
-    smart_model: "gpt-4-turbo"
-    smart_token_limit: "4000"
-    browse_chunk_max_length: "8192"
-    summary_token_limit: "700"
-    temperature: "0.55"
-    
-  ## @param llm.azureopenai.endpoint Endpoint for Azure-OpenAI API
-  ## @param llm.azureopenai.api_version API version for Azure-OpenAI API
-  ## @param llm.azureopenai.embedding_model Embedding model for Azure-OpenAI API
-  ## @param llm.azureopenai.fast_model Fast model for Azure-OpenAI API
-  ## @param llm.azureopenai.fast_token_limit Fast token limit for Azure-OpenAI API
-  ## @param llm.azureopenai.smart_model Smart model for Azure-OpenAI API
-  ## @param llm.azureopenai.smart_token_limit Smart token limit for Azure-OpenAI API
-  ## @param llm.azureopenai.browse_chunk_max_length Browse chunk max length for Azure-OpenAI API
-  ## @param llm.azureopenai.summary_token_limit Summary token limit for Azure-OpenAI API
-  ## @param llm.azureopenai.temperature Temperature for Azure-OpenAI API
-  azureopenai:
-    endpoint: ""
-    api_version: ""
-    embedding_model: ""
-    fast_model: "gpt-3-turbo-16k"
-    fast_token_limit: "2000"
-    smart_model: "gpt-4-turbo"
-    smart_token_limit: "4000"
-    browse_chunk_max_length: "8192"
-    summary_token_limit: "700"
+    baseUrl: ""
+    fastModel: "gpt-3-turbo-16k"
+    smartModel: "gpt-4-turbo"
+    fastTokenLimit: "2000"
+    smartTokenLimit: "4000"
+    summaryTokenLimit: "700"
     temperature: "0.55"
 
-  ## @param llm.google.fast_model Fast model for Google API
-  ## @param llm.google.fast_token_limit Fast token limit for Google API
-  ## @param llm.google.smart_model Smart model for Google API
-  ## @param llm.google.smart_token_limit Smart token limit for Google API
-  ## @param llm.google.browse_chunk_max_length Browse chunk max length for Google API
-  ## @param llm.google.summary_token_limit Summary token limit for Google API
-  ## @param llm.google.temperature Temperature for Google API
-  google:
-    fast_model: "gpt-3-turbo-16k"
-    fast_token_limit: "2000"
-    smart_model: "gpt-4-turbo"
-    smart_token_limit: "4000"
-    browse_chunk_max_length: "8192"
-    summary_token_limit: "700"
+  ## @param llm.ollama.baseUrl Base URL for Ollama API-compatible service
+  ## @param llm.ollama.fastModel Model name for fast LLM operations such summaries
+  ## @param llm.ollama.smartModel Model name for smart operations like generating research reports and reasoning
+  ## @param llm.ollama.fastTokenLimit Maximum token limit for fast LLM responses
+  ## @param llm.ollama.smartTokenLimit Maximum token limit for smart LLM responses
+  ## @param llm.ollama.summaryTokenLimit Maximum token limit for generating summaries
+  ## @param llm.ollama.temperature Sampling temperature for LLM responses, typically between 0 and 1. A higher value results in more randomness and creativity, while a lower value results in more focused and deterministic responses
+  ##
+  ollama:
+    baseUrl: ""
+    fastModel: "llama3"
+    smartModel: "llama3"
+    embeddingModel: "nomic-embed-text"
+    fastTokenLimit: "2000"
+    smartTokenLimit: "4000"
+    summaryTokenLimit: "700"
     temperature: "0.55"
 
-## @param retriever.provider Provider of the search engine (`BingSearch`, `google`, `searx`, `serpapi`, `googleSerp`, or `tavily`)
-## @param retriever.api_key API key for the search engine provider
-## @param retriever.google.cx_key CX key for Google search engine provider
+## @param retriever.provider Provider of the web search engine (`BingSearch`, `google`, `searx`, `serpapi`, `googleSerp`, or `tavily`)
+## @param retriever.apiKey API key for the search engine provider
+## @param retriever.google.cxKey CX key for Google search engine provider
 ##
 retriever:
   # 使用的搜索引擎提供商
   # 应为 "BingSearch"、"google"、"searx"、"serpapi"、"googleSerp" 或 "tavily"
   provider: ""
-  api_key: ""
+  apiKey: ""
   google:
-    cx_key: ""
+    cxKey: ""
 
-## @param app.user_agent User agent string for the application
-## @param app.max_search_results_per_query Maximum search results per query for the application
-## @param app.memory_backend Memory backend for the application
-## @param app.total_words Total words for the application
-## @param app.report_format Report format for the application
-## @param app.max_iterations Maximum iterations for the application
-## @param app.agent_role Role of the agent for the application
-## @param app.scraper Scraper for the application
-## @param app.max_subtopics Maximum subtopics for the application
+## @param app.userAgent Custom User-Agent string for web crawling and web requests
+## @param app.similarityThreshold Threshold for determining when two documents are similar enough to be considered redundant
+## @param app.maxSearchResultsPerQuery Maximum search results per query
+## @param app.memoryBackend Backend used for memory operations, such as local storage of temporary data
+## @param app.totalWords Total word count limit for document generation or processing tasks
+## @param app.reportFormat Preferred format for report generation (`APA`, `MLA`, `CMS`, `Harvard style`, or `IEEE`)
+## @param app.maxIterations Maximum number of iterations for processes like query expansion or search refinement
+## @param app.agentRole Role of the agent, this might be used to customize the behavior of the agent based on its assigned roles
+## @param app.scraper Web scraper to use for gathering information
+## @param app.maxSubtopics Maximum number of subtopics to generate or consider
 ##
 app:
   # 应用的其他设置
-  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0"
-  max_search_results_per_query: "5"
-  memory_backend: "local"
-  total_words: "800"
-  report_format: "APA"
-  max_iterations: "3"
-  agent_role: None
+  userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0"
+  similarityThreshold: 0.38
+  browseChunkMaxLength: 8192
+  maxSearchResultsPerQuery: 5
+  memoryBackend: local
+  totalWords: 800
+  reportFormat: APA
+  maxIterations: 3
+  agentRole: None
   scraper: "bs"
-  max_subtopics: "3"
+  maxSubtopics: 3
 
 ## @param env Array of extra environment variables
 ##
@@ -156,3 +137,5 @@ env: []
   #   value: ""
   # - name: HTTPS_PROXY
   #   value: ""
+  # - name: NO_PROXY
+  #   value: ".cluster.local"

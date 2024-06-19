@@ -56,80 +56,67 @@ Get the enviroment variables
 {{- define "gpt-researcher.envs" -}}
 {{- if eq .Values.llm.provider "openai" }}
 - name: OPENAI_BASE_URL
-  value: {{ .Values.llm.openai.base_url | quote }}
+  value: {{ .Values.llm.openai.baseUrl | quote }}
 - name: FAST_LLM_MODEL
-  value: {{ .Values.llm.openai.fast_model | quote }}
-- name: FAST_TOKEN_LIMIT
-  value: {{ .Values.llm.openai.fast_token_limit | quote }}
+  value: {{ .Values.llm.openai.fastModel | quote }}
 - name: SMART_LLM_MODEL
-  value: {{ .Values.llm.openai.smart_model | quote }}
+  value: {{ .Values.llm.openai.smartModel | quote }}
+- name: FAST_TOKEN_LIMIT
+  value: {{ .Values.llm.openai.fastTokenLimit | quote }}
 - name: SMART_TOKEN_LIMIT
-  value: {{ .Values.llm.openai.smart_token_limit | quote }}
-- name: BROWSE_CHUNK_MAX_LENGTH
-  value: {{ .Values.llm.openai.browse_chunk_max_length | quote }}
+  value: {{ .Values.llm.openai.smartTokenLimit | quote }}
 - name: SUMMARY_TOKEN_LIMIT
-  value: {{ .Values.llm.openai.summary_token_limit | quote }}
+  value: {{ .Values.llm.openai.summaryTokenLimit | quote }}
 - name: TEMPERATURE
   value: {{ .Values.llm.openai.temperature | quote }}
-{{- else if eq .Values.llm.provider "azureopenai"}}
-- name: AZURE_OPENAI_ENDPOINT
-  value: {{ .Values.llm.azureopenai.endpoint | quote }}
-- name: AZURE_OPENAI_API_VERSION
-  value: {{ .Values.llm.azureopenai.api_version | quote }}
-- name: AZURE_EMBEDDING_MODEL
-  value: {{ .Values.llm.azureopenai.embedding_model | quote }}
+{{- else if eq .Values.llm.provider "ollama"}}
+- name: LLM_PROVIDER
+  value: ollama
+- name: EMBEDDING_PROVIDER
+  value: ollama
+- name: OLLAMA_BASE_URL
+  value: {{ .Values.llm.ollama.baseUrl | quote }}
 - name: FAST_LLM_MODEL
-  value: {{ .Values.llm.azureopenai.fast_model | quote }}
-- name: FAST_TOKEN_LIMIT
-  value: {{ .Values.llm.azureopenai.fast_token_limit | quote }}
+  value: {{ .Values.llm.ollama.fastModel | quote }}
 - name: SMART_LLM_MODEL
-  value: {{ .Values.llm.azureopenai.smart_model | quote }}
-- name: SMART_TOKEN_LIMIT
-  value: {{ .Values.llm.azureopenai.smart_token_limit | quote }}
-- name: BROWSE_CHUNK_MAX_LENGTH
-  value: {{ .Values.llm.azureopenai.browse_chunk_max_length | quote }}
-- name: SUMMARY_TOKEN_LIMIT
-  value: {{ .Values.llm.azureopenai.summary_token_limit | quote }}
-- name: TEMPERATURE
-  value: {{ .Values.llm.azureopenai.temperature | quote }}
-{{- else if eq .Values.llm.provider "google" }}
-- name: FAST_LLM_MODEL
-  value: {{ .Values.llm.gemini.fast_model | quote }}
+  value: {{ .Values.llm.ollama.smartModel | quote }}
+- name: OLLAMA_EMBEDDING_MODEL
+  value: {{ .Values.llm.ollama.embeddingModel | quote }}
 - name: FAST_TOKEN_LIMIT
-  value: {{ .Values.llm.gemini.fast_token_limit | quote }}
-- name: SMART_LLM_MODEL
-  value: {{ .Values.llm.gemini.smart_model | quote }}
+  value: {{ .Values.llm.ollama.fastTokenLimit | quote }}
 - name: SMART_TOKEN_LIMIT
-  value: {{ .Values.llm.gemini.smart_token_limit | quote }}
-- name: BROWSE_CHUNK_MAX_LENGTH
-  value: {{ .Values.llm.gemini.browse_chunk_max_length | quote }}
+  value: {{ .Values.llm.ollama.smartTokenLimit | quote }}
 - name: SUMMARY_TOKEN_LIMIT
-  value: {{ .Values.llm.gemini.summary_token_limit | quote }}
+  value: {{ .Values.llm.ollama.summaryTokenLimit | quote }}
 - name: TEMPERATURE
-  value: {{ .Values.llm.gemini.temperature | quote }}
+  value: {{ .Values.llm.ollama.temperature | quote }}
 {{- end }}
 - name: RETRIEVER
   value: {{ .Values.retriever.provider | quote }}
 {{- if eq .Values.retriever.provider "google" }}
 - name: GOOGLE_CX_KEY
-  value: {{ .Values.retriever.google.cx_key | quote }}
+  value: {{ .Values.retriever.google.cxKey | quote }}
 {{- end }}
 - name: USER_AGENT
-  value: {{ .Values.app.user_agent | quote }}
+  value: {{ .Values.app.userAgent | quote }}
+- name: BROWSE_CHUNK_MAX_LENGTH
+  value: {{ .Values.app.browseChunkMaxLength | quote }}
+- name: SIMILARITY_THRESHOLD
+  value: {{ .Values.app.similarityThreshold | quote }}
 - name: MAX_SEARCH_RESULTS_PER_QUERY
-  value: {{ .Values.app.max_search_results_per_query | quote }}
+  value: {{ .Values.app.maxSearchResultsPerQuery | quote }}
 - name: MEMORY_BACKEND
-  value: {{ .Values.app.memory_backend | quote }}
+  value: {{ .Values.app.memoryBackend | quote }}
 - name: TOTAL_WORDS
-  value: {{ .Values.app.total_words | quote }}
+  value: {{ .Values.app.totalWords | quote }}
 - name: REPORT_FORMAT
-  value: {{ .Values.app.report_format | quote }}
+  value: {{ .Values.app.reportFormat | quote }}
 - name: MAX_ITERATIONS
-  value: {{ .Values.app.max_iterations | quote }}
+  value: {{ .Values.app.maxIterations | quote }}
 - name: AGENT_ROLE
-  value: {{ .Values.app.agent_role | quote }}
+  value: {{ .Values.app.agentRole | quote }}
 - name: SCRAPER
   value: {{ .Values.app.scraper | quote }}
 - name: MAX_SUBTOPICS
-  value: {{ .Values.app.user_agent | quote }}
+  value: {{ .Values.app.userAgent | quote }}
 {{- end -}}
