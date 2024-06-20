@@ -1,12 +1,11 @@
 name: Release Open WebUI Helm Charts
 
 on:
-  push:
-    tags:
-      - open-webui-*
+  create:
 
 jobs:
   release:
+    if: ${{ startsWith(github.ref, 'refs/tags/open-webui-') }}
     permissions:
       contents: write
     runs-on: ubuntu-latest

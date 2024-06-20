@@ -1,12 +1,11 @@
 name: Release Stable Diffusion WebUI aki Helm Charts
 
 on:
-  push:
-    tags:
-      - stable-diffusion-webui-aki
+  create:
 
 jobs:
   release:
+    if: ${{ startsWith(github.ref, 'refs/tags/stable-diffusion-webui-aki-') }}
     permissions:
       contents: write
     runs-on: ubuntu-latest
