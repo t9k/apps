@@ -137,6 +137,35 @@ entries:
           description: upgrade ollama to 0.1.43
     apiVersion: v2
     appVersion: 0.1.43
+    created: "2024-06-20T09:40:18.046337215Z"
+    description: Get up and running with large language models locally.
+    digest: b45fb76fb477ab7c25d8d02ddb0892a2b49bd43ec653ea8e21977f588331d65f
+    home: https://ollama.ai/
+    icon: https://ollama.ai/public/ollama.png
+    keywords:
+    - ai
+    - llm
+    - llama
+    - mistral
+    kubeVersion: ^1.16.0-0
+    maintainers:
+    - email: contact@otwld.com
+      name: Otwld
+    name: ollama
+    sources:
+    - https://github.com/ollama/ollama
+    - https://github.com/otwld/ollama-helm
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/ollama-0.35.3/ollama-0.35.3.tgz
+    version: 0.35.3
+  - annotations:
+      artifacthub.io/category: ai-machine-learning
+      artifacthub.io/changes: |
+        - kind: changed
+          description: upgrade ollama to 0.1.43
+    apiVersion: v2
+    appVersion: 0.1.43
     created: "2024-06-17T06:20:48.310014839Z"
     description: Get up and running with large language models locally.
     digest: 55a6c1c517633232779afd4b4981f110cebbf5f7812f2be3868687c0fde4b135
@@ -191,6 +220,37 @@ entries:
     - https://github.com/t9k/apps/releases/download/ollama-0.29.2/ollama-0.29.2.tgz
     version: 0.29.2
   open-webui:
+  - annotations:
+      licenses: MIT
+    apiVersion: v2
+    appVersion: latest
+    created: "2024-06-20T09:40:18.189721842Z"
+    dependencies:
+    - condition: ollama.enabled
+      import-values:
+      - child: service
+        parent: ollama.service
+      name: ollama
+      repository: https://otwld.github.io/ollama-helm/
+      version: '>=0.24.0'
+    description: "Open WebUI: A User-Friendly Web Interface for Chat Interactions
+      \U0001F44B"
+    digest: 6efc658319e7a73c164283cb2ed006f19d41b7eba340b21e1ab2ccda081a3f6a
+    home: https://www.openwebui.com/
+    icon: https://raw.githubusercontent.com/open-webui/open-webui/main/static/favicon.png
+    keywords:
+    - llm
+    - chat
+    - web-ui
+    name: open-webui
+    sources:
+    - https://github.com/open-webui/helm-charts
+    - https://github.com/open-webui/open-webui/pkgs/container/open-webui
+    - https://github.com/otwld/ollama-helm/
+    - https://hub.docker.com/r/ollama/ollama
+    urls:
+    - https://github.com/t9k/apps/releases/download/open-webui-2.1.3/open-webui-2.1.3.tgz
+    version: 2.1.3
   - annotations:
       licenses: MIT
     apiVersion: v2
@@ -463,4 +523,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-06-19T08:53:58.424808553Z"
+generated: "2024-06-20T09:40:18.4059983Z"
