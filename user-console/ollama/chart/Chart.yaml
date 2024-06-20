@@ -3,7 +3,7 @@ name: ollama
 description: Get up and running with large language models locally.
 type: application
 
-version: 0.35.2
+version: 0.35.3
 appVersion: 0.1.43
 kubeVersion: "^1.16.0-0"
 

@@ -12,7 +12,8 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "ollama"
     versions:
-    - version: 0.35.2
+    - version: 0.35.3
+      config: "file://$APP_DIR/configs/v0_35.yaml"
       urls: []
       readinessProbe:
         resources:
@@ -22,5 +23,4 @@ template:
           name: "{{ .Release.Name }}"
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
-      dependences: {}
-dependencies
+      dependencies: {}
