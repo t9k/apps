@@ -22,7 +22,7 @@ mv .cache/modelscope/hub/LLM-Research/$MODEL_NAME .
 
 4. 待实例就绪后，回到 Jupyter Lab 应用，启动一个终端，按照实例信息执行命令以验证推理服务可用。
 
-5. 验证成功，此时 vLLM 可以作为使用 OpenAI API 的应用程序的即插即用替代品，即可以使用 `http://$ENDPOINT` 替代 `https://api.openai.com`。
+5. 验证成功，此时推理服务可以作为 OpenAI API 的替代，即可以使用 `http://$ENDPOINT` 替代 `https://api.openai.com`。
 
 ## 配置
 

@@ -50,7 +50,6 @@ ollama:
 service:
   type: ClusterIP
   port: 11434
-  nodePort: 31434
 
 ingress:
   enabled: false

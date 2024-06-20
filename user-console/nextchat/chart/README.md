@@ -49,17 +49,6 @@ llm:
   openai:
     baseUrl: "https://api.openai.com"
 
-  azure:
-    url: ""
-    apiVersion: ""
-
-  anthropic:
-    url: ""
-    apiVersion: ""
-
-  google:
-    url: ""
-
 env:
   - name: PROXY_URL
     value: "<YOUR_PROXY>"
@@ -97,17 +86,6 @@ llm:
   apiKey: "any"
   openai:
     baseUrl: "http://<ENDPOINT>"  # 部署 vLLM 应用，查看其实例信息以获取服务端点
-
-  azure:
-    url: ""
-    apiVersion: ""
-
-  anthropic:
-    url: ""
-    apiVersion: ""
-
-  google:
-    url: ""
 
 env: []
 ```

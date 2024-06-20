@@ -52,15 +52,6 @@ llm:
     summaryTokenLimit: "700"
     temperature: "0.55"
 
-  ollama:
-    baseUrl: ""
-    fastModel: "llama3:8b"
-    smartModel: "llama3:8b"
-    fastTokenLimit: "2000"
-    smartTokenLimit: "4000"
-    summaryTokenLimit: "700"
-    temperature: "0.55"
-
 retriever:
   provider: "googleSerp"
   apiKey: "<YOUR_SERPER_API_KEY>"

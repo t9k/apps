@@ -42,7 +42,7 @@ vLLM 无缝支持 HuggingFace 上大多数流行的开源模型，包括：
 
 2. 待实例就绪后，（部署并）进入一个终端应用，按照实例信息执行命令以验证推理服务可用。
 
-3. 验证成功，此时 vLLM 可以作为使用 OpenAI API 的应用程序的即插即用替代品，即可以使用 `http://$ENDPOINT` 替代 `https://api.openai.com`。
+3. 验证成功，此时推理服务可以作为 OpenAI API 的替代，即可以使用 `http://$ENDPOINT` 替代 `https://api.openai.com`。
 
 ## 配置
 
@@ -80,13 +80,6 @@ model:
   huggingface:
     id: "codellama/CodeLlama-7b-Instruct-hf"
     files: ""
-    existingSecret: ""
-  git:
-    url: ""
-    ref: ""
-    existingSecret: ""
-  s3:
-    url: ""
     existingSecret: ""
 
 t9k:
