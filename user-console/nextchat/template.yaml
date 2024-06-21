@@ -12,10 +12,8 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "nextchat"
     versions:
-    - version: 0.1.4
-      urls: 
-      - name: UI
-        url: /t9k/app/nextchat/{{ .Release.Namespace }}/{{ .Release.Name }}/
+    - version: 0.1.5
+      urls: []
       readinessProbe:
         resources:
         - group: apps

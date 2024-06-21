@@ -34,8 +34,6 @@ image:
 service:
   type: ClusterIP
   port: 80
-  containerPort: 8080
-  nodePort: ""
 
 ingress:
   enabled: false

@@ -11,10 +11,8 @@ template:
     repo: "oci://docker.io/t9kpublic"
     chart: "search-with-lepton"
     versions:
-    - version: 0.1.3
-      urls: 
-      - name: UI
-        url: /t9k/app/search-with-lepton/{{ .Release.Namespace }}/{{ .Release.Name }}/
+    - version: 0.1.4
+      urls: []
       readinessProbe:
         resources:
         - group: apps
