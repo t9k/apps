@@ -20,7 +20,7 @@ Jupyter Lab (CPU) 仅配置了 CPU。如要使用 Nvidia GPU，请切换到 [Jup
 
 ### 示例
 
-选用 PyTorch 环境，申请较多的 CPU、内存资源，挂载存储卷 `tutorial`：
+选用 PyTorch 环境，申请 16 个 CPU（核心）、32 GiB 内存资源，挂载存储卷 `tutorial`：
 
 ```yaml
 apiVersion: tensorstack.dev/v1beta1

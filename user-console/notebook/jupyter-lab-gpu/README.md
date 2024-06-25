@@ -20,7 +20,7 @@ Jupyter Lab (Nvidia GPU) 额外配置了 Nvidia GPU，你可以在其中进行 N
 
 ### 示例
 
-选用 PyTorch 环境，申请较多的 CPU、内存资源以及 1 个 Nvidia GPU，挂载存储卷 `tutorial`：
+选用 PyTorch 环境，申请 16 个 CPU（核心）、32 GiB 内存资源以及 1 个 Nvidia GPU，挂载存储卷 `tutorial`：
 
 ```yaml
 apiVersion: tensorstack.dev/v1beta1
