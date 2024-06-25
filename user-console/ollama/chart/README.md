@@ -24,7 +24,7 @@
 
 ### 示例
 
-禁用 GPU，申请 16 个 CPU（核心）、16 GiB 内存资源，启动时拉取两个模型：
+申请 1 个 CPU（核心）、16 GiB 内存资源以及 1 个 Nvidia GPU，创建一个大小 30GiB 的存储卷以存储 Ollama 服务器数据，启动时不拉取模型：
 
 ```yaml
 replicaCount: 1
@@ -37,13 +37,11 @@ image:
 
 ollama:
   gpu:
-    enabled: false
+    enabled: true
     type: 'nvidia'
     number: 1
 
-  models:
-   - llama3
-   - mistral
+  models: []
 
   insecure: false
 
@@ -64,15 +62,15 @@ ingress:
 
 resources:
   requests:
-    cpu: 8
+    cpu: 1
     memory: 8Gi
 
   limits:
-    cpu: 16
+    cpu: 1
     memory: 16Gi
 
 persistentVolume:
-  enabled: false
+  enabled: true
   accessModes:
     - ReadWriteOnce
   annotations: {}
@@ -110,11 +108,11 @@ persistentVolume:
 | `resources.requests.memory`          | string | `"8Gi"`             | Ollama 服务器 Pod 的内存请求                                                                                                                                                                      |
 | `resources.limits.cpu`               | string | `"16"`              | Ollama 服务器 Pod 的 CPU 限制                                                                                                                                                                     |
 | `resources.limits.memory`            | string | `"16Gi"`            | Ollama 服务器 Pod 的内存限制                                                                                                                                                                      |
-| `persistentVolume.enabled`           | bool   | `false`             | 启用使用 PVC 的持久性                                                                                                                                                                             |
-| `persistentVolume.accessModes`       | list   | `["ReadWriteOnce"]` | Ollama 服务器数据持久卷访问模式，必须与现有 PV 或动态供应商匹配 参考：http://kubernetes.io/docs/user-guide/persistent-volumes/                                                                    |
+| `persistentVolume.enabled`           | bool   | `false`             | 启用使用 PVC 的持久化                                                                                                                                                                             |
+| `persistentVolume.accessModes`       | list   | `["ReadWriteOnce"]` | Ollama 服务器数据持久卷访问模式                                                                                                                                                                   |
 | `persistentVolume.annotations`       | object | `{}`                | Ollama 服务器数据持久卷注释                                                                                                                                                                       |
-| `persistentVolume.existingClaim`     | string | `""`                | 如果您想为持久化 Ollama 状态带上自己的 PVC，请在此处传递已创建和就绪的 PVC 的名称。 如果设置此值，则该 Chart 不会创建默认 PVC。需要设置 server.persistentVolume.enabled: true                     |
+| `persistentVolume.existingClaim`     | string | `""`                | 如果您想为持久化 Ollama 状态带上自己的 PVC，请在此处传递已创建和就绪的 PVC 的名称。如果设置此值，则该 Chart 不会创建默认 PVC。需要设置 `server.persistentVolume.enabled: true`                      |
 | `persistentVolume.size`              | string | `"30Gi"`            | Ollama 服务器数据持久卷大小                                                                                                                                                                       |
 | `persistentVolume.storageClass`      | string | `""`                | Ollama 服务器数据持久卷存储类                                                                                                                                                                     |
 | `persistentVolume.volumeMode`        | string | `""`                | Ollama 服务器数据持久卷绑定模式                                                                                                                                                                   |
-| `persistentVolume.subPath`           | string | `""`                | 要挂载的Ollama服务器数据持久卷的子目录 如果卷的根目录不为空，此设置很有用                                                                                                                         |
+| `persistentVolume.subPath`           | string | `""`                | 要挂载的 Ollama 服务器数据持久卷的子目录；如果卷的根目录不为空，此设置很有用                                                                                                                      |

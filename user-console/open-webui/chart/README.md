@@ -20,7 +20,7 @@ web UI 提供“工作空间”和一些设置选项，请自行尝试。
 
 ### 示例
 
-部署一个新的 Ollama 服务，其禁用 GPU，申请 16 个 CPU（核心）、16 GiB 内存资源，启动时拉取两个模型：
+部署一个新的 Ollama 服务，其申请 1 个 CPU（核心）、16 GiB 内存资源以及 1 个 Nvidia GPU，创建一个大小 30GiB 的存储卷以存储 Ollama 服务器数据，启动时拉取两个模型：
 
 ```yaml
 replicaCount: 1
@@ -53,7 +53,7 @@ ollama:
 
   ollama:
     gpu:
-      enabled: false
+      enabled: true
       type: 'nvidia'
       number: 1
     models:
@@ -62,14 +62,15 @@ ollama:
 
   resources:
     requests:
-      cpu: 8
+      cpu: 1
       memory: 8Gi
     limits:
-      cpu: 16
+      cpu: 1
       memory: 16Gi
 
   persistentVolume:
-    enabled: false
+    enabled: true
+    size: 30Gi
 
 ollamaUrls: []
 

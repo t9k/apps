@@ -54,14 +54,15 @@ resources:
 ## @param ollama.resources.requests.memory Memory request for the Ollama server pod
 ## @param ollama.resources.limits.cpu CPU limit for the Ollama server pod
 ## @param ollama.resources.limits.memory Memory limit for the Ollama server pod
-## @param ollama.persistentVolume.enabled Enable/disable persistent volume claim (PVC) for model persistence
+## @param ollama.persistentVolume.enabled Enable persistence using Persistent Volume Claims
+## @param ollama.persistentVolume.size Ollama server data Persistent Volume size
 ##
 ollama:
   enabled: true
 
   ollama:
     gpu:
-      enabled: false
+      enabled: true
       type: 'nvidia'
       number: 1
     models: []
@@ -70,16 +71,17 @@ ollama:
 
   resources:
     requests:
-      cpu: 8
-      # cpu: 1  # if gpu is enabled
+      cpu: 1
+      # cpu: 8  # if gpu is disabled
       memory: 8Gi
     limits:
-      cpu: 16
-      # cpu: 1  # if gpu is enabled
+      cpu: 1
+      # cpu: 16  # if gpu is disabled
       memory: 16Gi
 
   persistentVolume:
-    enabled: false
+    enabled: true
+    size: 30Gi
 
 ## @param ollamaUrls A list of Ollama API endpoints. These can be added in lieu of automatically installing the Ollama Helm chart, or in addition to it.
 ##

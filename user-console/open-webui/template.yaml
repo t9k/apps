@@ -12,7 +12,7 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "open-webui"
     versions:
-    - version: 2.1.4
+    - version: 2.1.5
       config: "file://$APP_DIR/configs/v2_1.yaml"
       urls: []
       readinessProbe:

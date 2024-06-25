@@ -12,7 +12,7 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "ollama"
     versions:
-    - version: 0.35.3
+    - version: 0.35.4
       config: "file://$APP_DIR/configs/v0_35.yaml"
       urls: []
       readinessProbe:
