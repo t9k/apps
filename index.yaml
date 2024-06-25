@@ -158,6 +158,35 @@ entries:
           description: upgrade ollama to 0.1.43
     apiVersion: v2
     appVersion: 0.1.43
+    created: "2024-06-25T05:33:35.529939809Z"
+    description: Get up and running with large language models locally.
+    digest: 9e958f2ec811ac4ab6e17852f5f1b113d721b250200aaf438c0d585a1d7f3fa9
+    home: https://ollama.ai/
+    icon: https://ollama.ai/public/ollama.png
+    keywords:
+    - ai
+    - llm
+    - llama
+    - mistral
+    kubeVersion: ^1.16.0-0
+    maintainers:
+    - email: contact@otwld.com
+      name: Otwld
+    name: ollama
+    sources:
+    - https://github.com/ollama/ollama
+    - https://github.com/otwld/ollama-helm
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/ollama-0.35.4/ollama-0.35.4.tgz
+    version: 0.35.4
+  - annotations:
+      artifacthub.io/category: ai-machine-learning
+      artifacthub.io/changes: |
+        - kind: changed
+          description: upgrade ollama to 0.1.43
+    apiVersion: v2
+    appVersion: 0.1.43
     created: "2024-06-20T09:40:18.046337215Z"
     description: Get up and running with large language models locally.
     digest: b45fb76fb477ab7c25d8d02ddb0892a2b49bd43ec653ea8e21977f588331d65f
@@ -241,6 +270,37 @@ entries:
     - https://github.com/t9k/apps/releases/download/ollama-0.29.2/ollama-0.29.2.tgz
     version: 0.29.2
   open-webui:
+  - annotations:
+      licenses: MIT
+    apiVersion: v2
+    appVersion: latest
+    created: "2024-06-25T05:33:35.648154859Z"
+    dependencies:
+    - condition: ollama.enabled
+      import-values:
+      - child: service
+        parent: ollama.service
+      name: ollama
+      repository: https://otwld.github.io/ollama-helm/
+      version: '>=0.24.0'
+    description: "Open WebUI: A User-Friendly Web Interface for Chat Interactions
+      \U0001F44B"
+    digest: 8555627ed0a2a812417b05de4f4a195ca1f873e890fc1501ab1cc211a1e5719b
+    home: https://www.openwebui.com/
+    icon: https://raw.githubusercontent.com/open-webui/open-webui/main/static/favicon.png
+    keywords:
+    - llm
+    - chat
+    - web-ui
+    name: open-webui
+    sources:
+    - https://github.com/open-webui/helm-charts
+    - https://github.com/open-webui/open-webui/pkgs/container/open-webui
+    - https://github.com/otwld/ollama-helm/
+    - https://hub.docker.com/r/ollama/ollama
+    urls:
+    - https://github.com/t9k/apps/releases/download/open-webui-2.1.5/open-webui-2.1.5.tgz
+    version: 2.1.5
   - annotations:
       licenses: MIT
     apiVersion: v2
@@ -515,6 +575,16 @@ entries:
   vllm:
   - apiVersion: v2
     appVersion: v0.3.3
+    created: "2024-06-25T05:33:35.736973371Z"
+    description: vLLM 是一个用于大语言模型的高吞吐量和内存高效的推理和服务引擎。
+    digest: 7696c143367f1fe0677bdab92eae8636ed57184f13429c9aaf908ace1ed6b7e4
+    name: vllm
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/vllm-0.1.6/vllm-0.1.6.tgz
+    version: 0.1.6
+  - apiVersion: v2
+    appVersion: v0.3.3
     created: "2024-06-19T08:53:58.313945893Z"
     description: vLLM 是一个用于大语言模型的高吞吐量和内存高效的推理和服务引擎。
     digest: 0444e981c7e993a2819f50f7581b917d737fdf2be73a727548d53d56c97e9add
@@ -544,6 +614,16 @@ entries:
     - https://github.com/t9k/apps/releases/download/vllm-0.1.3/vllm-0.1.3.tgz
     version: 0.1.3
   vllm-llama3:
+  - apiVersion: v2
+    appVersion: v0.3.3
+    created: "2024-06-25T05:33:35.849651062Z"
+    description: 使用 vLLM 部署 Llama 3 系列模型。
+    digest: 4022f1d62cc9b38dae828eeb60a7245edc0e7adde4001cfa204a35dd84226613
+    name: vllm-llama3
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/vllm-llama3-0.1.3/vllm-llama3-0.1.3.tgz
+    version: 0.1.3
   - apiVersion: v2
     appVersion: v0.3.3
     created: "2024-06-19T08:53:58.424716572Z"
@@ -585,4 +665,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-06-21T09:39:00.979956525Z"
+generated: "2024-06-25T05:33:35.849759493Z"
