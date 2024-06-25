@@ -1,11 +1,14 @@
 name: Release vLLM Helm Charts
 
 on:
-  create:
+  push:
+    branches:
+      - master
+    paths:
+      - "user-console/vllm-smls/chart/Chart.yaml"
 
 jobs:
   release:
-    if: ${{ startsWith(github.ref, 'refs/tags/vllm-0') }}
     permissions:
       contents: write
     runs-on: ubuntu-latest

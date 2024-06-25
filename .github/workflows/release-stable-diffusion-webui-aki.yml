@@ -1,11 +1,14 @@
 name: Release Stable Diffusion WebUI aki Helm Charts
 
 on:
-  create:
+  push:
+    branches:
+      - master
+    paths:
+      - "user-console/stable-diffusion-webui-aki/chart/Chart.yaml"
 
 jobs:
   release:
-    if: ${{ startsWith(github.ref, 'refs/tags/stable-diffusion-webui-aki-') }}
     permissions:
       contents: write
     runs-on: ubuntu-latest

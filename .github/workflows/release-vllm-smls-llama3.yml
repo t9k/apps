@@ -1,11 +1,14 @@
 name: Release vLLM (Llama 3) Helm Charts
 
 on:
-  create:
+  push:
+    branches:
+      - master
+    paths:
+      - "user-console/vllm-smls-llama3/chart/Chart.yaml"
 
 jobs:
   release:
-    if: ${{ startsWith(github.ref, 'refs/tags/vllm-llama3-') }}
     permissions:
       contents: write
     runs-on: ubuntu-latest
