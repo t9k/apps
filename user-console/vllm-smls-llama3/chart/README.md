@@ -49,9 +49,6 @@ model:
   deployName: "llama3-8b"
   existingClaim: "vllm-llama3"
   subPath: "Meta-Llama-3-8B-Instruct"
-
-t9k:
-  queue: ""
 ```
 
 ### 参数
@@ -69,4 +66,3 @@ t9k:
 | `model.deployName`            | 模型部署的名称                    | `llama3-8b`        |
 | `model.existingClaim`         | 包含模型文件的 PVC                | `vllm-llama3`      |
 | `model.subPath`               | PVC 中模型文件所在的子路径        | `""`               |
-| `t9k.queue`                   | 部署指定的队列                    | `""`               |

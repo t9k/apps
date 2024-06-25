@@ -6,11 +6,6 @@ metadata:
     {{- include "vllm.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
-  {{- if .Values.t9k.queue }}
-  scheduler:
-    t9kScheduler:
-      queue: {{ .Values.t9k.queue }}
-  {{- end }}
   storage:
     pvc:
       {{- if .Values.model.volume.existingClaim }}

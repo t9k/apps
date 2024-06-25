@@ -33,8 +33,3 @@ model:
   deployName: "llama3-8b"
   existingClaim: "vllm-llama3"
   subPath: ""
-
-## @param t9k.queue Queue specified for the deployment
-##
-t9k:
-  queue: ""

@@ -75,11 +75,6 @@ model:
     # 引用 s3-env 类型的 Secret 的键值
     existingSecret: ""
 
-## @param t9k.queue Queue specified for the deployment
-##
-t9k:
-  queue: ""
-
 ## @param env Array of extra environment variables
 ##
 env: []

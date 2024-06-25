@@ -22,7 +22,7 @@ image:
 ##
 ollama:
   gpu:
-    enabled: false
+    enabled: true
     # If 'ollama.gpu.enabled', default value is nvidia
     # If set to 'amd', this will add 'rocm' suffix to image tag if 'image.tag' is not override
     # This is due cause AMD and CPU/CUDA are different images
@@ -73,13 +73,13 @@ ingress:
 ##
 resources:  # do NOT add `nvidia.com/gpu` manually
   requests:
-    cpu: 8
-    # cpu: 1  # if gpu is enabled
+    cpu: 1
+    # cpu: 8  # if gpu is disabled
     memory: 8Gi
 
   limits:
-    cpu: 16
-    # cpu: 1  # if gpu is enabled
+    cpu: 1
+    # cpu: 16  # if gpu is disabled
     memory: 16Gi
 
 ## @param persistentVolume.enabled Enable persistence using Persistent Volume Claims
@@ -92,7 +92,7 @@ resources:  # do NOT add `nvidia.com/gpu` manually
 ## @param persistentVolume.subPath Subdirectory of Ollama server data Persistent Volume to mount
 ##
 persistentVolume:
-  enabled: false
+  enabled: true
   accessModes:
     - ReadWriteOnce
   annotations: {}

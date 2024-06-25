@@ -82,9 +82,6 @@ model:
     files: ""
     existingSecret: ""
 
-t9k:
-  queue: ""
-
 env:
   - name: HTTP_PROXY
     value: "<YOUR_HTTP_PROXY>"
@@ -119,5 +116,4 @@ env:
 | `model.git.existingSecret`         | Git token 的 Secret 引用                       | ``                 |
 | `model.s3.url`                     | S3 URL                                         | ``                 |
 | `model.s3.existingSecret`          | 包含 S3 凭证的 s3-env 类型的 Secret 引用       | ``                 |
-| `t9k.queue`                        | 部署指定的队列                                 | ``                 |
 | `env`                              | 额外的环境变量数组                             | `[]`               |

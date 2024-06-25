@@ -14,7 +14,7 @@
 
 ### 示例
 
-申请较多的 CPU、内存资源，挂载存储卷 `tutorial`：
+申请 16 个 CPU（核心）、32 GiB 内存资源，挂载存储卷 `tutorial`：
 
 ```yaml
 apiVersion: tensorstack.dev/v1beta1
