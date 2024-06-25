@@ -40,7 +40,7 @@ spec:
           - --upstream=http://127.0.0.1:8080/
           - --client-id={{ .Values.global.t9k.pepProxy.args.clientID }}
           - --redeem-url={{ .Values.global.t9k.securityService.endpoints.securityServer }}/apis/v1/login/auth-code
-          - --redirect-url={{ .Values.global.t9k.homeURL }}/t9k/app/terminal/{{ .Release.Namespace }}/{{ .Release.Name }}/oauth2/callback
+          - --redirect-url={{ .Values.global.t9k.homeURL }}/apps/{{ .Release.Namespace }}/terminal/{{ .Release.Name }}/oauth2/callback
           - --oidc-issuer-url={{ .Values.global.t9k.securityService.endpoints.oidc }}
           - --pep-config=/t9kconfig/pep-config.yaml
           image: {{ .Values.global.t9k.pepProxy.image }}

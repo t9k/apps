@@ -138,7 +138,7 @@ template:
       config: "file://$APP_DIR/manifests/v0_1_1.yaml"
       urls: 
       - name: terminal
-        url: /t9k/app/terminal/{{ .Release.Namespace }}/{{ .Release.Name }}/
+        url: /apps/{{ .Release.Namespace }}/terminal/{{ .Release.Name }}/
       readinessProbe:
         resources:
         - group: apps

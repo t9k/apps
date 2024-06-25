@@ -15,7 +15,7 @@ template:
     - version: 0.1.4
       urls: 
       - name: UI
-        url: /t9k/app/stable-diffusion-webui-aki/{{ .Release.Namespace }}/{{ .Release.Name }}/
+        url: /apps/{{ .Release.Namespace }}/stable-diffusion-webui-aki/{{ .Release.Name }}/
       readinessProbe:
         resources:
         - group: apps
