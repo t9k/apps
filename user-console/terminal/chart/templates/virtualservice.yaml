@@ -13,10 +13,10 @@ spec:
   - headers:
       request:
         add:
-          x-auth-request-redirect: /t9k/app/terminal/{{ .Release.Namespace }}/{{ .Release.Name }}/
+          x-auth-request-redirect: /apps/{{ .Release.Namespace }}/terminal/{{ .Release.Name }}/
     match:
     - uri:
-        prefix: /t9k/app/terminal/{{ .Release.Namespace }}/{{ .Release.Name }}/
+        prefix: /apps/{{ .Release.Namespace }}/terminal/{{ .Release.Name }}/
     rewrite:
       uri: /
     route:

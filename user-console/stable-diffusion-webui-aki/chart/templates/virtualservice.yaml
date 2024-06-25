@@ -16,7 +16,7 @@ spec:
         - cookie
     match:
     - uri:
-        prefix: /t9k/app/stable-diffusion-webui-aki/{{ .Release.Namespace }}/{{ .Release.Name }}/
+        prefix: /apps/{{ .Release.Namespace }}/stable-diffusion-webui-aki/{{ .Release.Name }}/
     rewrite:
       uri: /
     route:

@@ -121,7 +121,7 @@ spec:
           {{- end }}
           env:
             - name: LABEL_STUDIO_HOST
-              value: {{ .Values.global.hostname }}/t9k/app/label-studio/{{ .Release.Namespace }}/{{ .Release.Name }}/
+              value: {{ .Values.global.hostname }}/apps/label-studio/{{ .Release.Namespace }}/{{ .Release.Name }}/
             - name: SKIP_DB_MIGRATIONS
               value: "true"
             {{- include "ls.common.envs" . | nindent 12 }}

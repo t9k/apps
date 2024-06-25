@@ -16,7 +16,7 @@ template:
       config: "file://$APP_DIR/configs/v0_1_2.yaml"
       urls: 
       - name: terminal
-        url: /t9k/app/terminal/{{ .Release.Namespace }}/{{ .Release.Name }}/
+        url: /apps/{{ .Release.Namespace }}/terminal/{{ .Release.Name }}/
       readinessProbe:
         resources:
         - group: apps
