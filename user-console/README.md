@@ -147,7 +147,11 @@ template:
           name: terminal-{{ .Release.Name }}
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
-      dependencies: {}
+      dependencies: 
+        crds:
+        - group: networking.istio.io
+          version: v1beta1
+          resource: virtualservices
 ```
 
 * `apiVersion` 和 `kind` 采用 K8s API 的 `metav1.TypeMeta` 标记 API 类型和版本。
