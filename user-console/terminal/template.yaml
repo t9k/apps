@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: terminal
   displayName: Terminal
-  defaultVersion: "0.1.2"
+  defaultVersion: "0.1.3"
   categories: ["Tool"]
   description: "The Terminal APP is a powerful tool that allows you to open and operate a cluster terminal directly in your browser. You can also easily access and manage your cluster through this APP."
   icon: "file://$APP_DIR/icon.png"
@@ -12,8 +12,8 @@ template:
     repo: "oci://docker.io/t9kpublic"
     chart: "terminal"
     versions:
-    - version: 0.1.2
-      config: "file://$APP_DIR/configs/v0_1_2.yaml"
+    - version: 0.1.3
+      config: "file://$APP_DIR/configs/v0_1_3.yaml"
       urls: 
       - name: terminal
         url: /apps/{{ .Release.Namespace }}/terminal/{{ .Release.Name }}/

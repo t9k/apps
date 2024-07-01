@@ -1,3 +1,9 @@
+image:
+  registry: docker.io
+  repository: t9kpublic/terminal
+  tag: "240611"
+  pullPolicy: IfNotPresent
+
 # sh, bash or zsh
 shell: bash
 

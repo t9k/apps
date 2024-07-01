@@ -8,7 +8,7 @@ metadata:
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm:
-    repo: "oci://registry-1.docker.io/bitnamicharts"
+    # repo: "https://charts.bitnami.com/bitnami"
     chart: "redis"
     versions:
     - version: 19.5.0

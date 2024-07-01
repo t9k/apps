@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: terminal
-          image: t9kpublic/terminal:240611
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           command:
           - ttyd
           - -p
