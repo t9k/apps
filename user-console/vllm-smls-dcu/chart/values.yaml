@@ -1,0 +1,85 @@
+## @param replicaCount Number of replicas for the deployment
+##
+replicaCount: 1
+
+## @param image.registry [default: docker.io] Repository registry for the Docker image
+## @param image.repository [default: t9kpublic/stable-diffusion-webui] Repository name for the Docker image
+## @param image.tag Image tag for the Docker image (immutable tags are recommended)
+## @param image.pullPolicy Image pull policy for the Docker image
+##
+image:
+  registry: image.sourcefind.cn:5000
+  repository: dcu/admin/base/custom
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "vllm0.3.3-dtk24.04-zk-centos7.6-py310-v2"
+  pullPolicy: IfNotPresent
+
+## @param resources.limits.cpu CPU limit for Kubernetes resources
+## @param resources.limits.memory Memory limit for Kubernetes resources
+## @param resources.limits.hygon.com/dcu Hygon GPU limit for Kubernetes resources
+##
+resources:
+  limits:
+    cpu: 4
+    memory: 64Gi
+    hygon.com/dcu: 1
+
+## @param model.name Name by which the model is deployed
+## @param model.volume.storageClass Storage class for the model volume
+## @param model.volume.size Size of the model volume
+## @param model.volume.accessModes Access modes for the model volume
+## @param model.volume.existingClaim PVC for the model volume, if bringing your own PVC
+## @param model.volume.subPath Subdirectory of the model volume to mount
+## @param model.source Source of the model (`huggingface`, `git`, `s3`, or "")
+## @param model.huggingface.id Hugging Face ID of the model
+## @param model.huggingface.files Files to download from the Hugging Face model repository
+## @param model.huggingface.existingSecret Secret whose value of key `token` is used as the Hugging Face token
+## @param model.git.url Git repository URL for the model
+## @param model.git.ref Git branch, tag, or commit for the model
+## @param model.git.existingSecret Secret whose value of key `token` is used as the Git token
+## @param model.s3.url S3 URL for the model
+## @param model.s3.existingSecret Secret of type s3-env containing the S3 credentials
+##
+model:
+  # 模型以该名称被部署
+  deployName: ""
+
+  volume:
+    storageClass: ""
+    size: 32Gi
+    accessModes:
+      - ReadWriteOnce
+    existingClaim: ""
+    subPath: ""
+
+  # 模型来源
+  # 应为 ""、"huggingface"、"git" 或 "s3"，"" 表示不下载
+  source: ""
+  huggingface:
+    # 模型的 Hugging Face ID，例如 "meta-llama/Meta-Llama-3-8B"
+    id: ""
+    # 下载的文件列表，例如 "README.md,tokenizer.json,tokenizer_config.json"，默认为所有文件
+    files: ""
+    # 引用 Secret 的键 token 的值作为 Hugging Face token
+    existingSecret: ""
+  git:
+    # Git 仓库路径
+    url: ""
+    # 分支、标签或 commit
+    ref: ""
+    # 引用 Secret 的键 token 的值作为 Git token
+    existingSecret: ""
+  s3:
+    # S3 路径
+    url: ""
+    # 引用 s3-env 类型的 Secret 的键值
+    existingSecret: ""
+
+## @param env Array of extra environment variables
+##
+env: []
+  # # HTTP 和 HTTPS 代理
+  # - name: HTTP_PROXY
+  #   value: ""
+  # - name: HTTPS_PROXY
+  #   value: ""

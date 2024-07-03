@@ -1,0 +1,28 @@
+{{- if .Values.model.source -}}
+apiVersion: tensorstack.dev/v1beta1
+kind: DataCube
+metadata:
+  name: {{ include "vllm.fullname" . }}
+  labels:
+    {{- include "vllm.labels" . | nindent 4 }}
+spec:
+  source:
+    type: {{ .Values.model.source }}
+    options:
+    {{- include "vllm.options" . | nindent 4 }}
+  sink: 
+    type: pvc
+    pvc:
+      name: {{ include "vllm.fullname" . }}
+      subPath: {{ .Values.model.volume.subPath }}
+  executor:
+    env:
+      {{- toYaml .Values.env | nindent 6 }}
+    resources:
+      requests:
+        cpu: 500m
+        memory: 500Mi
+      limits:
+        cpu: 1
+        memory: 1Gi
+{{- end }}

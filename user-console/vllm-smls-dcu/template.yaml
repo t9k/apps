@@ -1,0 +1,25 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: vllm-dcu
+  displayName: "vLLM (DCU)"
+  categories: ["AI"]
+  description: "vLLM 是一个用于大语言模型的高吞吐量和内存高效的推理和服务引擎。适用于海光 DCU。"
+  icon: "file://$APP_DIR/icon.png"
+template:
+  helm:
+    repo: "oci://docker.io/t9kpublic"
+    # repo: "https://t9k.github.io/apps/"
+    chart: "vllm-dcu"
+    versions:
+    - version: 0.1.6
+      urls: []
+      readinessProbe:
+        resources:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: simplemlservices
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      dependencies: {}
