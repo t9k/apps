@@ -587,6 +587,16 @@ entries:
   vllm:
   - apiVersion: v2
     appVersion: v0.3.3
+    created: "2024-07-03T10:10:59.949754111Z"
+    description: vLLM 是一个用于大语言模型的高吞吐量和内存高效的推理和服务引擎。
+    digest: 17fbfa34c80f26996ec698e98867f8c574cecb4867d5396e7a7045a4f5216ad3
+    name: vllm
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/vllm-0.1.7/vllm-0.1.7.tgz
+    version: 0.1.7
+  - apiVersion: v2
+    appVersion: v0.3.3
     created: "2024-06-25T05:33:35.736973371Z"
     description: vLLM 是一个用于大语言模型的高吞吐量和内存高效的推理和服务引擎。
     digest: 7696c143367f1fe0677bdab92eae8636ed57184f13429c9aaf908ace1ed6b7e4
@@ -626,6 +636,16 @@ entries:
     - https://github.com/t9k/apps/releases/download/vllm-0.1.3/vllm-0.1.3.tgz
     version: 0.1.3
   vllm-dcu:
+  - apiVersion: v2
+    appVersion: v0.3.3
+    created: "2024-07-03T10:11:00.055350362Z"
+    description: vLLM 是一个用于大语言模型的高吞吐量和内存高效的推理和服务引擎。适用于海光 DCU。
+    digest: 80c22f6503c7dda2fa1b37c982cc16fc3abb9d91136c4902de05868d9eaaaa05
+    name: vllm-dcu
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/vllm-dcu-0.1.1/vllm-dcu-0.1.1.tgz
+    version: 0.1.1
   - apiVersion: v2
     appVersion: v0.3.3
     created: "2024-07-03T09:03:54.586409102Z"
@@ -688,4 +708,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-07-03T09:03:54.586497767Z"
+generated: "2024-07-03T10:11:00.055441363Z"
