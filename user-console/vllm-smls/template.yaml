@@ -12,7 +12,7 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "vllm"
     versions:
-    - version: 0.1.6
+    - version: 0.1.7
       urls: []
       readinessProbe:
         resources:

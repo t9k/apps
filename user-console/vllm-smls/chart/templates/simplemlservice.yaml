@@ -39,6 +39,7 @@ spec:
         args:
           - --model=/var/lib/t9k/model
           - --served-model-name={{ .Values.model.deployName }}
+          - --tensor-parallel-size={{ (index .Values.resources.limits "nvidia.com/gpu") }}
           - --trust-remote-code
         ports:
         - containerPort: 8000
