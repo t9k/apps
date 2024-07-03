@@ -100,8 +100,8 @@ env:
 | `image.pullPolicy`                 | Docker 镜像的拉取策略                          | `IfNotPresent`     |
 | `resources.limits.cpu`             | Kubernetes 资源的 CPU 限制                     | `4`                |
 | `resources.limits.memory`          | Kubernetes 资源的内存限制                      | `64Gi`             |
-| `resources.limits.nvidia-gpu`      | Kubernetes 资源的 Nvidia GPU 限制              | `1`                |
-| `model.name`                       | 部署模型的名称                                 | ``                 |
+| `resources.limits.nvidia.com/gpu`  | Kubernetes 资源的 Nvidia GPU 限制              | `1`                |
+| `model.deployName`                 | 部署模型的名称                                 | ``                 |
 | `model.volume.storageClass`        | 模型卷的存储类别                               | ``                 |
 | `model.volume.size`                | 模型卷的大小                                   | `32Gi`             |
 | `model.volume.accessModes`         | 模型卷的访问模式                               | `ReadWriteOnce`    |
