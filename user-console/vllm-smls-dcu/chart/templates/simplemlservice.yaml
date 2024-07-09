@@ -47,15 +47,15 @@ spec:
           - --trust-remote-code
           - --tensor-parallel-size={{ (index .Values.resources.limits "hygon.com/dcu") }}
           - --enforce-eager
-        {{- if eq (index .Values.resources "limits.hygon.com/dcu") 1 }}
+        {{- if eq (index .Values.resources.limits "hygon.com/dcu") 1 }}
         env:
         - name: HIP_VISIBLE_DEVICES
           value: "0"
-        {{- else if eq (index .Values.resources "limits.hygon.com/dcu") 2 }}
+        {{- else if eq (index .Values.resources.limits "hygon.com/dcu") 2 }}
         env:
         - name: HIP_VISIBLE_DEVICES
           value: "0,1"
-        {{- else if eq (index .Values.resources "limits.hygon.com/dcu") 4 }}
+        {{- else if eq (index .Values.resources.limits "hygon.com/dcu") 4 }}
         env:
         - name: HIP_VISIBLE_DEVICES
           value: "0,1,2,3"
@@ -66,7 +66,7 @@ spec:
           {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:
         - name: hyhal
-          mountPath: /opt/hyhal/
+          mountPath: /opt/hyhal
           readOnly: true
         - name: dev-kfd
           mountPath: /dev/kfd
@@ -79,7 +79,7 @@ spec:
       volumes:
       - name: hyhal
         hostPath:
-          path: /opt/hyhal/
+          path: /opt/hyhal
       - name: dev-kfd
         hostPath:
           path: /dev/kfd

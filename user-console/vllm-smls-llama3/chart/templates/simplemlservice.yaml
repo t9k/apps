@@ -27,7 +27,17 @@ spec:
           - --model=/var/lib/t9k/model
           - --served-model-name={{ .Values.model.deployName }}
           - --trust-remote-code
+          - --tensor-parallel-size={{ (index .Values.resources.limits "nvidia.com/gpu") }}
+          - --enforce-eager
         ports:
         - containerPort: 8000
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
+        volumeMounts:
+        - name: dshm
+          mountPath: /dev/shm
+      volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          sizeLimit: "64Gi"

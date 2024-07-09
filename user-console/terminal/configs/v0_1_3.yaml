@@ -32,5 +32,6 @@ global:
         oidc: "$(T9K_OIDC_ENDPOINT)"
         securityServer: "$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)"
     pepProxy:
+      image: "docker.io/t9kpublic/pep-proxy:1.0.10"
       args:
         clientID: $(T9K_APP_AUTH_CLINET_ID)
