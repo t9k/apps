@@ -20,7 +20,7 @@ Jupyter Lab (Nvidia GPU) 额外配置了 Nvidia GPU，你可以在其中进行 N
 
 ### 示例
 
-选用 PyTorch 环境，申请 16 个 CPU（核心）、32 GiB 内存资源以及 1 个 Nvidia GPU，挂载存储卷 `tutorial`：
+选用 PyTorch 环境，申请 4 个 CPU（核心）、8 GiB 内存资源以及 1 个 Nvidia GPU，挂载存储卷 `tutorial`：
 
 ```yaml
 apiVersion: tensorstack.dev/v1beta1
@@ -39,8 +39,8 @@ spec:
               mountPath: /t9k/mnt
           resources:
             limits:
-              cpu: "16"
-              memory: 32Gi
+              cpu: "4"
+              memory: 8Gi
               nvidia.com/gpu: 1
       volumes:
         - name: workingdir
@@ -53,7 +53,7 @@ spec:
 | 名称                                                                 | 描述                                                          | 值                                      |
 | -------------------------------------------------------------------- | ------------------------------------------------------------- | --------------------------------------- |
 | `spec.template.spec.containers[0].image`                             | Jupyter Lab 容器镜像。                                        | `t9kpublic/torch-2.1.0-notebook:1.77.1` |
-| `spec.template.spec.containers[0].resources.limits.cpu`              | Jupyter Lab 最多能使用的 CPU 数量。                           | `16`                                    |
-| `spec.template.spec.containers[0].resources.limits.memory`           | Jupyter Lab 最多能使用的内存数量。                            | `32Gi`                                  |
+| `spec.template.spec.containers[0].resources.limits.cpu`              | Jupyter Lab 最多能使用的 CPU 数量。                           | `4`                                     |
+| `spec.template.spec.containers[0].resources.limits.memory`           | Jupyter Lab 最多能使用的内存数量。                            | `8Gi`                                   |
 | `spec.template.spec.containers[0].resources.limits."nvidia.com/gpu"` | Jupyter Lab 能使用的 Nvidia GPU 数量。                        | `1`                                     |
 | `spec.template.spec.volumes[0].persistentVolumeClaim.claimName`      | 绑定一个 PVC 到 Jupyter Lab 上，作为 Jupyter Lab 的工作空间。 | `""`                                    |

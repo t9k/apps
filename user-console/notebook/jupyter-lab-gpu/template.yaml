@@ -1,0 +1,34 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: jupyter-lab-gpu
+  displayName: "Jupyter Lab (Nvidia GPU)"
+  categories: 
+  - IDE
+  description: "Jupyter Lab (Nvidia GPU) 是最新的基于 Web 的交互式开发环境，该 Jupyter Lab 配置了 Nvidia GPU，用户可以在其中进行 GPU 计算任务的开发。"
+  icon: "file://$APP_DIR/icon.svg"
+template:
+  crd:
+    group: tensorstack.dev
+    resource: notebooks
+    versions:
+    - version: v1beta1
+      config: "file://$APP_DIR/config.yaml"
+      readme: "file://$APP_DIR/README.md"
+      note: "file://$APP_DIR/NOTE.txt"
+      urls: 
+      - name: "jupyter"
+        url: "/t9k/notebooks/projects/{{ .metadata.namespace }}/name/{{ .metadata.name }}/lab"
+      readinessProbe:
+        resources:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: notebooks
+          name: "{{ .metadata.name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      dependencies:
+        crds:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: notebooks
