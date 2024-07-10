@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: comfyui-deployment
+spec:
+  selector:
+    matchLabels:
+      app: comfyui
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: comfyui
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+      - name: comfyui
+        image: t9kpublic/comfyui:20240709
+        env:
+          - name: http_proxy
+            value: http://k01.corp.tensorstack.net:3128
+          - name: https_proxy
+            value: http://k01.corp.tensorstack.net:3128
+        ports:
+        - containerPort: 8188
+        resources:
+          limits:
+            cpu: 4
+            memory: 32Gi
+            nvidia.com/gpu: 1
+        volumeMounts:
+        - mountPath: /home/runner
+          name: data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: comfyui
+      nodeName: sm02

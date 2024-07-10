@@ -1,0 +1,27 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: comfyui
+  displayName: "ComfyUI"
+  categories: ["AI"]
+  description: "最强大和模块化的 stable diffusion 图形用户界面（GUI）和后端，允许你使用基于图/节点/流程图的 UI 设计和执行高级 stable diffusion 流水线。"
+  # icon: "file://$APP_DIR/icon.png"
+template:
+  helm:
+    repo: "oci://docker.io/t9kpublic"
+    # repo: "https://t9k.github.io/apps/"
+    chart: "comfyui"
+    versions:
+    - version: 0.1.0
+      urls: 
+      - name: UI
+        url: /apps/{{ .Release.Namespace }}/comfyui/{{ .Release.Name }}/
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: deployments
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      dependencies: {}
