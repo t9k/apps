@@ -8,7 +8,7 @@ metadata:
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm:
-    # repo: "https://charts.bitnami.com/bitnami"
+    repo: "https://charts.bitnami.com/bitnami"
     chart: "mongodb"
     versions:
     - version: 15.6.1
