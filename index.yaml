@@ -1,5 +1,17 @@
 apiVersion: v1
 entries:
+  comfyui:
+  - apiVersion: v2
+    appVersion: "20240708"
+    created: "2024-07-10T10:02:35.153208111Z"
+    description: 最强大和模块化的 stable diffusion 图形用户界面（GUI）和后端，允许你使用基于图/节点/流程图的 UI 设计和执行高级
+      stable diffusion 流水线。
+    digest: 50856a35ec28fb1d592d0542f32343b7b94706004276c6a9d6102110d6d57cfe
+    name: comfyui
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/comfyui-0.1.0/comfyui-0.1.0.tgz
+    version: 0.1.0
   dify:
   - apiVersion: v2
     appVersion: 0.6.10
@@ -708,4 +720,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-07-03T10:11:00.055441363Z"
+generated: "2024-07-10T10:02:35.963802014Z"
