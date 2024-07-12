@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-server
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    component: server
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      component: server
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+        component: server
+    spec:
+      containers:
+      - name: job-manager-server
+        image: {{ .Values.server.image }}
+        command: ["/app/job-manager-server"]
+        args:
+          - "--show-error-trace"
+          - "--v=2"
+          - "--restful-address=:8080"
+        ports:
+          - name: restful
+            containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        imagePullPolicy: {{ .Values.server.imagePullPolicy }}
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 10m
+            memory: 150Mi
+    {{- if .Values.authorization.enabled }}
+      - command: ["/app/pep-proxy"]
+        args:
+        - --http-address=0.0.0.0:4180
+        - --upstream=http://127.0.0.1:8080/
+        - --client-id={{ .Values.authorization.clientID }}
+        - --redeem-url={{ .Values.network.domain.home }}/t9k/security/server/apis/v1/login/auth-code
+        - --redirect-url={{ .Values.network.domain.home }}/apps/{{ .Release.Namespace }}/job-manager/{{ .Release.Name }}/server/oauth2/callback
+        - --oidc-issuer-url={{ .Values.network.domain.auth }}/auth/realms/t9k-realm
+        - --pep-config=/t9kconfig/pep-config.yaml
+        image: {{ .Values.authorization.pepProxy.image }}
+        imagePullPolicy: {{ .Values.server.imagePullPolicy }}
+        name: pep-proxy
+        ports:
+        - containerPort: 4180
+          name: proxy
+        volumeMounts:
+          - name: pep-config
+            mountPath: /t9kconfig
+        resources:
+          limits:
+            cpu: 500m
+            memory: 300Mi
+          requests:
+            cpu: 10m
+            memory: 50Mi
+    {{- end }}
+      serviceAccountName: {{ .Values.server.serviceAccount }}
+      terminationGracePeriodSeconds: 10
+    {{- if .Values.authorization.enabled }}
+      volumes:
+        - name: pep-config
+          configMap:
+            name: pep-config-{{ .Release.Name }}
+    {{- end }}
+{{- if .Values.authorization.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pep-config-{{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    component: server
+data:
+  pep-config.yaml: |-
+    policyEnforcer:
+      securityServerAddress: {{ .Values.network.domain.home }}/t9k/security/server
+      paths:
+        - path: "/"
+          resourceName: "/project:{{ .Release.Namespace }}"
+          methods:
+            - method: "*"
+              scope: use
+{{- end }}

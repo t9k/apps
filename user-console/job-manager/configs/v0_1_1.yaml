@@ -1,0 +1,22 @@
+authorization:
+  pepProxy:
+    image: "tsz.io/t9k/pep-proxy:1.0.10"
+    imagePullPolicy: Always
+
+network:
+  domain:
+    home: "$(T9K_HOME_DOMAIN)"
+    auth: "$(T9K_AUTH_DOMAIN)"
+
+server:
+  serviceAccount: managed-project-sa
+  imagePullPolicy: Always
+  image: "docker.io/t9kpublic/job-manager-server:240712"
+  
+web:
+  imagePullPolicy: Always
+  image: "docker.io/t9kpublic/job-manager-web:240712"
+
+cluster:
+  extendedResources:
+    gpu: ["nvidia.com/gpu.shared", "nvidia.com/gpu"]

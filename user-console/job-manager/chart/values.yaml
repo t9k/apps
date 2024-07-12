@@ -1,0 +1,25 @@
+authorization:
+  enabled: true
+  clientID: "t9k-client"
+  pepProxy:
+    image: "tsz.io/t9k/pep-proxy:1.0.10"
+    imagePullPolicy: Always
+
+network:
+  gateway: project-gateway
+  domain:
+    home: "https://proxy.nc201.kube.tensorstack.net"
+    auth: "https://kc.kube.tensorstack.net"
+
+server:
+  serviceAccount: managed-project-sa
+  imagePullPolicy: Always
+  image: "docker.io/t9kpublic/job-manager-server:240712"
+  
+web:
+  imagePullPolicy: Always
+  image: "docker.io/t9kpublic/job-manager-web:240712"
+
+cluster:
+  extendedResources:
+    gpu: ["nvidia.com/gpu.shared", "nvidia.com/gpu"]
