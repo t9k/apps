@@ -83,6 +83,17 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/gpt-researcher-0.1.2/gpt-researcher-0.1.2.tgz
     version: 0.1.2
+  job-manager:
+  - apiVersion: v2
+    appVersion: 0.1.1
+    created: "2024-07-15T07:54:28.44055506Z"
+    description: A Helm chart for TensorStack App - Job Manager
+    digest: 40f03995b7f9486316529d995aa033a3c72c51502eea3abd0fa8f2eacde7cdc1
+    name: job-manager
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/job-manager-0.1.1/job-manager-0.1.1.tgz
+    version: 0.1.1
   label-studio:
   - apiVersion: v2
     appVersion: 1.12.1
@@ -720,4 +731,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-07-10T10:02:35.963802014Z"
+generated: "2024-07-15T07:54:28.440634729Z"
