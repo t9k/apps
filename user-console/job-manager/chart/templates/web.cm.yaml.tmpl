@@ -5,7 +5,8 @@ data:
       "jobManagerServer": "/apps/{{ .Release.Namespace }}/job-manager/{{ .Release.Name }}/server",
       "k8sResourceServer": "/t9k/k8s-resource/server",
       "namespace": "{{ .Release.Namespace }}",
-      "gpuExtendedResources": {{ .Values.cluster.extendedResources.gpu | toJson }}
+      "gpuExtendedResources": {{ .Values.cluster.extendedResources.gpu | toJson }},
+      "appVersion": "{{ .Chart.AppVersion }}"
     }
 kind: ConfigMap
 metadata:

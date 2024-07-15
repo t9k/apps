@@ -13,13 +13,13 @@ network:
 
 server:
   serviceAccount: managed-project-sa
-  imagePullPolicy: Always
-  image: "docker.io/t9kpublic/job-manager-server:240712"
+  imagePullPolicy: IfNotPresent
+  image: "docker.io/t9kpublic/job-manager-server:240715"
   
 web:
   serviceAccount: default
-  imagePullPolicy: Always
-  image: "docker.io/t9kpublic/job-manager-web:240712"
+  imagePullPolicy: IfNotPresent
+  image: "docker.io/t9kpublic/job-manager-web:240715"
 
 cluster:
   extendedResources:

@@ -23,11 +23,11 @@ network:
 server:
   serviceAccount: managed-project-sa
   imagePullPolicy: Always
-  image: "docker.io/t9kpublic/job-manager-server:240712"
+  image: "docker.io/t9kpublic/job-manager-server:240715"
 
 web:
   imagePullPolicy: Always
-  image: "docker.io/t9kpublic/job-manager-web:240712"
+  image: "docker.io/t9kpublic/job-manager-web:240715"
 
 cluster:
   extendedResources:
@@ -47,7 +47,7 @@ cluster:
 | `network.domain.auth`                    | T9K 平台的授权域名。                                                                  | `https://auth.example.t9kcloud.cn`              |
 | `server.serviceAccount`                  | Job Manager 服务器所使用的 ServiceAccount。                                           | `managed-project-sa`                            |
 | `server.imagePullPolicy`                 | Job Manager 服务器镜像拉取策略。                                                      | `Always`                                        |
-| `server.image`                           | Job Manager 服务器镜像。                                                              | `docker.io/t9kpublic/job-manager-server:240712` |
+| `server.image`                           | Job Manager 服务器镜像。                                                              | `docker.io/t9kpublic/job-manager-server:240715` |
 | `web.imagePullPolicy`                    | Job Manager Web 镜像拉取策略。                                                        | `Always`                                        |
-| `web.image`                              | Job Manager Web 镜像。                                                                | `docker.io/t9kpublic/job-manager-web:240712`    |
+| `web.image`                              | Job Manager Web 镜像。                                                                | `docker.io/t9kpublic/job-manager-web:240715`    |
 | `cluster.extendedResources.gpu`          | 集群所支持的 GPU 扩展资源。                                                           | `["nvidia.com/gpu.shared", "nvidia.com/gpu"]`   |
