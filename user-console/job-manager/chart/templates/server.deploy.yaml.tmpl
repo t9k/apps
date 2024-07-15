@@ -25,6 +25,7 @@ spec:
           - "--show-error-trace"
           - "--v=2"
           - "--restful-address=:8080"
+          - "--k8s-resource-server={{ .Values.network.domain.home }}/t9k/k8s-resource/server"
         ports:
           - name: restful
             containerPort: 8080
@@ -52,6 +53,7 @@ spec:
         - --redirect-url={{ .Values.network.domain.home }}/apps/{{ .Release.Namespace }}/job-manager/{{ .Release.Name }}/server/oauth2/callback
         - --oidc-issuer-url={{ .Values.network.domain.auth }}/auth/realms/t9k-realm
         - --pep-config=/t9kconfig/pep-config.yaml
+        - --pass-authorization-header
         image: {{ .Values.authorization.pepProxy.image }}
         imagePullPolicy: {{ .Values.server.imagePullPolicy }}
         name: pep-proxy
