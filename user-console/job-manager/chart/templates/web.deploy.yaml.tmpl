@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-web
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    component: web
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      component: web
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+        component: web
+    spec:
+      containers:
+      - name: job-manager-web
+        image: {{ .Values.web.image }}
+        ports:
+          - name: http
+            containerPort: 8080
+        imagePullPolicy: {{ .Values.web.imagePullPolicy }}
+        resources:
+          limits:
+            cpu: 500m
+            memory: 300Mi
+          requests:
+            cpu: 50m
+            memory: 100Mi
+        volumeMounts:
+          - name: job-manager-web-config
+            mountPath: /app/web-asset/config
+    {{- if .Values.authorization.enabled }}
+      - command: ["/app/pep-proxy"]
+        args:
+        - --http-address=0.0.0.0:4180
+        - --upstream=http://127.0.0.1:8080/
+        - --client-id={{ .Values.authorization.clientID }}
+        - --redeem-url={{ .Values.network.domain.home }}/t9k/security/server/apis/v1/login/auth-code
+        - --redirect-url={{ .Values.network.domain.home }}/apps/{{ .Release.Namespace }}/job-manager/{{ .Release.Name }}/web/oauth2/callback
+        - --oidc-issuer-url={{ .Values.network.domain.auth }}/auth/realms/t9k-realm
+        - --security-server-address={{ .Values.network.domain.home }}/t9k/security/server
+        - --pep-config=/t9kconfig/pep-config.yaml
+        image: {{ .Values.authorization.pepProxy.image }}
+        imagePullPolicy: {{ .Values.web.imagePullPolicy }}
+        name: pep-proxy
+        ports:
+        - containerPort: 4180
+          name: proxy
+        resources:
+          limits:
+            cpu: 500m
+            memory: 300Mi
+          requests:
+            cpu: 10m
+            memory: 50Mi
+        volumeMounts:
+          - name: pep-config
+            mountPath: /t9kconfig
+    {{- end }}
+      terminationGracePeriodSeconds: 10
+      volumes:
+        - name: job-manager-web-config
+          configMap:
+            name: {{ .Release.Name }}-web-config
+    {{- if .Values.authorization.enabled }}
+        - name: pep-config
+          configMap:
+            name: pep-config-{{ .Release.Name }}
+    {{- end }}

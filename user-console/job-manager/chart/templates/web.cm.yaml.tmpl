@@ -1,0 +1,16 @@
+apiVersion: v1
+data:
+  config.json: |-
+    {
+      "jobManagerServer": "/apps/{{ .Release.Namespace }}/job-manager/{{ .Release.Name }}/server",
+      "k8sResourceServer": "/t9k/k8s-resource/server",
+      "namespace": "{{ .Release.Namespace }}",
+      "gpuExtendedResources": {{ .Values.cluster.extendedResources.gpu | toJson }}
+    }
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-web-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    component: web
