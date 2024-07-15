@@ -36,3 +36,6 @@ template:
         - group: networking.istio.io
           version: v1beta1
           resource: virtualservices
+        services: 
+        - namespace: t9k-system
+          name: k8s-resource-server
