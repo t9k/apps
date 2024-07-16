@@ -1,4 +1,4 @@
-# vLLM (DCU)
+# vLLM (Hygon DCU)
 
 [vLLM](https://github.com/vllm-project/vllm) 是一个快速、灵活且易用的开源 LLM 推理和服务库。
 
@@ -27,6 +27,8 @@ vLLM 无缝支持 HuggingFace 上大多数流行的开源模型，包括：
 * 类 Transformer 的 LLM（例如 Llama）
 * 专家混合 LLM（例如 Mixtral）
 * 多模态 LLM（例如 LLaVA）
+
+vLLM (Hygon DCU) 使用海光 DCU 作为推理加速卡。
 
 ## 使用方法
 
@@ -100,7 +102,7 @@ env:
 | `image.pullPolicy`                 | Docker 镜像的拉取策略                          | `IfNotPresent`                             |
 | `resources.limits.cpu`             | Kubernetes 资源的 CPU 限制                     | `4`                                        |
 | `resources.limits.memory`          | Kubernetes 资源的内存限制                      | `64Gi`                                     |
-| `resources.limits.hygon.com/dcu`   | Kubernetes 资源的 Hygon DCU 限制               | `1`                                        |
+| `resources.limits."hygon.com/dcu"` | Kubernetes 资源的海光 DCU 限制                 | `1`                                        |
 | `model.deployName`                 | 部署模型的名称                                 | ``                                         |
 | `model.volume.storageClass`        | 模型卷的存储类别                               | ``                                         |
 | `model.volume.size`                | 模型卷的大小                                   | `32Gi`                                     |

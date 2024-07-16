@@ -1,18 +1,18 @@
 apiVersion: app.tensorstack.dev/v1beta1
 kind: Template
 metadata:
-  name: vllm-dcu
-  displayName: "vLLM (Hygon DCU)"
+  name: vllm-gcu
+  displayName: "vLLM (Enflame GCU)"
   categories: ["AI"]
-  description: "vLLM 是一个用于大语言模型的高吞吐量和内存高效的推理和服务引擎。适用于海光 DCU。"
+  description: "vLLM 是一个用于大语言模型的高吞吐量和内存高效的推理和服务引擎。适用于燧原 GCU。"
   icon: "file://$APP_DIR/icon.png"
 template:
   helm:
     repo: "oci://docker.io/t9kpublic"
     # repo: "https://t9k.github.io/apps"
-    chart: "vllm-dcu"
+    chart: "vllm-gcu"
     versions:
-    - version: 0.1.1
+    - version: 0.1.0
       urls: []
       readinessProbe:
         resources:

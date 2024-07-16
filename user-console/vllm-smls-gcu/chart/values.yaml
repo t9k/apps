@@ -8,21 +8,21 @@ replicaCount: 1
 ## @param image.pullPolicy Image pull policy for the Docker image
 ##
 image:
-  registry: image.sourcefind.cn:5000
-  repository: dcu/admin/base/custom
+  registry: ""
+  repository: ""
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "vllm0.3.3-dtk24.04-zk-centos7.6-py310-v2"
+  tag: ""
   pullPolicy: IfNotPresent
 
 ## @param resources.limits.cpu CPU limit for Kubernetes resources
 ## @param resources.limits.memory Memory limit for Kubernetes resources
-## @param resources.limits.hygon.com/dcu Hygon DCU limit for Kubernetes resources
+## @param resources.limits.enflame.com/gcu Enflame GCU limit for Kubernetes resources
 ##
 resources:
   limits:
     cpu: 4
     memory: 64Gi
-    hygon.com/dcu: 1
+    enflame.com/gcu: 1
 
 ## @param model.name Name by which the model is deployed
 ## @param model.volume.storageClass Storage class for the model volume
