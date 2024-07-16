@@ -48,10 +48,10 @@ spec:
 
 ### 参数
 
-| 名称                                                                | 描述                                                          | 值                                      |
-| ------------------------------------------------------------------- | ------------------------------------------------------------- | --------------------------------------- |
-| `spec.template.spec.containers[0].image`                            | Jupyter Lab 容器镜像。                                        | `t9kpublic/torch-2.1.0-notebook:1.77.1` |
-| `spec.template.spec.containers[0].resources.limits.cpu`             | Jupyter Lab 最多能使用的 CPU 数量。                           | `4`                                     |
-| `spec.template.spec.containers[0].resources.limits.memory`          | Jupyter Lab 最多能使用的内存数量。                            | `8Gi`                                   |
-| `spec.template.spec.containers[0].resources.limits."hygon.com/dcu"` | Jupyter Lab 能使用的海光 DCU 数量。                           | `1`                                     |
-| `spec.template.spec.volumes[0].persistentVolumeClaim.claimName`     | 绑定一个 PVC 到 Jupyter Lab 上，作为 Jupyter Lab 的工作空间。 | `""`                                    |
+| 名称                                                                | 描述                                                          | 值                                                                        |
+| ------------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `spec.template.spec.containers[0].image`                            | Jupyter Lab 容器镜像。                                        | `registry.cn-hangzhou.aliyuncs.com/t9k/jupyterlab-torch-2.1.0:240708-dcu` |
+| `spec.template.spec.containers[0].resources.limits.cpu`             | Jupyter Lab 最多能使用的 CPU 数量。                           | `4`                                                                       |
+| `spec.template.spec.containers[0].resources.limits.memory`          | Jupyter Lab 最多能使用的内存数量。                            | `8Gi`                                                                     |
+| `spec.template.spec.containers[0].resources.limits."hygon.com/dcu"` | Jupyter Lab 能使用的海光 DCU 数量。                           | `1`                                                                       |
+| `spec.template.spec.volumes[0].persistentVolumeClaim.claimName`     | 绑定一个 PVC 到 Jupyter Lab 上，作为 Jupyter Lab 的工作空间。 | `""`                                                                      |

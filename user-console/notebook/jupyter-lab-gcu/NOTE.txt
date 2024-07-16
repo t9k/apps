@@ -1,0 +1,18 @@
+{{- $status := "未就绪" -}}
+{{- range .status.conditions -}}
+{{- if and (eq .type "Suspended") (eq .status "True") -}}
+{{- $status = "暂停" -}}
+{{- break -}}
+{{- else if and (eq .type "Ready") (eq .status "True") -}}
+{{- $status = "运行中" -}}
+{{- break -}}
+{{- end -}}
+{{- end -}}
+状态:  {{ $status }}
+类型:  {{ .spec.type }}
+镜像:  {{ (index .spec.template.spec.containers 0).image }}
+
+资源:
+  CPU:  {{ if (index .spec.template.spec.containers 0).resources.requests.cpu }}{{ (index .spec.template.spec.containers 0).resources.requests.cpu }}{{- else -}}-{{end}}/{{ if (index .spec.template.spec.containers 0).resources.limits.cpu }}{{ (index .spec.template.spec.containers 0).resources.limits.cpu }}{{- else -}}-{{end}}
+  内存:  {{ if (index .spec.template.spec.containers 0).resources.requests.memory }}{{ (index .spec.template.spec.containers 0).resources.requests.memory }}{{- else -}}-{{end}}/{{ if (index .spec.template.spec.containers 0).resources.limits.memory }}{{ (index .spec.template.spec.containers 0).resources.limits.memory }}{{- else -}}-{{end}}
+  GCU:  {{ if (index .spec.template.spec.containers 0).resources.requests}}{{ if (index (index .spec.template.spec.containers 0).resources.requests "enflame.com/gcu") }}{{ (index (index .spec.template.spec.containers 0).resources.requests "enflame.com/gcu") }}{{- else -}}-{{end}}{{- else -}}-{{end}}/{{ if (index (index .spec.template.spec.containers 0).resources.limits "enflame.com/gcu" ) }}{{ (index (index .spec.template.spec.containers 0).resources.limits "enflame.com/gcu" ) }}{{- else -}}-{{end}}

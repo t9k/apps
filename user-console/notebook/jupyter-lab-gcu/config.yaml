@@ -1,0 +1,26 @@
+apiVersion: tensorstack.dev/v1beta1
+kind: Notebook
+metadata:
+  name: ""
+spec:
+  type: jupyter
+  template:
+    spec:
+      containers:
+        - name: notebook
+          image: registry.cn-hangzhou.aliyuncs.com/t9k/jupyterlab-torch-2.1.0:240716-gcu
+          volumeMounts:
+            - name: workingdir
+              mountPath: /t9k/mnt
+          ## @param spec.template.spec.containers[0].resources.limits.cpu The maximum number of CPU the notebook can use.
+          ## @param spec.template.spec.containers[0].resources.limits.memory The maximum number of CPU the notebook can use.
+          resources:
+            limits:
+              cpu: "4"
+              memory: 8Gi
+              enflame.com/gcu: 1
+      volumes:
+        - name: workingdir
+          persistentVolumeClaim:
+            ## @param spec.template.spec.volumes[0].persistentVolumeClaim.claimName Mount a pvc as notebook working directory.
+            claimName: ""
