@@ -10,9 +10,9 @@ Jupyter Lab (Nvidia GPU) 额外配置了 Nvidia GPU，你可以在其中进行 N
 
 | 名称                                              | 环境             |
 | ------------------------------------------------- | ---------------- |
-| `t9kpublic/torch-2.1.0-notebook:1.78.8`           | PyTorch 2, conda |
-| `t9kpublic/tensorflow-2.14.0-notebook-gpu:1.78.8` | TensorFlow 2     |
-| `t9kpublic/miniconda-22.11.1-notebook:1.78.8`     | conda            |
+| `t9kpublic/torch-2.1.0-notebook:20240716`           | PyTorch 2, conda |
+| `t9kpublic/tensorflow-2.14.0-notebook-gpu:20240716` | TensorFlow 2     |
+| `t9kpublic/miniconda-22.11.1-notebook:20240716`     | conda            |
 
 每个镜像包含特定的机器学习框架，同时预装了一些 Python 包、命令行工具和最新版本的平台工具。
 
