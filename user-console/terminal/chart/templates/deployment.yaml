@@ -2,21 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: terminal-{{ .Release.Name }}
-  name: terminal-{{ .Release.Name }}
+    app: {{ .Release.Name }}
+  name: {{ .Release.Name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: terminal-{{ .Release.Name }}
+      app: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: terminal-{{ .Release.Name }}
+        app: {{ .Release.Name }}
     spec:
       containers:
         - name: terminal
           image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
           - ttyd
           - -p
