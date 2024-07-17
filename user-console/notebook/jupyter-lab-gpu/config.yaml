@@ -8,7 +8,7 @@ spec:
     spec:
       containers:
         - name: notebook
-          image: t9kpublic/torch-2.1.0-notebook:1.78.8
+          image: t9kpublic/torch-2.1.0-notebook:20240716
           volumeMounts:
             - name: workingdir
               mountPath: /t9k/mnt

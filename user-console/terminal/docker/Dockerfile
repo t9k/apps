@@ -94,6 +94,8 @@ RUN wget https://get.helm.sh/helm-v3.7.1-linux-amd64.tar.gz \
 RUN sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+ENV PS1='\[\e[1;32m\][${PWD} \u@\h]\n\$ \[\e[0m\]'
+RUN echo -e "export PROMPT=$'%F{green}%B[%~ %n@%m]\\n%# %b%f'" >> ~/.zshrc
 
 # vim +PluginInstall +qall && vim +GoInstallBinaries &&
 # or using ttyd -p 8080 bash
