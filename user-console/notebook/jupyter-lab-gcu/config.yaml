@@ -8,6 +8,7 @@ spec:
     spec:
       containers:
         - name: notebook
+          ## @param spec.template.spec.containers[0].image The image used for the notebook container.
           image: ""
           volumeMounts:
             - name: workingdir

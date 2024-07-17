@@ -2,8 +2,8 @@
 ##
 replicaCount: 1
 
-## @param image.registry [default: ghcr.io] Repository registry for the Docker image
-## @param image.repository [default: open-webui/open-webui] Repository name for the Docker image
+## @param image.registry Repository registry for the Docker image
+## @param image.repository Repository name for the Docker image
 ## @param image.tag Image tag for the Docker image (immutable tags are recommended)
 ## @param image.pullPolicy Image pull policy for the Docker image
 ##
