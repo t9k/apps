@@ -8,7 +8,7 @@ spec:
     spec:
       containers:
         - name: notebook
-          image: registry.cn-hangzhou.aliyuncs.com/t9k/jupyterlab-torch-2.1.0:240716-gcu
+          image: ""
           volumeMounts:
             - name: workingdir
               mountPath: /t9k/mnt

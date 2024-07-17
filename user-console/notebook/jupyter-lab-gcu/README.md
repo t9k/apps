@@ -8,9 +8,9 @@ Jupyter Lab (Enflame GCU) 额外配置了燧原 GCU，你可以在其中进行 G
 
 当前应用可以选用以下镜像：
 
-| 名称                                                                      | 环境      |
-| ------------------------------------------------------------------------- | --------- |
-| `registry.cn-hangzhou.aliyuncs.com/t9k/jupyterlab-torch-2.1.0:240716-gcu` | PyTorch 2 |
+| 名称     | 环境      |
+| -------- | --------- |
+| （暂缺） | PyTorch 2 |
 
 每个镜像包含特定的机器学习框架，同时预装了一些 Python 包、命令行工具和最新版本的平台工具。
 
@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: notebook
-          image: registry.cn-hangzhou.aliyuncs.com/t9k/jupyterlab-torch-2.1.0:240716-gcu
+          image: ""
           volumeMounts:
             - name: workingdir
               mountPath: /t9k/mnt
@@ -50,7 +50,7 @@ spec:
 
 | 名称                                                                  | 描述                                                          | 值                                                                        |
 | --------------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| `spec.template.spec.containers[0].image`                              | Jupyter Lab 容器镜像。                                        | `registry.cn-hangzhou.aliyuncs.com/t9k/jupyterlab-torch-2.1.0:240716-gcu` |
+| `spec.template.spec.containers[0].image`                              | Jupyter Lab 容器镜像。                                        | `""` |
 | `spec.template.spec.containers[0].resources.limits.cpu`               | Jupyter Lab 最多能使用的 CPU 数量。                           | `4`                                                                       |
 | `spec.template.spec.containers[0].resources.limits.memory`            | Jupyter Lab 最多能使用的内存数量。                            | `8Gi`                                                                     |
 | `spec.template.spec.containers[0].resources.limits."enflame.com/gcu"` | Jupyter Lab 能使用的燧原 GCU 数量。                           | `1`                                                                       |
