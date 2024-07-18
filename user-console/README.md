@@ -6,13 +6,13 @@ TensorStack AI 平台的 User Console 提供了运行应用的功能。管理员
 
 当前目录下组织存放了所有可注册应用的相关文件，结构如下：
 
-1. 每个子目录对应一个应用（`notebook/` 和 `vllm/` 对应多个应用）。
-2. 每个子目录下的 `template.yaml` 文件为**应用模版**，用于注册应用。如果模版使用本地图片，可将图片放置在同一目录下，图片的引用方式参考[应用模板](./specs.md#应用模板)。
-3. 每个子目录下可进一步创建子目录以存放其他开发文件，例如 `chart/` 存放 Helm chart 文件，`docker/` 存放 Dockerfile。
+1. 每个子目录一般对应一个应用，但也可多个（例如 `notebook/` 和 `vllm/` ）。
+2. 每个子目录下的 `template.yaml` 文件为**应用模版**（参考：[应用模板规范](./specs.md)），用于注册应用。
+3. 每个子目录下可进一步创建子目录以存放其他开发文件，例如 `chart/` 存放 Helm Chart 文件，`docker/` 存放 Dockerfile。
 
 ## 注册和注销应用
 
-需要设置 API key 和 App Server 地址：
+注册和注销应用需要管理员权限，可通过设置具有管理员权限的 API key 达到； App Server 地址根据产品安装的 DNS 获得，例如：
 
 ```bash
 export APIKEY='xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
@@ -25,16 +25,14 @@ export APP_SERVER='https://home.example.t9kcloud.cn/t9k/app/server'
 
 ```bash
 # 注册 Terminal 应用
-t9k-app register -k $APIKEY -s $APP_SERVER \
-  -f user-console/terminal/template.yaml
+t9k-app register -k $APIKEY -s $APP_SERVER -f user-console/terminal/template.yaml
 ```
 
-更新已注册的应用（例如更新 Helm chart 版本）：
+更新已注册的应用（例如更新 Helm Chart 版本）：
 
 ```bash
 # 如果 Terminal 应用已注册则更新
-t9k-app register -k $APIKEY -s $APP_SERVER \
-  -f user-console/terminal/template.yaml -u
+t9k-app register -k $APIKEY -s $APP_SERVER -f user-console/terminal/template.yaml -u
 ```
 
 > [!NOTE]
@@ -111,3 +109,7 @@ t9k-app unregister <app-name> -s <server> -k <apikey> [flags]
 * <app-name>：应用的名称，注意不是展示名称（display name）。
 * `-k`：一个具有管理员权限的 API key。
 * `-s`：App Server 服务地址。
+
+## 参考
+
+[应用模板 (template.yaml) 规范](./specs.md)
