@@ -6,7 +6,7 @@ metadata:
   defaultVersion: 0.1.1
   categories: ["Tool", "AI"]
   description: "Job Manager 是一个用于管理计算任务的控制台，可执行创建任务、查看任务状态、监控任务事件等操作。"
-  icon: "file://$APP_DIR/icon.png"
+  icon: "file://$APP_DIR/icon.svg"
 template:
   helm: 
     repo: "oci://docker.io/t9kpublic"
