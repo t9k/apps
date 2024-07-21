@@ -8,8 +8,8 @@ authorization:
 network:
   gateway: project-gateway
   domain:
-    home: "https://home.example.t9kcloud.cn"
-    auth: "https://auth.example.t9kcloud.cn"
+    home: "https://home.sample.t9kcloud.cn"
+    auth: "https://auth.sample.t9kcloud.cn"
 
 server:
   serviceAccount: managed-project-sa

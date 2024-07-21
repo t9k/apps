@@ -17,8 +17,8 @@ authorization:
 network:
   gateway: project-gateway
   domain:
-    home: "https://home.example.t9kcloud.cn"
-    auth: "https://auth.example.t9kcloud.cn"
+    home: "https://home.sample.t9kcloud.cn"
+    auth: "https://auth.sample.t9kcloud.cn"
 
 server:
   serviceAccount: managed-project-sa
@@ -43,8 +43,8 @@ cluster:
 | `authorization.pepProxy.image`           | PEP Proxy 镜像。                                                                      | `docker.io/t9kpublic/pep-proxy:1.0.12`          |
 | `authorization.pepProxy.imagePullPolicy` | PEP Proxy 镜像拉去策略。                                                              | `Always`                                        |
 | `network.gateway`                        |                                                                                       | `project-gateway`                               |
-| `network.domain.home`                    | T9K 平台的 Home 域名，App 启动后，用户通过该域名访问服务。                            | `https://home.example.t9kcloud.cn`              |
-| `network.domain.auth`                    | T9K 平台的授权域名。                                                                  | `https://auth.example.t9kcloud.cn`              |
+| `network.domain.home`                    | T9K 平台的 Home 域名，App 启动后，用户通过该域名访问服务。                            | `https://home.sample.t9kcloud.cn`              |
+| `network.domain.auth`                    | T9K 平台的授权域名。                                                                  | `https://auth.sample.t9kcloud.cn`              |
 | `server.serviceAccount`                  | Job Manager 服务器所使用的 ServiceAccount。                                           | `managed-project-sa`                            |
 | `server.imagePullPolicy`                 | Job Manager 服务器镜像拉取策略。                                                      | `Always`                                        |
 | `server.image`                           | Job Manager 服务器镜像。                                                              | `docker.io/t9kpublic/job-manager-server:240715` |

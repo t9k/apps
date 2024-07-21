@@ -16,7 +16,7 @@ TensorStack AI 平台的 User Console 提供了运行应用的功能。管理员
 
 ```bash
 export APIKEY='xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
-export APP_SERVER='https://home.example.t9kcloud.cn/t9k/app/server'
+export APP_SERVER='https://home.sample.t9kcloud.cn/t9k/app/server'
 ```
 
 ### 注册应用
