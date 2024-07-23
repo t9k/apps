@@ -1,0 +1,44 @@
+## @param image.registry Repository registry for the Docker image
+## @param image.repository Repository name for the Docker image
+## @param image.tag Image tag for the Docker image (immutable tags are recommended)
+## @param image.pullPolicy Image pull policy for the Docker image
+##
+image:
+  registry: docker.io
+  repository: t9kpublic/fish-speech
+  tag: "v1.2"
+  pullPolicy: IfNotPresent
+
+## @param service.type Service type for the Kubernetes service
+## @param service.port Port for the Kubernetes service
+##
+service:
+  type: ClusterIP
+  port: 7860
+
+## @param ingress.enabled Enable/disable Kubernetes ingress
+## @param ingress.className Ingress class name
+## @param ingress.annotations Annotations for Kubernetes ingress
+## @param ingress.hosts List of hosts for Kubernetes ingress
+## @param ingress.tls TLS configuration for Kubernetes ingress
+##
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts: []
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+## @param resources.limits.cpu CPU limit for Kubernetes resources
+## @param resources.limits.memory Memory limit for Kubernetes resources
+##
+resources:
+  limits:
+    cpu: 4
+    memory: 64Gi
+    nvidia.com/gpu: 1

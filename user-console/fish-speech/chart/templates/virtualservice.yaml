@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "fish-speech.fullname" . }}
+  labels:
+    {{- include "fish-speech.labels" . | nindent 4 }}
+spec:
+  gateways:
+  - project-gateway
+  hosts:
+  - '*'
+  http:
+  - headers:
+      request:
+        remove: 
+        - cookie
+    match:
+    - uri:
+        prefix: /apps/{{ .Release.Namespace }}/fish-speech/{{ .Release.Name }}/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: {{ .Release.Name }}
+        port:
+          number: {{ .Values.service.port }}

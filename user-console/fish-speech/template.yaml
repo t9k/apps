@@ -1,0 +1,27 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: fish-speech
+  displayName: "Fish Speech"
+  categories: ["AI"]
+  description: "Fish Speech 是一套全新的 TTS 解决方案。"
+  icon: "file://$APP_DIR/icon.png"
+template:
+  helm:
+    repo: "oci://docker.io/t9kpublic"
+    # repo: "https://t9k.github.io/apps/"
+    chart: "fish-speech"
+    versions:
+    - version: 0.1.0
+      urls: []
+      # - name: UI
+      #   url: /apps/{{ .Release.Namespace }}/fish-speech/{{ .Release.Name }}/
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: deployments
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      dependencies: {}
