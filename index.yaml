@@ -42,6 +42,17 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/dify-0.3.7/dify-0.3.7.tgz
     version: 0.3.7
+  fish-speech:
+  - apiVersion: v2
+    appVersion: "1.2"
+    created: "2024-07-23T10:44:46.583117626Z"
+    description: Fish Speech 是一套全新的 TTS 解决方案。
+    digest: bca9869116351acbb144400888bbe3216991cc9c4def9b7eb659c6008d40c188
+    name: fish-speech
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/fish-speech-0.1.0/fish-speech-0.1.0.tgz
+    version: 0.1.0
   gpt-researcher:
   - apiVersion: v2
     appVersion: 0.2.6
@@ -742,4 +753,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-07-16T07:10:08.677052723Z"
+generated: "2024-07-23T10:44:48.136636177Z"
