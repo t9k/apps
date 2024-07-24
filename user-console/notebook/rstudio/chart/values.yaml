@@ -1,0 +1,11 @@
+image:
+  registry: docker.io
+  repository: t9kpublic/rocker-4.2.3-rstudio
+  tag: "1.72.1"
+  pullPolicy: IfNotPresent
+
+pvc: ""
+
+resources:
+  cpu: "16"
+  memory: 32Gi

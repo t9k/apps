@@ -8,23 +8,21 @@ metadata:
   description: "RStudio 集成开发环境（IDE），旨在帮助你提高 R 和 Python 的工作效率。"
   icon: "file://$APP_DIR/icon.svg"
 template:
-  crd:
-    group: tensorstack.dev
-    resource: notebooks
+  helm: 
+    repo: "oci://docker.io/t9kpublic"
+    chart: "rstudio"
     versions:
-    - version: v1beta1
-      config: "file://$APP_DIR/config.yaml"
-      readme: "file://$APP_DIR/README.md"
-      note: "file://$APP_DIR/NOTE.txt"
+    - version: 0.1.1
+      config: "file://$APP_DIR/configs/v0_1_1.yaml"
       urls: 
       - name: "rstudio"
-        url: "/t9k/notebooks/projects/{{ .metadata.namespace }}/name/{{ .metadata.name }}/"
+        url: "/t9k/notebooks/projects/{{ .Release.Namespace }}/name/{{ .Release.Name }}/"
       readinessProbe:
         resources:
         - group: tensorstack.dev
           version: v1beta1
           resource: notebooks
-          name: "{{ .metadata.name }}"
+          name: "{{ .Release.Name }}"
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
       dependencies:

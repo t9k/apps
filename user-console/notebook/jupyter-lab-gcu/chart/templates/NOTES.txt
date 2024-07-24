@@ -4,4 +4,4 @@ APP VERSION: {{ .Chart.AppVersion }}
 
 获取 JupyterLab Web 地址：
 
-    kubectl get notebooks.tensorstack.dev {{ .Release.Name }} -o "jsonpath={.status.url}"
+    kubectl get notebooks.tensorstack.dev {{ .Release.Name }} -n {{ .Release.Namespace }} -o "jsonpath={.status.url}"

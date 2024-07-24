@@ -16,7 +16,7 @@ JupyterLab (Enflame GCU) 额外配置了燧原 GCU，你可以在其中进行 GC
 
 ### 示例
 
-选用 PyTorch 环境，申请 16 个 CPU（核心）、32 GiB 内存资源，挂载存储卷 `tutorial`：
+选用 PyTorch 环境，申请 16 个 CPU（核心）、32 GiB 内存资源以及 1 个燧原 GCU，挂载存储卷 `tutorial`：
 
 ```yaml
 image:
