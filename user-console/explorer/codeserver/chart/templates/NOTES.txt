@@ -1,0 +1,5 @@
+CHART NAME: {{ .Chart.Name }}
+CHART VERSION: {{ .Chart.Version }}
+APP VERSION: {{ .Chart.AppVersion }}
+
+Code Server 地址：$(HOME_DOMAIN)/t9k/build-console/projects/{{ .Release.Namespace }}/explorers/{{ .Release.Name }}/codeserver/

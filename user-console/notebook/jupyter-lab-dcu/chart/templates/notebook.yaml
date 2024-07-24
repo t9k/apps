@@ -1,0 +1,46 @@
+apiVersion: tensorstack.dev/v1beta1
+kind: Notebook
+metadata:
+  name: "{{ .Release.Name }}"
+spec:
+  type: jupyter
+  template:
+    spec:
+      containers:
+        - name: notebook
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["SYS_PTRACE"]
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: workingdir
+              mountPath: /t9k/mnt
+            - name: hyhal
+              mountPath: /opt/hyhal
+              readOnly: true
+            - name: dev-kfd
+              mountPath: /dev/kfd
+              readOnly: true
+            - name: dev-dri
+              mountPath: /dev/dri
+              readOnly: true
+          resources:
+            limits:
+              cpu: "{{ .Values.resources.cpu }}"
+              memory: "{{ .Values.resources.memory }}"
+              hygon.com/dcu: "{{ .Values.resources.dcu }}"
+      volumes:
+        - name: workingdir
+          persistentVolumeClaim:
+            claimName: "{{ .Values.pvc }}"
+        - name: hyhal
+          hostPath:
+            path: /opt/hyhal
+        - name: dev-kfd
+          hostPath:
+            path: /dev/kfd
+        - name: dev-dri
+          hostPath:
+            path: /dev/dri

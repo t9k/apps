@@ -230,7 +230,7 @@ pingIntervalSeconds: 30
 
 CRD 应用模板中的 Go Template 可以引用部署配置中的字段。
 
-以下为 Jupyter Lab 应用的部分部署配置：
+以下为 JupyterLab 应用的部分部署配置：
 
 ```yaml
 apiVersion: tensorstack.dev/v1beta1

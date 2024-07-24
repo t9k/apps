@@ -19,7 +19,7 @@ server:
 web:
   serviceAccount: default
   imagePullPolicy: IfNotPresent
-  image: "docker.io/t9kpublic/job-manager-web:240715"
+  image: "docker.io/t9kpublic/job-manager-web:240723"
 
 cluster:
   extendedResources:

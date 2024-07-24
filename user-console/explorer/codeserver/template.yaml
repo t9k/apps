@@ -1,0 +1,32 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: codeserver
+  displayName: "Code Server"
+  categories: 
+  - Tool
+  description: "CodeServer 是一个可以通过浏览器访问的 VSCode。"
+  icon: "file://$APP_DIR/icon.svg"
+template:
+  helm: 
+    repo: "oci://docker.io/t9kpublic"
+    chart: "codeserver"
+    versions:
+    - version: 0.1.2
+      config: "file://$APP_DIR/configs/v0_1_2.yaml"
+      urls: 
+      - name: "codeserver"
+        url: "/t9k/build-console/projects/{{ .Release.Namespace }}/explorers/{{ .Release.Name }}/codeserver/"
+      readinessProbe:
+        resources:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: explorers
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      dependencies:
+        crds:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: explorers
