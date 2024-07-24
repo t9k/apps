@@ -3,6 +3,17 @@ entries:
   comfyui:
   - apiVersion: v2
     appVersion: "20240708"
+    created: "2024-07-24T09:38:55.12098786Z"
+    description: 最强大和模块化的 stable diffusion 图形用户界面（GUI）和后端，允许你使用基于图/节点/流程图的 UI 设计和执行高级
+      stable diffusion 流水线。
+    digest: bb6fc59ba98ba2d4e930eb8c58466100d2f63ed08586eb2c52d357554a57d966
+    name: comfyui
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/comfyui-0.1.1/comfyui-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: "20240708"
     created: "2024-07-10T10:02:35.153208111Z"
     description: 最强大和模块化的 stable diffusion 图形用户界面（GUI）和后端，允许你使用基于图/节点/流程图的 UI 设计和执行高级
       stable diffusion 流水线。
@@ -550,6 +561,17 @@ entries:
   stable-diffusion-webui-aki:
   - apiVersion: v2
     appVersion: "4.8"
+    created: "2024-07-24T09:38:55.422724365Z"
+    description: bilibili@秋葉aaaki 的 Stable Diffusion 整合包，基于开源项目 Stable Diffusion WebUI
+      制作.
+    digest: 43b4d332d8a8ab5bee83fafe004fd3b5d9fa85fc42ad0e4179e66f12dcac1009
+    name: stable-diffusion-webui-aki
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/stable-diffusion-webui-aki-0.1.5/stable-diffusion-webui-aki-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
+    appVersion: "4.8"
     created: "2024-06-19T08:53:58.030455811Z"
     description: bilibili@秋葉aaaki 的 Stable Diffusion 整合包，基于开源项目 Stable Diffusion WebUI
       制作.
@@ -753,4 +775,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-07-23T10:44:48.136636177Z"
+generated: "2024-07-24T09:38:55.422821285Z"
