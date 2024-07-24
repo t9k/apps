@@ -16,7 +16,7 @@ web UI 所加载的模型文件全部存储在随实例创建的存储卷 `app-c
 
 ![](https://s2.loli.net/2024/07/10/DvTKXVr8fG72Rs5.png)
 
-2. 部署挂载该存储卷的 Terminal 或 Jupyter Lab 应用，向 `ComfyUI/models` 目录下载更多的模型文件或删除已有的模型文件。
+2. 部署挂载该存储卷的 Terminal 或 JupyterLab 应用，向 `ComfyUI/models` 目录下载更多的模型文件或删除已有的模型文件。
 
 web UI 所加载的自定义节点全部存储在同一个存储卷的 `ComfyUI/custom_nodes` 目录下。你可以通过以下方法管理模型文件：
 
@@ -24,7 +24,7 @@ web UI 所加载的自定义节点全部存储在同一个存储卷的 `ComfyUI/
 
 ![](https://s2.loli.net/2024/07/10/E2le5vDQJCt7HmI.png)
 
-2. 部署挂载该存储卷的 Terminal 或 Jupyter Lab 应用，在 `ComfyUI/custom_nodes` 目录中克隆自定义节点的 Git 仓库或删除已有的自定义节点。
+2. 部署挂载该存储卷的 Terminal 或 JupyterLab 应用，在 `ComfyUI/custom_nodes` 目录中克隆自定义节点的 Git 仓库或删除已有的自定义节点。
 
 完成后按照提示点击 Refresh 按钮或刷新页面。
 

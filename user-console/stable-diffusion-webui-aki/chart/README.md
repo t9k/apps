@@ -8,7 +8,7 @@
 
 ![](https://s2.loli.net/2024/06/18/DEvIuZPtmCdkcz7.png)
 
-web UI 所加载的模型文件全部存储在随实例创建的存储卷 `app-stable-diffusion-webui-aki-xxxxxxxx` 的 `models` 目录下，已有的模型文件为镜像自带。你可以部署挂载该存储卷的 Terminal 或 Jupyter Lab 应用，向其中下载更多的模型文件或删除已有的模型文件，完成后在 web UI 点击相应的刷新按钮：
+web UI 所加载的模型文件全部存储在随实例创建的存储卷 `app-stable-diffusion-webui-aki-xxxxxxxx` 的 `models` 目录下，已有的模型文件为镜像自带。你可以部署挂载该存储卷的 Terminal 或 JupyterLab 应用，向其中下载更多的模型文件或删除已有的模型文件，完成后在 web UI 点击相应的刷新按钮：
 
 ![](https://s2.loli.net/2024/06/18/WRPoig1Uk59uF7B.png)
 

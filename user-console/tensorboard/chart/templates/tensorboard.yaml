@@ -1,0 +1,12 @@
+apiVersion: tensorstack.dev/v1beta1
+kind: TensorBoard
+metadata:
+  name: "{{ .Release.Name }}"
+spec:
+  image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+  logDir: 
+    {{- toYaml .Values.logDir | nindent 4 }}
+  resources:
+    limits:
+      cpu: "{{ .Values.resources.cpu }}"
+      memory: "{{ .Values.resources.memory }}"

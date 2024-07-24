@@ -18,6 +18,11 @@ resources:
     cpu: 200m
     memory: 200Mi
 
+# pvcs:
+# - name: <pvc-1>
+#   mountPath: /mnt/one
+# - name: <pvc-2>
+#   mountPath: /mnt/two
 pvcs: []
 
 global:

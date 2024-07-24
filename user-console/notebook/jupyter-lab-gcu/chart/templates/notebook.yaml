@@ -1,0 +1,24 @@
+apiVersion: tensorstack.dev/v1beta1
+kind: Notebook
+metadata:
+  name: "{{ .Release.Name }}"
+spec:
+  type: jupyter
+  template:
+    spec:
+      containers:
+        - name: notebook
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: workingdir
+              mountPath: /t9k/mnt
+          resources:
+            limits:
+              cpu: "{{ .Values.resources.cpu }}"
+              memory: "{{ .Values.resources.memory }}"
+              enflame.com/gcu: "{{ .Values.resources.gcu }}"
+      volumes:
+        - name: workingdir
+          persistentVolumeClaim:
+            claimName: "{{ .Values.pvc }}"

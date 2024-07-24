@@ -1,0 +1,12 @@
+image:
+  registry: ""
+  repository: ""
+  tag: ""
+  pullPolicy: IfNotPresent
+
+pvc: ""
+
+resources:
+  cpu: "16"
+  memory: 32Gi
+  gcu: "1"

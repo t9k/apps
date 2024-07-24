@@ -6,9 +6,9 @@
 
 请按照以下步骤使用 vLLM 部署 Llama 3.1 系列模型为推理服务：
 
-1. 创建一个名为 `vllm-llama3-1`、大小 18GiB（对于 8B 模型）或 150GiB（对于 70B 模型）的存储卷，然后部署一个任意的 Jupyter Lab 应用挂载该存储卷。
+1. 创建一个名为 `vllm-llama3-1`、大小 18GiB（对于 8B 模型）或 150GiB（对于 70B 模型）的存储卷，然后部署一个任意的 JupyterLab 应用挂载该存储卷。
 
-2. 进入 Jupyter Lab 应用，启动一个终端，执行以下命令以下载模型文件：
+2. 进入 JupyterLab 应用，启动一个终端，执行以下命令以下载模型文件：
 
 ```bash
 pip install modelscope
@@ -20,7 +20,7 @@ mv .cache/modelscope/hub/LLM-Research/$MODEL_NAME .
 
 3. 部署当前应用，将 `model.deployName` 字段的值修改为想要的名称，将`model.subPath` 字段的值设为上一步中的 `$MODEL_NAME`。
 
-4. 待实例就绪后，回到 Jupyter Lab 应用，启动一个终端，按照实例信息执行命令以验证推理服务可用。
+4. 待实例就绪后，回到 JupyterLab 应用，启动一个终端，按照实例信息执行命令以验证推理服务可用。
 
 5. 验证成功，此时推理服务可以作为 OpenAI API 的替代，即可以使用 `http://$ENDPOINT` 替代 `https://api.openai.com`。
 

@@ -1,0 +1,21 @@
+## @param image.registry Repository registry for the Docker image
+## @param image.repository Repository name for the Docker image
+## @param image.tag Image tag for the Docker image (immutable tags are recommended)
+## @param image.pullPolicy Image pull policy for the Docker image
+##
+image:
+  registry: docker.io
+  repository: t9kpublic/torch-2.1.0-notebook
+  tag: "20240716"
+  pullPolicy: IfNotPresent
+
+## @param pvc Mount a pvc as notebook working directory.
+pvc: ""
+
+## @param resources.cpu The maximum number of CPU the notebook can use.
+## @param resources.memory The maximum number of CPU the notebook can use.
+## @param resources.gpu The maximum number of Nvidia GPU the notebook can use.
+resources:
+  cpu: "16"
+  memory: 32Gi
+  gpu: "1"

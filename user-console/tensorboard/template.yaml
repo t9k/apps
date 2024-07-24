@@ -8,23 +8,21 @@ metadata:
   description: "TensorBoard 是 TensorFlow 的可视化工具，它可以展示你的 TensorFlow 网络模型运行过程中的各种可视化数据。"
   icon: "file://$APP_DIR/icon.svg"
 template:
-  crd:
-    group: tensorstack.dev
-    resource: tensorboards
+  helm: 
+    repo: "oci://docker.io/t9kpublic"
+    chart: "tensorboard"
     versions:
-    - version: v1beta1
-      config: "file://$APP_DIR/config.yaml"
-      readme: "file://$APP_DIR/README.md"
-      note: "file://$APP_DIR/NOTE.txt"
+    - version: 0.1.1
+      config: "file://$APP_DIR/configs/v0_1_1.yaml"
       urls: 
       - name: "tensorboard"
-        url: "/t9k/tensorboards/projects/{{ .metadata.namespace }}/name/{{ .metadata.name }}/"
+        url: "/t9k/tensorboards/projects/{{ .Release.Namespace }}/name/{{ .Release.Name }}/"
       readinessProbe:
         resources:
         - group: tensorstack.dev
           version: v1beta1
           resource: tensorboards
-          name: "{{ .metadata.name }}"
+          name: "{{ .Release.Name }}"
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
       dependencies:

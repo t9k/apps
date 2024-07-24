@@ -1,9 +1,0 @@
-apiVersion: tensorstack.dev/v1beta1
-kind: Explorer
-metadata:
-  name: ""
-spec:
-  ## @param spec.storageName Manage the files in the pvc.
-  storageName: ""
-  storageType: pvc
-  type: FileBrowser
