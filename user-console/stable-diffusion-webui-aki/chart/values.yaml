@@ -1,7 +1,3 @@
-## @param replicaCount Number of replicas for the deployment
-##
-replicaCount: 1
-
 ## @param image.registry Repository registry for the Docker image
 ## @param image.repository Repository name for the Docker image
 ## @param image.tag Image tag for the Docker image (immutable tags are recommended)

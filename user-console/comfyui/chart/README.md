@@ -39,8 +39,6 @@ web UI 所加载的自定义节点全部存储在同一个存储卷的 `ComfyUI/
 默认配置：
 
 ```yaml
-replicaCount: 1
-
 image:
   registry: docker.io
   repository: t9kpublic/comfyui
@@ -77,7 +75,6 @@ env: []
 
 | 名称                          | 描述                              | 值                  |
 | ----------------------------- | --------------------------------- | ------------------- |
-| `replicaCount`                | 副本数量                          | `1`                 |
 | `image.registry`              | Docker 镜像的存储库               | `docker.io`         |
 | `image.repository`            | Docker 镜像的存储库名称           | `t9kpublic/comfyui` |
 | `image.tag`                   | Docker 镜像的标签                 | `20240709`          |

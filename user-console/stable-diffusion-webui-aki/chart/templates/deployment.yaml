@@ -37,7 +37,7 @@ spec:
             - --skip-install
             - --listen
             - --xformers
-            - --subpath=t9k/app/stable-diffusion-webui-aki/{{ .Release.Namespace }}/{{ .Release.Name }}
+            - --subpath=apps/{{ .Release.Namespace }}/stable-diffusion-webui-aki/{{ .Release.Name }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -46,10 +46,12 @@ spec:
             httpGet:
               path: /
               port: http
+            initialDelaySeconds: 30
           readinessProbe:
             httpGet:
               path: /
               port: http
+            initialDelaySeconds: 30
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:

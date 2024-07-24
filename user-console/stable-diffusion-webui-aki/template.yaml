@@ -12,7 +12,7 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "stable-diffusion-webui-aki"
     versions:
-    - version: 0.1.4
+    - version: 0.1.5
       urls: 
       - name: UI
         url: /apps/{{ .Release.Namespace }}/stable-diffusion-webui-aki/{{ .Release.Name }}/

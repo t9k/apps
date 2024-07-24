@@ -16,6 +16,8 @@ web UI 所加载的模型文件全部存储在随实例创建的存储卷 `app-s
 
 默认的存储卷大小为 32 GiB，请根据要下载的模型文件的总大小以及要生成的图像文件的总大小进行适当的调整。此外，该存储卷在创建完成后也可以进行扩容。
 
+更多 web UI 的使用方法可以参阅 [Stable Diffusion WebUI 从入门到卸载](https://docs.qq.com/doc/p/4d05d5a8f1282662dd5b7e526ecfe8d8ecbcee17)。
+
 ## 配置
 
 ### 示例
@@ -23,8 +25,6 @@ web UI 所加载的模型文件全部存储在随实例创建的存储卷 `app-s
 默认配置：
 
 ```yaml
-replicaCount: 1
-
 image:
   registry: docker.io
   repository: t9kpublic/stable-diffusion-webui
@@ -57,23 +57,22 @@ persistence:
 
 ### 参数
 
-| 名称                          | 描述                              | 值                                 |
-| ----------------------------- | --------------------------------- | ---------------------------------- |
-| `replicaCount`                | 副本数量                          | `1`                                |
-| `image.registry`              | Docker 镜像的存储库               | `docker.io`                        |
-| `image.repository`            | Docker 镜像的存储库名称           | `t9kpublic/stable-diffusion-webui` |
-| `image.tag`                   | Docker 镜像的标签                 | `20240514`                         |
-| `image.pullPolicy`            | Docker 镜像的拉取策略             | `IfNotPresent`                     |
-| `service.type`                | Kubernetes 服务的类型             | `ClusterIP`                        |
-| `service.port`                | Kubernetes 服务的端口             | `7860`                             |
-| `ingress.enabled`             | 启用/禁用 Kubernetes Ingress      | `false`                            |
-| `ingress.className`           | Ingress 类名称                    | ``                                 |
-| `ingress.annotations`         | Kubernetes Ingress 注释           | `{}`                               |
-| `ingress.hosts`               | Kubernetes Ingress 的主机列表     | `{}`                               |
-| `ingress.tls`                 | Kubernetes Ingress 的 TLS 配置    | `[]`                               |
-| `resources.limits.cpu`        | Kubernetes 资源的 CPU 限制        | `4`                                |
-| `resources.limits.memory`     | Kubernetes 资源的内存限制         | `64Gi`                             |
-| `resources.limits.nvidia-gpu` | Kubernetes 资源的 Nvidia GPU 限制 | `1`                                |
-| `persistence.size`            | 持久卷声明的大小                  | `32Gi`                             |
-| `persistence.storageClass`    | 持久卷声明的存储类别              | ``                                 |
-| `persistence.accessModes`     | 持久卷声明的访问模式              | `["ReadWriteOnce"]`                |
+| 名称                                | 描述                              | 值                                 |
+| ----------------------------------- | --------------------------------- | ---------------------------------- |
+| `image.registry`                    | Docker 镜像的存储库               | `docker.io`                        |
+| `image.repository`                  | Docker 镜像的存储库名称           | `t9kpublic/stable-diffusion-webui` |
+| `image.tag`                         | Docker 镜像的标签                 | `20240514`                         |
+| `image.pullPolicy`                  | Docker 镜像的拉取策略             | `IfNotPresent`                     |
+| `service.type`                      | Kubernetes 服务的类型             | `ClusterIP`                        |
+| `service.port`                      | Kubernetes 服务的端口             | `7860`                             |
+| `ingress.enabled`                   | 启用/禁用 Kubernetes Ingress      | `false`                            |
+| `ingress.className`                 | Ingress 类名称                    | ``                                 |
+| `ingress.annotations`               | Kubernetes Ingress 注释           | `{}`                               |
+| `ingress.hosts`                     | Kubernetes Ingress 的主机列表     | `{}`                               |
+| `ingress.tls`                       | Kubernetes Ingress 的 TLS 配置    | `[]`                               |
+| `resources.limits.cpu`              | Kubernetes 资源的 CPU 限制        | `4`                                |
+| `resources.limits.memory`           | Kubernetes 资源的内存限制         | `64Gi`                             |
+| `resources.limits."nvidia.com/gpu"` | Kubernetes 资源的 Nvidia GPU 限制 | `1`                                |
+| `persistence.size`                  | 持久卷声明的大小                  | `32Gi`                             |
+| `persistence.storageClass`          | 持久卷声明的存储类别              | ``                                 |
+| `persistence.accessModes`           | 持久卷声明的访问模式              | `["ReadWriteOnce"]`                |

@@ -12,7 +12,7 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "comfyui"
     versions:
-    - version: 0.1.0
+    - version: 0.1.1
       urls: 
       - name: UI
         url: /apps/{{ .Release.Namespace }}/comfyui/{{ .Release.Name }}/
