@@ -107,6 +107,16 @@ entries:
     version: 0.1.2
   job-manager:
   - apiVersion: v2
+    appVersion: 0.1.2
+    created: "2024-07-24T10:29:05.100737994Z"
+    description: A Helm chart for TensorStack App - Job Manager
+    digest: 2802ec15a955f87df7421be7e97cf283d565aa7ae605f46d947d6520a7d49d35
+    name: job-manager
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/job-manager-0.1.2/job-manager-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
     appVersion: 0.1.1
     created: "2024-07-15T07:54:28.44055506Z"
     description: A Helm chart for TensorStack App - Job Manager
@@ -603,6 +613,17 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/stable-diffusion-webui-aki-0.1.2/stable-diffusion-webui-aki-0.1.2.tgz
     version: 0.1.2
+  tensorboard:
+  - apiVersion: v2
+    appVersion: 0.1.1
+    created: "2024-07-24T10:29:05.379222752Z"
+    description: TensorBoard 是 TensorFlow 的可视化工具，它可以展示你的 TensorFlow 网络模型运行过程中的各种可视化数据。
+    digest: c18d95c88b3ccafbde87d590e156f90682af2683e6699dea7e1441d981205b1b
+    name: tensorboard
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/tensorboard-0.1.1/tensorboard-0.1.1.tgz
+    version: 0.1.1
   terminal:
   - apiVersion: v2
     appVersion: 0.1.1
@@ -785,4 +806,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-07-24T10:17:02.394736147Z"
+generated: "2024-07-24T10:29:05.509885068Z"
