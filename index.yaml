@@ -726,6 +726,16 @@ entries:
   vllm-llama3:
   - apiVersion: v2
     appVersion: v0.3.3
+    created: "2024-07-24T10:17:02.394653841Z"
+    description: 使用 vLLM 部署 Llama 3.1 系列模型。
+    digest: 8e0a5c6157f5998838d90670f8b5d4e428364d265cdfaeecd84845d00df3db23
+    name: vllm-llama3
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/vllm-llama3-0.1.4/vllm-llama3-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: v0.3.3
     created: "2024-06-25T05:33:35.849651062Z"
     description: 使用 vLLM 部署 Llama 3 系列模型。
     digest: 4022f1d62cc9b38dae828eeb60a7245edc0e7adde4001cfa204a35dd84226613
@@ -775,4 +785,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-07-24T09:38:55.422821285Z"
+generated: "2024-07-24T10:17:02.394736147Z"
