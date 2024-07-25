@@ -2,15 +2,15 @@ annotations:
   category: Database
   images: |
     - name: kubectl
-      image: docker.io/bitnami/kubectl:1.30.0-debian-12-r0
+      image: registry.cn-hangzhou.aliyuncs.com/t9k/kubectl:1.30.0-debian-12-r0
     - name: os-shell
-      image: docker.io/bitnami/os-shell:12-debian-12-r19
+      image: registry.cn-hangzhou.aliyuncs.com/t9k/os-shell:12-debian-12-r19
     - name: redis
-      image: docker.io/bitnami/redis:7.2.4-debian-12-r13
+      image: registry.cn-hangzhou.aliyuncs.com/t9k/redis:7.2.4-debian-12-r13
     - name: redis-exporter
-      image: docker.io/bitnami/redis-exporter:1.59.0-debian-12-r1
+      image: registry.cn-hangzhou.aliyuncs.com/t9k/redis-exporter:1.59.0-debian-12-r1
     - name: redis-sentinel
-      image: docker.io/bitnami/redis-sentinel:7.2.4-debian-12-r10
+      image: registry.cn-hangzhou.aliyuncs.com/t9k/redis-sentinel:7.2.4-debian-12-r10
   licenses: Apache-2.0
 apiVersion: v2
 appVersion: 7.2.4

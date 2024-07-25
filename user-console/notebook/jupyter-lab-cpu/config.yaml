@@ -9,7 +9,7 @@ spec:
       containers:
         - name: notebook
           ## @param spec.template.spec.containers[0].image The image used for the notebook container.
-          image: t9kpublic/torch-2.1.0-notebook:20240716
+          image: registry.cn-hangzhou.aliyuncs.com/t9k/torch-2.1.0-notebook:20240716
           volumeMounts:
             - name: workingdir
               mountPath: /t9k/mnt

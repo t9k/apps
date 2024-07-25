@@ -2,7 +2,7 @@ authorization:
   enabled: true
   clientID: "t9k-client"
   pepProxy:
-    image: "docker.io/t9kpublic/pep-proxy:1.0.12"
+    image: "registry.cn-hangzhou.aliyuncs.com/t9k/pep-proxy:1.0.12"
     imagePullPolicy: Always
 
 network:
@@ -14,12 +14,12 @@ network:
 server:
   serviceAccount: managed-project-sa
   imagePullPolicy: IfNotPresent
-  image: "docker.io/t9kpublic/job-manager-server:240715"
+  image: "registry.cn-hangzhou.aliyuncs.com/t9k/job-manager-server:240715"
   
 web:
   serviceAccount: default
   imagePullPolicy: IfNotPresent
-  image: "docker.io/t9kpublic/job-manager-web:240715"
+  image: "registry.cn-hangzhou.aliyuncs.com/t9k/job-manager-web:240715"
 
 cluster:
   extendedResources:

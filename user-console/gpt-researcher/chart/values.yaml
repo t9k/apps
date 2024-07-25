@@ -2,14 +2,14 @@
 ##
 replicaCount: 1
 
-## @param image.registry Repository registry for the Docker image
-## @param image.repository Repository name for the Docker image
+## @param image.registry [default: docker.io] Repository registry for the Docker image
+## @param image.repository [default: t9k/gpt-researcher] Repository name for the Docker image
 ## @param image.tag Image tag for the Docker image (immutable tags are recommended)
 ## @param image.pullPolicy Image pull policy for the Docker image
 ##
 image:
-  registry: docker.io
-  repository: t9kpublic/gpt-researcher
+  registry: registry.cn-hangzhou.aliyuncs.com
+  repository: t9k/gpt-researcher
   tag: 0.2.6
   pullPolicy: IfNotPresent
 

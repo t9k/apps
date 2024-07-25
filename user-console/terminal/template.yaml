@@ -9,8 +9,7 @@ metadata:
   icon: "file://$APP_DIR/icon.png"
 template:
   helm: 
-    repo: "oci://docker.io/t9kpublic"
-    # repo: "https://t9k.github.io/apps/"
+    repo: oci://registry.dockermirror.com/t9kpublic
     chart: "terminal"
     versions:
     - version: 0.1.3
@@ -23,7 +22,7 @@ template:
         - group: apps
           version: v1
           resource: deployments
-          name: "{{ .Release.Name }}"
+          name: terminal-{{ .Release.Name }}
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
       dependencies:

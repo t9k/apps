@@ -476,7 +476,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------- | ----------------------- |
 | `volumePermissions.enabled`                            | Enable init container that changes the owner/group of the PV mount point to `runAsUser:fsGroup` | `false`                 |
 | `volumePermissions.image.registry`                     | Bitnami Shell image registry                                                                    | `docker.io`             |
-| `volumePermissions.image.repository`                   | Bitnami Shell image repository                                                                  | `bitnami/bitnami-shell` |
+| `volumePermissions.image.repository`                   | Bitnami Shell image repository                                                                  | `t9k/bitnami-shell` |
 | `volumePermissions.image.tag`                          | Bitnami Shell image tag (immutable tags are recommended)                                        | `11-debian-11-r11`      |
 | `volumePermissions.image.pullPolicy`                   | Bitnami Shell image pull policy                                                                 | `IfNotPresent`          |
 | `volumePermissions.image.pullSecrets`                  | Bitnami Shell image pull secrets                                                                | `[]`                    |
@@ -485,7 +485,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | `volumePermissions.containerSecurityContext.runAsUser` | Set init container's Security Context runAsUser                                                 | `0`                     |
 | `sysctl.enabled`                                       | Enable init container to modify Kernel settings                                                 | `false`                 |
 | `sysctl.image.registry`                                | Bitnami Shell image registry                                                                    | `docker.io`             |
-| `sysctl.image.repository`                              | Bitnami Shell image repository                                                                  | `bitnami/bitnami-shell` |
+| `sysctl.image.repository`                              | Bitnami Shell image repository                                                                  | `t9k/bitnami-shell` |
 | `sysctl.image.tag`                                     | Bitnami Shell image tag (immutable tags are recommended)                                        | `11-debian-11-r11`      |
 | `sysctl.image.pullPolicy`                              | Bitnami Shell image pull policy                                                                 | `IfNotPresent`          |
 | `sysctl.image.pullSecrets`                             | Bitnami Shell image pull secrets                                                                | `[]`                    |

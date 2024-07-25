@@ -10,9 +10,9 @@ Jupyter Lab (CPU) 仅配置了 CPU。如要使用 Nvidia GPU，请切换到 [Jup
 
 | 名称                                              | 环境             |
 | ------------------------------------------------- | ---------------- |
-| `t9kpublic/torch-2.1.0-notebook:20240716`           | PyTorch 2, conda |
-| `t9kpublic/tensorflow-2.14.0-notebook-cpu:20240716` | TensorFlow 2     |
-| `t9kpublic/miniconda-22.11.1-notebook:20240716`     | conda            |
+| `registry.cn-hangzhou.aliyuncs.com/t9k/torch-2.1.0-notebook:20240716`           | PyTorch 2, conda |
+| `registry.cn-hangzhou.aliyuncs.com/t9k/tensorflow-2.14.0-notebook-cpu:20240716` | TensorFlow 2     |
+| `registry.cn-hangzhou.aliyuncs.com/t9k/miniconda-22.11.1-notebook:20240716`     | conda            |
 
 每个镜像包含特定的机器学习框架，同时预装了一些 Python 包、命令行工具和最新版本的平台工具。
 
@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
         - name: notebook
-          image: t9kpublic/torch-2.1.0-notebook:1.78.8
+          image: registry.cn-hangzhou.aliyuncs.com/t9k/torch-2.1.0-notebook:20240716
           volumeMounts:
             - name: workingdir
               mountPath: /t9k/mnt
@@ -51,7 +51,7 @@ spec:
 
 | 名称                                                            | 描述                                                          | 值                                      |
 | --------------------------------------------------------------- | ------------------------------------------------------------- | --------------------------------------- |
-| `spec.template.spec.containers[0].image`                        | Jupyter Lab 容器镜像。                                        | `t9kpublic/torch-2.1.0-notebook:1.77.1` |
+| `spec.template.spec.containers[0].image`                        | Jupyter Lab 容器镜像。                                        | `registry.cn-hangzhou.aliyuncs.com/t9k/torch-2.1.0-notebook:1.77.1` |
 | `spec.template.spec.containers[0].resources.limits.cpu`         | Jupyter Lab 最多能使用的 CPU 数量。                           | `16`                                    |
 | `spec.template.spec.containers[0].resources.limits.memory`      | Jupyter Lab 最多能使用的内存数量。                            | `32Gi`                                  |
 | `spec.template.spec.volumes[0].persistentVolumeClaim.claimName` | 绑定一个 PVC 到 Jupyter Lab 上，作为 Jupyter Lab 的工作空间。 | `""`                                    |

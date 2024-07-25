@@ -26,7 +26,7 @@ podAnnotations: {}
 replicaCount: 1
 # -- Open WebUI image tags can be found here: https://github.com/open-webui/open-webui/pkgs/container/open-webui
 image:
-  repository: ghcr.io/open-webui/open-webui
+  repository: registry.cn-hangzhou.aliyuncs.com/t9k/open-webui
   tag: "latest"
   pullPolicy: Always
 resources: {}

@@ -8,7 +8,7 @@ spec:
     spec:
       containers:
         - name: notebook
-          image: t9kpublic/rocker-4.2.3-rstudio:1.72.1
+          image: registry.cn-hangzhou.aliyuncs.com/t9k/rocker-4.2.3-rstudio:1.72.1
           volumeMounts:
             - name: workingdir
               mountPath: /t9k/mnt/workspace

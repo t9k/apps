@@ -8,8 +8,8 @@ replicaCount: 1
 ## @param image.pullPolicy Image pull policy for the Docker image
 ##
 image:
-  registry: docker.io
-  repository: ollama/ollama
+  registry: registry.cn-hangzhou.aliyuncs.com
+  repository: t9k/ollama
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
   pullPolicy: IfNotPresent

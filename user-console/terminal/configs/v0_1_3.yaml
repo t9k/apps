@@ -1,12 +1,12 @@
-## @param image.registry Repository registry for the Docker image
-## @param image.repository Repository name for the Docker image
+## @param image.registry [default: docker.io] Repository registry for the Docker image
+## @param image.repository [default: t9k/chatgpt-next-web] Repository name for the Docker image
 ## @param image.tag Image tag for the Docker image (immutable tags are recommended)
 ## @param image.pullPolicy Image pull policy for the Docker image
 ##
 image:
-  registry: docker.io
-  repository: t9kpublic/terminal
-  tag: "240716"
+  registry: registry.cn-hangzhou.aliyuncs.com
+  repository: t9k/terminal
+  tag: "240611"
   pullPolicy: IfNotPresent
 
 # sh, bash or zsh
@@ -32,6 +32,5 @@ global:
         oidc: "$(T9K_OIDC_ENDPOINT)"
         securityServer: "$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)"
     pepProxy:
-      image: "docker.io/t9kpublic/pep-proxy:1.0.10"
       args:
         clientID: $(T9K_APP_AUTH_CLINET_ID)

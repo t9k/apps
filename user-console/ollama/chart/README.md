@@ -30,7 +30,7 @@
 replicaCount: 1
 
 image:
-  registry: docker.io
+  registry: registry.cn-hangzhou.aliyuncs.com
   repository: ollama/ollama
   tag: ""
   pullPolicy: IfNotPresent

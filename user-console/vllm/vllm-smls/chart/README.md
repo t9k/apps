@@ -54,8 +54,8 @@ vLLM 无缝支持 HuggingFace 上大多数流行的开源模型，包括：
 replicaCount: 1
 
 image:
-  registry: docker.io
-  repository: vllm/vllm-openai
+  registry: registry.cn-hangzhou.aliyuncs.com
+  repository: t9k/vllm-openai
   tag: "v0.3.3"
   pullPolicy: IfNotPresent
 

@@ -8,8 +8,8 @@ metadata:
   icon: "file://$APP_DIR/icon.png"
 template:
   helm:
-    repo: "oci://docker.io/t9kpublic"
-    # repo: "https://t9k.github.io/apps/"
+    repo: oci://registry.dockermirror.com/t9kpublic
+    # repo: oci://registry.dockermirror.com/t9kpublic
     chart: "stable-diffusion-webui-aki"
     versions:
     - version: 0.1.4

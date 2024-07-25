@@ -25,8 +25,8 @@
 replicaCount: 1
 
 image:
-  registry: docker.io
-  repository: t9kpublic/search-with-lepton
+  registry: registry.cn-hangzhou.aliyuncs.com
+  repository: t9k/search-with-lepton
   tag: "20240208"
   pullPolicy: IfNotPresent
 
@@ -72,7 +72,7 @@ env:
 | ---------------------------- | ---------------------------------------------------------------- | ------------------------------ |
 | `replicaCount`               | 副本数量                                                         | `1`                            |
 | `image.registry`             | Docker 镜像的存储库                                              | `docker.io`                    |
-| `image.repository`           | Docker 镜像的存储库名称                                          | `t9kpublic/search-with-lepton` |
+| `image.repository`           | Docker 镜像的存储库名称                                          | `t9k/search-with-lepton` |
 | `image.tag`                  | Docker 镜像的标签                                                | `20240208`                     |
 | `image.pullPolicy`           | Docker 镜像的拉取策略                                            | `IfNotPresent`                 |
 | `service.type`               | Kubernetes 服务的类型                                            | `ClusterIP`                    |

@@ -34,7 +34,7 @@ mv .cache/modelscope/hub/LLM-Research/$MODEL_NAME .
 replicaCount: 1
 
 image:
-  registry: docker.io
+  registry: registry.cn-hangzhou.aliyuncs.com
   repository: vllm/vllm-openai
   tag: "v0.3.3"
   pullPolicy: IfNotPresent

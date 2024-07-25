@@ -9,7 +9,7 @@ metadata:
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm: 
-    repo: "oci://docker.io/t9kpublic"
+    repo: "oci://registry.dockermirror.com/t9kpublic"
     chart: "job-manager"
     versions:
     - version: 0.1.1

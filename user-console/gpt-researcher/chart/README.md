@@ -18,8 +18,8 @@
 replicaCount: 1
 
 image:
-  registry: docker.io
-  repository: t9kpublic/gpt-researcher
+  registry: registry.cn-hangzhou.aliyuncs.com
+  repository: t9k/gpt-researcher
   tag: 0.2.6
   pullPolicy: IfNotPresent
 
@@ -85,7 +85,7 @@ env:
 | --------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | `replicaCount`                    | 副本数量                                                                              | `1`                                                                                                                             |
 | `image.registry`                  | Docker 镜像的存储库                                                                   | `docker.io`                                                                                                                     |
-| `image.repository`                | Docker 镜像的存储库名称                                                               | `t9kpublic/gpt-researcher`                                                                                                      |
+| `image.repository`                | Docker 镜像的存储库名称                                                               | `t9k/gpt-researcher`                                                                                                      |
 | `image.tag`                       | Docker 镜像的标签                                                                     | `0.2.6`                                                                                                                         |
 | `image.pullPolicy`                | Docker 镜像的拉取策略                                                                 | `IfNotPresent`                                                                                                                  |
 | `service.type`                    | Kubernetes 服务的类型                                                                 | `ClusterIP`                                                                                                                     |

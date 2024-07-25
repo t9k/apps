@@ -22,8 +22,8 @@ web UI 提供一些“面具”和设置选项，请自行尝试。
 replicaCount: 1
 
 image:
-  registry: docker.io
-  repository: yidadaa/chatgpt-next-web
+  registry: registry.cn-hangzhou.aliyuncs.com
+  repository: t9k/chatgpt-next-web
   tag: v2.12.2
   pullPolicy: IfNotPresent
 
@@ -60,8 +60,8 @@ env:
 replicaCount: 1
 
 image:
-  registry: docker.io
-  repository: yidadaa/chatgpt-next-web
+  registry: registry.cn-hangzhou.aliyuncs.com
+  repository: t9k/chatgpt-next-web
   tag: v2.12.2
   pullPolicy: IfNotPresent
 
@@ -96,7 +96,7 @@ env: []
 | --------------------------- | ------------------------------------------------------- | -------------------------- |
 | `replicaCount`              | 副本数量                                                | `1`                        |
 | `image.registry`            | Docker 镜像的存储库                                     | `docker.io`                |
-| `image.repository`          | Docker 镜像的存储库名称                                 | `yidadaa/chatgpt-next-web` |
+| `image.repository`          | Docker 镜像的存储库名称                                 | `t9k/chatgpt-next-web` |
 | `image.tag`                 | Docker 镜像的标签                                       | `v2.12.2`                  |
 | `image.pullPolicy`          | Docker 镜像的拉取策略                                   | `IfNotPresent`             |
 | `service.type`              | Kubernetes 服务的类型                                   | `ClusterIP`                |

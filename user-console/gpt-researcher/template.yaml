@@ -8,8 +8,8 @@ metadata:
   icon: "https://s2.loli.net/2024/06/05/KuShAgEN9zWXnPH.png"
 template:
   helm:
-    repo: "oci://docker.io/t9kpublic"
-    # repo: "https://t9k.github.io/apps/"
+    repo: oci://registry.dockermirror.com/t9kpublic
+    # repo: oci://registry.dockermirror.com/t9kpublic
     chart: "gpt-researcher"
     versions:
     - version: 0.1.5

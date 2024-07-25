@@ -11,7 +11,7 @@ global:
   imagePullSecrets: []
 
   image:
-    repository: heartexlabs/label-studio
+    repository: t9k/label-studio
     pullPolicy: IfNotPresent
     tag: ""
 
@@ -635,8 +635,8 @@ metrics:
   uwsgiExporter:
     enabled: false
     image:
-      registry: "docker.io"
-      repository: "timonwong/uwsgi-exporter"
+      registry: "registry.cn-hangzhou.aliyuncs.com"
+      repository: "t9k/uwsgi-exporter"
       tag: "v1.3.0"
       pullPolicy: "Always"
       pullSecrets: [ ]

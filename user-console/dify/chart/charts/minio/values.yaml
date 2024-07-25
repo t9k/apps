@@ -66,8 +66,8 @@ extraDeploy: []
 ## @param image.debug Specify if debug logs should be enabled
 ##
 image:
-  registry: docker.io
-  repository: bitnami/minio
+  registry: registry.cn-hangzhou.aliyuncs.com
+  repository: t9k/minio
   tag: 2024.4.18-debian-12-r0
   digest: ""
   ## Specify a imagePullPolicy
@@ -94,8 +94,8 @@ image:
 ## @param clientImage.digest MinIO&reg; Client image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
 ##
 clientImage:
-  registry: docker.io
-  repository: bitnami/minio-client
+  registry: registry.cn-hangzhou.aliyuncs.com
+  repository: t9k/minio-client
   tag: 2024.3.30-debian-12-r2
   digest: ""
 ## @param mode MinIO&reg; server mode (`standalone` or `distributed`)
@@ -1091,8 +1091,8 @@ volumePermissions:
   ## @param volumePermissions.image.pullSecrets Specify docker-registry secret names as an array
   ##
   image:
-    registry: docker.io
-    repository: bitnami/os-shell
+    registry: registry.cn-hangzhou.aliyuncs.com
+    repository: t9k/os-shell
     tag: 12-debian-12-r18
     digest: ""
     pullPolicy: IfNotPresent

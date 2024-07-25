@@ -26,8 +26,8 @@ web UI 所加载的模型文件全部存储在随实例创建的存储卷 `app-s
 replicaCount: 1
 
 image:
-  registry: docker.io
-  repository: t9kpublic/stable-diffusion-webui
+  registry: registry.cn-hangzhou.aliyuncs.com
+  repository: t9k/stable-diffusion-webui
   tag: "20240514"
   pullPolicy: IfNotPresent
 

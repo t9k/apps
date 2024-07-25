@@ -21,7 +21,7 @@ knative:
 # Docker image
 image:
   # -- Docker image registry
-  repository: ollama/ollama
+  repository: t9k/ollama
 
   # -- Docker pull policy
   pullPolicy: IfNotPresent

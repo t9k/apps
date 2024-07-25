@@ -89,8 +89,8 @@ diagnosticMode:
 
 ## Bitnami Redis&reg; image
 ## ref: https://hub.docker.com/r/bitnami/redis/tags/
-## @param image.registry Redis&reg; image registry
-## @param image.repository Redis&reg; image repository
+## @param image.registry [default: REGISTRY_NAME] Redis&reg; image registry
+## @param image.repository [default: REPOSITORY_NAME/redis] Redis&reg; image repository
 ## @skip image.tag Redis&reg; image tag (immutable tags are recommended)
 ## @param image.digest Redis&reg; image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
 ## @param image.pullPolicy Redis&reg; image pull policy
@@ -98,8 +98,8 @@ diagnosticMode:
 ## @param image.debug Enable image debug mode
 ##
 image:
-  registry: docker.io
-  repository: bitnami/redis
+  registry: registry.cn-hangzhou.aliyuncs.com
+  repository: t9k/redis
   tag: 7.2.4-debian-12-r13
   digest: ""
   ## Specify a imagePullPolicy
@@ -1097,8 +1097,8 @@ sentinel:
   enabled: false
   ## Bitnami Redis&reg; Sentinel image version
   ## ref: https://hub.docker.com/r/bitnami/redis-sentinel/tags/
-  ## @param sentinel.image.registry Redis&reg; Sentinel image registry
-  ## @param sentinel.image.repository Redis&reg; Sentinel image repository
+  ## @param sentinel.image.registry [default: REGISTRY_NAME] Redis&reg; Sentinel image registry
+  ## @param sentinel.image.repository [default: REPOSITORY_NAME/redis-sentinel] Redis&reg; Sentinel image repository
   ## @skip sentinel.image.tag Redis&reg; Sentinel image tag (immutable tags are recommended)
   ## @param sentinel.image.digest Redis&reg; Sentinel image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
   ## @param sentinel.image.pullPolicy Redis&reg; Sentinel image pull policy
@@ -1106,8 +1106,8 @@ sentinel:
   ## @param sentinel.image.debug Enable image debug mode
   ##
   image:
-    registry: docker.io
-    repository: bitnami/redis-sentinel
+    registry: registry.cn-hangzhou.aliyuncs.com
+    repository: t9k/redis
     tag: 7.2.4-debian-12-r10
     digest: ""
     ## Specify a imagePullPolicy
@@ -1596,16 +1596,16 @@ metrics:
   enabled: false
   ## Bitnami Redis&reg; Exporter image
   ## ref: https://hub.docker.com/r/bitnami/redis-exporter/tags/
-  ## @param metrics.image.registry Redis&reg; Exporter image registry
-  ## @param metrics.image.repository Redis&reg; Exporter image repository
+  ## @param metrics.image.registry [default: REGISTRY_NAME] Redis&reg; Exporter image registry
+  ## @param metrics.image.repository [default: REPOSITORY_NAME/redis-exporter] Redis&reg; Exporter image repository
   ## @skip metrics.image.tag Redis&reg; Exporter image tag (immutable tags are recommended)
   ## @param metrics.image.digest Redis&reg; Exporter image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
   ## @param metrics.image.pullPolicy Redis&reg; Exporter image pull policy
   ## @param metrics.image.pullSecrets Redis&reg; Exporter image pull secrets
   ##
   image:
-    registry: docker.io
-    repository: bitnami/redis-exporter
+    registry: registry.cn-hangzhou.aliyuncs.com
+    repository: t9k/redis
     tag: 1.59.0-debian-12-r1
     digest: ""
     pullPolicy: IfNotPresent
@@ -1967,17 +1967,17 @@ volumePermissions:
   ##
   enabled: false
   ## OS Shell + Utility image
-  ## ref: https://hub.docker.com/r/bitnami/os-shell/tags/
-  ## @param volumePermissions.image.registry OS Shell + Utility image registry
-  ## @param volumePermissions.image.repository OS Shell + Utility image repository
+  ## ref: https://hub.docker.com/r/t9k/os-shell/tags/
+  ## @param volumePermissions.image.registry [default: REGISTRY_NAME] OS Shell + Utility image registry
+  ## @param volumePermissions.image.repository [default: REPOSITORY_NAME/os-shell] OS Shell + Utility image repository
   ## @skip volumePermissions.image.tag OS Shell + Utility image tag (immutable tags are recommended)
   ## @param volumePermissions.image.digest OS Shell + Utility image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
   ## @param volumePermissions.image.pullPolicy OS Shell + Utility image pull policy
   ## @param volumePermissions.image.pullSecrets OS Shell + Utility image pull secrets
   ##
   image:
-    registry: docker.io
-    repository: bitnami/os-shell
+    registry: registry.cn-hangzhou.aliyuncs.com
+    repository: t9k/os-shell
     tag: 12-debian-12-r19
     digest: ""
     pullPolicy: IfNotPresent
@@ -2024,15 +2024,15 @@ volumePermissions:
 kubectl:
   ## Bitnami Kubectl image version
   ## ref: https://hub.docker.com/r/bitnami/kubectl/tags/
-  ## @param kubectl.image.registry Kubectl image registry
-  ## @param kubectl.image.repository Kubectl image repository
+  ## @param kubectl.image.registry [default: REGISTRY_NAME] Kubectl image registry
+  ## @param kubectl.image.repository [default: REPOSITORY_NAME/kubectl] Kubectl image repository
   ## @skip kubectl.image.tag Kubectl image tag (immutable tags are recommended), by default, using the current version
   ## @param kubectl.image.digest Kubectl image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
   ## @param kubectl.image.pullPolicy Kubectl image pull policy
   ## @param kubectl.image.pullSecrets Kubectl pull secrets
   ##
   image:
-    registry: docker.io
+    registry: registry.cn-hangzhou.aliyuncs.com
     repository: bitnami/kubectl
     tag: 1.30.0-debian-12-r0
     digest: ""
@@ -2093,17 +2093,17 @@ sysctl:
   ##
   enabled: false
   ## OS Shell + Utility image
-  ## ref: https://hub.docker.com/r/bitnami/os-shell/tags/
-  ## @param sysctl.image.registry OS Shell + Utility image registry
-  ## @param sysctl.image.repository OS Shell + Utility image repository
+  ## ref: https://hub.docker.com/r/t9k/os-shell/tags/
+  ## @param sysctl.image.registry [default: REGISTRY_NAME] OS Shell + Utility image registry
+  ## @param sysctl.image.repository [default: REPOSITORY_NAME/os-shell] OS Shell + Utility image repository
   ## @skip sysctl.image.tag OS Shell + Utility image tag (immutable tags are recommended)
   ## @param sysctl.image.digest OS Shell + Utility image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
   ## @param sysctl.image.pullPolicy OS Shell + Utility image pull policy
   ## @param sysctl.image.pullSecrets OS Shell + Utility image pull secrets
   ##
   image:
-    registry: docker.io
-    repository: bitnami/os-shell
+    registry: registry.cn-hangzhou.aliyuncs.com
+    repository: t9k/os-shell
     tag: 12-debian-12-r19
     digest: ""
     pullPolicy: IfNotPresent

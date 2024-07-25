@@ -26,7 +26,7 @@ spec:
       {{- if .Values.model.source }}
       initContainers:
         - name: wait-for-datacube
-          image: bitnami/kubectl:1.27
+          image: t9k/kubectl:1.27
           command: ["/bin/sh", "-c"]
           args: ["kubectl wait --for=condition=Complete datacube/{{ .Release.Name }} --timeout=-1s"]
       serviceAccount: managed-project-sa

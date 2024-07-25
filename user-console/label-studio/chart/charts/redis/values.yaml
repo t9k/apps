@@ -76,7 +76,7 @@ diagnosticMode:
 ## @param image.debug Enable image debug mode
 ##
 image:
-  registry: docker.io
+  registry: registry.cn-hangzhou.aliyuncs.com
   repository: bitnami/redis
   tag: 6.2.7-debian-11-r11
   ## Specify a imagePullPolicy
@@ -926,7 +926,7 @@ sentinel:
   ## @param sentinel.image.debug Enable image debug mode
   ##
   image:
-    registry: docker.io
+    registry: registry.cn-hangzhou.aliyuncs.com
     repository: bitnami/redis-sentinel
     tag: 6.2.7-debian-11-r12
     ## Specify a imagePullPolicy
@@ -1341,7 +1341,7 @@ metrics:
   ## @param metrics.image.pullSecrets Redis&reg; Exporter image pull secrets
   ##
   image:
-    registry: docker.io
+    registry: registry.cn-hangzhou.aliyuncs.com
     repository: bitnami/redis-exporter
     tag: 1.43.0-debian-11-r4
     pullPolicy: IfNotPresent
@@ -1526,7 +1526,7 @@ volumePermissions:
   ##
   enabled: false
   ## Bitnami Shell image
-  ## ref: https://hub.docker.com/r/bitnami/bitnami-shell/tags/
+  ## ref: https://hub.docker.com/r/t9k/bitnami-shell/tags/
   ## @param volumePermissions.image.registry Bitnami Shell image registry
   ## @param volumePermissions.image.repository Bitnami Shell image repository
   ## @param volumePermissions.image.tag Bitnami Shell image tag (immutable tags are recommended)
@@ -1534,8 +1534,8 @@ volumePermissions:
   ## @param volumePermissions.image.pullSecrets Bitnami Shell image pull secrets
   ##
   image:
-    registry: docker.io
-    repository: bitnami/bitnami-shell
+    registry: registry.cn-hangzhou.aliyuncs.com
+    repository: t9k/bitnami-shell
     tag: 11-debian-11-r11
     pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.
@@ -1572,7 +1572,7 @@ sysctl:
   ##
   enabled: false
   ## Bitnami Shell image
-  ## ref: https://hub.docker.com/r/bitnami/bitnami-shell/tags/
+  ## ref: https://hub.docker.com/r/t9k/bitnami-shell/tags/
   ## @param sysctl.image.registry Bitnami Shell image registry
   ## @param sysctl.image.repository Bitnami Shell image repository
   ## @param sysctl.image.tag Bitnami Shell image tag (immutable tags are recommended)
@@ -1580,8 +1580,8 @@ sysctl:
   ## @param sysctl.image.pullSecrets Bitnami Shell image pull secrets
   ##
   image:
-    registry: docker.io
-    repository: bitnami/bitnami-shell
+    registry: registry.cn-hangzhou.aliyuncs.com
+    repository: t9k/bitnami-shell
     tag: 11-debian-11-r11
     pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.

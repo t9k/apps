@@ -93,7 +93,7 @@ diagnosticMode:
 ## @param image.debug Specify if debug values should be set
 ##
 image:
-  registry: docker.io
+  registry: registry.cn-hangzhou.aliyuncs.com
   repository: bitnami/postgresql
   tag: 14.5.0-debian-11-r35
   digest: ""
@@ -1116,8 +1116,8 @@ volumePermissions:
   ## @param volumePermissions.image.pullSecrets Init container volume-permissions image pull secrets
   ##
   image:
-    registry: docker.io
-    repository: bitnami/bitnami-shell
+    registry: registry.cn-hangzhou.aliyuncs.com
+    repository: t9k/bitnami-shell
     tag: 11-debian-11-r45
     digest: ""
     pullPolicy: IfNotPresent
@@ -1203,8 +1203,8 @@ metrics:
   ## @param metrics.image.pullSecrets Specify image pull secrets
   ##
   image:
-    registry: docker.io
-    repository: bitnami/postgres-exporter
+    registry: registry.cn-hangzhou.aliyuncs.com
+    repository: t9k/postgres-exporter
     tag: 0.11.1-debian-11-r22
     digest: ""
     pullPolicy: IfNotPresent

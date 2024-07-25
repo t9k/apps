@@ -8,8 +8,8 @@ replicaCount: 1
 ## @param image.pullPolicy Image pull policy for the Docker image
 ##
 image:
-  registry: docker.io
-  repository: vllm/vllm-openai
+  registry: registry.cn-hangzhou.aliyuncs.com
+  repository: t9k/vllm-openai
   # Overrides the image tag whose default is the chart appVersion.
   tag: "v0.3.3"
   pullPolicy: IfNotPresent

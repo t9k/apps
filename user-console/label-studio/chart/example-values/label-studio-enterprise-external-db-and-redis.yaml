@@ -3,7 +3,7 @@ global:
     - name: heartex-pull-key
 
   image:
-    repository: heartexlabs/label-studio-enterprise
+    repository: t9k/label-studio-enterprise
     tag: 2.3.1
 
   pgConfig:
