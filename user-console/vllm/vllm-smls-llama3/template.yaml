@@ -12,7 +12,7 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "vllm-llama3"
     versions:
-    - version: 0.1.4
+    - version: 0.1.5
       urls: []
       readinessProbe:
         resources:

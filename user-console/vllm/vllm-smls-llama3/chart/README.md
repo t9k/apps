@@ -14,8 +14,7 @@
 pip install modelscope
 
 MODEL_NAME=Meta-Llama-3.1-8B-Instruct  # 或 Meta-Llama-3.1-70B-Instruct
-python -c "from modelscope.models import Model; Model.from_pretrained('LLM-Research/$MODEL_NAME')"
-mv .cache/modelscope/hub/LLM-Research/$MODEL_NAME .
+modelscope download --model "LLM-Research/$MODEL_NAME" --exclude "original/*" --local_dir "./$MODEL_NAME"
 ```
 
 3. 部署当前应用，将 `model.deployName` 字段的值修改为想要的名称，将`model.subPath` 字段的值设为上一步中的 `$MODEL_NAME`。
@@ -49,6 +48,11 @@ model:
   deployName: "llama3-1-8b"
   existingClaim: "vllm-llama3-1"
   subPath: "Meta-Llama-3.1-8B-Instruct"
+
+app:
+  extraArgs:
+    - "--trust-remote-code"
+    - "--enforce-eager"
 ```
 
 ### 参数
@@ -66,3 +70,4 @@ model:
 | `model.deployName`            | 模型部署的名称                    | `llama3-1-8b`      |
 | `model.existingClaim`         | 包含模型文件的 PVC                | `vllm-llama3-1`    |
 | `model.subPath`               | PVC 中模型文件所在的子路径        | `""`               |
+| `app.extraArgs`               | 为 vLLM engine 设置的额外参数     | `[]`               |

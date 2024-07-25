@@ -25,7 +25,7 @@ resources:
     nvidia.com/gpu: 1
 
 ## @param model.deployName Name by which the model is deployed
-## @param model.existingClaim PVC containing hte model files
+## @param model.existingClaim PVC containing the model files
 ## @param model.subPath Subpath within the PVC where the model files are located
 ##
 model:
@@ -33,3 +33,14 @@ model:
   deployName: "llama3-1-8b"
   existingClaim: "vllm-llama3-1"
   subPath: ""
+
+## @param app.extraArgs Extra arguments for the vLLM engine
+##
+app:
+  # 为 vLLM engine 设置的额外参数，参考 https://docs.vllm.ai/en/latest/models/engine_args.html
+  # 请勿设置 --model, --served-model-name, --tensor-parallel-size
+  extraArgs: []
+    # - "--trust-remote-code"
+    # - "--enforce-eager"
+    # - "--gpu-memory-utilization=1.0"
+    # - "--max-model-len=8192"
