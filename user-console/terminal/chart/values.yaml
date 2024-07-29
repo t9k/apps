@@ -1,7 +1,7 @@
 image:
   registry: docker.io
   repository: t9kpublic/terminal
-  tag: "240716"
+  tag: "240729"
   pullPolicy: IfNotPresent
 
 # sh, bash or zsh
@@ -30,6 +30,6 @@ global:
         oidc: ""
         securityServer: ""
     pepProxy:
-      image: "docker.io/t9kpublic/pep-proxy:1.0.10"
+      image: "docker.io/t9kpublic/pep-proxy:1.0.12"
       args:
         clientID: ""
