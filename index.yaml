@@ -626,6 +626,18 @@ entries:
     version: 0.1.1
   terminal:
   - apiVersion: v2
+    appVersion: 0.1.4
+    created: "2024-07-29T14:00:35.651778678Z"
+    description: The Terminal APP is a powerful tool that allows you to open and operate
+      a cluster terminal directly in your browser. You can easily access and manage
+      your cluster through this APP.
+    digest: 3a13007eb1945c6b68bcf2340a96542f9391a1f3159038679c56138f89d99cae
+    name: terminal
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/terminal-0.1.4/terminal-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
     appVersion: 0.1.1
     created: "2024-07-01T03:16:04.948815952Z"
     description: The Terminal APP is a powerful tool that allows you to open and operate
@@ -816,4 +828,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-07-25T08:30:03.726818426Z"
+generated: "2024-07-29T14:00:35.65189206Z"
