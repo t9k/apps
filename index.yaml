@@ -615,6 +615,16 @@ entries:
     version: 0.1.2
   tensorboard:
   - apiVersion: v2
+    appVersion: 0.1.2
+    created: "2024-07-30T14:44:02.617971952Z"
+    description: TensorBoard 是 TensorFlow 的可视化工具，它可以展示你的 TensorFlow 网络模型运行过程中的各种可视化数据。
+    digest: defdbfb13f78dbf18e62352aa0aae4c8bea6e9177aa7f31354d8f64faf731051
+    name: tensorboard
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/tensorboard-0.1.2/tensorboard-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
     appVersion: 0.1.1
     created: "2024-07-24T10:29:05.379222752Z"
     description: TensorBoard 是 TensorFlow 的可视化工具，它可以展示你的 TensorFlow 网络模型运行过程中的各种可视化数据。
@@ -828,4 +838,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-07-29T14:00:35.65189206Z"
+generated: "2024-07-30T14:44:02.618061019Z"
