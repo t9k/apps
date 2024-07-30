@@ -26,4 +26,4 @@ logDir: {}
 ## @param resources.memory The maximum number of memory the tensorboard can use.
 resources:
   cpu: 100m
-  memory: 200Mi
+  memory: 4Gi
