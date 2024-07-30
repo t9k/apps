@@ -32,7 +32,7 @@ logDir:
 
 resources:
   cpu: 100m
-  memory: 200Mi
+  memory: 4Gi
 ```
 
 ### 参数
@@ -45,4 +45,4 @@ resources:
 | `image.pullPolicy` | TensorBoard 容器镜像拉取策略。                  | `IfNotPresent`                |
 | `spec.logDir`      | TensorBoard 数据源，支持 PVC 和 S3 两种数据源。 | `{}`                          |
 | `resources.cpu`    | TensorBoard 最多能使用的 CPU 数量。             | `100m`                        |
-| `resources.memory` | TensorBoard 最多能使用的内存数量。              | `200Mi`                       |
+| `resources.memory` | TensorBoard 最多能使用的内存数量。              | `4Gi`                       |
