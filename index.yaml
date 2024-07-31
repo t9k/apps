@@ -149,6 +149,17 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/label-studio-1.4.8/label-studio-1.4.8.tgz
     version: 1.4.8
+  llama-board:
+  - apiVersion: v2
+    appVersion: 0.8.3
+    created: "2024-07-31T10:48:33.249125146Z"
+    description: Llama Board 是 LLaMA-Factory 项目的 web UI，用于（增量）预训练、指令微调和评估开源 LLM。
+    digest: a8dea4c6be1a7e76b099af4452b894f571223efce4966d3a75a5dfa121c06d64
+    name: llama-board
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/llama-board-0.1.0/llama-board-0.1.0.tgz
+    version: 0.1.0
   nextchat:
   - apiVersion: v2
     appVersion: 2.12.2
@@ -838,4 +849,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-07-30T14:44:02.618061019Z"
+generated: "2024-07-31T10:48:33.484386522Z"
