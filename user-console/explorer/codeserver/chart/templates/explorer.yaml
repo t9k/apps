@@ -6,4 +6,3 @@ spec:
   storageName: "{{ .Values.pvc }}"
   storageType: pvc
   type: CodeServer
-

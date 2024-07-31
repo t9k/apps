@@ -6,5 +6,7 @@
 mv Dockerfile ./sd-webui-aki-v4.8
 mv launch.sh ./sd-webui-aki-v4.8
 cd sd-webui-aki-v4.8
+mv outputs outputs_backup
+mv models models_backup
 docker build . -t t9kpublic/stable-diffusion-webui:20240514
 ```

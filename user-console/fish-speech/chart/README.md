@@ -10,9 +10,9 @@ Fish Speech 的优势包括：
 
 ## 使用方法
 
-部署当前应用，待实例就绪后，点击相应的链接进入 web UI，即可开始生成想要的语音：
+部署当前应用，待实例就绪后，按照应用信息操作进入 web UI，即可开始生成想要的语音：
 
-![](https://s2.loli.net/2024/07/23/UnqrBvORl83HMWm.png)
+![](https://s2.loli.net/2024/07/25/U1aswO2XAcpklZf.png)
 
 web UI 的使用方法简单明了，请用户自行尝试。
 
@@ -60,7 +60,7 @@ resources:
 | `ingress.enabled`                   | 启用/禁用 Kubernetes Ingress      | `false`                 |
 | `ingress.className`                 | Ingress 类名称                    | ``                      |
 | `ingress.annotations`               | Kubernetes Ingress 注释           | `{}`                    |
-| `ingress.hosts`                     | Kubernetes Ingress 的主机列表     | `{}`                    |
+| `ingress.hosts`                     | Kubernetes Ingress 的主机列表     | `[]`                    |
 | `ingress.tls`                       | Kubernetes Ingress 的 TLS 配置    | `[]`                    |
 | `resources.limits.cpu`              | Kubernetes 资源的 CPU 限制        | `4`                     |
 | `resources.limits.memory`           | Kubernetes 资源的内存限制         | `64Gi`                  |
