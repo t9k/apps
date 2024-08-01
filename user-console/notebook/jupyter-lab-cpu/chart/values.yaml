@@ -9,3 +9,8 @@ pvc: ""
 resources:
   cpu: "16"
   memory: 32Gi
+
+ssh:
+  authorizedKeys: []
+  enabled: false
+  serviceType: ClusterIP

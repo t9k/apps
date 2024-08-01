@@ -10,3 +10,8 @@ resources:
   cpu: "16"
   memory: 32Gi
   dcu: "1"
+
+ssh:
+  authorizedKeys: []
+  enabled: false
+  serviceType: ClusterIP

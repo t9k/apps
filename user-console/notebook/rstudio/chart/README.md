@@ -28,16 +28,28 @@ pvc: "tutorial"
 resources:
   cpu: "16"
   memory: 32Gi
+
+# ssh:
+#   enabled: true
+#   authorizedKeys:
+#   - "secret-name"
+ssh:
+  authorizedKeys: []
+  enabled: false
+  serviceType: ClusterIP
 ```
 
 ### 参数
 
-| 名称               | 描述                                                        | 值                               |
-| ------------------ | ----------------------------------------------------------- | -------------------------------- |
-| `image.registry`   | JupyterLab 容器镜像注册表。                                 | `docker.io`                      |
-| `image.repository` | JupyterLab 容器镜像仓库。                                   | `t9kpublic/rocker-4.2.3-rstudio` |
-| `image.tag`        | JupyterLab 容器镜像标签。                                   | `1.72.1`                         |
-| `image.pullPolicy` | JupyterLab 容器镜像拉取策略。                               | `IfNotPresent`                   |
-| `resources.cpu`    | JupyterLab 最多能使用的 CPU 数量。                          | `16`                             |
-| `resources.memory` | JupyterLab 最多能使用的内存数量。                           | `32Gi`                           |
-| `pvc`              | 绑定一个 PVC 到 JupyterLab 上，作为 JupyterLab 的工作空间。 | `""`                             |
+| 名称                 | 描述                                                        | 值                               |
+| -------------------- | ----------------------------------------------------------- | -------------------------------- |
+| `image.registry`     | JupyterLab 容器镜像注册表。                                 | `docker.io`                      |
+| `image.repository`   | JupyterLab 容器镜像仓库。                                   | `t9kpublic/rocker-4.2.3-rstudio` |
+| `image.tag`          | JupyterLab 容器镜像标签。                                   | `1.72.1`                         |
+| `image.pullPolicy`   | JupyterLab 容器镜像拉取策略。                               | `IfNotPresent`                   |
+| `resources.cpu`      | JupyterLab 最多能使用的 CPU 数量。                          | `16`                             |
+| `resources.memory`   | JupyterLab 最多能使用的内存数量。                           | `32Gi`                           |
+| `pvc`                | 绑定一个 PVC 到 JupyterLab 上，作为 JupyterLab 的工作空间。 | `""`                             |
+| `ssh.authorizedKeys` | 一系列记录 SSH 公钥的 K8s Secret 资源。                     | `[]`                             |
+| `ssh.enabled`        | 是否在 Notebook 上启动 SSH 服务。                           | `false`                          |
+| `ssh.serviceType`    | SSH 服务类型，支持 ClusterIP 和 NodePort 两种。             | `ClusterIP`                      |
