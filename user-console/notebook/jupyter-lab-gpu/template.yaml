@@ -3,6 +3,7 @@ kind: Template
 metadata:
   name: jupyterlab-gpu
   displayName: "JupyterLab (Nvidia GPU)"
+  defaultVersion: "0.1.2"
   categories: 
   - IDE
   description: "JupyterLab (Nvidia GPU) 是最新的基于 Web 的交互式开发环境，用于代码开发和数据处理。其灵活的界面允许用户配置和安排数据科学、科学计算、计算新闻和机器学习中的工作流程。"
@@ -30,4 +31,21 @@ template:
         - group: tensorstack.dev
           version: v1beta1
           resource: notebooks
-
+    - version: 0.1.2
+      config: "file://$APP_DIR/configs/v0_1_2.yaml"
+      urls: 
+      - name: "jupyter"
+        url: "/t9k/notebooks/projects/{{ .Release.Namespace }}/name/{{ .Release.Name }}/lab"
+      readinessProbe:
+        resources:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: notebooks
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      dependencies:
+        crds:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: notebooks

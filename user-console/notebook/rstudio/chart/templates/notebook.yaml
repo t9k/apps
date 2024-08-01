@@ -21,3 +21,11 @@ spec:
         - name: workingdir
           persistentVolumeClaim:
             claimName: "{{ .Values.pvc }}"
+  ssh:
+  {{- if .Values.ssh.authorizedKeys }}
+    authorized_keys: {{ toYaml .Values.ssh.authorizedKeys | nindent 4}}
+  {{- else }}
+    authorized_keys: []
+  {{- end }}
+    enabled: {{ .Values.ssh.enabled }}
+    serviceType: "{{ .Values.ssh.serviceType }}"

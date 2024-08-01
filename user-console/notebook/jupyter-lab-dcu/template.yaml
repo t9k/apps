@@ -3,6 +3,7 @@ kind: Template
 metadata:
   name: jupyterlab-dcu
   displayName: "JupyterLab (Hygon DCU)"
+  defaultVersion: "0.1.2"
   categories: 
   - IDE
   description: "JupyterLab (Hygon DCU) 是最新的基于 Web 的交互式开发环境，该 JupyterLab 配置了海光 DCU，用户可以在其中进行 DCU 计算任务的开发。"
@@ -30,4 +31,21 @@ template:
         - group: tensorstack.dev
           version: v1beta1
           resource: notebooks
-
+    - version: 0.1.2
+      config: "file://$APP_DIR/configs/v0_1_2.yaml"
+      urls: 
+      - name: "jupyter"
+        url: "/t9k/notebooks/projects/{{ .Release.Namespace }}/name/{{ .Release.Name }}/lab"
+      readinessProbe:
+        resources:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: notebooks
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      dependencies:
+        crds:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: notebooks
