@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: job-manager
   displayName: Job Manager
-  defaultVersion: 0.1.2
+  defaultVersion: 0.1.3
   categories: ["Tool", "AI"]
   description: "Job Manager 是一个用于管理计算任务的控制台，可执行创建任务、查看任务状态、监控任务事件等操作。"
   icon: "file://$APP_DIR/icon.svg"
@@ -14,6 +14,33 @@ template:
     versions:
     - version: 0.1.2
       config: "file://$APP_DIR/configs/v0_1_2.yaml"
+      urls: 
+      - name: job-manager
+        url: /apps/{{ .Release.Namespace }}/job-manager/{{ .Release.Name }}/web/
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: deployments
+          name: "{{ .Release.Name }}-server"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True" 
+        - group: apps
+          version: v1
+          resource: deployments
+          name: "{{ .Release.Name }}-web"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      dependencies:
+        crds:
+        - group: networking.istio.io
+          version: v1beta1
+          resource: virtualservices
+        services: 
+        - namespace: t9k-system
+          name: k8s-resource-server
+    - version: 0.1.3
+      config: "file://$APP_DIR/configs/v0_1_3.yaml"
       urls: 
       - name: job-manager
         url: /apps/{{ .Release.Namespace }}/job-manager/{{ .Release.Name }}/web/
