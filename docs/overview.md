@@ -14,6 +14,6 @@ Apps 系统由以下组件构成：
 
 ## 下一步
 
-* 了解如何[注册和注销 Apps](./register.md)
-* 了解[应用模版的格式](./template.md)
-* 了解如何[开发 App](./develope.md)
+* 了解如何 [注册和注销 Apps](./register.md)
+* 了解 [应用模版的格式](./template.md)
+* 了解如何 [开发 App](./dev.md)
