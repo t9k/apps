@@ -22,6 +22,11 @@ sudo chmod +x t9k-app
 t9k-app list -s <server> -k <apikey>
 ```
 
+参数说明：
+
+* `-k`：[必填] 一个具有管理员权限的 API Key。
+* `-s`：[必填] App Server 服务地址。
+
 输出结果：
 
 ```
