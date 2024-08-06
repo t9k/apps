@@ -1,8 +1,6 @@
-# 应用模板与部署配置
+# 应用模版
 
-## 应用模板
-
-每个子目录下的 `template.yaml` 文件为应用模版，描述了一个可注册应用的信息。以 Terminal 应用为例：
+注册应用时需提供 App 的模版（Template），描述应用的信息。以 Terminal App 为例：
 
 ```yaml
 apiVersion: app.tensorstack.dev/v1beta1
@@ -44,15 +42,69 @@ template:
   * `defaultVersion`：默认版本，在应用有多个版本的情况下，示意默认版本。如果管理员在注册应用时没有设置该字段，则 `versions[]` 中定义的第一个应用版本为默认版本（具体参考 `template.crd.versions` 和 `template.helm.versions`）。
   * `icon`：应用图标 url，指向图标文件地址。可以用变量 `$APP_DIR` 表示模板文件所在文件夹， 方便指定本地文件系统中的文件。
 * `template` 定义应用模版的具体内容。
-  * 目前支持 Helm 和 CRD 类型的应用，分别通过 `template.helm` 和 `template.crd` 字段定义。
+  * 目前支持 Helm 和 CRD 类型的应用，分别通过 `template.helm` 和 `template.crd` 字段定义，参考 [CRD 应用和 Helm 应用](#crd-和-helm-模版)。
   * `versions`：记录应用各版本信息，主要包含以下字段：
     * `urls`：应用实例的访问链接，可根据应用实例安装/部署配置生成，`name` 和 `url` 两个子字段都可以用 Go Template 格式填写。（Go Template 格式字符串的替换规则见 [Go Template 替换规则](#go-template-替换规则)）
     * `config`：应用的[部署配置](#部署配置)，可以是模版的具体内容（YAML 字符串），也可以引用一个本地文件。
-    * `readinessProbe`：探测应用是否正常运行。配置方法参考 [ReadinessProbe](#readinessprobe)。
-    * `dependencies`：记录应用依赖的集群环境，包括 API 资源和集群中的服务。配置方法参考 [Dependencies](#dependencies)。
+    * `readinessProbe`：探测应用是否正常运行。配置方法参考 [App 运行监测](#app-运行检测)。
+    * `dependencies`：记录应用依赖的集群环境，包括 API 资源和集群中的服务。配置方法参考 [应用依赖](#应用依赖)。
+
+## CRD 和 Helm 模版
+
+系统目前支持 Helm 和 CRD 两种类型的 App 模版。
+
+Helm 类型 App 的模版示例（简化版）：
+
+```bash
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+ ...
+template:
+ helm:
+    repo: "oci://docker.io/t9kpublic"
+    chart: "terminal"
+    versions:
+    - version: 0.1.1
+      config: "file://$APP_DIR/manifests/v0_1_1.yaml"
+      urls: []
+      readinessProbe: {}
+      dependencies: {}
+```
+
+CRD 应用的模版示例（简化版）：
+
+```bash
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  ...
+template:
+  crd:
+    group: tensorstack.dev
+    resource: notebooks
+    versions:
+    - version: v1beta1
+      config: "file://$APP_DIR/config.yaml"
+      readme: "file://$APP_DIR/README.md"
+      note: "file://$APP_DIR/NOTE.txt"
+      urls: []
+      readinessProbe: {}
+      dependencies: {}
+```
+
+两者对比：
+
+* 模版的 apiVersion、kind、metadata 字段格式都是相同的，含义一致。
+* Helm 应用和 CRD 使用不同的应用声明方式，前者使用 repo 和 chart 字段指定 Helm Chart 所在位置，后者使用 group、resource 字段指定 CRD 类型。
+* Helm 应用的 version 参考 [Chart.yaml](https://helm.sh/docs/topics/charts/#the-chartyaml-file) 中的 version 字段，CRD 应用的 version 指一个 CRD 的 [API Version](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/)。
+* Helm 应用在打包时支持同时上传 README.md 和 NOTE.txt 文件，但是 CRD 在开发、部署后，没有这部分信息。所以在应用模版中，为 CRD 应用添加 readme 和 note 字段，来补充这部分内容。其中 note 的内容可以用 Go Template 填写，所能引用的模版变量请参考 [Go Template 替换规则](#go-template-替换规则)。
+* 两种应用的其他字段含义和内容，都是相同的，在后续章节介绍。
 
 > [!NOTE]
-> 一个 `template.yaml` 文件可以包含多个应用模版资源，用 `---` 分割。
+> 目前 t9k-app 仅支持注销单个 App，不支持批量注销。
+> 目前 t9k-app 仅支持注销整个 App，不支持注销 App 的特定版本。如果用户想要注销 App 的某一特定版本，可以在应用模板中去掉该版本信息，然后更新该 App。
+
 
 ## 部署配置
 
@@ -122,7 +174,18 @@ global:
   * 在配置中，使用变量的语法为：`$(<variable-name>)`，例如 `"$(T9K_HOME_URL)"`。
   * 部署配置模版中支持使用的变量请参考[系统变量](#系统变量)。
 
-## readinessProbe
+### 系统变量
+
+目前，部署配置模版中支持使用以下变量：
+
+1. `$(T9K_HOME_URL)`：平台暴露服务所使用的域名。管理员可以在应用模版中配置应用使用该域名暴露应用服务。
+2. `$(T9K_OIDC_ENDPOINT)`：平台的 OIDC 服务地址。
+3. `$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)`：平台的 Security Console 服务器地址。
+4. `$(T9K_APP_AUTH_CLINET_ID)`：表示一个 Client ID（OAuth 协议中的概念），需要授权的应用应使用该 Client ID 向授权服务器申请授权。
+5. `$(T9K_HOME_DOMAIN)`：平台的域名。
+6. `$(T9K_AUTH_DOMAIN)`：平台授权服务所在域名。
+
+## App 运行检测
 
 应用模板中的 `readinessProbe` 字段定义如何检测应用是否在正常运行。
 
@@ -164,9 +227,11 @@ template:
 > [!NOTE]
 > `resources[@].currentStatus` 字段的 Go Template 变量是使用运行的应用实例中的资源对象属性，而不是部署应用时所用的配置（CR Object 定义、Helm Values）配置填写，参考 [Go Template 替换规则](#go-template-替换规则)。
 
-## dependencies
+## 应用依赖
 
 应用模板中的 `dependencies` 字段定义应用的依赖。
+
+在注册 App 时，如果当前集群不满足应用依赖，则 App 服务器会拒绝该 App 的注册；在注册之后，如果集群中这些应用依赖项丢失，则在用户部署 App 时，无法看到这些依赖丢失的 App。
 
 ```yaml
 template:
@@ -186,15 +251,6 @@ template:
 
 * `crds`：应用依赖特定的 CRD。
 * `services`：应用依赖特定的服务。（此处不检查服务是否可用，原因是服务可能因为网络波动等原因出现临时不可用的情况，当类似情况发生，容易出现应用在“可部署”和“不可部署”间波动。这里假设只要服务存在，即 Service 资源存在，就满足应用部署的前提）
-
-## 系统变量
-
-目前，部署配置模版中支持使用以下变量：
-
-1. `$(T9K_HOME_URL)`：平台暴露服务所使用的域名。管理员可以在应用模版中配置应用使用该域名暴露应用服务。
-2. `$(T9K_OIDC_ENDPOINT)`：平台的 OIDC 服务地址。
-3. `$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)`：平台的 Security Console 服务器地址。
-4. `$(T9K_APP_AUTH_CLINET_ID)`：表示一个 Client ID（OAuth 协议中的概念），需要授权的应用应使用该 Client ID 向授权服务器申请授权。
 
 ## Go Template 替换规则
 
