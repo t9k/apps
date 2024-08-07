@@ -9,7 +9,7 @@ image:
   tag: "20241031"
   pullPolicy: IfNotPresent
 
-## @param pvc Mount a PVC as JupyterLab workspace
+## @param[required] pvc Mount a PVC as JupyterLab workspace
 pvc: ""
 
 ## @param resources.limits.cpu CPU limit for JupyterLab container

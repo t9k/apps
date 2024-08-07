@@ -1,4 +1,4 @@
-## @param pvc Mount a pvc as File Browser workspace
+## @param[required] pvc Mount a pvc as File Browser workspace
 pvc: ""
 
 ## @param resources.limits.cpu CPU limit for File Browser container
