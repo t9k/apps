@@ -8,8 +8,8 @@
 
 Apps 系统由以下组件构成：
 
-1. App Server：提供应用管理 API，包括应用注册、注销、查询等操作。
-2. App Instance Controller (AIC)：应用实例控制器，负责处理用户的应用安装和卸载请求。AIC 自动化地把 Apps 以 Helm Release 或 CRD Object 的形式部署（安装）在集群中。
+1. App Instance Controller (AIC)：应用实例控制器，负责处理用户的应用安装和卸载请求。AIC 自动化地把 Apps 以 Helm Release 或 CRD Object 的形式部署（安装）在集群中。
+2. App Server：提供应用管理 API，包括应用注册、注销、查询等操作。
 3. t9k-app：命令行工具，管理员通过该工具注册、注销应用。
 4. User Console：Web 前端，用户通过该前端安装、管理、及使用 Apps。
 
