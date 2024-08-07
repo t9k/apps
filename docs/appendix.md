@@ -2,7 +2,7 @@
 
 ## 命令行工具  -  t9k-app
 
-管理员使用命令行工具 t9k-app 管理应用。
+管理员使用命令行工具 t9k-app 管理 Apps。
 
 ### 下载方式
 
@@ -16,7 +16,7 @@ mv t9k-app-linux-amd64 t9k-app
 sudo chmod +x t9k-app
 ```
 
-### 列举应用
+### 列举 Apps
 
 ```bash
 t9k-app list -s <server> -k <apikey>
@@ -43,7 +43,7 @@ jupyterlab-gpu     JupyterLab (Nvidia GPU)     0.1.2               IDE
 label-studio       Label Studio                1.4.8               AI, Tool
 ```
 
-### 注册/更新应用
+### 注册/更新 Apps
 
 ```bash
 t9k-app register -f <template.yaml> -s <server> -k <apikey> [flags]
@@ -60,7 +60,7 @@ t9k-app register -f <template.yaml> -s <server> -k <apikey> [flags]
   * 如果应用已经存在且未设置该参数，则不注册该应用。
 * `-v`：日志等级。数字越大，日志的信息量越多，默认为 0。
 
-### 注销应用
+### 注销 Apps
 
 ```bash
 t9k-app unregister <app-name> -s <server> -k <apikey>
