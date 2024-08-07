@@ -1,6 +1,6 @@
 # 应用模版
 
-注册应用时需提供 App 的模版（Template），描述应用的信息。以 Terminal App 为例：
+注册应用时需提供 App 的模版（Template），描述 App 的信息。以 Terminal App 为例：
 
 ```yaml
 apiVersion: app.tensorstack.dev/v1beta1
@@ -38,22 +38,22 @@ template:
 ```
 
 * `apiVersion` 和 `kind` 采用 K8s API 的 `metav1.TypeMeta` 标记 API 类型和版本。
-* `metadata` 记录应用的基本信息，包括名称、分类等。
-  * `defaultVersion`：默认版本，在应用有多个版本的情况下，示意默认版本。如果管理员在注册应用时没有设置该字段，则 `versions[]` 中定义的第一个应用版本为默认版本（具体参考 `template.crd.versions` 和 `template.helm.versions`）。
+* `metadata` 记录 App 的基本信息，包括名称、分类等。
+  * `defaultVersion`：默认版本，在 App 有多个版本的情况下，示意默认版本。如果管理员在注册应用时没有设置该字段，则 `versions[]` 中定义的第一个 App 版本为默认版本（具体参考 `template.crd.versions` 和 `template.helm.versions`）。
   * `icon`：应用图标 url，指向图标文件地址。可以用变量 `$APP_DIR` 表示模板文件所在文件夹， 方便指定本地文件系统中的文件。
-* `template` 定义应用模版的具体内容。
+* `template` 定义 App 模版的具体内容。
   * 目前支持 Helm 和 CRD 类型的应用，分别通过 `template.helm` 和 `template.crd` 字段定义，参考 [CRD 应用和 Helm 应用](#crd-和-helm-模版)。
-  * `versions`：记录应用各版本信息，主要包含以下字段：
-    * `urls`：应用实例的访问链接，可根据应用实例安装/部署配置生成，`name` 和 `url` 两个子字段都可以用 Go Template 格式填写。（Go Template 格式字符串的替换规则见 [Go Template 替换规则](#go-template-替换规则)）
-    * `config`：应用的[部署配置](#部署配置)，可以是模版的具体内容（YAML 字符串），也可以引用一个本地文件。
-    * `readinessProbe`：探测应用是否正常运行。配置方法参考 [App 运行监测](#app-运行检测)。
-    * `dependencies`：记录应用依赖的集群环境，包括 API 资源和集群中的服务。配置方法参考 [应用依赖](#应用依赖)。
+  * `versions`：记录 App 各版本信息，主要包含以下字段：
+    * `urls`：App 实例的访问链接，可根据 App 实例安装/部署配置生成，`name` 和 `url` 两个子字段都可以用 Go Template 格式填写。（Go Template 格式字符串的替换规则见 [Go Template 替换规则](#go-template-替换规则)）
+    * `config`：App 的 [部署配置](#部署配置)，可以是模版的具体内容（YAML 字符串），也可以引用一个本地文件。
+    * `readinessProbe`：探测 App 是否正常运行。配置方法参考 [App 运行监测](#app-运行检测)。
+    * `dependencies`：记录 App 依赖的集群环境，包括 API 资源和集群中的服务。配置方法参考 [应用依赖](#应用依赖)。
 
 ## CRD 和 Helm 模版
 
 系统目前支持 Helm 和 CRD 两种类型的 App 模版。
 
-Helm 类型 App 的模版示例（简化版）：
+1) Helm 类型 App 的模版示例（简化版）：
 
 ```bash
 apiVersion: app.tensorstack.dev/v1beta1
@@ -72,7 +72,7 @@ template:
       dependencies: {}
 ```
 
-CRD 应用的模版示例（简化版）：
+2) CRD 应用的模版示例（简化版）：
 
 ```bash
 apiVersion: app.tensorstack.dev/v1beta1
@@ -95,24 +95,26 @@ template:
 
 两者对比：
 
-* 模版的 apiVersion、kind、metadata 字段格式都是相同的，含义一致。
-* Helm 应用和 CRD 使用不同的应用声明方式，前者使用 repo 和 chart 字段指定 Helm Chart 所在位置，后者使用 group、resource 字段指定 CRD 类型。
-* Helm 应用的 version 参考 [Chart.yaml](https://helm.sh/docs/topics/charts/#the-chartyaml-file) 中的 version 字段，CRD 应用的 version 指一个 CRD 的 [API Version](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/)。
-* Helm 应用在打包时支持同时上传 README.md 和 NOTE.txt 文件，但是 CRD 在开发、部署后，没有这部分信息。所以在应用模版中，为 CRD 应用添加 readme 和 note 字段，来补充这部分内容。其中 note 的内容可以用 Go Template 填写，所能引用的模版变量请参考 [Go Template 替换规则](#go-template-替换规则)。
-* 两种应用的其他字段含义和内容，都是相同的，在后续章节介绍。
+* 模版的 `apiVersion`、`kind`、`metadata` 字段格式都是相同的，含义一致。
+* Helm App 和 CRD 使用不同的应用声明方式，前者使用 `repo` 和 `chart` 字段指定 Helm Chart 所在位置，后者使用 `group``、resource` 字段指定 CRD 类型。
+* Helm App 的 `version` 参考 [Chart.yaml](https://helm.sh/docs/topics/charts/#the-chartyaml-file) 中的 `version` 字段，CRD 应用的 `version` 指一个 CRD 的 [API Version](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/)。
+* Helm App 在打包时支持同时上传 README.md 和 NOTE.txt 文件，但是 CRD 在开发、部署后，没有这部分信息。所以在应用模版中，为 CRD 应用添加 readme 和 note 字段，来补充这部分内容。其中 note 的内容可以用 Go Template 填写，所能引用的模版变量请参考 [Go Template 替换规则](#go-template-替换规则)。
+* 两种 Apps 的其他字段含义和内容，都是相同的，在文档后续内容介绍。
 
 > [!NOTE]
-> 目前 t9k-app 仅支持注销单个 App，不支持批量注销。
-> 目前 t9k-app 仅支持注销整个 App，不支持注销 App 的特定版本。如果用户想要注销 App 的某一特定版本，可以在应用模板中去掉该版本信息，然后更新该 App。
+> 1. 目前 t9k-app 仅支持注销单个 App，不支持批量注销。
+> 2. 目前 t9k-app 仅支持注销整个 App，不支持注销 App 的特定版本。如果用户想要注销 App 的某一特定版本，可以在 App 模板中去掉该版本信息，然后更新该 App。
 
 
 ## 部署配置
 
-部署应用时，用户需要提供一个**部署配置**。
+部署 Apps 时，用户需要提供一个**部署配置**。
 
-管理员在注册应用时，可以通过 `template.helm.versions[@].config` 和 `template.crd.versions[@].config` 两个字段分别为 Helm 应用和 CRD 应用设置**部署配置模版**，以帮助用户构造部署配置。
+管理员在注册 Apps 时，可以通过 `template.helm.versions[@].config` 和 `template.crd.versions[@].config` 两个字段分别为 Helm 应用和 CRD 应用设置**部署配置模版**，以帮助用户构造部署配置。
 
-上述两个字段，都支持使用外部文件和内连内容（inline）两种方式填写。外部文件：
+上述两个字段，都支持使用外部文件和内连内容（inline）两种方式填写。
+
+1) 外部文件：
 
 ```yaml
 apiVersion: app.tensorstack.dev/v1beta1
@@ -124,7 +126,7 @@ template:
     - config: "file://$APP_DIR/manifests/v0_1_1.yaml"
 ```
 
-内连（inline）内容：
+2) 内连（inline）内容：
 
 ```yaml
 apiVersion: app.tensorstack.dev/v1beta1

@@ -1,5 +1,7 @@
 # 应用开发
 
+本文介绍 Helm 和 CRD 两种形式 Apps 的开发过程。
+
 ## Helm Apps
 
 ### 构建镜像
@@ -74,7 +76,7 @@ docker push <image-tag>
 
 说明：如果使用已有 Helm Chart，跳过该步骤。
 
-一个 Helm Chart 一般包含以下信息：
+一个 Helm Chart 示例：
 
 ```
 chart
@@ -95,7 +97,7 @@ chart
 * `templates`：Helm 模版文件，其中一般包括：
   * `NOTES.txt`：介绍一个 Helm Release（部署后的 Helm Chart 实例）信息。
   * 模版文件：K8s 资源模版，可以使用一些逻辑语句和函数。
-* `values.yaml`：Helm Chart 的默认配置。
+* `values.yaml`：Helm Chart 的默认配置（Default Values）。
 * 更多 Helm Chart 的介绍请参考 [Helm: Getting Started](https://helm.sh/docs/chart_template_guide/getting_started/)。
 
 > [!NOTE]
@@ -106,9 +108,11 @@ chart
 
 #### 调试
 
-在上传 Helm Chart 前，开发者应在本地测试（指使用本地 `chart` 文件测试，而非脱离集群进行测试）以保证当前 Chart 确实可用。
+在上传 Helm Chart 前，开发者应在本地集群测试（指使用本地 `chart` 文件测试，而非脱离集群进行测试）以保证当前 Chart 确实可用。
 
-使用以下命令，使用本地 Helm Chart 生成生成部署清单：
+这里叙述一个简单的流程：
+
+1) 使用 `helm template` 生成部署清单：
 
 ```bash
 helm template release-name -n release-ns ./chart > manifests.yaml
@@ -116,17 +120,17 @@ helm template release-name -n release-ns ./chart > manifests.yaml
 
 开发者检查生成的清单文件 `manifests.yaml` 以确保符合预期。
 
-使用以下命令，使用本地 Helm Chart 部署应用：
+2) 使用 `helm install` 部署应用：
 
 ```bash
 helm install release-name -n release-ns ./chart
 ```
 
-应用被部署到集群中后，开发人员检查应用是否运行正常，能否访问。
+3) 应用被部署到集群中后，开发人员检查应用是否运行正常，能否访问。
 
 #### 上传
 
-在调试好 Helm Chart 后，使用以下命令打包 Helm Chart：
+在调试好 Helm Chart 后，打包 Helm Chart：
 
 ```bash
 helm package ./chart
@@ -220,9 +224,9 @@ t9k-app list -k $APIKEY -s $APP_SERVER | grep terminal
 
 检查：
 
-* 版本信息是否符合预期
-* 表单、YAML 编辑器、README 的内容是否符合预期
-* 部署后，查看集群中创建的资源是否符合预期；应用链接是否正常工作。
+1. 版本信息是否符合预期
+1. 表单、YAML 编辑器、README 的内容是否符合预期
+1. 部署后，查看集群中创建的资源是否符合预期；应用链接是否正常工作。
 
 卸载应用，查看是否有数据残留。（有些数据遗留行为是符合预期的，比如卸载应用后，希望应用产生的数据可以保留，以用于其他用途。）
 
@@ -250,7 +254,6 @@ K8s 提供了丰富的工具和代码包帮助开发者快速开发一个 CRD，
 注册 CRD 应用，一般应准备以下内容：
 
 ```
-.
 ├── configs
 │   └── v0_1_1.yaml
 ├── icon.png
@@ -267,7 +270,7 @@ K8s 提供了丰富的工具和代码包帮助开发者快速开发一个 CRD，
 * `NOTE.txt`：应用实例部署后，提供给用户的实例信息。
 * `template.yaml`：应用模版文件。
 
-上述内容的格式请参考[应用模版](./template.md#应用模版)。
+上述内容的格式请参考 [应用模版](./template.md#应用模版)。
 
 以下为 JupyterLab 应用的模版文件：
 
@@ -301,9 +304,9 @@ template:
 * `template.crd.versions[@].version` 需要与 CRD 的版本对应。
 * `template.crd.group` 和 `template.crd.resource` 填写 CRD 的对应信息，参考。
 
-更多应用模版介绍，请参考[应用模版](./template.md#应用模版)。
+更多应用模版介绍，请参考 [应用模版](./template.md#应用模版)。
 
-使用命令行工具 t9k-app 注册应用：
+使用命令行工具 `t9k-app` 注册应用：
 
 ```bash
 export APIKEY='xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
@@ -322,4 +325,4 @@ t9k-app list -k $APIKEY -s $APP_SERVER | grep terminal
 
 #### 部署及测试
 
-这部分与 [Helm 应用的部署及测试](#部署及测试)相同，不再赘述。
+这部分与 [Helm 应用的部署及测试](#部署及测试) 相同，不再赘述。
