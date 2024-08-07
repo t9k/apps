@@ -1,2 +1,2 @@
-## @param pvc Select a pvc as CodeServer workspace.
+## @param[required] pvc Select a pvc as CodeServer workspace.
 pvc: ""
