@@ -1,0 +1,35 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: service-manager
+  displayName: Service Manager
+  defaultVersion: 0.1.1
+  categories: ["Tool", "AI"]
+  description: "Service Manager 是一个用于管理推理服务的控制台，可执行创建服务、查看服务状态、监控服务事件等操作。"
+  icon: "file://$APP_DIR/icon.png"
+template:
+  helm: 
+    repo: "oci://docker.io/t9kpublic"
+    chart: "service-manager"
+    versions:
+    - version: 0.1.1
+      config: "file://$APP_DIR/configs/v0_1_1.yaml"
+      urls: 
+      - name: service-manager
+        url: /apps/{{ .Release.Namespace }}/service-manager/{{ .Release.Name }}/web/
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: deployments
+          name: "{{ .Release.Name }}-web"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      dependencies:
+        crds:
+        - group: networking.istio.io
+          version: v1beta1
+          resource: virtualservices
+        services: 
+        - namespace: t9k-system
+          name: k8s-resource-server
