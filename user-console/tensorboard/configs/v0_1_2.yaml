@@ -9,7 +9,7 @@ image:
   tag: "cpu-sdk-0.5.2"
   pullPolicy: IfNotPresent
 
-## @param pvc Mount a pvc as notebook working directory.
+## @param logDir Read tensorboard logs from pvc or s3 storage.
 # logDir:
 #   pvc:
 #     - name: tutorial
