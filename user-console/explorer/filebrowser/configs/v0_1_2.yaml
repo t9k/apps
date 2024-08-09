@@ -1,2 +1,2 @@
-## @param pvc Select a pvc as FileBrowser workspace.
+## @param[required] pvc Select a pvc as FileBrowser workspace.
 pvc: ""
