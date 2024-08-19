@@ -704,6 +704,17 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/terminal-0.1.1/terminal-0.1.1.tgz
     version: 0.1.1
+  virtual-machine:
+  - apiVersion: v2
+    appVersion: 0.1.1
+    created: "2024-08-19T03:51:14.429622271Z"
+    description: A Helm chart for TensorStack App - Virtual Machine
+    digest: fc736f4eb868a9d123cdd358e29d317eda66538fc4628f8b416d5d14ae79cfc0
+    name: virtual-machine
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/virtual-machine-0.1.1/virtual-machine-0.1.1.tgz
+    version: 0.1.1
   vllm:
   - apiVersion: v2
     appVersion: v0.3.3
@@ -859,4 +870,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-08-05T08:08:15.532906256Z"
+generated: "2024-08-19T03:51:14.429719172Z"
