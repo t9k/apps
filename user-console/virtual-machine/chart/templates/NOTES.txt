@@ -1,0 +1,43 @@
+CHART NAME: {{ .Chart.Name }}
+CHART VERSION: {{ .Chart.Version }}
+APP VERSION: {{ .Chart.AppVersion }}
+
+按照以下方式安装 kubectl virt 插件（参考 https://github.com/kubevirt/kubectl-virt-plugin?tab=readme-ov-file#kubectl-virt-plugin）：
+  
+  一、安装 kubectl krew 插件：
+
+    (
+      set -x; cd "$(mktemp -d)" &&
+      OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+      ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+      KREW="krew-${OS}_${ARCH}" &&
+      curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
+      tar zxvf "${KREW}.tar.gz" &&
+      ./"${KREW}" install krew
+    )
+    echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' > ~/.bashrc
+    source ~/.bashrc
+  
+  二、安装 kubectl virt 插件：
+
+    kubectl krew install virt
+
+使用以下命令连接虚拟机终端：
+
+  kubectl virt console {{ .Release.Name }}
+
+  第一次连接虚拟机终端，虚拟机会根据 CloudInit 配置进行虚拟机初始化，包括下载 APT 包等。
+  当终端中出现 `Reached target Cloud-init target.` 表示初始化过程完成。
+
+分别使用以下命令停止、启动、重启虚拟机终端：
+
+  kubectl virt stop {{ .Release.Name }}
+  kubectl virt start {{ .Release.Name }}
+  kubectl virt restart {{ .Release.Name }}
+
+{{- if .Values.network.ports }}
+
+当前虚拟机已暴露端口：{{- range $index, $element := .Values.network.ports }}{{- if $index }}，{{ end }}{{ $element.port }}{{- end }}
+
+用户可以在集群内部通过 {{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local 域名访问。
+{{- end }}

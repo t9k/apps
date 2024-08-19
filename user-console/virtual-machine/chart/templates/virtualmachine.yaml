@@ -1,0 +1,90 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  labels:
+    kubevirt.io/vm: {{ .Release.Name }}
+  name: {{ .Release.Name }}
+spec:
+  runStrategy: RerunOnFailure
+  template:
+    metadata:
+      labels:
+        kubevirt.io/vm: {{ .Release.Name }}
+    spec:
+      domain:
+        devices:
+          {{- if .Values.extraDevices }}
+          {{- toYaml .Values.extraDevices | nindent 10 }}
+          {{- end }}
+          disks:
+          {{- if .Values.rootDisk.containerDisk.enabled }}
+          - disk:
+              bus: virtio
+            name: containerdisk
+          {{- end }}
+          {{- if .Values.rootDisk.dataVolume.enabled }}
+          - disk:
+              bus: virtio
+            name: datavolumedisk
+          {{- end }}
+          {{- range .Values.volumes.disks }}
+          - disk:
+              bus: virtio
+            name: {{ .name }}
+          {{- end }}
+          - disk:
+              bus: virtio
+            name: cloudinitdisk
+          {{- if .Values.volumes.filesystems }}
+          filesystems:
+          {{- range .Values.volumes.filesystems }}
+          - name: {{ .name }}
+            virtiofs: {}
+          {{- end }}
+          {{- end }}
+          interfaces:
+          - name: default
+            masquerade: {}
+            {{- if .Values.network.ports }}
+            ports: 
+            {{- toYaml .Values.network.ports | nindent 12}}
+            {{- end }}
+        resources:
+          requests:
+          {{- toYaml .Values.resources | nindent 12 }}
+      networks:
+      - name: default
+        pod: {}
+      volumes:
+      {{- if .Values.rootDisk.containerDisk.enabled }}
+      - name: containerdisk
+        containerDisk:
+          image: {{ .Values.rootDisk.containerDisk.image }}
+      {{- end }}
+      {{- if .Values.rootDisk.dataVolume.enabled }}
+      - dataVolume:
+          name: {{ .Release.Name }}
+        name: datavolumedisk
+      {{- end }}
+      {{- range .Values.volumes.disks }}
+      - name: {{ .name }}
+        persistentVolumeClaim:
+          claimName: {{ .persistentVolumeClaim.name }}
+      {{- end }}
+      {{- range .Values.volumes.filesystems }}
+      - name: {{ .name }}
+        persistentVolumeClaim:
+          claimName: {{ .persistentVolumeClaim.name }}
+      {{- end }}
+      - name: cloudinitdisk
+        cloudInitNoCloud:
+          userData: |-
+            {{ .Values.cloudInit.userData | trim | nindent 12 }}
+{{- if .Values.rootDisk.dataVolume.enabled }}
+  dataVolumeTemplates:
+  - metadata:
+      name: {{ .Release.Name }}
+    spec:
+      {{- toYaml .Values.rootDisk.dataVolume.template | nindent 6 }}
+{{- end }}
+  

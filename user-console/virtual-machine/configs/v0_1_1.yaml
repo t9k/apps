@@ -1,0 +1,30 @@
+resources:
+  cpu: 8
+  memory: 16Gi
+
+# extraDevices:
+#   gpus:
+#   - deviceName: nvidia.com/GA100_A100_PCIE_40GB
+#     name: gpu1
+extraDevices: {}
+
+# network:
+#   ports:
+#   - name: "http"
+#     port: 5901
+#     protocol: "TCP"
+network:
+  ports: []
+
+cloudInit: 
+  userData: |-
+    #cloud-config
+    user: ubuntu
+    password: ubuntu
+    chpasswd: { expire: False }
+    package_update: true
+    package_upgrade: true
+    packages: 
+    - qemu-guest-agent
+    runcmd:
+    - [ systemctl, start, qemu-guest-agent ]

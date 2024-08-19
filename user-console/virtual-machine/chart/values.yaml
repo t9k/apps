@@ -1,0 +1,60 @@
+rootDisk:
+  containerDisk:
+    enabled: false
+    image: kubevirt/fedora-cloud-container-disk-demo:latest
+  dataVolume:
+    enabled: true
+    template:
+      source: 
+        http:
+          url: https://cloud-images.ubuntu.com/releases/focal/release/ubuntu-20.04-server-cloudimg-amd64.img
+      pvc:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 3Gi
+
+# extraDevices:
+#   gpus:
+#   - deviceName: nvidia.com/GA100_A100_PCIE_40GB
+#     name: gpu1
+extraDevices: {}
+
+resources:
+  cpu: 8
+  memory: 16Gi
+
+# volumes
+#   filesystems:
+#   - persistentVolumeClaim: 
+#       name: "pvc-name"
+#     name: "volume-name"
+#   disks:
+#   - persistentVolumeClaim: 
+#       name: "pvc-name"
+#     name: "volume-name"
+volumes:
+  filesystems: []
+  disks: []
+
+# network:
+#   ports:
+#   - name: "http"
+#     port: 5901
+#     protocol: "TCP"
+network:
+  ports: []
+
+cloudInit: 
+  userData: |-
+    #cloud-config
+    user: ubuntu
+    password: ubuntu
+    chpasswd: { expire: False }
+    package_update: true
+    package_upgrade: true
+    packages: 
+    - qemu-guest-agent
+    runcmd:
+    - [ systemctl, start, qemu-guest-agent ]
