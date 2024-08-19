@@ -1,0 +1,30 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: virtual-machine
+  displayName: "Virtual Machine"
+  defaultVersion: "0.1.1"
+  categories: 
+  - Tool
+  description: "虚拟机（Virtual Machine）指通过软件模拟的具有完整硬件系统功能的、运行在一个完全隔离环境中的完整计算机系统。"
+  icon: "file://$APP_DIR/icon.svg"
+template:
+  helm: 
+    repo: "oci://docker.io/t9kpublic"
+    chart: "virtual-machine"
+    versions:
+    - version: 0.1.1
+      config: "file://$APP_DIR/configs/v0_1_1.yaml"
+      readinessProbe:
+        resources:
+        - group: kubevirt.io
+          version: v1
+          resource: virtualmachines
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{ .status.printableStatus }}"
+          desiredStatus: "Running"
+      dependencies:
+        crds:
+        - group: kubevirt.io
+          version: v1
+          resource: virtualmachines

@@ -1,0 +1,11 @@
+{{- if .Values.network.ports }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  ports:
+    {{- toYaml .Values.network.ports | nindent 2}}
+  selector:
+    kubevirt.io/vm: {{ .Release.Name }}
+{{- end }}
