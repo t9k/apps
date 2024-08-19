@@ -150,7 +150,7 @@ kubectl port-forward service/<virtual-machine-name> 5901:5901
 目前，我们支持以下三种启动盘形式：
 
 1. 使用一个容器作为启动盘。
-2. 使用 DataVolume 下载系统数据并构建启动盘。
+2. 使用 DataVolume 下载系统镜像并构建启动盘。
 3. 使用一个已经进行过磁盘格式化并安装了系统文件的 PVC 作为启动盘。
 
 #### 使用容器作为启动盘
@@ -168,7 +168,7 @@ kubevirt 原生支持的可以作为启动盘的容器镜像请参考 [KubeVirt 
 
 `containerDisk` 属于临时存储设备，不具备持久性，即如果虚拟机重启则系统的修改丢失。
 
-#### 使用 DataVolume 下载系统数据并构建启动盘
+#### 使用 DataVolume 下载系统镜像并构建启动盘
 
 ```yaml
 rootDisk:
@@ -191,7 +191,9 @@ rootDisk:
 除了从 http 服务中下载系统镜像，DataVolume 还支持从多种数据源获取镜像，请参考 [DataVolumeSource](https://pkg.go.dev/kubevirt.io/containerized-data-importer-api/pkg/apis/core/v1beta1#DataVolumeSource)。
 
 > [!NOTE]
+>
 > DataVolume 和 ContainerDisk 不能同时启用，否则将使用 ContainerDisk 作为系统启动盘，而 DataVolume 构建的启动盘将作为普通的磁盘。
+> 目前不支持多启动项，如果有需求，建议启动多个虚拟机。
 
 #### 使用一个 PVC 作为启动盘
 
@@ -236,9 +238,9 @@ cloudInit:
     - [ "/dev/vdb", "/mnt/vdb", "ext4", "defaults,nofail", "0", "2" ]
 ```
 
-如上图所示，再改配置中：
+如上图所示，在该配置中：
 
-1. 给虚拟机绑定了两个 PVC：`pvc-for-fs` 和 `pvc-for-disk`，两者分别作为文件系统和磁盘。
+1. 虚拟机绑定了两个 PVC：`pvc-for-fs` 和 `pvc-for-disk`，两者分别作为文件系统和磁盘。
 2. 将 PVC 以文件系统的方式绑定给虚拟机时，需要使用 `sudo mount -t virtiofs fs-name /mnt/pvc` 命令将这个 PVC 绑定到 `/mnt/pvc` 路径下。
 3. 将 PVC 以磁盘的方式绑定给虚拟机时，如果 PVC 没有进行过磁盘格式化，则需要执行 `mkfs.ext4 /dev/vdb` 命令格式化 PVC，同时需要执行 `mount` 命令将磁盘绑定在 `/mnt/vdb` 路径下。
 
@@ -246,3 +248,4 @@ cloudInit:
 >
 > 1. userData 中 `bootcmd`、`runcmd` 和 `mounts` 等命令，可以在虚拟机启动后，进入虚拟机后再执行。不过如果一条命令是其他启动项的前置条件，则必须在 `bootcmd` 中填写。
 > 2. 磁盘名称默认为 `vdb`，是因为通过 `virtio` 总线挂载的磁盘默认命名格式为 `vdx`，启动盘被命名为是 `vda`，其他磁盘按顺序依次命名。用户也可以不通过 CloudInit 自动初始化，改为进入虚拟机后再手动执行挂载操作。
+> 3. CloudInit 更多使用方式请参考 [Cloud Config](https://cloudinit.readthedocs.io/en/latest/reference/examples.html)。
