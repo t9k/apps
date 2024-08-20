@@ -59,7 +59,7 @@ spec:
       {{- if .Values.rootDisk.containerDisk.enabled }}
       - name: containerdisk
         containerDisk:
-          image: {{ .Values.rootDisk.containerDisk.image }}
+          image: {{ .Values.rootDisk.containerDisk.image.registry }}/{{ .Values.rootDisk.containerDisk.image.repository }}:{{ .Values.rootDisk.containerDisk.image.tag }}
       {{- end }}
       {{- if .Values.rootDisk.dataVolume.enabled }}
       - dataVolume:
@@ -84,7 +84,15 @@ spec:
   dataVolumeTemplates:
   - metadata:
       name: {{ .Release.Name }}
-    spec:
-      {{- toYaml .Values.rootDisk.dataVolume.template | nindent 6 }}
+    spec: 
+      source:
+        {{- if .Values.rootDisk.dataVolume.fromOCIRegistry.enabled }}
+        registry:
+          url: docker://{{ .Values.rootDisk.dataVolume.fromOCIRegistry.image.registry }}/{{ .Values.rootDisk.dataVolume.fromOCIRegistry.image.repository }}:{{ .Values.rootDisk.dataVolume.fromOCIRegistry.image.tag }}
+        {{- else }}
+        {{- toYaml .Values.rootDisk.dataVolume.source | nindent 8 }}
+        {{- end }}
+      pvc:
+        {{- toYaml .Values.rootDisk.dataVolume.pvc | nindent 8 }}
 {{- end }}
   

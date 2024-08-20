@@ -24,16 +24,16 @@ APP VERSION: {{ .Chart.AppVersion }}
 
 使用以下命令连接虚拟机终端：
 
-  kubectl virt console {{ .Release.Name }}
+  kubectl virt console {{ .Release.Name }} -n {{ .Release.Namespace }}
 
   第一次连接虚拟机终端，虚拟机会根据 CloudInit 配置进行虚拟机初始化，包括下载 APT 包等。
   当终端中出现 `Reached target Cloud-init target.` 表示初始化过程完成。
 
 分别使用以下命令停止、启动、重启虚拟机终端：
 
-  kubectl virt stop {{ .Release.Name }}
-  kubectl virt start {{ .Release.Name }}
-  kubectl virt restart {{ .Release.Name }}
+  kubectl virt stop {{ .Release.Name }}  -n {{ .Release.Namespace }}
+  kubectl virt start {{ .Release.Name }}  -n {{ .Release.Namespace }}
+  kubectl virt restart {{ .Release.Name }}  -n {{ .Release.Namespace }}
 
 {{- if .Values.network.ports }}
 

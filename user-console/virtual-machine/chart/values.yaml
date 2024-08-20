@@ -1,19 +1,27 @@
 rootDisk:
   containerDisk:
     enabled: false
-    image: kubevirt/fedora-cloud-container-disk-demo:latest
+    image:
+      registry: docker.io
+      repository: t9kpublic/fedora-cloud-container-disk-demo
+      tag: v0.36.4
   dataVolume:
     enabled: true
-    template:
-      source: 
-        http:
-          url: https://cloud-images.ubuntu.com/releases/focal/release/ubuntu-20.04-server-cloudimg-amd64.img
-      pvc:
-        accessModes:
-        - ReadWriteOnce
-        resources:
-          requests:
-            storage: 3Gi
+    source:
+      http:
+        url: https://cloud-images.ubuntu.com/releases/focal/release/ubuntu-20.04-server-cloudimg-amd64.img
+    fromOCIRegistry:
+      enabled: true
+      image:
+        registry: docker.io
+        repository: t9kpublic/ubuntu-server-cloud
+        tag: 20.04-240819
+    pvc:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 3Gi
 
 # extraDevices:
 #   gpus:

@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: terminal
   displayName: Terminal
-  defaultVersion: "0.1.4"
+  defaultVersion: "0.1.5"
   categories: ["Tool"]
   description: "The Terminal APP is a powerful tool that allows you to open and operate a cluster terminal directly in your browser. You can also easily access and manage your cluster through this APP."
   icon: "file://$APP_DIR/icon.png"
@@ -33,6 +33,24 @@ template:
           resource: virtualservices
     - version: 0.1.4
       config: "file://$APP_DIR/configs/v0_1_4.yaml"
+      urls: 
+      - name: terminal
+        url: /apps/{{ .Release.Namespace }}/terminal/{{ .Release.Name }}/
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: deployments
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      dependencies:
+        crds:
+        - group: networking.istio.io
+          version: v1beta1
+          resource: virtualservices
+    - version: 0.1.5
+      config: "file://$APP_DIR/configs/v0_1_5.yaml"
       urls: 
       - name: terminal
         url: /apps/{{ .Release.Namespace }}/terminal/{{ .Release.Name }}/
