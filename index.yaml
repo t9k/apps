@@ -589,6 +589,17 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/search-with-lepton-0.1.1/search-with-lepton-0.1.1.tgz
     version: 0.1.1
+  service-manager:
+  - apiVersion: v2
+    appVersion: 0.1.1
+    created: "2024-08-20T07:37:21.473403499Z"
+    description: A Helm chart for TensorStack App - Service Manager
+    digest: d64ca6d064f24e12f8bc62ec35ed37a8b482436ef04b0379ed746997fea2ec7d
+    name: service-manager
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/service-manager-0.1.1/service-manager-0.1.1.tgz
+    version: 0.1.1
   stable-diffusion-webui-aki:
   - apiVersion: v2
     appVersion: "4.8"
@@ -870,4 +881,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-08-19T03:51:14.429719172Z"
+generated: "2024-08-20T07:37:21.473491096Z"
