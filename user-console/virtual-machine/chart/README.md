@@ -33,12 +33,6 @@ rootDisk:
       resources:
         requests:
           storage: 3Gi
-    pvc:
-      accessModes:
-        - ReadWriteOnce
-      resources:
-        requests:
-          storage: 3Gi
 
 # extraDevices:
 #   gpus:
