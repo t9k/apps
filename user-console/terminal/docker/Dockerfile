@@ -93,6 +93,21 @@ RUN wget https://get.helm.sh/helm-v3.7.1-linux-amd64.tar.gz \
 
 RUN sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 
+RUN set -x; cd "$(mktemp -d)" \
+    && OS="$(uname | tr '[:upper:]' '[:lower:]')" \
+    && ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" \
+    && KREW="krew-${OS}_${ARCH}" \
+    && curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" \
+    && tar zxvf "${KREW}.tar.gz" \
+    && ./"${KREW}" install krew \
+    && ./"${KREW}" install virt
+
+RUN echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' > ~/.bashrc
+RUN echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' > ~/.zshrc
+
+RUN echo 'alias k=kubectl' > ~/.bashrc
+RUN echo 'alias k=kubectl' > ~/.zshrc
+
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 ENV PS1='\[\e[1;32m\][${PWD} \u@\h]\n\$ \[\e[0m\]'
 RUN echo -e "export PROMPT=$'%F{green}%B[%~ %n@%m]\\n%# %b%f'" >> ~/.zshrc
