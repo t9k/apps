@@ -1,0 +1,20 @@
+{{- if .Values.authorization.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pep-config-{{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    component: pep-config
+data:
+  pep-config.yaml: |-
+    policyEnforcer:
+      securityServerAddress: {{ .Values.network.domain.home }}/t9k/security/server
+      paths:
+        - path: "/"
+          resourceName: "/project:{{ .Release.Namespace }}"
+          methods:
+            - method: "*"
+              scope: use
+{{- end }}

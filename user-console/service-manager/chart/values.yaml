@@ -1,0 +1,104 @@
+global:
+  image:
+    # -- Overrides the Docker registry globally for all images
+    registry: null
+
+authorization:
+  enabled: true
+  clientID: "t9k-client"
+  pepProxy:
+    image: 
+      registry: "docker.io"
+      repository: "t9kpublic/pep-proxy"
+      tag: "1.0.12"
+      pullPolicy: IfNotPresent
+
+network:
+  gateway: project-gateway
+  domain:
+    home: "https://home.sample.t9kcloud.cn"
+    auth: "https://auth.sample.t9kcloud.cn"
+  
+web:
+  image:
+    registry: "docker.io"
+    repository: "t9kpublic/service-manager-web"
+    tag: "240815"  
+    pullPolicy: IfNotPresent
+  resourceTemplates:
+    - name: smaller
+      description: Allocate a few resources for demo puporse.
+      template:
+        resources:
+          requests:
+            cpu: '0.5'
+            memory: 1Gi
+          limits:
+            cpu: '1'
+            memory: 2Gi
+    - name: small
+      description: Allocate little resources for lightweight usage.
+      template:
+        resources:
+          requests:
+            cpu: '1'
+            memory: 2Gi
+          limits:
+            cpu: '2'
+            memory: 4Gi
+    - name: medium
+      description: Allocate more resources for common usage.
+      template:
+        resources:
+          requests:
+            cpu: '2'
+            memory: 4Gi
+          limits:
+            cpu: '4'
+            memory: 8Gi
+    - name: large
+      description: Allocate even more resources for common usage.
+      template:
+        resources:
+          requests:
+            cpu: '8'
+            memory: 16Gi
+          limits:
+            cpu: '16'
+            memory: 32Gi
+    - name: large (amd gpu)
+      description: Allocate an AMD GPU.
+      template:
+        resources:
+          requests:
+            cpu: '8'
+            memory: 16Gi
+            amd.com/gpu: 1
+          limits:
+            cpu: '16'
+            memory: 32Gi
+            amd.com/gpu: 1
+    - name: large (nvidia gpu)
+      description: Allocated a Nvidia GPU.
+      template:
+        resources:
+          requests:
+            cpu: '8'
+            memory: 16Gi
+            nvidia.com/gpu: 1
+          limits:
+            cpu: '16'
+            memory: 32Gi
+            nvidia.com/gpu: 1
+    - name: large (nvidia shared gpu)
+      description: Allocate a (Shared) Nvidia GPU.
+      template:
+        resources:
+          requests:
+            cpu: '8'
+            memory: 16Gi
+            nvidia.com/gpu.shared: 1
+          limits:
+            cpu: '16'
+            memory: 32Gi
+            nvidia.com/gpu.shared: 1

@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-web-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    component: service-manager-web
+data:
+  config.json: |-
+    {
+      "deployMode": "service-manager",
+      "resourceTemplates": {{ .Values.web.resourceTemplates | toJson }}
+    }
+  service-manager-config.json: |-
+    {
+      "serviceManagerServer": "",
+      "k8sResourceServer": "/t9k/k8s-resource/server",
+      "namespace": "{{ .Release.Namespace }}",
+      "appVersion": "{{ .Chart.AppVersion }}",
+      "enableAuthorization": true
+    }
