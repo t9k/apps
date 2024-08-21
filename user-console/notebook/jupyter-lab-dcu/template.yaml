@@ -6,15 +6,15 @@ metadata:
   defaultVersion: "0.1.2"
   categories: 
   - IDE
-  description: "JupyterLab (Hygon DCU) 是最新的基于 Web 的交互式开发环境，该 JupyterLab 配置了海光 DCU，用户可以在其中进行 DCU 计算任务的开发。"
+  description: "JupyterLab (Hygon DCU) 是一个基于 Web 的开发环境，适用于 Hygon DCU 的计算任务。"
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm: 
     repo: "oci://docker.io/t9kpublic"
     chart: "jupyterlab-dcu"
     versions:
-    - version: 0.1.1
-      config: "file://$APP_DIR/configs/v0_1_1.yaml"
+    - version: 0.2.0
+      config: "file://$APP_DIR/configs/v0_2_0.yaml"
       urls: 
       - name: "jupyter"
         url: "/t9k/notebooks/projects/{{ .Release.Namespace }}/name/{{ .Release.Name }}/lab"

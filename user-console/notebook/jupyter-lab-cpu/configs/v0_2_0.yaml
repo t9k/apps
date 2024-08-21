@@ -14,8 +14,6 @@ pvc: ""
 
 ## @param resources.cpu The maximum number of CPU the notebook can use.
 ## @param resources.memory The maximum number of CPU the notebook can use.
-## @param resources.gpu The maximum number of NVIDIA GPU the notebook can use.
 resources:
   cpu: "16"
   memory: 32Gi
-  gpu: "1"
