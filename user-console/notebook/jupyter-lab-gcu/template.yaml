@@ -6,15 +6,15 @@ metadata:
   defaultVersion: "0.1.2"
   categories: 
   - IDE
-  description: "JupyterLab (Enflame GCU) 是最新的基于 Web 的交互式开发环境，用于代码开发和数据处理。其灵活的界面允许用户配置和安排数据科学、科学计算、计算新闻和机器学习中的工作流程。"
+  description: "JupyterLab (Enflame GCU) 是一个基于 Web 的开发环境，适用于 Enflame GCU 的计算任务。"
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm: 
     repo: "oci://docker.io/t9kpublic"
     chart: "jupyterlab-gcu"
     versions:
-    - version: 0.1.1
-      config: "file://$APP_DIR/configs/v0_1_1.yaml"
+    - version: 0.2.0
+      config: "file://$APP_DIR/configs/v0_2_0.yaml"
       urls: 
       - name: "jupyter"
         url: "/t9k/notebooks/projects/{{ .Release.Namespace }}/name/{{ .Release.Name }}/lab"

@@ -1,0 +1,62 @@
+apiVersion: tensorstack.dev/v1beta1
+kind: SimpleMLService
+metadata:
+  name: {{ include "llama-cpp-server.fullname" . }}
+  labels:
+    {{- include "llama-cpp-server.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  storage:
+    pvc:
+      {{- if .Values.model.volume.existingClaim }}
+      name: {{ .Values.model.volume.existingClaim }}
+      {{- else }}
+      name: {{ include "llama-cpp-server.fullname" . }}
+      {{- end }}
+  service:
+    type: ClusterIP
+    ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+  custom:
+    spec:
+      {{- if .Values.model.url }}
+      initContainers:
+        - name: download-model
+          image: bitnami/kubectl:1.27
+          command: ["/bin/sh", "-c"]
+          args: ["wget -O /workspace/{{ .Values.model.path }} {{ .Values.model.url }}"]
+      serviceAccount: managed-project-sa
+      serviceAccountName: managed-project-sa
+      {{- end }}
+      containers:
+      - name: server
+        image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        args:
+          - --model
+          - /workspace/{{ .Values.model.path }}
+          - --ctx-size
+          - {{ .Values.model.contextSize }}
+          - --host
+          - 0.0.0.0
+          - --port
+          - 8080
+          {{- if eq .Values.image.tag "server-cuda" }}
+          - --n-gpu-layers
+          - 99
+          {{- end }}
+        ports:
+        - containerPort: 8080
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+        volumeMounts:
+        - name: dshm
+          mountPath: /dev/shm
+      volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          sizeLimit: "64Gi"

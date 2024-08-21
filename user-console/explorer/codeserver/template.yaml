@@ -4,16 +4,16 @@ metadata:
   name: codeserver
   displayName: "Code Server"
   categories: 
-  - Tool
-  description: "CodeServer 是一个可以通过浏览器访问的 VSCode。"
+  - IDE
+  description: "Code Server 是一个基于浏览器的 VSCode 环境。"
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm: 
     repo: "oci://docker.io/t9kpublic"
     chart: "codeserver"
     versions:
-    - version: 0.1.2
-      config: "file://$APP_DIR/configs/v0_1_2.yaml"
+    - version: 0.2.0
+      config: "file://$APP_DIR/configs/v0_2_0.yaml"
       urls: 
       - name: "codeserver"
         url: "/t9k/build-console/projects/{{ .Release.Namespace }}/explorers/{{ .Release.Name }}/codeserver/"

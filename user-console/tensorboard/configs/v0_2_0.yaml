@@ -1,0 +1,29 @@
+## @param image.registry Repository registry for the Docker image
+## @param image.repository Repository name for the Docker image
+## @param image.tag Image tag for the Docker image (immutable tags are recommended)
+## @param image.pullPolicy Image pull policy for the Docker image
+##
+image:
+  registry: docker.io
+  repository: t9kpublic/tensorflow-2.11.0
+  tag: "cpu-sdk-0.5.2"
+  pullPolicy: IfNotPresent
+
+## @param pvc Mount a pvc as notebook working directory.
+# logDir:
+#   pvc:
+#     - name: tutorial
+#       subPath:
+#         - "train/logs"
+#   s3:
+#     secretRef:
+#       name: ""
+#     uri:
+#       - ""
+logDir: {}
+
+## @param resources.cpu The maximum number of CPU the tensorboard can use.
+## @param resources.memory The maximum number of memory the tensorboard can use.
+resources:
+  cpu: 100m
+  memory: 4Gi

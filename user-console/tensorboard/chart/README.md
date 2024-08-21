@@ -1,12 +1,30 @@
 # TensorBoard
 
-TensorBoard 是 TensorFlow 的可视化工具，它可以展示你的 TensorFlow 网络模型（以及其他框架的模型）运行过程中的各种可视化数据。
+TensorBoard 是 TensorFlow 的可视化工具，它可以展示你的 TensorFlow 网络模型（以及其他框架的模型）训练过程中的各种可视化数据。
 
 ## 使用方法
 
+<<<<<<< HEAD
 部署当前应用，将 `logDir.pvc[0].name` 和 `logDir.pvc[0].subPath` 字段的值分别修改为存储卷的名称和目录，位于该目录及其子目录下的所有 tfevents 文件都将被可视化展示。
+=======
+待应用就绪后，点击右侧的 <span class="twemoji"><svg class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium css-jxtyyz" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="OpenInNewIcon"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"></path></svg></span> 进入网页 UI，查看可视化数据。
+
+![](https://s2.loli.net/2024/08/21/b3e4S2unxrCfydq.png)
+
+对于 TensorFlow 框架，记录各种类型数据和使用网页 UI 的方法请参阅 <a target="_blank" rel="noopener noreferrer" href="https://www.tensorflow.org/tensorboard/get_started?hl=zh-cn">TensorBoard 指南</a>。
+
+对于 PyTorch 框架，记录各种类型数据和使用网页 UI 的方法请参阅：
+
+* <a target="_blank" rel="noopener noreferrer" href="https://pytorch.org/docs/stable/tensorboard.html">torch.utils.tensorboard</a> 文档
+* <a target="_blank" rel="noopener noreferrer" href="https://pytorch.org/tutorials/intermediate/tensorboard_tutorial.html">Visualizing models, data, and training with TensorBoard</a> 教程
+* <a target="_blank" rel="noopener noreferrer" href="https://pytorch.org/tutorials/intermediate/tensorboard_profiler_tutorial.html">PyTorch Profiler With TensorBoard</a> 教程
+>>>>>>> 128e64a (Update app explorer, notebook and tensorboard)
 
 ## 配置
+
+### 说明
+
+如使用 PVC 作为 TensorBoard 数据源，将 `spec.logDir.pvc[0].name` 和 `spec.logDir.pvc[0].subPath` 字段的值分别修改为存储卷的名称和目录，位于该目录及其子目录下的所有 tfevents 文件都将被可视化展示。
 
 ### 示例
 
@@ -35,7 +53,7 @@ resources:
   memory: 4Gi
 ```
 
-### 参数
+### 字段
 
 | 名称                       | 描述                                                             | 值                            |
 | -------------------------- | ---------------------------------------------------------------- | ----------------------------- |

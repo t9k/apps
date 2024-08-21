@@ -2,18 +2,18 @@ apiVersion: app.tensorstack.dev/v1beta1
 kind: Template
 metadata:
   name: filebrowser
-  displayName: "FileBrowser"
+  displayName: "File Browser"
   categories: 
   - Tool
-  description: "FileBrowser 在指定目录中提供了一个文件管理界面，可用于上传、删除、预览、重命名和编辑您的文件。"
+  description: "File Browser 为指定目录提供了一个文件管理界面，用于上传、删除、预览、重命名和编辑文件。"
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm: 
     repo: "oci://docker.io/t9kpublic"
     chart: "filebrowser"
     versions:
-    - version: 0.1.2
-      config: "file://$APP_DIR/configs/v0_1_2.yaml"
+    - version: 0.2.0
+      config: "file://$APP_DIR/configs/v0_2_0.yaml"
       urls: 
       - name: "filebrowser"
         url: "/t9k/build-console/projects/{{ .Release.Namespace }}/explorers/{{ .Release.Name }}/filebrowser/"

@@ -1,0 +1,25 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: llama-cpp-server
+  displayName: "LLaMA.cpp HTTP Server"
+  categories: ["AI"]
+  description: "基于 httplib、nlohmann::json 和 llama.cpp 的快速、轻量级、纯 C/C++ HTTP 服务器。"
+  icon: "file://$APP_DIR/icon.png"
+template:
+  helm:
+    repo: "oci://docker.io/t9kpublic"
+    # repo: "https://t9k.github.io/apps/"
+    chart: "llama-cpp-server"
+    versions:
+    - version: 0.1.0
+      urls: []
+      readinessProbe:
+        resources:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: simplemlservices
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      dependencies: {}

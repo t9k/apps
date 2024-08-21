@@ -1,0 +1,66 @@
+## @param replicaCount Number of replicas for the deployment
+##
+replicaCount: 1
+
+## @param image.registry Repository registry for the Docker image
+## @param image.repository Repository name for the Docker image
+## @param image.tag Image tag for the Docker image (immutable tags are recommended)
+## @param image.pullPolicy Image pull policy for the Docker image
+##
+image:
+  registry: ghcr.io
+  repository: ggerganov/llama.cpp
+  # "server" for CPU inference, "server-cuda" for CUDA
+  tag: "server-cuda"
+  pullPolicy: IfNotPresent
+
+## @param resources.limits.cpu CPU limit for Kubernetes resources
+## @param resources.limits.memory Memory limit for Kubernetes resources
+## @param resources.limits."nvidia.com/gpu" NVIDIA GPU limit for Kubernetes resources
+##
+resources:
+  limits:
+    cpu: 4
+    memory: 64Gi
+    nvidia.com/gpu: 1
+
+## @param model.name Name by which the model is deployed
+## @param model.volume.storageClass Storage class for the model volume
+## @param model.volume.size Size of the model volume
+## @param model.volume.accessModes Access modes for the model volume
+## @param model.volume.existingClaim PVC for the model volume, if bringing your own PVC
+## @param model.volume.subPath Subdirectory of the model volume to mount
+## @param model.source Source of the model (`huggingface`, `git`, `s3`, or "")
+## @param model.huggingface.id Hugging Face ID of the model
+## @param model.huggingface.files Files to download from the Hugging Face model repository
+## @param model.huggingface.existingSecret Secret whose value of key `token` is used as the Hugging Face token
+## @param model.git.url Git repository URL for the model
+## @param model.git.ref Git branch, tag, or commit for the model
+## @param model.git.existingSecret Secret whose value of key `token` is used as the Git token
+## @param model.s3.url S3 URL for the model
+## @param model.s3.existingSecret Secret of type s3-env containing the S3 credentials
+##
+model:
+  # 模型以该名称被部署
+  # deployName: ""
+  # e.g. "model.gguf", "directory/model.gguf"
+  path: "Llama3-8B-Chinese-Chat-q8_0-v2_1.gguf"
+  url: ""
+
+  volume:
+    storageClass: ""
+    size: 8Gi
+    accessModes:
+      - ReadWriteOnce
+    existingClaim: ""
+
+  contextSize: ""
+
+## @param env Array of extra environment variables
+##
+env: []
+  # # HTTP 和 HTTPS 代理
+  # - name: HTTP_PROXY
+  #   value: ""
+  # - name: HTTPS_PROXY
+  #   value: ""

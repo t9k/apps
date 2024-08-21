@@ -1,0 +1,120 @@
+## @param replicaCount Number of replicas for the deployment
+##
+replicaCount: 1
+
+## @param image.registry Repository registry for the Docker image
+## @param image.repository Repository name for the Docker image
+## @param image.tag Image tag for the Docker image (immutable tags are recommended)
+## @param image.pullPolicy Image pull policy for the Docker image
+##
+image:
+  registry: ghcr.io
+  repository: open-webui/open-webui
+  tag: latest
+  pullPolicy: IfNotPresent
+
+## @param service.type Service type for the Kubernetes service
+## @param service.port Port for the Kubernetes service
+##
+service:
+  type: ClusterIP
+  port: 80
+
+## @param ingress.enabled Enable/disable Kubernetes ingress
+## @param ingress.class Ingress class name
+## @param ingress.annotations Annotations for Kubernetes ingress
+## @param ingress.host Hostname for the Kubernetes ingress
+## @param ingress.tls Enable/disable TLS for Kubernetes ingress
+## @param ingress.existingSecret Existing TLS secret for Kubernetes ingress
+##
+ingress:
+  enabled: false
+  class: ""
+  # -- Use appropriate annotations for your Ingress controller, e.g., for NGINX:
+  # nginx.ingress.kubernetes.io/rewrite-target: /
+  annotations: {}
+  host: ""
+  tls: false
+  existingSecret: ""
+
+## @param resources.limits.cpu CPU limit for the Ollama server pod
+## @param resources.limits.memory Memory limit for the Ollama server pod
+##
+resources:
+  limits:
+    cpu: 1
+    memory: 2Gi
+
+## @param persistence.enabled Enable/disable persistent storage for Open WebUI
+## @param persistence.storageClass Storage class for the persistent volume claim
+## @param persistence.size Size of the persistent volume claim
+## @param persistence.accessModes Access modes for the persistent volume claim. If using multiple replicas, you must update accessModes to ReadWriteMany
+## @param persistence.existingClaim Name of an existing PVC to use
+##
+persistence:
+  enabled: true
+  storageClass: ""
+  size: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  existingClaim: ""
+
+## @param ollama.enabled Enable/disable installation of Ollama Helm chart
+## @param ollama.ollama.gpu.enabled Enable/disable GPU support for Ollama
+## @param ollama.ollama.gpu.type GPU type for Ollama (e.g., nvidia)
+## @param ollama.ollama.gpu.number Number of GPUs to allocate for Ollama
+## @param ollama.ollama.models List of models to be deployed with Ollama
+## @param ollama.resources.requests.cpu CPU request for the Ollama server pod
+## @param ollama.resources.requests.memory Memory request for the Ollama server pod
+## @param ollama.resources.limits.cpu CPU limit for the Ollama server pod
+## @param ollama.resources.limits.memory Memory limit for the Ollama server pod
+## @param ollama.persistentVolume.enabled Enable persistence using Persistent Volume Claims
+## @param ollama.persistentVolume.size Ollama server data Persistent Volume size
+##
+ollama:
+  enabled: true
+
+  ollama:
+    gpu:
+      enabled: true
+      type: 'nvidia'
+      number: 1
+    models: []
+    #  - llama3
+    #  - mistral
+
+  resources:
+    requests:
+      cpu: 1
+      # cpu: 8  # if gpu is disabled
+      memory: 8Gi
+    limits:
+      cpu: 1
+      # cpu: 16  # if gpu is disabled
+      memory: 16Gi
+
+  persistentVolume:
+    enabled: true
+    size: 30Gi
+
+## @param ollamaUrls A list of Ollama API endpoints. These can be added in lieu of automatically installing the Ollama Helm chart, or in addition to it.
+##
+ollamaUrls: []
+
+## @param pipelines.enabled Automatically install Pipelines chart to extend Open WebUI functionality using Pipelines: https://github.com/open-webui/pipelines
+## @param pipelines.extraEnvVars This section can be used to pass required environment variables to your pipelines (e.g. Langfuse hostname)
+##
+pipelines:
+  enabled: true
+  extraEnvVars: []
+
+## @param env Array of extra environment variables
+##
+extraEnvVars: []
+  # - name: OPENAI_API_KEY
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: openai-api-key
+  #       key: api-key
+  # - name: OLLAMA_DEBUG
+  #   value: "1"

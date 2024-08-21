@@ -1,0 +1,21 @@
+## @param image.registry Repository registry for the Docker image
+## @param image.repository Repository name for the Docker image
+## @param image.tag Image tag for the Docker image (immutable tags are recommended)
+## @param image.pullPolicy Image pull policy for the Docker image
+##
+image:
+  registry: "registry.cn-hangzhou.aliyuncs.com"
+  repository: "t9k/jupyterlab-torch-2.1.0"
+  tag: "240708-dcu"
+  pullPolicy: IfNotPresent
+
+## @param pvc Mount a pvc as notebook working directory.
+pvc: ""
+
+## @param resources.cpu The maximum number of CPU the notebook can use.
+## @param resources.memory The maximum number of CPU the notebook can use.
+## @param resources.gcu The maximum number of GCU the notebook can use.
+resources:
+  cpu: "16"
+  memory: 32Gi
+  dcu: "1"

@@ -1,6 +1,6 @@
 apiVersion: v2
 name: filebrowser
-description: FileBrowser 在指定目录中提供了一个文件管理界面，可用于上传、删除、预览、重命名和编辑您的文件。
+description: File Browser 为指定目录提供了一个文件管理界面，用于上传、删除、预览、重命名和编辑文件。
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -15,10 +15,10 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.2
+version: 0.2.0
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "0.1.2"
+appVersion: "2.18.0"

@@ -3,10 +3,10 @@ kind: Template
 metadata:
   name: tensorboard
   displayName: "TensorBoard"
-  defaultVersion: "0.1.2"
+  defaultVersion: "0.2.0"
   categories: 
   - Tool
-  description: "TensorBoard 是 TensorFlow 的可视化工具，它可以展示你的 TensorFlow 网络模型（以及其他框架的模型）运行过程中的各种可视化数据。"
+  description: "TensorBoard 是 TensorFlow 的可视化工具，展示模型训练过程中的各种数据。"
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm: 
@@ -31,8 +31,8 @@ template:
         - group: tensorstack.dev
           version: v1beta1
           resource: tensorboards
-    - version: 0.1.2
-      config: "file://$APP_DIR/configs/v0_1_2.yaml"
+    - version: 0.2.0
+      config: "file://$APP_DIR/configs/v0_2_0.yaml"
       urls: 
       - name: "tensorboard"
         url: "/t9k/tensorboards/projects/{{ .Release.Namespace }}/name/{{ .Release.Name }}/"

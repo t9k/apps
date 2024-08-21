@@ -1,0 +1,106 @@
+## @param replicaCount Number of replicas
+##
+replicaCount: 1
+
+## @param image.registry Repository registry for the Docker image
+## @param image.repository Repository name for the Docker image
+## @param image.tag Image tag for the Docker image (immutable tags are recommended)
+## @param image.pullPolicy Image pull policy for the Docker image
+##
+image:
+  registry: docker.io
+  repository: ollama/ollama
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "0.3.6"
+  pullPolicy: IfNotPresent
+
+## @param ollama.gpu.enabled Enable GPU integration
+## @param ollama.gpu.type GPU type: 'nvidia' or 'amd'
+## @param ollama.gpu.number Number of GPUs
+## @param ollama.models List of models to pull at container startup
+## @param ollama.insecure Add insecure flag for pulling at container startup
+##
+ollama:
+  gpu:
+    enabled: true
+    # If 'ollama.gpu.enabled', default value is nvidia
+    # If set to 'amd', this will add 'rocm' suffix to image tag if 'image.tag' is not override
+    # This is due cause AMD and CPU/CUDA are different images
+    type: 'nvidia'
+    number: 1
+
+  # The more you add, the longer the container will take to start if models are not present
+  models: []
+  #  - llama3
+  #  - mistral
+
+  insecure: false
+
+## @param service.type Service type
+## @param service.port Service port
+##
+service:
+  type: ClusterIP
+  port: 11434
+
+## @param ingress.enabled Enable ingress controller resource
+## @param ingress.className IngressClass that will be used to implement the Ingress (Kubernetes 1.18+)
+## @param ingress.annotations Additional annotations for the Ingress resource
+## @param ingress.hosts List of hostnames to be covered with this ingress record
+## @param ingress.tls The tls configuration for hostnames to be covered with this ingress record
+##
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: traefik
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: ollama.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+## @param resources.requests.cpu CPU request for the Ollama server pod
+## @param resources.requests.memory Memory request for the Ollama server pod
+## @param resources.limits.cpu CPU limit for the Ollama server pod
+## @param resources.limits.memory Memory limit for the Ollama server pod
+##
+resources:  # do NOT add `nvidia.com/gpu` manually
+  requests:
+    cpu: 1
+    # cpu: 8  # if gpu is disabled
+    memory: 8Gi
+
+  limits:
+    cpu: 1
+    # cpu: 16  # if gpu is disabled
+    memory: 16Gi
+
+## @param persistentVolume.enabled Enable persistence using Persistent Volume Claims
+## @param persistentVolume.accessModes Ollama server data Persistent Volume access modes
+## @param persistentVolume.annotations Ollama server data Persistent Volume annotations
+## @param persistentVolume.existingClaim PVC for persisting Ollama state, if bringing your own PVC
+## @param persistentVolume.size Ollama server data Persistent Volume size
+## @param persistentVolume.storageClass Ollama server data Persistent Volume Storage Class
+## @param persistentVolume.volumeMode Ollama server data Persistent Volume Binding Mode
+## @param persistentVolume.subPath Subdirectory of Ollama server data Persistent Volume to mount
+##
+persistentVolume:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  annotations: {}
+  # -- If you'd like to bring your own PVC for persisting Ollama state, pass the name of the
+  # created + ready PVC here. If set, this Chart will not create the default PVC.
+  # Requires server.persistentVolume.enabled: true
+  existingClaim: ""
+  size: 30Gi
+  storageClass: ""
+  volumeMode: ""
+  subPath: ""
