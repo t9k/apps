@@ -4,7 +4,7 @@ metadata:
   name: stable-diffusion-webui-aki
   displayName: "Stable Diffusion WebUI aki"
   categories: ["AI"]
-  description: "bilibili@秋葉aaaki 的 Stable Diffusion 整合包，基于开源项目 Stable Diffusion WebUI 制作。"
+  description: "Stable Diffusion WebUI aki 是基于开源项目 Stable Diffusion WebUI 的整合包，由 bilibili@秋葉 aaaki 制作。"
   icon: "file://$APP_DIR/icon.png"
 template:
   helm:
@@ -12,7 +12,7 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "stable-diffusion-webui-aki"
     versions:
-    - version: 0.1.5
+    - version: 0.2.0
       urls: 
       - name: UI
         url: /apps/{{ .Release.Namespace }}/stable-diffusion-webui-aki/{{ .Release.Name }}/

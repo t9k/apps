@@ -4,15 +4,21 @@
 
 ## 使用方法
 
-部署当前应用，在 `llm` 字段下正确填写模型提供商以及相应的 API Key 和 URL，必要时提供代理。待实例就绪后，点击相应的链接进入 web UI，即可开始聊天。
+待应用就绪后，按照应用信息的指引进入网页 UI，即可开始聊天。
 
-web UI 提供一些“面具”和设置选项，请自行尝试。
+<!-- OpenAI 聊天截图 -->
 
-如要将兼容 OpenAI API 的本地推理服务（例如 vLLM 应用的推理服务）作为模型提供商，将 `llm.provider` 字段的值设为 `openai`，将 `llm.apiKey` 字段的值设为任意非空字符串，将 `llm.openai.baseUrl` 字段的值设为该本地推理服务的服务端点。此外还需要在 web UI 的设置中提供模型的部署名称并选择该名称（以 `mistral-7b` 为例）：
-
-![](https://s2.loli.net/2024/06/18/r6nc8sWwu2APReh.png)
+网页 UI 的使用方法请参阅[用户手册](https://github.com/ChatGPTNextWeb/ChatGPT-Next-Web/blob/main/docs/user-manual-cn.md)和[常见问题](https://github.com/ChatGPTNextWeb/ChatGPT-Next-Web/blob/main/docs/faq-cn.md)。
 
 ## 配置
+
+### 说明
+
+在 `llm` 字段下正确填写模型提供商以及相应的 API Key 和 URL，必要时提供代理。
+
+如要将兼容 OpenAI API 的本地推理服务（例如 vLLM 应用的推理服务）作为模型提供商，将 `llm.provider` 字段的值设为 `openai`，将 `llm.apiKey` 字段的值设为任意非空字符串，将 `llm.openai.baseUrl` 字段的值设为该本地推理服务的服务端点。此外还需要在网页 UI 的设置中提供模型的部署名称并选择该名称（以 `mistral-7b` 为例）：
+
+![](https://s2.loli.net/2024/06/18/r6nc8sWwu2APReh.png)
 
 ### 示例
 
@@ -85,12 +91,12 @@ llm:
   provider: "openai"
   apiKey: "any"
   openai:
-    baseUrl: "http://<ENDPOINT>"  # 部署 vLLM 应用，查看其实例信息以获取服务端点
+    baseUrl: "http://<ENDPOINT>"  # 安装 vLLM 应用，查看其应用信息以获取服务端点
 
 env: []
 ```
 
-### 参数
+### 字段
 
 | 名称                        | 描述                                                    | 值                         |
 | --------------------------- | ------------------------------------------------------- | -------------------------- |

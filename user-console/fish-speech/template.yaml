@@ -4,7 +4,7 @@ metadata:
   name: fish-speech
   displayName: "Fish Speech"
   categories: ["AI"]
-  description: "Fish Speech 是一套全新的 TTS 解决方案。"
+  description: "Fish Speech 是一套全新的 TTS 解决方案，支持无微调的音色克隆。"
   icon: "file://$APP_DIR/icon.png"
 template:
   helm:
@@ -12,7 +12,7 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "fish-speech"
     versions:
-    - version: 0.1.0
+    - version: 0.2.0
       urls: []
       # - name: UI
       #   url: /apps/{{ .Release.Namespace }}/fish-speech/{{ .Release.Name }}/

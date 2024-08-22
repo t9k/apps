@@ -10,11 +10,11 @@ Fish Speech 的优势包括：
 
 ## 使用方法
 
-部署当前应用，待实例就绪后，按照应用信息操作进入 web UI，即可开始生成想要的语音：
+待应用就绪后，按照应用信息的指引进入网页 UI，即可开始生成想要的语音：
 
 ![](https://s2.loli.net/2024/07/25/U1aswO2XAcpklZf.png)
 
-web UI 的使用方法简单明了，请用户自行尝试。
+网页 UI 的使用方法简单直观，请用户自行尝试。
 
 ## 配置
 
@@ -47,7 +47,7 @@ resources:
     nvidia.com/gpu: 1
 ```
 
-### 参数
+### 字段
 
 | 名称                                | 描述                              | 值                      |
 | ----------------------------------- | --------------------------------- | ----------------------- |
@@ -62,6 +62,6 @@ resources:
 | `ingress.annotations`               | Kubernetes Ingress 注释           | `{}`                    |
 | `ingress.hosts`                     | Kubernetes Ingress 的主机列表     | `[]`                    |
 | `ingress.tls`                       | Kubernetes Ingress 的 TLS 配置    | `[]`                    |
-| `resources.limits.cpu`              | Kubernetes 资源的 CPU 限制        | `4`                     |
-| `resources.limits.memory`           | Kubernetes 资源的内存限制         | `64Gi`                  |
-| `resources.limits."nvidia.com/gpu"` | Kubernetes 资源的 Nvidia GPU 限制 | `1`                     |
+| `resources.limits.cpu`              | Kubernetes 资源的 CPU 限制        | `1`                     |
+| `resources.limits.memory`           | Kubernetes 资源的内存限制         | `4Gi`                   |
+| `resources.limits."nvidia.com/gpu"` | Kubernetes 资源的 NVIDIA GPU 限制 | `1`                     |

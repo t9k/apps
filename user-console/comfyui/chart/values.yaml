@@ -36,7 +36,7 @@ ingress:
 
 ## @param resources.limits.cpu CPU limit for Kubernetes resources
 ## @param resources.limits.memory Memory limit for Kubernetes resources
-## @param resources.limits.nvidia-gpu Nvidia GPU limit for Kubernetes resources
+## @param resources.limits."nvidia.com/gpu" NVIDIA GPU limit for Kubernetes resources
 ##
 resources:
   limits:

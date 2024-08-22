@@ -4,7 +4,7 @@ metadata:
   name: nextchat
   displayName: NextChat
   categories: ["AI"]
-  description: "NextChat 是一个设计精良的 ChatGPT 网页 UI，支持 ChatGPT、Claude、Gemini 和本地部署的兼容 OpenAI API 的推理服务。"
+  description: "NextChat 是一个设计精良的 ChatGPT 网页 UI，支持多种聊天服务，包括 ChatGPT、Claude、Gemini 和本地推理服务。"
   icon: "file://$APP_DIR/icon.png"
 template:
   helm:
@@ -12,7 +12,7 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "nextchat"
     versions:
-    - version: 0.1.5
+    - version: 0.2.0
       urls: []
       readinessProbe:
         resources:

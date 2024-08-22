@@ -1,6 +1,6 @@
 apiVersion: v2
 name: comfyui
-description: 最强大和模块化的 stable diffusion 图形用户界面（GUI）和后端，允许你使用基于图/节点/流程图的 UI 设计和执行高级 stable diffusion 流水线。
+description: ComfyUI 是一个功能强大且模块化的 Stable Diffusion 图形用户界面和后端，支持基于图、节点和流程图设计和执行高级流水线。
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -15,7 +15,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.1
+version: 0.2.0
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to

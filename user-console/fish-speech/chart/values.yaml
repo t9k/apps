@@ -39,6 +39,6 @@ ingress:
 ##
 resources:
   limits:
-    cpu: 4
-    memory: 64Gi
+    cpu: 1
+    memory: 4Gi
     nvidia.com/gpu: 1

@@ -4,7 +4,7 @@ metadata:
   name: gpt-researcher
   displayName: "GPT Researcher"
   categories: ["AI"]
-  description: "GPT Researcher 是一个智能体代理，专为各种任务的综合在线研究而设计。"
+  description: "GPT Researcher 是一个智能体代理，专门用于各种任务的综合在线研究。"
   icon: "https://s2.loli.net/2024/06/05/KuShAgEN9zWXnPH.png"
 template:
   helm:
@@ -12,7 +12,7 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "gpt-researcher"
     versions:
-    - version: 0.1.5
+    - version: 0.2.0
       urls: []
       readinessProbe:
         resources:
