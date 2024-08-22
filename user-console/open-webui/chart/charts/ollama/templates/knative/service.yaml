@@ -54,7 +54,7 @@ spec:
             {{- $limits := default dict .Values.resources.limits }}
             {{- if .Values.ollama.gpu.enabled }}
               {{- if or (eq .Values.ollama.gpu.type "nvidia") (not .Values.ollama.gpu.type) }}
-                {{- $gpuLimit := dict "nvidia.com/gpu" (.Values.ollama.gpu.number | default 1) }}
+                {{- $gpuLimit := dict (.Values.ollama.gpu.nvidiaResource | default "nvidia.com/gpu") (.Values.ollama.gpu.number | default 1) }}
                 {{- $limits = merge $limits $gpuLimit }}
               {{- end }}
               {{- if eq .Values.ollama.gpu.type "amd" }}
@@ -67,7 +67,7 @@ spec:
           {{- end}}
           volumeMounts:
             - name: ollama-data
-              mountPath: /root/.ollama
+              mountPath: {{ .Values.ollama.mountPath | default "/root/.ollama" }}
           {{- with .Values.volumeMounts }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -118,10 +118,14 @@ spec:
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- if or .Values.ollama.gpu.enabled .Values.tolerations }}
       tolerations:
         {{- if and .Values.ollama.gpu.enabled (or (eq .Values.ollama.gpu.type "nvidia") (not .Values.ollama.gpu.type)) }}
-        - key: nvidia.com/gpu
+        - key: "{{(.Values.ollama.gpu.nvidiaResource | default "nvidia.com/gpu")}}"
           operator: Exists
           effect: NoSchedule
         {{- end }}

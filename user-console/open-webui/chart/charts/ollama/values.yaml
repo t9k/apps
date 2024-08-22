@@ -53,15 +53,22 @@ ollama:
     # -- Specify the number of GPU
     number: 1
 
+    # -- only for nvidia cards; change to (example) 'nvidia.com/mig-1g.10gb' to use MIG slice
+    nvidiaResource: "nvidia.com/gpu"
+    # nvidiaResource: "nvidia.com/mig-1g.10gb" # example
+
   # -- List of models to pull at container startup
   # The more you add, the longer the container will take to start if models are not present
   # models:
   #  - llama2
   #  - mistral
-  models: {}
+  models: []
 
   # -- Add insecure flag for pulling at container startup
   insecure: false
+
+  # -- Override ollama-data volume mount path, default: "/root/.ollama"
+  mountPath: ""
 
 # Service account
 # ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
@@ -303,6 +310,9 @@ updateStrategy:
   # -- Can be "Recreate" or "RollingUpdate". Default is RollingUpdate
   type: ""
 
+# -- Topology Spread Constraints for pod assignment
+topologySpreadConstraints: {}
+
 # -- Init containers to add to the pod
 initContainers: []
 # - name: startup-tool
@@ -310,3 +320,12 @@ initContainers: []
 #   command: [sh, -c]
 #   args:
 #     - echo init
+
+# -- Use the host’s ipc namespace.
+hostIPC: false
+
+# -- Use the host’s pid namespace
+hostPID: false
+
+# -- Use the host's network namespace.
+hostNetwork: false

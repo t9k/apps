@@ -1,17 +1,17 @@
 apiVersion: v2
 name: ollama
-description: Get up and running with large language models locally.
+description: Ollama 提供本地使用 LLM 的解决方案。
 type: application
 
-version: 0.35.4
-appVersion: 0.1.43
+version: 0.53.0
+appVersion: 0.3.6
 kubeVersion: "^1.16.0-0"
 
 annotations:
   artifacthub.io/category: ai-machine-learning
   artifacthub.io/changes: |
     - kind: changed
-      description: upgrade ollama to 0.1.43
+      description: upgrade ollama to 0.3.6
 
 home: https://ollama.ai/
 icon: https://ollama.ai/public/ollama.png
@@ -24,5 +24,5 @@ sources:
   - https://github.com/ollama/ollama
   - https://github.com/otwld/ollama-helm
 maintainers:
-  - name: Otwld
+  - name: OTWLD
     email: contact@otwld.com

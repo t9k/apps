@@ -22,9 +22,3 @@
 .drone.yml
 *.tmproj
 .vscode/
-
-#others
-.github
-kind-config.yml
-ci/
-

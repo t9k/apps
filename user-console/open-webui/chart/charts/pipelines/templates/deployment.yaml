@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "open-webui.fullname" . }}
+  name: {{ include "pipelines.name" . }}
   labels:
-    {{- include "open-webui.labels" . | nindent 4 }}
+    {{- include "pipelines.labels" . | nindent 4 }}
   {{- with .Values.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -12,31 +12,38 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "open-webui.selectorLabels" . | nindent 6 }}
+      {{- include "pipelines.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "open-webui.labels" . | nindent 8 }}
+        {{- include "pipelines.labels" . | nindent 8 }}
       {{- with .Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       enableServiceLinks: false
       automountServiceAccountToken: false
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- with .Values.image }}
+        image: {{ .repository }}:{{ .tag | default $.Chart.AppVersion }}
+        imagePullPolicy: {{ .pullPolicy }}
+        {{- end }}
         ports:
         - name: http
           containerPort: {{ .Values.service.containerPort }}
         {{- with .Values.resources }}
         resources: {{- toYaml . | nindent 10 }}
         {{- end }}
+        volumeMounts:
+        - name: data
+          mountPath: /app/backend/data
         env:
-        - name: OLLAMA_BASE_URLS
-          value: {{ include "ollamaBaseUrls" . | quote }}
         {{- if .Values.extraEnvVars }}
           {{- toYaml .Values.extraEnvVars | nindent 8 }}
         {{- end }}
@@ -52,4 +59,17 @@ spec:
       {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+      {{- if and .Values.persistence.enabled .Values.persistence.existingClaim }}
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.existingClaim }}
+      {{- else if not .Values.persistence.enabled }}
+      - name: data
+        emptyDir: {}
+      {{- else if and .Values.persistence.enabled (not .Values.persistence.existingClaim) }}
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ include "pipelines.name" . }}
       {{- end }}

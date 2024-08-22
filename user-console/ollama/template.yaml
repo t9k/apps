@@ -4,7 +4,7 @@ metadata:
   name: ollama
   displayName: Ollama
   categories: ["AI"]
-  description: "Get up and running with large language models locally."
+  description: "Ollama 提供本地使用 LLM 的解决方案。"
   icon: "file://$APP_DIR/icon.png"
 template:
   helm:
@@ -12,8 +12,8 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "ollama"
     versions:
-    - version: 0.35.4
-      config: "file://$APP_DIR/configs/v0_35.yaml"
+    - version: 0.53.0
+      config: "file://$APP_DIR/configs/v0_53.yaml"
       urls: []
       readinessProbe:
         resources:

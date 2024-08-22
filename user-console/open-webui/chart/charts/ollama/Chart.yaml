@@ -2,9 +2,9 @@ annotations:
   artifacthub.io/category: ai-machine-learning
   artifacthub.io/changes: |
     - kind: changed
-      description: upgrade ollama to 0.1.41
+      description: upgrade ollama to 0.3.6
 apiVersion: v2
-appVersion: 0.1.41
+appVersion: 0.3.6
 description: Get up and running with large language models locally.
 home: https://ollama.ai/
 icon: https://ollama.ai/public/ollama.png
@@ -16,10 +16,10 @@ keywords:
 kubeVersion: ^1.16.0-0
 maintainers:
 - email: contact@otwld.com
-  name: Otwld
+  name: OTWLD
 name: ollama
 sources:
 - https://github.com/ollama/ollama
 - https://github.com/otwld/ollama-helm
 type: application
-version: 0.33.0
+version: 0.53.0

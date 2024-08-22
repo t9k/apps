@@ -4,7 +4,7 @@ metadata:
   name: open-webui
   displayName: "Open WebUI"
   categories: ["AI"]
-  description: "Open WebUI: A User-Friendly Web Interface for Chat Interactions 👋"
+  description: "Open WebUI 是一个用户友好的聊天交互网页界面。"
   icon: "file://$APP_DIR/icon.png"
 template:
   helm:
@@ -12,15 +12,15 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "open-webui"
     versions:
-    - version: 2.1.5
-      config: "file://$APP_DIR/configs/v2_1.yaml"
+    - version: 3.1.6
+      config: "file://$APP_DIR/configs/v3_1.yaml"
       urls: []
       readinessProbe:
         resources:
         - group: apps
           version: v1
-          resource: deployments
+          resource: statefulsets
           name: "{{ .Release.Name }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
           desiredStatus: "True"
       dependencies: {}

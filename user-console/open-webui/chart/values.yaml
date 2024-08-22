@@ -15,6 +15,12 @@ ollama:
   # persistentVolume:
   #   enabled: true
 
+pipelines:
+  # -- Automatically install Pipelines chart to extend Open WebUI functionality using Pipelines: https://github.com/open-webui/pipelines
+  enabled: true
+  # -- This section can be used to pass required environment variables to your pipelines (e.g. Langfuse hostname)
+  extraEnvVars: []
+
 # -- A list of Ollama API endpoints. These can be added in lieu of automatically installing the Ollama Helm chart, or in addition to it.
 ollamaUrls: []
 
@@ -28,7 +34,14 @@ replicaCount: 1
 image:
   repository: ghcr.io/open-webui/open-webui
   tag: "latest"
-  pullPolicy: Always
+  pullPolicy: "IfNotPresent"
+
+# -- Configure imagePullSecrets to use private registry
+# ref: <https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry>
+imagePullSecrets: []
+# imagePullSecrets:
+# - name: myRegistryKeySecretName
+
 resources: {}
 ingress:
   enabled: false
@@ -60,6 +73,9 @@ tolerations: []
 # -- Affinity for pod assignment
 affinity: {}
 
+# -- Topology Spread Constraints for pod assignment
+topologySpreadConstraints: []
+
 # -- Service values to expose Open WebUI pods to cluster
 service:
   type: ClusterIP
@@ -75,6 +91,13 @@ openaiBaseApiUrl: ""
 
 # -- Additional environments variables on the output Deployment definition. Most up-to-date environment variables can be found here: https://docs.openwebui.com/getting-started/env-configuration/
 extraEnvVars:
+  # -- Default API key value for Pipelines. Should be updated in a production deployment, or be changed to the required API key if not using Pipelines
+  - name: OPENAI_API_KEY
+    value: "0p3n-w3bu!"
+  # valueFrom:
+  #   secretKeyRef:
+  #     name: pipelines-api-key
+  #     key: api-key
   # - name: OPENAI_API_KEY
   #   valueFrom:
   #     secretKeyRef:
@@ -82,3 +105,28 @@ extraEnvVars:
   #       key: api-key
   # - name: OLLAMA_DEBUG
   #   value: "1"
+
+# -- Configure pod security context
+# ref: <https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-containe>
+podSecurityContext:
+  {}
+  # fsGroupChangePolicy: Always
+  # sysctls: []
+  # supplementalGroups: []
+  # fsGroup: 1001
+
+# -- Configure container security context
+# ref: <https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-containe>
+containerSecurityContext:
+  {}
+  # runAsUser: 1001
+  # runAsGroup: 1001
+  # runAsNonRoot: true
+  # privileged: false
+  # allowPrivilegeEscalation: false
+  # readOnlyRootFilesystem: false
+  # capabilities:
+  #   drop:
+  #     - ALL
+  # seccompProfile:
+  #   type: "RuntimeDefault"

@@ -6,25 +6,25 @@
 
 ## 使用方法
 
-请按照以下步骤使用 Ollama 部署 LLM 为推理服务：
+待应用就绪后，（安装并）进入一个终端应用，按照应用信息的指引执行命令以验证推理服务可用。
 
-1. 部署当前应用，在 `ollama.gpu` 字段下正确填写是否启用 GPU、GPU 的类型和数量，将 `ollama.models` 字段的值设为启动时拉取的模型列表。
+验证成功后，进一步使用推理服务请参阅：
 
-2. 待实例就绪后，（部署并）进入一个终端应用，按照实例信息执行命令以验证推理服务可用。
-
-3. 验证成功，进一步使用推理服务请参阅：
-
-    * [Ollama 官方文档](https://github.com/ollama/ollama/tree/main/docs)
-    * 通过 RESTful API 交互：[Ollama API](https://github.com/ollama/ollama/blob/main/docs/api.md)
-    * 通过 OpenAI API-compatible API 交互：[OpenAI compatibility](https://github.com/ollama/ollama/blob/main/docs/openai.md)（实验性功能）
-    * 使用官方客户端库交互：[ollama-js](https://github.com/ollama/ollama-js#custom-client) 和 [ollama-python](https://github.com/ollama/ollama-python#custom-client)
-    * 使用 langchain 交互：[langchain-js](https://github.com/ollama/ollama/blob/main/docs/tutorials/langchainjs.md) 和 [langchain-python](https://github.com/ollama/ollama/blob/main/docs/tutorials/langchainpy.md)
+* [Ollama 官方文档](https://github.com/ollama/ollama/tree/main/docs)
+* 通过 RESTful API 交互：[Ollama API](https://github.com/ollama/ollama/blob/main/docs/api.md)
+* 通过 OpenAI API-compatible API 交互：[OpenAI compatibility](https://github.com/ollama/ollama/blob/main/docs/openai.md)（实验性功能）
+* 使用官方客户端库交互：[ollama-js](https://github.com/ollama/ollama-js#custom-client) 和 [ollama-python](https://github.com/ollama/ollama-python#custom-client)
+* 使用 langchain 交互：[langchain-js](https://github.com/ollama/ollama/blob/main/docs/tutorials/langchainjs.md) 和 [langchain-python](https://github.com/ollama/ollama/blob/main/docs/tutorials/langchainpy.md)
 
 ## 配置
 
+### 说明
+
+在 `ollama.gpu` 字段下正确填写是否启用 GPU、GPU 的类型和数量，将 `ollama.models` 字段的值设为启动时拉取的模型列表。
+
 ### 示例
 
-申请 1 个 CPU（核心）、16 GiB 内存资源以及 1 个 Nvidia GPU，创建一个大小 30GiB 的存储卷以存储 Ollama 服务器数据，启动时不拉取模型：
+申请 1 个 CPU（核心）、16 GiB 内存资源以及 1 个 NVIDIA GPU，创建一个大小 30GiB 的存储卷以存储 Ollama 服务器数据，启动时不拉取模型：
 
 ```yaml
 replicaCount: 1
@@ -32,7 +32,7 @@ replicaCount: 1
 image:
   registry: docker.io
   repository: ollama/ollama
-  tag: ""
+  tag: "0.3.6"
   pullPolicy: IfNotPresent
 
 ollama:
@@ -81,7 +81,7 @@ persistentVolume:
   subPath: ""
 ```
 
-### 参数
+### 字段
 
 | 名称                                 | 类型   | 值                  | 描述                                                                                                                                                                                              |
 | ------------------------------------ | ------ | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
