@@ -3,6 +3,16 @@ entries:
   comfyui:
   - apiVersion: v2
     appVersion: "20240708"
+    created: "2024-08-22T02:35:38.814389151Z"
+    description: ComfyUI 是一个功能强大且模块化的 Stable Diffusion 图形用户界面和后端，支持基于图、节点和流程图设计和执行高级流水线。
+    digest: 66cff48c62fba41abfb746982595086421b23b9e8eefa86d4eb78f08c385f9b4
+    name: comfyui
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/comfyui-0.2.0/comfyui-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: "20240708"
     created: "2024-07-24T09:38:55.12098786Z"
     description: 最强大和模块化的 stable diffusion 图形用户界面（GUI）和后端，允许你使用基于图/节点/流程图的 UI 设计和执行高级
       stable diffusion 流水线。
@@ -56,6 +66,16 @@ entries:
   fish-speech:
   - apiVersion: v2
     appVersion: "1.2"
+    created: "2024-08-22T02:35:38.91159008Z"
+    description: Fish Speech 是一套全新的 TTS 解决方案，支持无微调的音色克隆。
+    digest: 58a2bfa6f0101465c4b389cbeb986d388849e5d5a0fcf9d5a350b49d57f8f5bd
+    name: fish-speech
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/fish-speech-0.2.0/fish-speech-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: "1.2"
     created: "2024-07-23T10:44:46.583117626Z"
     description: Fish Speech 是一套全新的 TTS 解决方案。
     digest: bca9869116351acbb144400888bbe3216991cc9c4def9b7eb659c6008d40c188
@@ -65,6 +85,16 @@ entries:
     - https://github.com/t9k/apps/releases/download/fish-speech-0.1.0/fish-speech-0.1.0.tgz
     version: 0.1.0
   gpt-researcher:
+  - apiVersion: v2
+    appVersion: 0.2.6
+    created: "2024-08-22T02:35:39.025080406Z"
+    description: GPT Researcher 是一个智能体代理，专门用于各种任务的综合在线研究。
+    digest: 7e20ec82264a7ab2f8b6b88056ca4bf5a9bb3f252f064a9d783849cb4da71098
+    name: gpt-researcher
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/gpt-researcher-0.2.0/gpt-researcher-0.2.0.tgz
+    version: 0.2.0
   - apiVersion: v2
     appVersion: 0.2.6
     created: "2024-06-21T09:39:00.595714363Z"
@@ -162,6 +192,16 @@ entries:
   llama-board:
   - apiVersion: v2
     appVersion: 0.8.3
+    created: "2024-08-22T02:35:39.142265718Z"
+    description: Llama Board 是 LLaMA-Factory 项目的网页 UI，用于（增量）预训练、指令微调和评估开源 LLM。
+    digest: 45a7c8ecd94abb6af28cbf3cf1082f94c76676f379ac64bcc24df4d33a7dbf0b
+    name: llama-board
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/llama-board-0.2.0/llama-board-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 0.8.3
     created: "2024-07-31T10:48:33.249125146Z"
     description: Llama Board 是 LLaMA-Factory 项目的 web UI，用于（增量）预训练、指令微调和评估开源 LLM。
     digest: a8dea4c6be1a7e76b099af4452b894f571223efce4966d3a75a5dfa121c06d64
@@ -182,6 +222,17 @@ entries:
     - https://github.com/t9k/apps/releases/download/llama-cpp-server-0.1.0/llama-cpp-server-0.1.0.tgz
     version: 0.1.0
   nextchat:
+  - apiVersion: v2
+    appVersion: 2.12.2
+    created: "2024-08-22T02:35:39.23313517Z"
+    description: NextChat 是一个设计精良的 ChatGPT 网页 UI，支持多种聊天服务，包括 ChatGPT、Claude、Gemini
+      和本地推理服务。
+    digest: 1c44bea963d5a61c264a93bfe7b9bdea5b44135f4b8516c958374ea5b28f1ed5
+    name: nextchat
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/nextchat-0.2.0/nextchat-0.2.0.tgz
+    version: 0.2.0
   - apiVersion: v2
     appVersion: 2.12.2
     created: "2024-06-21T09:39:00.692245275Z"
@@ -562,6 +613,16 @@ entries:
   search-with-lepton:
   - apiVersion: v2
     appVersion: 0.0.1
+    created: "2024-08-22T02:35:39.330039764Z"
+    description: Search with Lepton 是一个开源的对话式搜索引擎（conversational search engine）。
+    digest: be11dd5b395e6ddd569401671d22f55ea28f3271bb05a12daa6f91b804c39c39
+    name: search-with-lepton
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/search-with-lepton-0.2.0/search-with-lepton-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 0.0.1
     created: "2024-06-21T09:39:00.979889239Z"
     description: Search with Lepton 是一个开源的对话式搜索引擎（conversational search engine）。
     digest: 2d94cfcca880e9033616d512488a136b0f1fa5de892f366a90fdc5310eea2d96
@@ -612,6 +673,17 @@ entries:
     - https://github.com/t9k/apps/releases/download/service-manager-0.1.1/service-manager-0.1.1.tgz
     version: 0.1.1
   stable-diffusion-webui-aki:
+  - apiVersion: v2
+    appVersion: "4.8"
+    created: "2024-08-22T02:35:39.436816378Z"
+    description: Stable Diffusion WebUI aki 是基于开源项目 Stable Diffusion WebUI 的整合包，由
+      bilibili@秋葉 aaaki 制作。
+    digest: 69789d3165f15dd5034f20d49e8d12ae90c95c1eb070b213cfc5d3ec5acadc1a
+    name: stable-diffusion-webui-aki
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/stable-diffusion-webui-aki-0.2.0/stable-diffusion-webui-aki-0.2.0.tgz
+    version: 0.2.0
   - apiVersion: v2
     appVersion: "4.8"
     created: "2024-07-24T09:38:55.422724365Z"
@@ -924,4 +996,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-08-21T08:56:59.313194414Z"
+generated: "2024-08-22T02:35:39.534444471Z"
