@@ -4,7 +4,7 @@ metadata:
   name: vllm
   displayName: vLLM
   categories: ["AI"]
-  description: "vLLM 是一个用于大语言模型的高吞吐量和内存高效的推理和服务引擎。"
+  description: "vLLM 是一个高吞吐量和内存高效的 LLM 推理和服务引擎。"
   icon: "file://$APP_DIR/icon.png"
 template:
   helm:
@@ -12,7 +12,7 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "vllm"
     versions:
-    - version: 0.1.7
+    - version: 0.2.0
       urls: []
       readinessProbe:
         resources:

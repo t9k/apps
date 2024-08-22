@@ -43,7 +43,19 @@ spec:
           - --tensor-parallel-size={{ (index .Values.resources.limits "nvidia.com/gpu") }}
           - --enforce-eager
         ports:
-        - containerPort: 8000
+        - name: http
+          containerPort: 8000
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 60
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 60
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:

@@ -30,21 +30,21 @@ vLLM 无缝支持 HuggingFace 上大多数流行的开源模型，包括：
 
 ## 使用方法
 
-请按照以下步骤使用 vLLM 部署 LLM 为推理服务：
+待应用就绪后，（安装并）进入一个终端应用，按照应用信息的指引执行命令以验证推理服务可用。
 
-1. 部署当前应用，分为两种情况：
-
-    1. 如果你已经将模型文件下载到某个存储卷中，将 `model.volume.existingClaim` 和 `model.volume.subPath` 字段的值分别设为该存储卷的名称和模型文件所在的目录，将 `model.source` 字段的值保留为空字符串。
-
-    2. 如果你想要让当前应用下载模型文件（实现为创建一个 DataCube 以下载），请参阅 [DataCube 文档](https://t9k.github.io/user-manuals/latest/modules/auxiliary/datacube.html#%E8%AE%BE%E7%BD%AE%E6%BA%90%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1)和配置模板注释，正确填写 `model.source` 字段和相应字段的值，必要时提供代理；根据要下载的模型文件的总大小适当地修改 `model.volume.size` 字段的值。
-
-    最后将 `model.deployName` 字段的值修改为想要的名称。
-
-2. 待实例就绪后，（部署并）进入一个终端应用，按照实例信息执行命令以验证推理服务可用。
-
-3. 验证成功，此时推理服务可以作为 OpenAI API 的替代，即可以使用 `http://$ENDPOINT` 替代 `https://api.openai.com`。
+验证成功，此时推理服务可以作为 OpenAI API 的替代，即可以使用 `http://$ENDPOINT` 替代 `https://api.openai.com`。
 
 ## 配置
+
+### 说明
+
+考虑两种情况：
+
+1. 如果你已经将模型文件下载到某个存储卷中，将 `model.volume.existingClaim` 和 `model.volume.subPath` 字段的值分别设为该存储卷的名称和模型文件所在的目录，将 `model.source` 字段的值保留为空字符串。
+
+2. 如果你想要让当前应用下载模型文件（实现为创建一个 DataCube 以下载），请参阅 [DataCube 文档](https://t9k.github.io/user-manuals/latest/modules/auxiliary/datacube.html#%E8%AE%BE%E7%BD%AE%E6%BA%90%E5%AD%98%E5%82%A8%E6%9C%8D%E5%8A%A1)和配置模板注释，正确填写 `model.source` 字段和相应字段的值，必要时提供代理；根据要下载的模型文件的总大小适当地修改 `model.volume.size` 字段的值。
+
+最后将 `model.deployName` 字段的值修改为想要的名称。
 
 ### 示例
 
@@ -56,7 +56,7 @@ replicaCount: 1
 image:
   registry: docker.io
   repository: vllm/vllm-openai
-  tag: "v0.3.3"
+  tag: "v0.5.4"
   pullPolicy: IfNotPresent
 
 resources:
@@ -89,23 +89,23 @@ env:
     value: "<YOUR_HTTPS_PROXY>"
 ```
 
-### 参数
+### 字段
 
 | 名称                               | 描述                                           | 值                 |
 | ---------------------------------- | ---------------------------------------------- | ------------------ |
 | `replicaCount`                     | 副本数量                                       | `1`                |
 | `image.registry`                   | Docker 镜像的存储库                            | `docker.io`        |
 | `image.repository`                 | Docker 镜像的存储库名称                        | `vllm/vllm-openai` |
-| `image.tag`                        | Docker 镜像的标签                              | `v0.3.3`           |
+| `image.tag`                        | Docker 镜像的标签                              | `v0.5.4`           |
 | `image.pullPolicy`                 | Docker 镜像的拉取策略                          | `IfNotPresent`     |
 | `resources.limits.cpu`             | Kubernetes 资源的 CPU 限制                     | `4`                |
 | `resources.limits.memory`          | Kubernetes 资源的内存限制                      | `64Gi`             |
-| `resources.limits.nvidia.com/gpu`  | Kubernetes 资源的 Nvidia GPU 限制              | `1`                |
+| `resources.limits."nvidia.com/gpu"`  | Kubernetes 资源的 NVIDIA GPU 限制              | `1`                |
 | `model.deployName`                 | 部署模型的名称                                 | ``                 |
 | `model.volume.storageClass`        | 模型卷的存储类别                               | ``                 |
 | `model.volume.size`                | 模型卷的大小                                   | `32Gi`             |
 | `model.volume.accessModes`         | 模型卷的访问模式                               | `ReadWriteOnce`    |
-| `model.volume.existingClaim`       | 已有 PVC 模型卷                                | ``                 |
+| `model.volume.existingClaim`       | 已有的 PVC 模型卷                                | ``                 |
 | `model.volume.subPath`             | 模型卷的子目录                                 | ``                 |
 | `model.source`                     | 模型的来源（`huggingface`, `git`, `s3` 或 ""） | ``                 |
 | `model.huggingface.id`             | 模型的 Hugging Face ID                         | ``                 |

@@ -1,6 +1,6 @@
 apiVersion: v2
 name: vllm-dcu
-description: vLLM 是一个用于大语言模型的高吞吐量和内存高效的推理和服务引擎。适用于海光 DCU。
+description: vLLM (Hygon DCU) 是一个高吞吐量和内存高效的 LLM 推理和服务引擎，适用于海光 DCU。
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -15,10 +15,10 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.1
+version: 0.2.0
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "v0.3.3"
+appVersion: "0.3.3"
