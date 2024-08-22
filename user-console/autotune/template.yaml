@@ -1,0 +1,35 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: autotune
+  displayName: AutoTune
+  defaultVersion: 0.1.1
+  categories: ["Tool", "AI"]
+  description: "AutoTune 是一个自动化机器学习 （AutoML）工具。"
+  icon: "file://$APP_DIR/icon.png"
+template:
+  helm: 
+    repo: "oci://docker.io/t9kpublic"
+    chart: "autotune"
+    versions:
+    - version: 0.1.1
+      config: "file://$APP_DIR/configs/v0_1_1.yaml"
+      urls: 
+      - name: autotune
+        url: /apps/{{ .Release.Namespace }}/autotune/{{ .Release.Name }}/
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: deployments
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      dependencies:
+        crds:
+        - group: networking.istio.io
+          version: v1beta1
+          resource: virtualservices
+        services: 
+        - namespace: t9k-system
+          name: k8s-resource-server
