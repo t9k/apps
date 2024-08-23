@@ -293,6 +293,35 @@ entries:
       artifacthub.io/category: ai-machine-learning
       artifacthub.io/changes: |
         - kind: changed
+          description: upgrade ollama to 0.3.6
+    apiVersion: v2
+    appVersion: 0.3.6
+    created: "2024-08-23T10:05:55.555829533Z"
+    description: Ollama 提供本地使用 LLM 的解决方案。
+    digest: f41678b6c0b6a35b9928e25b4b20ecbfed9ada0e40d3f46db461829497086577
+    home: https://ollama.ai/
+    icon: https://ollama.ai/public/ollama.png
+    keywords:
+    - ai
+    - llm
+    - llama
+    - mistral
+    kubeVersion: ^1.16.0-0
+    maintainers:
+    - email: contact@otwld.com
+      name: OTWLD
+    name: ollama
+    sources:
+    - https://github.com/ollama/ollama
+    - https://github.com/otwld/ollama-helm
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/ollama-0.53.0/ollama-0.53.0.tgz
+    version: 0.53.0
+  - annotations:
+      artifacthub.io/category: ai-machine-learning
+      artifacthub.io/changes: |
+        - kind: changed
           description: upgrade ollama to 0.1.43
     apiVersion: v2
     appVersion: 0.1.43
@@ -408,6 +437,43 @@ entries:
     - https://github.com/t9k/apps/releases/download/ollama-0.29.2/ollama-0.29.2.tgz
     version: 0.29.2
   open-webui:
+  - annotations:
+      licenses: MIT
+    apiVersion: v2
+    appVersion: 0.3.13
+    created: "2024-08-23T10:05:55.687732528Z"
+    dependencies:
+    - condition: ollama.enabled
+      import-values:
+      - child: service
+        parent: ollama.service
+      name: ollama
+      repository: https://otwld.github.io/ollama-helm/
+      version: '>=0.24.0'
+    - condition: pipelines.enabled
+      import-values:
+      - child: service
+        parent: pipelines.service
+      name: pipelines
+      repository: https://helm.openwebui.com
+      version: '>=0.0.1'
+    description: Open WebUI 是一个用户友好的聊天交互网页界面。
+    digest: fd9a1107227bd7646302d7a8f5526d39651350c73e9c277e87397e19b6ab09fb
+    home: https://www.openwebui.com/
+    icon: https://raw.githubusercontent.com/open-webui/open-webui/main/static/favicon.png
+    keywords:
+    - llm
+    - chat
+    - web-ui
+    name: open-webui
+    sources:
+    - https://github.com/open-webui/helm-charts
+    - https://github.com/open-webui/open-webui/pkgs/container/open-webui
+    - https://github.com/otwld/ollama-helm/
+    - https://hub.docker.com/r/ollama/ollama
+    urls:
+    - https://github.com/t9k/apps/releases/download/open-webui-3.1.6/open-webui-3.1.6.tgz
+    version: 3.1.6
   - annotations:
       licenses: MIT
     apiVersion: v2
@@ -761,6 +827,16 @@ entries:
     version: 0.1.1
   terminal:
   - apiVersion: v2
+    appVersion: 0.2.0
+    created: "2024-08-23T10:05:56.159280746Z"
+    description: Terminal 是一个在浏览器中直接打开和操作的集群终端，便于管理集群。
+    digest: e17e2e66370f417a3fbfe0c35774d3fa912f66458029434e800ffa9d1795d4e7
+    name: terminal
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/terminal-0.2.0/terminal-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     appVersion: 0.1.5
     created: "2024-08-20T07:41:00.231240757Z"
     description: The Terminal APP is a powerful tool that allows you to open and operate
@@ -1036,4 +1112,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-08-22T02:46:54.721001094Z"
+generated: "2024-08-23T10:05:56.159541335Z"
