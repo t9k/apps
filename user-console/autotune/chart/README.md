@@ -2,6 +2,8 @@
 
 AutoTune 是一个自动化机器学习 （AutoML）工具。
 
+AutoTune 的详细介绍请参考[用户文档](https://t9k.github.io/user-manuals/latest/modules/building/autotune.html)。
+
 ## 配置
 
 ### 示例
