@@ -5,7 +5,8 @@ data:
       "k8sResourceServer": "/t9k/k8s-resource/server",
       "namespace": "{{ .Release.Namespace }}",
       "gpuExtendedResources": {{ .Values.cluster.extendedResources.gpu | toJson }},
-      "appVersion": "{{ .Chart.AppVersion }}"
+      "appVersion": "{{ .Chart.AppVersion }}",
+      "docs": "{{ .Values.docs }}"
     }
 kind: ConfigMap
 metadata:

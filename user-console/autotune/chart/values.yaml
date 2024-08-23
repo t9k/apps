@@ -18,3 +18,5 @@ image: "docker.io/t9kpublic/autotune-app:240822"
 cluster:
   extendedResources:
     gpu: ["nvidia.com/gpu.shared", "nvidia.com/gpu"]
+
+docs: "https://t9k.github.io/user-manuals/latest/modules/building/autotune.html"
