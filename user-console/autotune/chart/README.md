@@ -34,7 +34,7 @@ cluster:
 
 | 名称                                     | 描述                                                                                  | 值                                            |
 | ---------------------------------------- | ------------------------------------------------------------------------------------- | --------------------------------------------- |
-| `authorization.enabled`                  | 是否启用访问验证，在启用访问验证后，只有具有项目权限的人才可以访问 Job Manager 服务。 | `true`                                        |
+| `authorization.enabled`                  | 是否启用访问验证，在启用访问验证后，只有具有项目权限的人才可以访问 AutoTune 应用。 | `true`                                        |
 | `authorization.clientID`                 | Oauth2 ClientID                                                                       | `t9k-client`                                  |
 | `authorization.pepProxy.image`           | PEP Proxy 镜像。                                                                      | `docker.io/t9kpublic/pep-proxy:1.0.12`        |
 | `authorization.pepProxy.imagePullPolicy` | PEP Proxy 镜像拉去策略。                                                              | `Always`                                      |
