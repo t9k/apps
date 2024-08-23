@@ -4,7 +4,7 @@ metadata:
   name: mongodb
   displayName: "MongoDB"
   categories: ["Database"]
-  description: "MongoDB(R) is a relational open source NoSQL database. Easy to use, it stores data in JSON-like documents. Automated scalability and high-performance. Ideal for developing cloud native applications."
+  description: "MongoDB 是一个开源的 NoSQL 数据库，使用 JSON 样式文档存储数据，支持自动扩展和高性能，适合开发云原生应用。"
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm:

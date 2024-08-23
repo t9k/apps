@@ -4,7 +4,7 @@ metadata:
   name: redis
   displayName: "Redis"
   categories: ["Database"]
-  description: "Redis is an in-memory database that persists on disk. The data model is key-value, but many different kind of values are supported: Strings, Lists, Sets, Sorted Sets, Hashes, Streams, HyperLogLogs, Bitmaps."
+  description: "Redis 是一个内存数据库，支持多种数据结构如字符串、列表、集合等，同时数据持久化到磁盘。"
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm:

@@ -4,7 +4,7 @@ metadata:
   name: postgresql
   displayName: "PostgreSQL"
   categories: ["Database"]
-  description: "PostgreSQL (Postgres) is an open source object-relational database known for reliability and data integrity. ACID-compliant, it supports foreign keys, joins, views, triggers and stored procedures."
+  description: "PostgreSQL 是一个开源对象关系数据库，支持 ACID 事务，提供外键、联接、视图、触发器和存储过程等功能。"
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm:

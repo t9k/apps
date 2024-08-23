@@ -4,7 +4,7 @@ metadata:
   name: qdrant
   displayName: "Qdrant"
   categories: ["Database"]
-  description: "Qdrant - Vector Database for the next generation of AI applications."
+  description: "Qdrant 是一个面向 AI 应用的向量数据库。"
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm:
