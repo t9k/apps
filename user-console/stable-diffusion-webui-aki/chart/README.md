@@ -4,7 +4,7 @@
 
 ## 使用方法
 
-待应用就绪后，点击相应的链接进入网页 UI，即可开始生成想要的图片：
+待应用就绪后，点击右侧的 <span class="twemoji"><svg class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium css-jxtyyz" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="OpenInNewIcon"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"></path></svg></span> 进入网页 UI，即可开始生成想要的图片：
 
 ![](https://s2.loli.net/2024/06/18/DEvIuZPtmCdkcz7.png)
 
@@ -12,13 +12,13 @@
 
 ## 使用说明
 
-* 网页 UI 所加载的模型文件全部存储在随应用创建的存储卷 `app-stable-diffusion-webui-aki-xxxxxxxx` 的 `models` 目录下，已有的模型文件为镜像自带。你可以安装挂载该存储卷的 Terminal 或 JupyterLab 应用，向其中下载更多的模型文件或删除已有的模型文件，完成后在网页 UI 点击相应的刷新按钮：
+* 网页 UI 所加载的模型文件全部存储在随应用创建的 PVC `app-stable-diffusion-webui-aki-xxxxxxxx` 的 `models` 目录下，已有的模型文件为镜像自带。你可以安装挂载该 PVC 的 Terminal 或 JupyterLab 应用，向其中下载更多的模型文件或删除已有的模型文件，完成后在网页 UI 点击相应的刷新按钮：
 
     ![](https://s2.loli.net/2024/06/18/WRPoig1Uk59uF7B.png)
 
-* 生成的图像文件存储在同一个存储卷的 `outputs` 目录下，你可以在这里或网页 UI 的 Infinite image browsing 标签页查看已生成的图片。
+* 生成的图像文件存储在同一个 PVC 的 `outputs` 目录下，你可以在这里或网页 UI 的 Infinite image browsing 标签页查看已生成的图片。
 
-* 默认的存储卷大小为 32 GiB，请根据要下载的模型文件的总大小以及要生成的图像文件的总大小进行适当的调整。此外，该存储卷在创建完成后也可以进行扩容。
+* 默认的 PVC 大小为 32 GiB，请根据要下载的模型文件的总大小以及要生成的图像文件的总大小进行适当的调整。另外，该 PVC 在创建完成后也可以进行扩容。
 
 ## 配置
 
