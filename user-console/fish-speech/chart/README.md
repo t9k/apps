@@ -23,23 +23,6 @@ Fish Speech 的优势包括：
 默认配置：
 
 ```yaml
-image:
-  registry: docker.io
-  repository: t9kpublic/fish-speech
-  tag: "v1.2"
-  pullPolicy: IfNotPresent
-
-service:
-  type: ClusterIP
-  port: 7860
-
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-  hosts: []
-  tls: []
-
 resources:
   limits:
     cpu: 1

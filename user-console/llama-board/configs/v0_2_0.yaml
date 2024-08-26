@@ -1,0 +1,18 @@
+## @param resources.limits.cpu CPU limit for Kubernetes resources
+## @param resources.limits.memory Memory limit for Kubernetes resources
+##
+resources:
+  limits:
+    cpu: 4
+    memory: 64Gi
+    nvidia.com/gpu: 1
+
+## @param persistence.size Size of the persistent volume claim
+## @param persistence.storageClass Storage class for the persistent volume claim
+## @param persistence.accessModes Access modes for the persistent volume claim
+##
+persistence:
+  size: 50Gi
+  storageClass: ""
+  accessModes:
+  - ReadWriteOnce

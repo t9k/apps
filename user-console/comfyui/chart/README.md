@@ -45,34 +45,8 @@
 默认配置：
 
 ```yaml
-image:
-  registry: docker.io
-  repository: t9kpublic/comfyui
-  tag: "20240709"
-  pullPolicy: IfNotPresent
-
-service:
-  type: ClusterIP
-  port: 8188
-
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-  hosts: []
-  tls: []
-
-resources:
-  limits:
-    cpu: 4
-    memory: 64Gi
-    nvidia.com/gpu: 1
-
 persistence:
   size: 32Gi
-  storageClass: ""
-  accessModes:
-    - ReadWriteOnce
 
 env: []
 ```

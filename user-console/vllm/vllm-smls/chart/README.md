@@ -51,14 +51,6 @@ vLLM 无缝支持 HuggingFace 上大多数流行的开源模型，包括：
 部署 `CodeLlama-7b-Instruct-hf` 模型为推理服务：
 
 ```yaml
-replicaCount: 1
-
-image:
-  registry: docker.io
-  repository: vllm/vllm-openai
-  tag: "v0.5.4"
-  pullPolicy: IfNotPresent
-
 resources:
   limits:
     cpu: 4
@@ -91,29 +83,29 @@ env:
 
 ### 字段
 
-| 名称                               | 描述                                           | 值                 |
-| ---------------------------------- | ---------------------------------------------- | ------------------ |
-| `replicaCount`                     | 副本数量                                       | `1`                |
-| `image.registry`                   | Docker 镜像的存储库                            | `docker.io`        |
-| `image.repository`                 | Docker 镜像的存储库名称                        | `vllm/vllm-openai` |
-| `image.tag`                        | Docker 镜像的标签                              | `v0.5.4`           |
-| `image.pullPolicy`                 | Docker 镜像的拉取策略                          | `IfNotPresent`     |
-| `resources.limits.cpu`             | Kubernetes 资源的 CPU 限制                     | `4`                |
-| `resources.limits.memory`          | Kubernetes 资源的内存限制                      | `64Gi`             |
-| `resources.limits."nvidia.com/gpu"`  | Kubernetes 资源的 NVIDIA GPU 限制              | `1`                |
-| `model.deployName`                 | 部署模型的名称                                 | ``                 |
-| `model.volume.storageClass`        | 模型卷的存储类别                               | ``                 |
-| `model.volume.size`                | 模型卷的大小                                   | `32Gi`             |
-| `model.volume.accessModes`         | 模型卷的访问模式                               | `ReadWriteOnce`    |
-| `model.volume.existingClaim`       | 已有的 PVC 模型卷                                | ``                 |
-| `model.volume.subPath`             | 模型卷的子目录                                 | ``                 |
-| `model.source`                     | 模型的来源（`huggingface`, `git`, `s3` 或 ""） | ``                 |
-| `model.huggingface.id`             | 模型的 Hugging Face ID                         | ``                 |
-| `model.huggingface.files`          | 从 Hugging Face 模型仓库下载的文件             | ``                 |
-| `model.huggingface.existingSecret` | Hugging Face token 的 Secret 引用              | ``                 |
-| `model.git.url`                    | Git 仓库 URL                                   | ``                 |
-| `model.git.ref`                    | Git 分支、标签或 commit                        | ``                 |
-| `model.git.existingSecret`         | Git token 的 Secret 引用                       | ``                 |
-| `model.s3.url`                     | S3 URL                                         | ``                 |
-| `model.s3.existingSecret`          | 包含 S3 凭证的 s3-env 类型的 Secret 引用       | ``                 |
-| `env`                              | 额外的环境变量数组                             | `[]`               |
+| 名称                                | 描述                                           | 值                 |
+| ----------------------------------- | ---------------------------------------------- | ------------------ |
+| `replicaCount`                      | 副本数量                                       | `1`                |
+| `image.registry`                    | Docker 镜像的存储库                            | `docker.io`        |
+| `image.repository`                  | Docker 镜像的存储库名称                        | `vllm/vllm-openai` |
+| `image.tag`                         | Docker 镜像的标签                              | `v0.5.4`           |
+| `image.pullPolicy`                  | Docker 镜像的拉取策略                          | `IfNotPresent`     |
+| `resources.limits.cpu`              | Kubernetes 资源的 CPU 限制                     | `4`                |
+| `resources.limits.memory`           | Kubernetes 资源的内存限制                      | `64Gi`             |
+| `resources.limits."nvidia.com/gpu"` | Kubernetes 资源的 NVIDIA GPU 限制              | `1`                |
+| `model.deployName`                  | 部署模型的名称                                 | ``                 |
+| `model.volume.storageClass`         | 模型卷的存储类别                               | ``                 |
+| `model.volume.size`                 | 模型卷的大小                                   | `32Gi`             |
+| `model.volume.accessModes`          | 模型卷的访问模式                               | `ReadWriteOnce`    |
+| `model.volume.existingClaim`        | 已有的 PVC 模型卷                              | ``                 |
+| `model.volume.subPath`              | 模型卷的子目录                                 | ``                 |
+| `model.source`                      | 模型的来源（`huggingface`, `git`, `s3` 或 ""） | ``                 |
+| `model.huggingface.id`              | 模型的 Hugging Face ID                         | ``                 |
+| `model.huggingface.files`           | 从 Hugging Face 模型仓库下载的文件             | ``                 |
+| `model.huggingface.existingSecret`  | Hugging Face token 的 Secret 引用              | ``                 |
+| `model.git.url`                     | Git 仓库 URL                                   | ``                 |
+| `model.git.ref`                     | Git 分支、标签或 commit                        | ``                 |
+| `model.git.existingSecret`          | Git token 的 Secret 引用                       | ``                 |
+| `model.s3.url`                      | S3 URL                                         | ``                 |
+| `model.s3.existingSecret`           | 包含 S3 凭证的 s3-env 类型的 Secret 引用       | ``                 |
+| `env`                               | 额外的环境变量数组                             | `[]`               |

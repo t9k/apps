@@ -27,13 +27,14 @@
 申请 1 个 CPU（核心）、16 GiB 内存资源以及 1 个 NVIDIA GPU，创建一个大小 30GiB 的存储卷以存储 Ollama 服务器数据，启动时不拉取模型：
 
 ```yaml
-replicaCount: 1
+resources:
+  requests:
+    cpu: 1
+    memory: 8Gi
 
-image:
-  registry: docker.io
-  repository: ollama/ollama
-  tag: "0.3.6"
-  pullPolicy: IfNotPresent
+  limits:
+    cpu: 1
+    memory: 16Gi
 
 ollama:
   gpu:
@@ -44,30 +45,6 @@ ollama:
   models: []
 
   insecure: false
-
-service:
-  type: ClusterIP
-  port: 11434
-
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-  hosts:
-    - host: ollama.local
-      paths:
-        - path: /
-          pathType: Prefix
-  tls: []
-
-resources:
-  requests:
-    cpu: 1
-    memory: 8Gi
-
-  limits:
-    cpu: 1
-    memory: 16Gi
 
 persistentVolume:
   enabled: true
@@ -88,7 +65,7 @@ persistentVolume:
 | `replicaCount`                       | int    | `1`                 | 副本数量                                                                                                                                                                                          |
 | `image.registry`                     | string | `"docker.io"`       | Docker 镜像的仓库注册表                                                                                                                                                                           |
 | `image.repository`                   | string | `"ollama/ollama"`   | Docker 镜像仓库                                                                                                                                                                                   |
-| `image.tag`                          | string | `""`                | Docker 镜像标签，覆盖默认的镜像标签                                                                                                                                                               |
+| `image.tag`                          | string | `"0.3.6"`           | Docker 镜像标签，覆盖默认的镜像标签                                                                                                                                                               |
 | `image.pullPolicy`                   | string | `"IfNotPresent"`    | Docker 拉取策略                                                                                                                                                                                   |
 | `ollama.gpu.enabled`                 | bool   | `false`             | 启用GPU集成                                                                                                                                                                                       |
 | `ollama.gpu.type`                    | string | `"nvidia"`          | GPU 类型：'nvidia' 或'amd'。如果 'ollama.gpu.enabled'，默认值是 'nvidia'。如果设置为'amd'，则会在镜像标签中添加 'rocm' 后缀（如果 'image.tag' 未被重载）。这是因为 AMD 和 CPU/CUDA 使用不同的镜像 |
@@ -111,7 +88,7 @@ persistentVolume:
 | `persistentVolume.enabled`           | bool   | `false`             | 启用使用 PVC 的持久化                                                                                                                                                                             |
 | `persistentVolume.accessModes`       | list   | `["ReadWriteOnce"]` | Ollama 服务器数据持久卷访问模式                                                                                                                                                                   |
 | `persistentVolume.annotations`       | object | `{}`                | Ollama 服务器数据持久卷注释                                                                                                                                                                       |
-| `persistentVolume.existingClaim`     | string | `""`                | 如果您想为持久化 Ollama 状态带上自己的 PVC，请在此处传递已创建和就绪的 PVC 的名称。如果设置此值，则该 Chart 不会创建默认 PVC。需要设置 `server.persistentVolume.enabled: true`                      |
+| `persistentVolume.existingClaim`     | string | `""`                | 如果您想为持久化 Ollama 状态带上自己的 PVC，请在此处传递已创建和就绪的 PVC 的名称。如果设置此值，则该 Chart 不会创建默认 PVC。需要设置 `server.persistentVolume.enabled: true`                    |
 | `persistentVolume.size`              | string | `"30Gi"`            | Ollama 服务器数据持久卷大小                                                                                                                                                                       |
 | `persistentVolume.storageClass`      | string | `""`                | Ollama 服务器数据持久卷存储类                                                                                                                                                                     |
 | `persistentVolume.volumeMode`        | string | `""`                | Ollama 服务器数据持久卷绑定模式                                                                                                                                                                   |

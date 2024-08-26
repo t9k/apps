@@ -53,14 +53,6 @@ vLLM (Enflame GCU) 使用燧原 GCU 作为推理加速卡。
 部署 `CodeLlama-7b-Instruct-hf` 模型为推理服务：
 
 ```yaml
-replicaCount: 1
-
-image:
-  registry: ""
-  repository: ""
-  tag: ""
-  pullPolicy: IfNotPresent
-
 resources:
   limits:
     cpu: 4

@@ -53,14 +53,6 @@ vLLM (Hygon DCU) 使用海光 DCU 作为推理加速卡。
 部署 `CodeLlama-7b-Instruct-hf` 模型为推理服务：
 
 ```yaml
-replicaCount: 1
-
-image:
-  registry: image.sourcefind.cn:5000
-  repository: dcu/admin/base/custom
-  tag: "vllm0.3.3-dtk24.04-zk-centos7.6-py310-v2"
-  pullPolicy: IfNotPresent
-
 resources:
   limits:
     cpu: 4

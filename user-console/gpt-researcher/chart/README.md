@@ -23,25 +23,6 @@
 模型提供商选用 OpenAI，搜索引擎提供商选用 Serper：
 
 ```yaml
-replicaCount: 1
-
-image:
-  registry: docker.io
-  repository: t9kpublic/gpt-researcher
-  tag: 0.2.6
-  pullPolicy: IfNotPresent
-
-service:
-  type: ClusterIP
-  port: 8000
-
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-  hosts: []
-  tls: []
-
 resources:
   limits:
     cpu: 1

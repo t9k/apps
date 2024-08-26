@@ -13,6 +13,7 @@ template:
     chart: "llama-board"
     versions:
     - version: 0.2.0
+      config: "file://$APP_DIR/configs/v0_2_0.yaml"
       urls: []
       # - name: UI
       #   url: /apps/{{ .Release.Namespace }}/fish-speech/{{ .Release.Name }}/

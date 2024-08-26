@@ -26,7 +26,7 @@
 
 考虑两种情况：
 
-1. 如果你想要让当前应用调用已有的 Ollama API 服务端点（Ollama 应用的推理服务），将 `ollamaUrls` 字段的值设为包含该服务端点的列表。
+1. 如果你想要让当前应用调用已有的 Ollama API 服务端点（Ollama 应用的推理服务），将 `ollamaUrls` 字段的值设为包含该服务端点（需要添加 `http://` 前缀）的列表。
 
 2. 如果你想要让当前应用部署一个新的 Ollama 服务，将 `ollama.enabled` 字段的值设为 `true`，并参照 Ollama 应用的 README 修改 `ollama` 字段的其余子字段。
 
@@ -37,26 +37,6 @@
 应用本身申请 1 个 CPU（核心）和 2 GiB 内存资源，创建一个大小 2 GiB 的 PVC 以持久化应用数据；部署一个新的 Ollama 服务，其申请 1 个 CPU（核心）、16 GiB 内存资源以及 1 个 NVIDIA GPU，创建一个大小 30GiB 的 PVC 以存储 Ollama 服务器数据，启动时拉取两个模型；启用 Pipelines：
 
 ```yaml
-replicaCount: 1
-
-image:
-  registry: ghcr.io
-  repository: open-webui/open-webui
-  tag: latest
-  pullPolicy: IfNotPresent
-
-service:
-  type: ClusterIP
-  port: 80
-
-ingress:
-  enabled: false
-  class: ""
-  annotations: {}
-  host: ""
-  tls: false
-  existingSecret: ""
-
 resources:
   limits:
     cpu: 1
@@ -105,26 +85,6 @@ extraEnvVars: []
 调用已有的 Ollama API 服务端点；禁用 Pipelines：
 
 ```yaml
-replicaCount: 1
-
-image:
-  registry: ghcr.io
-  repository: open-webui/open-webui
-  tag: latest
-  pullPolicy: IfNotPresent
-
-service:
-  type: ClusterIP
-  port: 80
-
-ingress:
-  enabled: false
-  class: ""
-  annotations: {}
-  host: ""
-  tls: false
-  existingSecret: ""
-
 resources:
   limits:
     cpu: 1
@@ -193,7 +153,7 @@ extraEnvVars: []
 | `persistence.existingClaim` | string | `""`                      | 使用现有 PVC 的名称                                                                                                                                |
 | `ollama.enabled`            | bool   | `true`                    | 自动从 https://otwld.github.io/ollama-helm/ 安装 Ollama Helm chart，使用 [Helm Values](https://github.com/otwld/ollama-helm/#helm-values) 进行配置 |
 | `ollama.*`                  |        |                           | 参考 [Helm Values](https://github.com/otwld/ollama-helm/#helm-values) 或 Ollama 应用的参数                                                         |
-| `ollamaUrls`                | list   | `[]`                      | Ollama API 端点列表。 这些可以替代自动安装 Ollama Helm chart，或与其一起添加。                                                                     |
+| `ollamaUrls`                | list   | `[]`                      | Ollama API 服务端点列表。这些可以替代自动安装 Ollama Helm chart，或与其一起添加。注意服务端点需要添加 `http://` 前缀。                             |
 | `pipelines.enabled`         | bool   | `true`                    | 自动安装 Pipelines chart 以使用 Pipelines 扩展 Open WebUI 功能：https://github.com/open-webui/pipelines                                            |
 | `pipelines.extraEnvVars`    | list   | `[]`                      | 此部分可用于传递所需的环境变量到您的 pipelines（例如 Langfuse 主机名）                                                                             |
 | `extraEnvVars`              | list   | `[]`                      | 输出部署定义中的其他环境变量。                                                                                                                     |

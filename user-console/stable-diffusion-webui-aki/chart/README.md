@@ -27,23 +27,6 @@
 默认配置：
 
 ```yaml
-image:
-  registry: docker.io
-  repository: t9kpublic/stable-diffusion-webui
-  tag: "20240514"
-  pullPolicy: IfNotPresent
-
-service:
-  type: ClusterIP
-  port: 7860
-
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-  hosts: []
-  tls: []
-
 resources:
   limits:
     cpu: 4

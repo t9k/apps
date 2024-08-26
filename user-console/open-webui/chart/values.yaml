@@ -32,9 +32,10 @@ podAnnotations: {}
 replicaCount: 1
 # -- Open WebUI image tags can be found here: https://github.com/open-webui/open-webui/pkgs/container/open-webui
 image:
-  repository: ghcr.io/open-webui/open-webui
-  tag: "latest"
-  pullPolicy: "IfNotPresent"
+  registry: ghcr.io
+  repository: open-webui/open-webui
+  tag: latest
+  pullPolicy: IfNotPresent
 
 # -- Configure imagePullSecrets to use private registry
 # ref: <https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry>
