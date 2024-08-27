@@ -138,6 +138,16 @@ entries:
   job-manager:
   - apiVersion: v2
     appVersion: 0.1.3
+    created: "2024-08-27T11:11:07.517561722Z"
+    description: A Helm chart for TensorStack App - Job Manager
+    digest: f55913b4d2b291f33e97a6be96d646f35c0e71aa5576af454e894e99d8e45325
+    name: job-manager
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/job-manager-0.2.0/job-manager-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 0.1.3
     created: "2024-08-05T08:08:15.532807029Z"
     description: A Helm chart for TensorStack App - Job Manager
     digest: a7e09ac1b03374f120e20a2ba8d52ae263980291b0c459521874df727df51a58
@@ -730,6 +740,16 @@ entries:
   service-manager:
   - apiVersion: v2
     appVersion: 0.1.1
+    created: "2024-08-27T11:11:08.154978921Z"
+    description: A Helm chart for TensorStack App - Service Manager
+    digest: 9b061e54077e75d9994d5596a59105540bf624b42917e42773ae3f9f4b170b8c
+    name: service-manager
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/service-manager-0.2.0/service-manager-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 0.1.1
     created: "2024-08-20T07:37:21.473403499Z"
     description: A Helm chart for TensorStack App - Service Manager
     digest: d64ca6d064f24e12f8bc62ec35ed37a8b482436ef04b0379ed746997fea2ec7d
@@ -1112,4 +1132,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-08-23T10:05:56.159541335Z"
+generated: "2024-08-27T11:11:08.250917728Z"
