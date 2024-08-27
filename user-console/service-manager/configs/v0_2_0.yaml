@@ -1,0 +1,4 @@
+network:
+  domain:
+    home: "$(T9K_HOME_DOMAIN)"
+    auth: "$(T9K_AUTH_DOMAIN)"

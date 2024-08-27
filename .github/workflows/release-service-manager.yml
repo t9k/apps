@@ -1,11 +1,11 @@
-name: Release Fish Speech Helm Charts
+name: Release Service Manager Helm Charts
 
 on:
   push:
     branches:
       - master
     paths:
-      - "user-console/fish-speech/chart/Chart.yaml"
+      - "user-console/service-manager/chart/Chart.yaml"
 
 jobs:
   release:
@@ -28,6 +28,6 @@ jobs:
       - name: Package and push chart
         run: |
           cd $GITHUB_WORKSPACE
-          cd user-console/fish-speech
+          cd user-console/service-manager
           helm package ./chart
           helm push *.tgz oci://docker.io/t9kpublic
