@@ -23,6 +23,7 @@ template:
           version: v1beta1
           resource: explorers
           name: "{{ .Release.Name }}"
+          message: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .message }}{{- end }}{{- end }}"
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
       dependencies:
