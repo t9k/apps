@@ -1,0 +1,19 @@
+authorization:
+  enabled: true
+  clientID: "t9k-client"
+  pepProxy:
+    image: "docker.io/t9kpublic/pep-proxy:1.0.12"
+    imagePullPolicy: IfNotPresent
+
+network:
+  gateway: project-gateway
+  domain:
+    home: "https://home.sample.t9kcloud.cn"
+    auth: "https://auth.sample.t9kcloud.cn"
+
+app:
+  serviceAccount: managed-project-sa
+  image: "docker.io/t9kpublic/workflow-app:240830"
+  imagePullPolicy: IfNotPresent
+
+docs: "https://t9k.github.io/ucman/latest/api/workflow/index.html"

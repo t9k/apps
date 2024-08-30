@@ -1,0 +1,7 @@
+network:
+  domain:
+    home: "$(T9K_HOME_DOMAIN)"
+    auth: "$(T9K_AUTH_DOMAIN)"
+
+app:
+  image: "docker.io/t9kpublic/workflow-app:240830"

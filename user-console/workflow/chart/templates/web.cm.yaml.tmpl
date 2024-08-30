@@ -1,0 +1,17 @@
+apiVersion: v1
+data:
+  config.json: |-
+    {
+      "workflowServer": "/apps/{{ .Release.Namespace }}/workflow/{{ .Release.Name }}/server",
+      "k8sResourceServer": "/t9k/k8s-resource/server",
+      "namespace": "{{ .Release.Namespace }}",
+      "appVersion": "{{ .Chart.AppVersion }}",
+      "docs": "{{ .Values.docs }}"
+    }
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-web-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    component: web
