@@ -44,7 +44,10 @@ template:
 * `template` 定义 App 模版的具体内容。
   * 目前支持 Helm 和 CRD 类型的应用，分别通过 `template.helm` 和 `template.crd` 字段定义，参考 [CRD 应用和 Helm 应用](#crd-和-helm-模版)。
   * `versions`：记录 App 各版本信息，主要包含以下字段：
-    * `urls`：App 实例的访问链接，可根据 App 实例安装/部署配置生成，`name` 和 `url` 两个子字段都可以用 Go Template 格式填写。（Go Template 格式字符串的替换规则见 [Go Template 替换规则](#go-template-替换规则)）
+    * `urls`：App 实例的访问链接，可根据 App 实例安装/部署配置生成，`name` 和 `url` 两个子字段都可以用 Go Template 格式填写（Go Template 格式字符串的替换规则见 [Go Template 替换规则](#go-template-替换规则)）。`url` 子字段用于在前端打开 App 链接，所以满足前端对 URL 的通用处理方式：
+      * 如果 `url` 中包含协议（如 `http://`），则用完整地 `url` 打开新的标签页。
+      * 如果 `url` 中不包含协议，但是以 `/` 开头，则将 `url` 字段内容视为**路径**，结合当前页面（User Console）的域名，打开新标签页。
+      * [不推荐] 如果 `url` 中不包含协议且不以 `/` 开头，则将 `url` 字段内容视为**子路径**，结合当前页面（User Console）的域名和路径，打开新标签页。
     * `config`：App 的 [部署配置](#部署配置)，可以是模版的具体内容（YAML 字符串），也可以引用一个本地文件。
     * `readinessProbe`：探测 App 是否正常运行。配置方法参考 [App 运行监测](#app-运行检测)。
     * `dependencies`：记录 App 依赖的集群环境，包括 API 资源和集群中的服务。配置方法参考 [应用依赖](#应用依赖)。
@@ -55,7 +58,7 @@ template:
 
 1) Helm 类型 App 的模版示例（简化版）：
 
-```bash
+```yaml
 apiVersion: app.tensorstack.dev/v1beta1
 kind: Template
 metadata:
@@ -74,7 +77,7 @@ template:
 
 2) CRD 应用的模版示例（简化版）：
 
-```bash
+```yaml
 apiVersion: app.tensorstack.dev/v1beta1
 kind: Template
 metadata:
@@ -172,6 +175,7 @@ global:
 
 * User Console 的部署页面会识别所有以 `## @param` 开头的注释，并将整合这些注释所指定的字段为一个表单（Web Form），方便用户填写。
   * 注释的格式为 `## @param <field-path> <field-description>`。
+  * （User Console 1.79.7 之后的版本，支持使用 `## @param[required] <field-path> <field-description>` 表示必填字段）
 * 在部署应用时，应用控制器提供系统变量支持，实现灵活配置。
   * 在配置中，使用变量的语法为：`$(<variable-name>)`，例如 `"$(T9K_HOME_URL)"`。
   * 部署配置模版中支持使用的变量请参考[系统变量](#系统变量)。
@@ -212,22 +216,39 @@ template:
           version: v1beta1
           resource: notebooks
           name: "{{ .go-template }}"
+          message: "{{ .go-template }}"
           currentStatus: "{{ .go-template }}"
           desiredStatus: "True"
 ```
 
-可以定义三种 `readinessProbe`：
+如上述 YAML 所示，App 模版中可以定义三种 `readinessProbe`：
 
 * `tcpSocket` 检查一个 Host（当前环境下，指 Pod、Service 等）上指定端口能否连通。
 * `httpGet` 检查能否向一个指定路径发送 Get 请求。
 * `resources` 检查指定资源的状态；如果该字段填写了多个资源的判定条件，则只有所有资源都通过判定，该 `readinessProbe` 才通过判定。
+  * 当根据 `currentStatus` 生成的字符串与 `desiredStatus` 相同，说明当前资源就绪。
+  * 如果判定当前资源未就绪，控制器会根据 `message` 字段生成错误提示，该错误提示将被记录在 Instance 资源对象中，也可以在 User Console 页面中看到。
 
-应用模板可以不填写 `readinessProbe`，表示应用实例一旦部署就处于 `Ready` 状态；也可以同时填写多个 `readinessProbe`，表示只有所有 `readinessProbe` 都通过验证，应用实例才进入 `Ready` 状态。
+```yaml
+readinessProbe:
+  resources:
+  - group: tensorstack.dev
+    version: v1beta1
+    resource: notebooks
+    name: "{{ .Release.Name }}"
+    message: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .message }}{{- end }}{{- end }}"
+    currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
+    desiredStatus: "True"
+```
 
-实例中所有 `{{ .go-template }}` 都表示当前字段可以用 Go Template 字符串来填写。
+以上为一个 `resources` 类型的 `readinessProbe`，其含义为：检查类型为 `Ready` 的 `.status.conditions` 字段的 `status` 子字段，如果该字段内容为 `True`，则说明 `notebook` 资源已就绪；否则返回 类型为 `Ready` 的 `.status.conditions` 字段的 `message` 子字段作为错误提示。
+
+应用模板可以不填写任何 `readinessProbe`，表示应用一旦部署就处于 `Ready` 状态；也可以同时填写多个 `readinessProbe`，表示只有所有 `readinessProbe` 都通过验证，应用实例才进入 `Ready` 状态。
+
+章节开头的示例中，所有 `{{ .go-template }}` 都表示当前字段可以用 Go Template 字符串来填写。
 
 > [!NOTE]
-> `resources[@].currentStatus` 字段的 Go Template 变量是使用运行的应用实例中的资源对象属性，而不是部署应用时所用的配置（CR Object 定义、Helm Values）配置填写，参考 [Go Template 替换规则](#go-template-替换规则)。
+> `resources[@].currentStatus` 和 `resources[@].message` 字段的 Go Template 变量是使用运行的应用实例中的资源对象属性，而不是部署应用时所用的配置（CR Object 定义、Helm Values）配置填写，参考 [Go Template 替换规则](#go-template-替换规则)。
 
 ## 应用依赖
 
@@ -262,7 +283,7 @@ template:
 * Go Template 所使用的变量，分为以下三种情况在下面进行讨论：
   1. 应用类型为 Helm；
   2. 应用类型为 CRD；
-  3. `readinessProbe.resources[@].currentStatus` 字段所使用的 Go Template 变量。
+  3. `readinessProbe.resources[@].currentStatus|message` 字段所使用的 Go Template 变量。
 
 ### 应用类型为 Helm
 
@@ -306,12 +327,17 @@ spec:
 > [!NOTE]
 > 如果 CRD 应用的部署配置中的 `.metadata.namespace` 字段如果没有填写，则 App Server 会自动根据用户所在的 namespace 填写该字段，所以不用担心 `{{ .metadata.namespace }}` 变量会引用空值。但其他字段则没有默认值，所以需要注意。
 
-### readinessProbe.resources[@].currentStatus
+### readinessProbe.resources[@].currentStatus|message
 
-指 `template.crd.versions[@].readinessProbe.resources[@].currentStatus` 和 `template.helm.versions[@].readinessProbe.resources[@].currentStatus` 这两个字段。
+指以下字段：
+
+* `template.crd.versions[@].readinessProbe.resources[@].currentStatus`
+* `template.crd.versions[@].readinessProbe.resources[@].message`
+* `template.helm.versions[@].readinessProbe.resources[@].currentStatus`
+* `template.helm.versions[@].readinessProbe.resources[@].message`
 
 > [!NOTE]
-> 与其他支持 Go Template 格式的字段不同，`currentStatus` 用于在应用实例部署后判断子资源状态，而其他字段在部署应用实例时就会进行解析。
+> 与其他支持 Go Template 格式的字段不同，`currentStatus` 和 `message` 用于在应用实例部署后判断子资源状态，而其他字段在部署应用实例时就会进行解析。
 
 以下为 Terminal 应用的部分应用模板：
 

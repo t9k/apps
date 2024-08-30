@@ -21,6 +21,7 @@ template:
           version: v1
           resource: virtualmachines
           name: "{{ .Release.Name }}"
+          message: "Status: {{ .status.printableStatus }}"
           currentStatus: "{{ .status.printableStatus }}"
           desiredStatus: "Running"
       dependencies:
@@ -36,6 +37,7 @@ template:
           version: v1
           resource: virtualmachines
           name: "{{ .Release.Name }}"
+          message: "Status: {{ .status.printableStatus }}"
           currentStatus: "{{ .status.printableStatus }}"
           desiredStatus: "Running"
       dependencies:
