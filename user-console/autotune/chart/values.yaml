@@ -1,0 +1,22 @@
+authorization:
+  enabled: true
+  clientID: "t9k-client"
+  pepProxy:
+    image: "docker.io/t9kpublic/pep-proxy:1.0.12"
+    imagePullPolicy: Always
+
+network:
+  gateway: project-gateway
+  domain:
+    home: "https://home.sample.t9kcloud.cn"
+    auth: "https://auth.sample.t9kcloud.cn"
+
+serviceAccount: default
+imagePullPolicy: IfNotPresent
+image: "docker.io/t9kpublic/autotune-app:240822"
+
+cluster:
+  extendedResources:
+    gpu: ["nvidia.com/gpu.shared", "nvidia.com/gpu"]
+
+docs: "https://t9k.github.io/user-manuals/latest/modules/building/autotune.html"
