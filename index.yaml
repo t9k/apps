@@ -1,5 +1,16 @@
 apiVersion: v1
 entries:
+  autotune:
+  - apiVersion: v2
+    appVersion: 0.1.1
+    created: "2024-09-02T02:55:29.798844843Z"
+    description: A Helm chart for TensorStack App - AutoTune
+    digest: 7300869ef5cd9e866e385a98d71c2d1322c27a157c204a68316aaf239cfd5d58
+    name: autotune
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/autotune-0.1.1/autotune-0.1.1.tgz
+    version: 0.1.1
   comfyui:
   - apiVersion: v2
     appVersion: "20240708"
@@ -1132,4 +1143,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-08-27T11:11:08.250917728Z"
+generated: "2024-09-02T02:55:30.203062534Z"
