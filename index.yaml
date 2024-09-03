@@ -1143,4 +1143,15 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/vllm-smls-0.1.2/vllm-smls-0.1.2.tgz
     version: 0.1.2
-generated: "2024-09-02T02:55:30.203062534Z"
+  workflow:
+  - apiVersion: v2
+    appVersion: 0.1.1
+    created: "2024-09-03T00:44:55.176576853Z"
+    description: A Helm chart for TensorStack App - Workflow
+    digest: 7c54b6607a12f7d50989f6c5fa3effa605f72172dfcfe9f972673d68bd9fe4f9
+    name: workflow
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
+    version: 0.1.1
+generated: "2024-09-03T00:44:55.176695136Z"
