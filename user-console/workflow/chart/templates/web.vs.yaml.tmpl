@@ -1,0 +1,30 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ .Release.Name }}-web
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    component: web
+spec:
+  hosts:
+    - '*'
+  gateways:
+    - {{ .Values.network.gateway }}
+  http:
+    - match:
+        - uri:
+            prefix: /apps/{{ .Release.Namespace }}/workflow/{{ .Release.Name }}/web/
+      rewrite:
+        uri: /
+    {{- if .Values.authorization.enabled }}
+      headers:
+        request:
+          add:
+            x-auth-request-redirect: /apps/{{ .Release.Namespace }}/workflow/{{ .Release.Name }}/web/
+    {{- end }}
+      route:
+        - destination:
+            host: {{ .Release.Name }}-web
+            port:
+              number: 8080
