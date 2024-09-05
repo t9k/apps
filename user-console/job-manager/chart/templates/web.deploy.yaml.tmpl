@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: job-manager-web
-        image: {{ .Values.web.image }}
+        image: {{ .Values.web.image.registry }}/{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}
         ports:
           - name: http
             containerPort: 8080
@@ -45,7 +45,7 @@ spec:
         - --oidc-issuer-url={{ .Values.network.domain.auth }}/auth/realms/t9k-realm
         - --security-server-address={{ .Values.network.domain.home }}/t9k/security/server
         - --pep-config=/t9kconfig/pep-config.yaml
-        image: {{ .Values.authorization.pepProxy.image }}
+        image: {{ .Values.authorization.pepProxy.image.registry }}/{{ .Values.authorization.pepProxy.image.repository }}:{{ .Values.authorization.pepProxy.image.tag }}
         imagePullPolicy: {{ .Values.web.imagePullPolicy }}
         name: pep-proxy
         ports:
