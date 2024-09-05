@@ -4,8 +4,8 @@
 ## @param image.pullPolicy Image pull policy for the Docker image
 ##
 image:
-  registry: docker.io
-  repository: t9kpublic/rocker-4.2.3-rstudio
+  registry: "$(T9K_APPS_IMAGE_REGISTRY)"
+  repository: "$(T9K_APPS_IMAGE_NAMESPACE)/rocker-4.2.3-rstudio"
   tag: "1.72.1"
   pullPolicy: IfNotPresent
 

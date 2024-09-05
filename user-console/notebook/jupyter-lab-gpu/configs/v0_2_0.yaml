@@ -4,8 +4,8 @@
 ## @param image.pullPolicy Image pull policy for the Docker image
 ##
 image:
-  registry: docker.io
-  repository: t9kpublic/torch-2.1.0-notebook
+  registry: "$(T9K_APPS_IMAGE_REGISTRY)"
+  repository: "$(T9K_APPS_IMAGE_NAMESPACE)/torch-2.1.0-notebook"
   tag: "20240716"
   pullPolicy: IfNotPresent
 

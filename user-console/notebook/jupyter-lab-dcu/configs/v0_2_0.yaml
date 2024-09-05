@@ -4,8 +4,8 @@
 ## @param image.pullPolicy Image pull policy for the Docker image
 ##
 image:
-  registry: "registry.cn-hangzhou.aliyuncs.com"
-  repository: "t9k/jupyterlab-torch-2.1.0"
+  registry: "$(T9K_APPS_IMAGE_REGISTRY)"
+  repository: "$(T9K_APPS_IMAGE_NAMESPACE)/jupyterlab-torch-2.1.0"
   tag: "240708-dcu"
   pullPolicy: IfNotPresent
 

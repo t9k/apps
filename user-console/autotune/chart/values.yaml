@@ -2,7 +2,10 @@ authorization:
   enabled: true
   clientID: "t9k-client"
   pepProxy:
-    image: "docker.io/t9kpublic/pep-proxy:1.0.12"
+    image:
+      registry: "docker.io"
+      repository: "t9kpublic/pep-proxy"
+      tag: "1.0.12"
     imagePullPolicy: Always
 
 network:
@@ -13,7 +16,10 @@ network:
 
 serviceAccount: default
 imagePullPolicy: IfNotPresent
-image: "docker.io/t9kpublic/autotune-app:240822"
+image:
+  registry: "docker.io"
+  repository: "t9kpublic/autotune-app"
+  tag: "240822"
 
 cluster:
   extendedResources:
