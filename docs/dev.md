@@ -4,9 +4,18 @@
 
 ## Helm Apps
 
+Helm 形式的 Apps 包括如下步骤：
+
+1. 构架容器镜像，把 App 容器化，并使用 K8s 的 APIs 和服务；
+2. 使用 Helm Chart 打包应用，并符合 T9k Apps 的规范；
+3. 发布 App，使用 T9k Apps 定义的规范和流程发布 Apps。
+
 ### 构建镜像
 
-说明：如果 App 使用已有镜像，则跳过该步骤。
+说明：
+
+1. 本文中，镜像是容器镜像（container image）简称。
+1. 如果 App 使用已有镜像，则跳过该步骤。
 
 构建镜像一般需要：
 
@@ -104,18 +113,18 @@ chart
 > 这里需要介绍两个概念：
 >
 > * Default Values：Helm Chart 的默认变量值，在开发 Helm Chart 时，记录在 `values.yaml` 文件中。
-> * Extra Values：额外变量值。用户在部署应用的时候时设置，服务器会将该 Values 与 Default Values 合并（字段冲突时，Extra Values 优先级更高），然后用于部署 App。
+> * User Values：额外变量值。用户在部署应用的时候时设置，服务器会将该 Values 与 Default Values 合并（字段冲突时，User Values 优先级更高），然后用于部署 App。
 
 #### 调试
 
-在上传 Helm Chart 前，开发者应在本地集群测试（指使用本地 `chart` 文件测试，而非脱离集群进行测试）以保证当前 Chart 确实可用。
+在上传 Helm Chart 前，开发者应在集群中完成完整的测试，以保证 Chart 确实可用。
 
-这里叙述一个简单的流程：
+这里叙述一个简单的流程，使用本地文件夹 `./chart` 中的内容进行测试：
 
 1) 使用 `helm template` 生成部署清单：
 
 ```bash
-helm template release-name -n release-ns ./chart > manifests.yaml
+helm template <release-name> -n <release-ns> ./chart > manifests.yaml
 ```
 
 开发者检查生成的清单文件 `manifests.yaml` 以确保符合预期。
@@ -123,7 +132,7 @@ helm template release-name -n release-ns ./chart > manifests.yaml
 2) 使用 `helm install` 部署应用：
 
 ```bash
-helm install release-name -n release-ns ./chart
+helm install <release-name> -n <release-ns> ./chart
 ```
 
 3) 应用被部署到集群中后，开发人员检查应用是否运行正常，能否访问。
@@ -143,16 +152,17 @@ helm package ./chart
 ```bash
 helm push <tgz-file> <registry-url>
 ```
-
-(一般使用公开仓库如 DockerHub，则 `<registry-url>` 格式类似 `oci://docker.io/t9kpublic`，但是在国内 DockerHub 不一定可以访问，所以用户可能需要租用仓库云服务或搭建自己的 `oci` 仓库，参考 [Harbor](https://goharbor.io/))
+>[!NOTE]
+> 一般使用公开仓库如 Docker Hub，则 `<registry-url>` 格式类似 `oci://docker.io/t9kpublic`，
+> 但如果 Docker Hub 不可访问，用户需要使用其它 OCI Registry 云服务或搭建自己的 `oci` 仓库，参考 [Harbor](https://goharbor.io/))
 
 #### 注意事项
 
-1. 如果 App 需要查看或编辑集群资源，则给工作负载绑定 ServiceAccount `managed-project-sa`，该 ServiceAccount 具有用户在当前命名空间中的全部权限。请勿另行创建 ServiceAccount、Role 和 RoleBinding（后文统称 RBAC 资源）。
+1. 如果 App 需要设置 Service Account，可使用 Proejct 中预置的 ServiceAccount `managed-project-sa`，该 ServiceAccount 具有用户 Proejct 中的全部权限。请勿另行创建 ServiceAccount、Role 和 RoleBinding 等 RBAC 资源。
 
-> 安装 App 使用的是用户权限，允许 App 创建 RBAC 资源就是允许用户创建 RBAC 资源，这存在安全隐患。如用户本不可以创建或查看一种 K8s 资源，则他可以创建一个具有这种资源权限的 Role，通过这个 Role 去操作资源。
+1. 如果预制的 Service Account 不满足用户 App 的需求，用户需要联系系统管理员，以获得合适的 RBAC 设置。
 
-### App 发布
+### 发布 App
 
 App 发布流程完成对 Helm Chart 定义相关 App Template 及配置文件，以支持 App 注册。
 
