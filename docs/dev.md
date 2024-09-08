@@ -4,18 +4,17 @@
 
 ## Helm Apps
 
-Helm 形式的 Apps 包括如下步骤：
+开发 Helm 形式的 Apps 包括如下步骤：
 
-1. 构架容器镜像，把 App 容器化，并使用 K8s 的 APIs 和服务；
+1. 把 App 容器化，构架容器镜像，并使用 K8s 的 APIs 和服务；
 2. 使用 Helm Chart 打包应用，并符合 T9k Apps 的规范；
 3. 发布 App，使用 T9k Apps 定义的规范和流程发布 Apps。
 
 ### 构建镜像
 
-说明：
-
-1. 本文中，镜像是容器镜像（container image）简称。
-1. 如果 App 使用已有镜像，则跳过该步骤。
+> [!NOTE]
+> 1. 镜像是容器镜像（container image）简称。
+> 1. 如果 App 使用已有镜像，则可跳过该步骤。
 
 构建镜像一般需要：
 
@@ -83,7 +82,8 @@ docker push <image-tag>
 
 ### 开发 Helm Chart
 
-说明：如果使用已有 Helm Chart，跳过该步骤。
+> [!NOTE]
+> 如果使用已有 Helm Chart，跳过该步骤。但由于 T9k Apps 的 Charts 需要符合特定的规范，一般情况下，用户总是需要自己构建 Charts。
 
 一个 Helm Chart 示例：
 
@@ -109,11 +109,12 @@ chart
 * `values.yaml`：Helm Chart 的默认配置（Default Values）。
 * 更多 Helm Chart 的介绍请参考 [Helm: Getting Started](https://helm.sh/docs/chart_template_guide/getting_started/)。
 
-> [!NOTE]
-> 这里需要介绍两个概念：
->
-> * Default Values：Helm Chart 的默认变量值，在开发 Helm Chart 时，记录在 `values.yaml` 文件中。
-> * User Values：额外变量值。用户在部署应用的时候时设置，服务器会将该 Values 与 Default Values 合并（字段冲突时，User Values 优先级更高），然后用于部署 App。
+#### 设置 Values
+
+T9k Apps 支持 2 种方式设置 Charts 的 `Values` ：
+
+1. Default Values：Helm Chart 的默认变量值，在开发 Helm Chart 时，记录在 `values.yaml` 文件中。
+2. User Values：额外变量值。用户在部署应用的时候时设置，服务器会将该 Values 与 Default Values 合并（字段冲突时，User Values 优先级更高），然后用于部署 App。
 
 #### 调试
 
