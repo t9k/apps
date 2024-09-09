@@ -6,3 +6,7 @@ spec:
   storageName: "{{ .Values.pvc }}"
   storageType: pvc
   type: FileBrowser
+  resources:
+    limits:
+      cpu: "{{ .Values.resources.cpu }}"
+      memory: "{{ .Values.resources.memory }}"

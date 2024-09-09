@@ -1,1 +1,5 @@
 pvc: ""
+
+resources:
+  cpu: 100m
+  memory: 200Mi

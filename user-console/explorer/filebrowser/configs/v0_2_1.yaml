@@ -1,0 +1,8 @@
+## @param pvc Select a pvc as File Browser workspace.
+pvc: ""
+
+## @param resources.cpu The maximum number of CPU the File Browser can use.
+## @param resources.memory The maximum number of memory the File Browser can use.
+resources:
+  cpu: 100m
+  memory: 200Mi
