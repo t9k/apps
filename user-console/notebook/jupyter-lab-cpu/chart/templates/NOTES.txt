@@ -2,13 +2,13 @@ CHART NAME: {{ .Chart.Name }}
 CHART VERSION: {{ .Chart.Version }}
 APP VERSION: {{ .Chart.AppVersion }}
 
-使用一下命令获取 JupyterLab Web 地址：
+使用以下命令获取 JupyterLab Web 地址：
 
     kubectl get notebooks.tensorstack.dev {{ .Release.Name }} -n {{ .Release.Namespace }} -o "jsonpath={.status.url}"
 
 {{- if .Values.ssh.enabled }}
 
-通过 t9k-pf 将 Notebook SSH 服务暴露在本地 5001 端口:
+通过 t9k-pf 将 JupyterLab SSH 服务暴露在本地 5001 端口:
 
     export NB_URL=$(kubectl get notebooks.tensorstack.dev {{ .Release.Name }} -n {{ .Release.Namespace }} -o "jsonpath={.status.url}")
     t9k-pf notebook $NB_URL 5001

@@ -6,6 +6,9 @@ spec:
   type: jupyter
   template:
     spec:
+      {{- if .Values.nodeSelector }}
+      nodeSelector: {{ toJson .Values.nodeSelector }}
+      {{- end}}
       containers:
         - name: notebook
           securityContext:
