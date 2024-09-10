@@ -32,6 +32,10 @@ resources:
   memory: 32Gi
   dcu: "1"
 
+# nodeSelector:
+#   key1: value1
+#   key2: value2
+
 # ssh:
 #   enabled: true
 #   authorizedKeys:
@@ -57,6 +61,7 @@ ssh:
 | `ssh.authorizedKeys` | 一系列记录 SSH 公钥的 K8s Secret 资源。                       | `[]`                                |
 | `ssh.enabled`        | 是否在 Notebook 上启动 SSH 服务。                             | `false`                             |
 | `ssh.serviceType`    | SSH 服务类型，支持 ClusterIP 和 NodePort 两种。               | `ClusterIP`                         |
+| `nodeSelector`       | 用于选择节点，JupyterLab 只会被调度到标签与之匹配的节点上。   | `null`                              |
 
 ### 镜像列表
 

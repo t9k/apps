@@ -29,6 +29,10 @@ resources:
   cpu: "16"
   memory: 32Gi
 
+# nodeSelector:
+#   key1: value1
+#   key2: value2
+
 # ssh:
 #   enabled: true
 #   authorizedKeys:
@@ -41,18 +45,19 @@ ssh:
 
 ### 字段
 
-| 名称                 | 描述                                                    | 值                               |
-| -------------------- | ------------------------------------------------------- | -------------------------------- |
-| `image.registry`     | JupyterLab 容器镜像注册表。                             | `docker.io`                      |
-| `image.repository`   | JupyterLab 容器镜像仓库。                               | `t9kpublic/rocker-4.2.3-rstudio` |
-| `image.tag`          | JupyterLab 容器镜像标签。                               | `1.72.1`                         |
-| `image.pullPolicy`   | JupyterLab 容器镜像拉取策略。                           | `IfNotPresent`                   |
-| `resources.cpu`      | JupyterLab 最多能使用的 CPU 数量。                      | `16`                             |
-| `resources.memory`   | JupyterLab 最多能使用的内存数量。                       | `32Gi`                           |
-| `pvc`                | 挂载到 RStudio 上的 PVC 名称，作为 RStudio 的工作空间。 | `""`                             |
-| `ssh.authorizedKeys` | 一系列记录 SSH 公钥的 K8s Secret 资源。                 | `[]`                             |
-| `ssh.enabled`        | 是否在 Notebook 上启动 SSH 服务。                       | `false`                          |
-| `ssh.serviceType`    | SSH 服务类型，支持 ClusterIP 和 NodePort 两种。         | `ClusterIP`                      |
+| 名称                 | 描述                                                     | 值                               |
+| -------------------- | -------------------------------------------------------- | -------------------------------- |
+| `image.registry`     | JupyterLab 容器镜像注册表。                              | `docker.io`                      |
+| `image.repository`   | JupyterLab 容器镜像仓库。                                | `t9kpublic/rocker-4.2.3-rstudio` |
+| `image.tag`          | JupyterLab 容器镜像标签。                                | `1.72.1`                         |
+| `image.pullPolicy`   | JupyterLab 容器镜像拉取策略。                            | `IfNotPresent`                   |
+| `resources.cpu`      | JupyterLab 最多能使用的 CPU 数量。                       | `16`                             |
+| `resources.memory`   | JupyterLab 最多能使用的内存数量。                        | `32Gi`                           |
+| `pvc`                | 挂载到 RStudio 上的 PVC 名称，作为 RStudio 的工作空间。  | `""`                             |
+| `ssh.authorizedKeys` | 一系列记录 SSH 公钥的 K8s Secret 资源。                  | `[]`                             |
+| `ssh.enabled`        | 是否在 Notebook 上启动 SSH 服务。                        | `false`                          |
+| `ssh.serviceType`    | SSH 服务类型，支持 ClusterIP 和 NodePort 两种。          | `ClusterIP`                      |
+| `nodeSelector`       | 用于选择节点，RStudio 只会被调度到标签与之匹配的节点上。 | `null`                           |
 
 ### 镜像列表
 
