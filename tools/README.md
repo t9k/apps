@@ -53,10 +53,10 @@ export YQ=yq-4
 export JQ=jq
 ```
 
-读取单个 template 文件，迁移文件中用到的所有 Helm Chart：
+读取单个 APP 的 template 文件，迁移其中用到的所有 Helm Chart：
 
 ```bash
-./chart-mirror.sh ../user-console/job-manager/template.yaml --source docker.io/t9kpublic --target registry.t9kcloud.cn/t9kcharts
+./chart-mirror.sh ../user-console/job-manager --source docker.io/t9kpublic --target registry.t9kcloud.cn/t9kcharts
 ```
 
 遍历一个目录（例如 user-console）中所有 `template.yaml` 文件，迁移用到的所有 Helm Chart：
@@ -65,11 +65,13 @@ export JQ=jq
 ./chart-mirror.sh ../user-console --source docker.io/t9kpublic --target registry.t9kcloud.cn/t9kcharts
 ```
 
-读取单个 `configs` 目录，迁移其中所有 config 文件中用到的所有容器镜像：
+读取单个 APP 的 `configs` 目录，迁移其中所有 config 文件中用到的所有容器镜像：
 
 ```bash
-./image-mirror.sh ../user-console/job-manager/configs --source docker.io/t9kpublic --target registry.cn-hangzhou.aliyuncs.com/t9k
+./image-mirror.sh ../user-console/job-manager --source docker.io/t9kpublic --target registry.cn-hangzhou.aliyuncs.com/t9k
 ```
+
+注意：由于目前单个 configs 目录中的不同版本 config 往往会使用相同的镜像，这可能导致同样的镜像被多次 mirror。计划下一个版本去除掉重复的镜像。
 
 遍历一个目录（例如 user-console）中所有 `configs` 文件夹中的所有文件，迁移用到的所有容器镜像：
 
