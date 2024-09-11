@@ -2,7 +2,10 @@ authorization:
   enabled: true
   clientID: "t9k-client"
   pepProxy:
-    image: "docker.io/t9kpublic/pep-proxy:1.0.12"
+    image:
+      registry: "docker.io"
+      repository: "t9kpublic/pep-proxy"
+      tag: "1.0.12"
     imagePullPolicy: Always
 
 network:
@@ -14,12 +17,18 @@ network:
 server:
   serviceAccount: managed-project-sa
   imagePullPolicy: IfNotPresent
-  image: "docker.io/t9kpublic/job-manager-server:240805"
+  image:
+    registry: "docker.io"
+    repository: "t9kpublic/job-manager-server"
+    tag: "240805"
   
 web:
   serviceAccount: default
   imagePullPolicy: IfNotPresent
-  image: "docker.io/t9kpublic/job-manager-web:240805"
+  image:
+    registry: "docker.io"
+    repository: "t9kpublic/job-manager-web"
+    tag: "240805"
 
 cluster:
   extendedResources:
