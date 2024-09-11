@@ -1,0 +1,3 @@
+server:
+  serviceAccount: managed-project-sa
+  image: "quay.io/argoproj/argocli:v3.5.10"

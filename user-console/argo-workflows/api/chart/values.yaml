@@ -1,0 +1,5 @@
+controller:
+  image: "quay.io/argoproj/workflow-controller:v3.5.10"
+
+executor:
+  image: "quay.io/argoproj/argoexec:v3.5.10"

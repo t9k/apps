@@ -1,0 +1,36 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - project-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /apps/{{ .Release.Namespace }}/argo-workflows/{{ .Release.Name }}/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            host: {{ .Release.Name }}
+            port:
+              number: 2746
+      corsPolicy:
+        allowOrigin:
+          - "*"
+        allowMethods:
+          - GET
+          - POST
+          - DELETE
+          - PUT
+          - PATCH
+        allowCredentials: false
+        allowHeaders:
+          - "*"
+        maxAge: "24h"
