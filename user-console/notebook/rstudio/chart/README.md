@@ -10,11 +10,13 @@
 
 网页 UI 的使用方法请参阅 [RStudio User Guide](https://docs.posit.co/ide/user/)。
 
+除了网页 UI，App 还支持通过 SSH 远程连接（需要启用 SSH 服务），让你能够使用熟悉的本地终端或 IDE，像在本地开发一样进行远程开发。限于篇幅，具体步骤请参阅[如何通过 SSH 远程连接](https://t9k.github.io/ucman/latest/reference/faq/faq-in-jupyterlab-usage.html#%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87-ssh-%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5)。
+
 ## 配置
 
 ### 示例
 
-选用 PyTorch 环境，申请 16 个 CPU（核心）、32 GiB 内存资源，挂载存储卷 `tutorial`：
+申请 16 个 CPU（核心）、32 GiB 内存资源，挂载存储卷 `tutorial`：
 
 ```yaml
 image:
@@ -26,20 +28,36 @@ image:
 pvc: "tutorial"
 
 resources:
-  cpu: "16"
-  memory: 32Gi
+  limits:
+    cpu: 16
+    memory: 32Gi
 
-# nodeSelector:
-#   key1: value1
-#   key2: value2
-
-# ssh:
-#   enabled: true
-#   authorizedKeys:
-#   - "secret-name"
 ssh:
-  authorizedKeys: []
   enabled: false
+  authorizedKeys: []
+  serviceType: ClusterIP
+```
+
+申请 4 个 CPU（核心）、8 GiB 内存资源，挂载存储卷 `demo`，启用 ClusterIP 类型的 SSH 服务：
+
+```yaml
+image:
+  registry: docker.io
+  repository: t9kpublic/rocker-4.2.3-rstudio
+  tag: "1.72.1"
+  pullPolicy: IfNotPresent
+
+pvc: "demo"
+
+resources:
+  limits:
+    cpu: 4
+    memory: 8Gi
+
+ssh:
+  enabled: true
+  authorizedKeys:
+  - <YOUR_SECRET_OF_SSH_PUBLIC_KEY>
   serviceType: ClusterIP
 ```
 
@@ -55,7 +73,7 @@ ssh:
 | `resources.memory`   | JupyterLab 最多能使用的内存数量。                        | `32Gi`                           |
 | `pvc`                | 挂载到 RStudio 上的 PVC 名称，作为 RStudio 的工作空间。  | `""`                             |
 | `ssh.authorizedKeys` | 一系列记录 SSH 公钥的 K8s Secret 资源。                  | `[]`                             |
-| `ssh.enabled`        | 是否在 Notebook 上启动 SSH 服务。                        | `false`                          |
+| `ssh.enabled`        | 是否在 Notebook 上启用 SSH 服务。                        | `false`                          |
 | `ssh.serviceType`    | SSH 服务类型，支持 ClusterIP 和 NodePort 两种。          | `ClusterIP`                      |
 | `nodeSelector`       | 用于选择节点，RStudio 只会被调度到标签与之匹配的节点上。 | `null`                           |
 

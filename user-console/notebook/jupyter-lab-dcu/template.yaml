@@ -3,7 +3,6 @@ kind: Template
 metadata:
   name: jupyterlab-dcu
   displayName: "JupyterLab (Hygon DCU)"
-  defaultVersion: "0.1.2"
   categories: 
   - IDE
   description: "JupyterLab (Hygon DCU) 是一个基于 Web 的开发环境，适用于 Hygon DCU 的计算任务。"
@@ -13,7 +12,7 @@ template:
     repo: "oci://docker.io/t9kpublic"
     chart: "jupyterlab-dcu"
     versions:
-    - version: 0.2.0
+    - version: 0.2.1
       config: "file://$APP_DIR/configs/v0_2_0.yaml"
       urls: 
       - name: "jupyter"

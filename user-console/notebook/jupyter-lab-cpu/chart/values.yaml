@@ -7,10 +7,13 @@ image:
 pvc: ""
 
 resources:
-  cpu: "16"
-  memory: 32Gi
+  limits:
+    cpu: 16
+    memory: 32Gi
 
 ssh:
-  authorizedKeys: []
   enabled: false
+  authorizedKeys: []
   serviceType: ClusterIP
+
+nodeSelector: []

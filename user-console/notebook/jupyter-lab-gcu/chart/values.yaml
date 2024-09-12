@@ -7,11 +7,14 @@ image:
 pvc: ""
 
 resources:
-  cpu: "16"
-  memory: 32Gi
-  gcu: "1"
+  limits:
+    cpu: 16
+    memory: 32Gi
+    enflame.com/gcu: 1
 
 ssh:
-  authorizedKeys: []
   enabled: false
+  authorizedKeys: []
   serviceType: ClusterIP
+
+nodeSelector: []

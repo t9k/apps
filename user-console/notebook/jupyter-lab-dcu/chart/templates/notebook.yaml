@@ -30,10 +30,7 @@ spec:
               mountPath: /dev/dri
               readOnly: true
           resources:
-            limits:
-              cpu: "{{ .Values.resources.cpu }}"
-              memory: "{{ .Values.resources.memory }}"
-              hygon.com/dcu: "{{ .Values.resources.dcu }}"
+            {{- toYaml .Values.resources | nindent 12 }}
       volumes:
         - name: workingdir
           persistentVolumeClaim:

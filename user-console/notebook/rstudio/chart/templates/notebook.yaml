@@ -17,9 +17,7 @@ spec:
             - name: workingdir
               mountPath: /t9k/mnt/workspace
           resources:
-            limits:
-              cpu: "{{ .Values.resources.cpu }}"
-              memory: "{{ .Values.resources.memory }}"
+            {{- toYaml .Values.resources | nindent 12 }}
       volumes:
         - name: workingdir
           persistentVolumeClaim:
