@@ -4,8 +4,8 @@
 ## @param image.pullPolicy Image pull policy for the Docker image
 ##
 image:
-  registry: "$(T9K_APPS_IMAGE_REGISTRY)"
-  repository: "$(T9K_APPS_IMAGE_NAMESPACE)/tensorflow-2.11.0"
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/tensorflow-2.11.0"
   tag: "cpu-sdk-0.5.2"
   pullPolicy: IfNotPresent
 

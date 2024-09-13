@@ -19,6 +19,103 @@ TensorStack 提供一些常用 Apps 的 Template 文件，存放在 [https://git
 git clone https://github.com/t9k/apps.git
 ```
 
+## 准备工作
+
+### [可选]使用自定义的 Helm Chart 源
+
+注册 APP 时，APP Server 从 Template 文件指定的地址拉取 Helm Chart。
+
+例如 [jupyter-lab-cpu/template.yaml](https://github.com/t9k/apps/blob/master/user-console/notebook/jupyter-lab-cpu/template.yaml)，下面是文件的一部分内容：
+
+```yaml
+...
+template:
+  helm: 
+    repo: "oci://docker.io/t9kpublic"
+    chart: "jupyterlab-cpu"
+    versions:
+    - version: 0.2.0
+...
+```
+
+那么注册 APP 时，APP Server 从 `oci://docker.io/t9kpublic/jupyterlab-cpu` 拉取版本为 0.2.0 的 Helm Chart，其行为类似于：
+
+```bash
+helm pull oci://docker.io/t9kpublic/jupyterlab-cpu --version 0.2.0
+```
+
+修改 Template 文件：
+
+```bash
+sed -i 's|repo: "oci://docker.io/t9kpublic"|repo: oci://<custom-chart-source>|g' <template-file>
+```
+
+> [!NOTE]
+> 还需要将 Helm Chart 上传到相应的地址中。通常可以使用 [tools](https://github.com/t9k/apps/blob/master/tools) 中的脚本来完成这一步，例如读取 APP 的 `template.yaml` 文件，迁移其中用到的所有 Helm Chart：
+>
+> ```bash
+> tools/chart-mirror.sh user-console/notebook/jupyterlab-cpu --source docker.io/t9kpublic --target <custom-chart-source>
+> ```
+
+这样，即可使用自定义的 Helm Chart 源来注册 APP。
+
+### [可选]使用自定义的镜像源
+
+用户安装 APP 时，APP 需要拉取镜像来运行容器。
+
+例如 [jupyter-lab-cpu/configs/v0_2_0.yaml](https://github.com/t9k/apps/blob/master/user-console/notebook/jupyter-lab-cpu/configs/v0_2_0.yaml)，下面是文件的一部分内容：
+
+```yaml
+image:
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/torch-2.1.0-notebook"
+  tag: "20240716"
+```
+
+用户在安装 APP 时如果不修改上述配置，则会默认拉取镜像 `$(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/torch-2.1.0-notebook:20240716`。
+
+可以通过设置[系统变量](./template.md#系统变量) `$(T9K_APP_IMAGE_REGISTRY)` 和 `$(T9K_APP_IMAGE_NAMESPACE)` 来自定义默认镜像的拉取地址。上述系统变量的值可以通过以下方式查看：
+
+```bash
+kubectl -n t9k-system get configmap app-config -o yaml
+```
+
+```yaml
+...
+data:
+  client-config.json: |-
+    {
+      "variables":{
+        ...
+        "T9K_APP_IMAGE_REGISTRY": "docker.io",
+        "T9K_APP_IMAGE_NAMESPACE": "t9kpublic",
+        ...
+      },
+...
+```
+
+运行以下命令来修改系统变量：
+
+```bash
+kubectl -n t9k-system edit configmap app-config
+```
+
+重启服务，并等待新的 Pod 正常运行。使得上述的系统变量修改生效：
+
+```bash
+kubectl -n t9k-system rollout restart deployment app-instance-controller-manager
+kubectl -n t9k-system get pod -l control-plane=app-instance -w
+```
+
+> [!NOTE]
+> 还需要将镜像上传到相应的地址中。通常可以使用 [tools](https://github.com/t9k/apps/blob/master/tools) 中的脚本来完成这一步，例如读取 APP 的 `configs` 文件夹中的所有文件，迁移其中用到的所有镜像：
+>
+> ```bash
+> tools/image-mirror.sh user-console/notebook/jupyterlab-cpu --source docker.io/t9kpublic --target <custom-image-source>
+> ```
+
+这样，即可使用自定义的默认镜像地址。
+
 ## 注册 Apps
 
 注册单个 App：

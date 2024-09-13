@@ -4,8 +4,8 @@
 ## @param image.pullPolicy Image pull policy for the Docker image
 ##
 image:
-  registry: "$(T9K_APPS_IMAGE_REGISTRY)"
-  repository: "$(T9K_APPS_IMAGE_NAMESPACE)/terminal"
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/terminal"
   tag: "240819"
   pullPolicy: IfNotPresent
 
@@ -33,8 +33,8 @@ global:
         securityServer: "$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)"
     pepProxy:
       image:
-        registry: "$(T9K_APPS_IMAGE_REGISTRY)"
-        repository: "$(T9K_APPS_IMAGE_NAMESPACE)/pep-proxy"
+        registry: "$(T9K_APP_IMAGE_REGISTRY)"
+        repository: "$(T9K_APP_IMAGE_NAMESPACE)/pep-proxy"
         tag: "1.0.12"
       args:
         clientID: $(T9K_APP_AUTH_CLINET_ID)
