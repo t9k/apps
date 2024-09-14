@@ -1,17 +1,20 @@
 image:
-  registry: "registry.cn-hangzhou.aliyuncs.com"
-  repository: "t9k/jupyterlab-torch-2.1.0"
+  registry: registry.cn-hangzhou.aliyuncs.com
+  repository: t9k/jupyterlab-torch-2.1.0
   tag: "240708-dcu"
   pullPolicy: IfNotPresent
 
 pvc: ""
 
 resources:
-  cpu: "16"
-  memory: 32Gi
-  dcu: "1"
+  limits:
+    cpu: 16
+    memory: 32Gi
+    hygon.com/dcu: 1
 
 ssh:
-  authorizedKeys: []
   enabled: false
+  authorizedKeys: []
   serviceType: ClusterIP
+
+nodeSelector: []

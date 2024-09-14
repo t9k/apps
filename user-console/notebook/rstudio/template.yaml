@@ -3,7 +3,6 @@ kind: Template
 metadata:
   name: rstudio
   displayName: RStudio
-  defaultVersion: "0.1.2"
   categories: 
   - IDE
   description: "RStudio 是一个集成开发环境，帮助你提高 R 和 Python 的开发效率。"
@@ -13,8 +12,8 @@ template:
     repo: "oci://docker.io/t9kpublic"
     chart: "rstudio"
     versions:
-    - version: 0.2.0
-      config: "file://$APP_DIR/configs/v0_1_1.yaml"
+    - version: 0.2.1
+      config: "file://$APP_DIR/configs/v0_2_0.yaml"
       urls: 
       - name: "rstudio"
         url: "/t9k/notebooks/projects/{{ .Release.Namespace }}/name/{{ .Release.Name }}/"

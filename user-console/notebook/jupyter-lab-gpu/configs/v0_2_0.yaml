@@ -9,13 +9,29 @@ image:
   tag: "20240716"
   pullPolicy: IfNotPresent
 
-## @param pvc Mount a pvc as notebook working directory.
+## @param pvc Mount a PVC as JupyterLab working directory
 pvc: ""
 
-## @param resources.cpu The maximum number of CPU the notebook can use.
-## @param resources.memory The maximum number of CPU the notebook can use.
-## @param resources.gpu The maximum number of NVIDIA GPU the notebook can use.
+## @param resources.limits.cpu CPU limit for the App container
+## @param resources.limits.memory Memory limit for the App container
+## @param resources.limits."nvidia.com/gpu" NVIDIA GPU limit for the App container
 resources:
-  cpu: "16"
-  memory: 32Gi
-  gpu: "1"
+  limits:
+    cpu: 16
+    memory: 32Gi
+    nvidia.com/gpu: 1
+
+## @param ssh.enabled Set true to start a SSH Service for JupyterLab
+## @param ssh.authorizedKeys A list of names of v1.Secret containing SSH public keys authorized for access to this SSH service
+## @param ssh.serviceType Type for the SSH service (`ClusterIP` or `NodePort`)
+#
+# ssh:
+#   enabled: true
+#   authorizedKeys:
+#   - "secret-name"
+#   serviceType: ClusterIP
+#
+ssh:
+  enabled: false
+  authorizedKeys: []
+  serviceType: ClusterIP
