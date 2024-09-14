@@ -1,11 +1,12 @@
 image:
   registry: docker.io
-  repository: t9kpublic/tensorflow-2.11.0
-  tag: "cpu-sdk-0.5.2"
+  repository: t9kpublic/tensorboard
+  tag: "2.17.0"
   pullPolicy: IfNotPresent
 
 logDir: {}
 
 resources:
-  cpu: 100m
-  memory: 4Gi
+  limits:
+    cpu: 200m
+    memory: 4Gi

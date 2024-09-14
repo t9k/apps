@@ -8,7 +8,7 @@
 
 ![](https://s2.loli.net/2024/08/21/JxNrRdKsv7a1cAI.png)
 
-网页 UI 的使用方法请参阅 [Visual Studio Code Docs](https://code.visualstudio.com/docs) 和 [Visual Studio Code for the Web](https://code.visualstudio.com/docs/editor/vscode-web)。
+网页 UI 的使用方法请参阅 [Visual Studio Code Docs](https://code.visualstudio.com/docs) 和 [FAQ of Code Server](https://coder.com/docs/code-server/FAQ)。
 
 ## 配置
 
@@ -18,12 +18,17 @@
 
 ```yaml
 pvc: tutorial
+
+resources:
+  limits:
+    cpu: 1
+    memory: 2Gi
 ```
 
 ### 字段
 
-| 名称               | 描述                                                            | 值      |
-| ------------------ | --------------------------------------------------------------- | ------- |
-| `pvc`              | 挂载到 Code Server 上的 PVC 名称，作为 Code Server 的工作空间。 | `""`    |
-| `resources.cpu`    | Code Server 最多能使用的 CPU 数量。                             | `100m`  |
-| `resources.memory` | Code Server 最多能使用的内存数量。                              | `200Mi` |
+| 名称                      | 描述                                                            | 值    |
+| ------------------------- | --------------------------------------------------------------- | ----- |
+| `pvc`                     | 挂载到 Code Server 上的 PVC 名称，作为 Code Server 的工作空间。 | `""`  |
+| `resources.limits.cpu`    | Code Server 最多能使用的 CPU 数量。                             | `1`   |
+| `resources.limits.memory` | Code Server 最多能使用的内存数量。                              | `2Gi` |

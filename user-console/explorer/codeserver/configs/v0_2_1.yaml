@@ -1,8 +1,9 @@
 ## @param pvc Select a pvc as Code Server workspace.
 pvc: ""
 
-## @param resources.cpu The maximum number of CPU the Code Server can use.
-## @param resources.memory The maximum number of memory the Code Server can use.
+## @param resources.limits.cpu CPU limit for the App container
+## @param resources.limits.memory Memory limit for the App container
 resources:
-  cpu: 100m
-  memory: 200Mi
+  limits:
+    cpu: 1
+    memory: 2Gi

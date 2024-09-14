@@ -7,6 +7,4 @@ spec:
   logDir: 
     {{- toYaml .Values.logDir | nindent 4 }}
   resources:
-    limits:
-      cpu: "{{ .Values.resources.cpu }}"
-      memory: "{{ .Values.resources.memory }}"
+    {{- toYaml .Values.resources | nindent 12 }}

@@ -5,8 +5,8 @@
 ##
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
-  repository: "$(T9K_APP_IMAGE_NAMESPACE)/tensorflow-2.11.0"
-  tag: "cpu-sdk-0.5.2"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/tensorboard"
+  tag: "2.17.0"
   pullPolicy: IfNotPresent
 
 ## @param pvc Mount a pvc as notebook working directory.
@@ -22,8 +22,9 @@ image:
 #       - ""
 logDir: {}
 
-## @param resources.cpu The maximum number of CPU the tensorboard can use.
-## @param resources.memory The maximum number of memory the tensorboard can use.
+## @param resources.limits.cpu CPU limit for the App container
+## @param resources.limits.memory Memory limit for the App container
 resources:
-  cpu: 100m
-  memory: 4Gi
+  limits:
+    cpu: 200m
+    memory: 4Gi

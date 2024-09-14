@@ -7,6 +7,4 @@ spec:
   storageType: pvc
   type: FileBrowser
   resources:
-    limits:
-      cpu: "{{ .Values.resources.cpu }}"
-      memory: "{{ .Values.resources.memory }}"
+    {{- toYaml .Values.resources | nindent 4 }}

@@ -18,12 +18,17 @@
 
 ```yaml
 pvc: tutorial
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 200Mi
 ```
 
 ### 字段
 
-| 名称               | 描述                                                              | 值      |
-| ------------------ | ----------------------------------------------------------------- | ------- |
-| `pvc`              | 挂载到 File Browser 上的 PVC 名称，作为 File Browser 的工作空间。 | `""`    |
-| `resources.cpu`    | File Browser 最多能使用的 CPU 数量。                              | `100m`  |
-| `resources.memory` | File Browser 最多能使用的内存数量。                               | `200Mi` |
+| 名称                      | 描述                                                              | 值      |
+| ------------------------- | ----------------------------------------------------------------- | ------- |
+| `pvc`                     | 挂载到 File Browser 上的 PVC 名称，作为 File Browser 的工作空间。 | `""`    |
+| `resources.limits.cpu`    | File Browser 最多能使用的 CPU 数量。                              | `100m`  |
+| `resources.limits.memory` | File Browser 最多能使用的内存数量。                               | `200Mi` |

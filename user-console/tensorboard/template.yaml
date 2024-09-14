@@ -3,7 +3,6 @@ kind: Template
 metadata:
   name: tensorboard
   displayName: "TensorBoard"
-  defaultVersion: "0.2.0"
   categories: 
   - Tool
   description: "TensorBoard 是 TensorFlow 的可视化工具，展示模型训练过程中的各种数据。"
@@ -13,8 +12,8 @@ template:
     repo: "oci://docker.io/t9kpublic"
     chart: "tensorboard"
     versions:
-    - version: 0.1.1
-      config: "file://$APP_DIR/configs/v0_1_1.yaml"
+    - version: 0.2.1
+      config: "file://$APP_DIR/configs/v0_2_0.yaml"
       urls: 
       - name: "tensorboard"
         url: "/t9k/tensorboards/projects/{{ .Release.Namespace }}/name/{{ .Release.Name }}/"
