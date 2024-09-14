@@ -848,6 +848,16 @@ entries:
   tensorboard:
   - apiVersion: v2
     appVersion: 2.11.0
+    created: "2024-09-14T10:50:40.057856861Z"
+    description: TensorBoard 是 TensorFlow 的可视化工具，展示模型训练过程中的各种数据。
+    digest: 566c57b568e72fa73942015605aabd4ddeb7a880520f946b36aa847f98adce99
+    name: tensorboard
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/tensorboard-0.2.1/tensorboard-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: 2.11.0
     created: "2024-08-21T08:56:59.170297513Z"
     description: TensorBoard 是 TensorFlow 的可视化工具，展示模型训练过程中的各种数据。
     digest: 86ec48d5d2116a6d54ee5510073a51cd8a949c38a33a513af884422a2f7527ca
@@ -1194,4 +1204,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2024-09-14T02:58:03.672227977Z"
+generated: "2024-09-14T10:50:40.058015057Z"
