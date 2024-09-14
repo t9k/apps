@@ -3,6 +3,16 @@ entries:
   autotune:
   - apiVersion: v2
     appVersion: 0.1.1
+    created: "2024-09-14T02:58:02.874545137Z"
+    description: A Helm chart for TensorStack App - AutoTune
+    digest: 069d61452c112799cdbaac0ef1e388b87ec47ccb7fd6aaf5fbfc97950a5d09da
+    name: autotune
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/autotune-0.1.2/autotune-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 0.1.1
     created: "2024-09-02T02:55:29.798844843Z"
     description: A Helm chart for TensorStack App - AutoTune
     digest: 7300869ef5cd9e866e385a98d71c2d1322c27a157c204a68316aaf239cfd5d58
@@ -869,6 +879,16 @@ entries:
   terminal:
   - apiVersion: v2
     appVersion: 0.2.0
+    created: "2024-09-14T02:58:03.471306073Z"
+    description: Terminal 是一个在浏览器中直接打开和操作的集群终端，便于管理集群。
+    digest: f6f587e49b9d432ec95a72133bf71cc8a1f30c35a83b43caaff80a925de59925
+    name: terminal
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/terminal-0.2.1/terminal-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: 0.2.0
     created: "2024-08-23T10:05:56.159280746Z"
     description: Terminal 是一个在浏览器中直接打开和操作的集群终端，便于管理集群。
     digest: e17e2e66370f417a3fbfe0c35774d3fa912f66458029434e800ffa9d1795d4e7
@@ -1156,6 +1176,16 @@ entries:
   workflow:
   - apiVersion: v2
     appVersion: 0.1.1
+    created: "2024-09-14T02:58:03.672072246Z"
+    description: A Helm chart for TensorStack App - Workflow
+    digest: de61da7ca164aaf4e5d5a5954b6cdf8ccd4f895a84892dd8bac83a4834a5aedb
+    name: workflow
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/workflow-0.1.2/workflow-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 0.1.1
     created: "2024-09-03T00:44:55.176576853Z"
     description: A Helm chart for TensorStack App - Workflow
     digest: 7c54b6607a12f7d50989f6c5fa3effa605f72172dfcfe9f972673d68bd9fe4f9
@@ -1164,4 +1194,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2024-09-11T05:22:19.81062165Z"
+generated: "2024-09-14T02:58:03.672227977Z"
