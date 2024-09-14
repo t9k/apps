@@ -1,0 +1,40 @@
+## @param image.registry Repository registry for the Docker image
+## @param image.repository Repository name for the Docker image
+## @param image.tag Image tag for the Docker image (immutable tags are recommended)
+## @param image.pullPolicy Image pull policy for the Docker image
+##
+image:
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/terminal"
+  tag: "240819"
+  pullPolicy: IfNotPresent
+
+# sh, bash or zsh
+## @param shell Select a shell to start terminal.
+shell: bash
+
+## @param resources.limits.cpu The maximum number of CPU the terminal can use.
+## @param resources.limits.memory The maximum number of memory the terminal can use.
+resources:
+  limits:
+    cpu: 200m
+    memory: 400Mi
+
+## @param pvcs Mount pvcs to terminal.
+pvcs: []
+
+global:
+  t9k:
+    homeURL: "$(T9K_HOME_URL)"
+    securityService:
+      enabled: true
+      endpoints:
+        oidc: "$(T9K_OIDC_ENDPOINT)"
+        securityServer: "$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)"
+    pepProxy:
+      image:
+        registry: "$(T9K_APP_IMAGE_REGISTRY)"
+        repository: "$(T9K_APP_IMAGE_NAMESPACE)/pep-proxy"
+        tag: "1.0.12"
+      args:
+        clientID: $(T9K_APP_AUTH_CLINET_ID)

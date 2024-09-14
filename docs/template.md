@@ -190,6 +190,8 @@ global:
 4. `$(T9K_APP_AUTH_CLINET_ID)`：表示一个 Client ID（OAuth 协议中的概念），需要授权的应用应使用该 Client ID 向授权服务器申请授权。
 5. `$(T9K_HOME_DOMAIN)`：平台的域名。
 6. `$(T9K_AUTH_DOMAIN)`：平台授权服务所在域名。
+7. `$(T9K_APP_IMAGE_REGISTRY)`：安装 APP 时，拉取镜像的 Registry 地址。
+8. `$(T9K_APP_IMAGE_NAMESPACE)`：安装 APP 时，拉取镜像的命名空间或者项目。
 
 ## App 运行检测
 

@@ -60,5 +60,12 @@ global:
 | `global.t9k.securityService.enabled`                 | 启用身份认证后，只有当前项目的成员才可以使用该 Terminal。                      | `true`                                    |
 | `global.t9k.securityService.endpoint.oidc`           | 身份认证所需要的 OIDC 服务地址。                                               | `$(T9K_OIDC_ENDPOINT)`                    |
 | `global.t9k.securityService.endpoint.securityServer` | TensorStack 平台的 Security Console 服务器地址。                               | `$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)` |
-| `global.t9k.pepProxy.image`                          | PEP Proxy 镜像。                                                               | `docker.io/t9kpublic/pep-proxy:1.0.10`    |
+| `image`                                              | Terminal 镜像。                                                                |                                           |
+| `image.registry`                                     | Terminal 镜像注册表。                                                          | `docker.io`                               |
+| `image.repository`                                   | Terminal 镜像仓库。                                                            | `t9kpublic/terminal`                      |
+| `image.tag`                                          | Terminal 镜像标签。                                                            | `240819`                                  |
+| `global.t9k.pepProxy.image`                          | PEP Proxy 镜像。                                                               |                                           |
+| `global.t9k.pepProxy.image.registry`                 | PEP Proxy 镜像注册表。                                                         | `docker.io`                               |
+| `global.t9k.pepProxy.image.repository`               | PEP Proxy 镜像。                                                               | `t9kpublic/pep-proxy`                     |
+| `global.t9k.pepProxy.image.tag`                      | PEP Proxy 镜像。                                                               | `1.0.12`                                  |
 | `global.t9k.pepProxy.args.clientID`                  | Terminal 使用该 Client ID 向授权服务器申请授权。                               | `$(T9K_APP_AUTH_CLINET_ID)`               |

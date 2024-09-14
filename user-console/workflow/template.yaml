@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: workflow
   displayName: Workflow
-  defaultVersion: 0.1.1
+  defaultVersion: 0.1.2
   categories: ["Tool", "AI"]
   description: "Workflow 是一个用于管理工作流的控制台，可执行创建工作流、查看运行状态等操作。"
   icon: "file://$APP_DIR/icon.svg"
@@ -12,8 +12,8 @@ template:
     repo: "oci://docker.io/t9kpublic"
     chart: "workflow"
     versions:
-    - version: 0.1.1
-      config: "file://$APP_DIR/configs/v0_1_1.yaml"
+    - version: 0.1.2
+      config: "file://$APP_DIR/configs/v0_1_2.yaml"
       urls: 
       - name: workflow
         url: /apps/{{ .Release.Namespace }}/workflow/{{ .Release.Name }}/web/

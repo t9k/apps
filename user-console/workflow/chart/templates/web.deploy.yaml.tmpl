@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: workflow-web
-        image: {{ .Values.app.image }}
+        image: {{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}
         command: ["/app/spa-server"]
         ports:
           - name: http
@@ -46,7 +46,7 @@ spec:
         - --oidc-issuer-url={{ .Values.network.domain.auth }}/auth/realms/t9k-realm
         - --security-server-address={{ .Values.network.domain.home }}/t9k/security/server
         - --pep-config=/t9kconfig/pep-config.yaml
-        image: {{ .Values.authorization.pepProxy.image }}
+        image: {{ .Values.authorization.pepProxy.image.registry }}/{{ .Values.authorization.pepProxy.image.repository }}:{{ .Values.authorization.pepProxy.image.tag }}
         imagePullPolicy: {{ .Values.app.imagePullPolicy }}
         name: pep-proxy
         ports:

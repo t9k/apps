@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: workflow-server
-        image: {{ .Values.app.image }}
+        image: {{ .Values.app.image.registry }}/{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}
         command: ["/app/workflow-server"]
         args:
           - "--show-error-trace"
@@ -54,7 +54,7 @@ spec:
         - --oidc-issuer-url={{ .Values.network.domain.auth }}/auth/realms/t9k-realm
         - --pep-config=/t9kconfig/pep-config.yaml
         - --pass-authorization-header
-        image: {{ .Values.authorization.pepProxy.image }}
+        image: {{ .Values.authorization.pepProxy.image.registry }}/{{ .Values.authorization.pepProxy.image.repository }}:{{ .Values.authorization.pepProxy.image.tag }}
         imagePullPolicy: {{ .Values.app.imagePullPolicy }}
         name: pep-proxy
         ports:

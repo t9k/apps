@@ -2,7 +2,10 @@ authorization:
   enabled: true
   clientID: "t9k-client"
   pepProxy:
-    image: "docker.io/t9kpublic/pep-proxy:1.0.12"
+    image: 
+      registry: "docker.io"
+      repository: "t9kpublic/pep-proxy"
+      tag: "1.0.12"
     imagePullPolicy: IfNotPresent
 
 network:
@@ -13,7 +16,10 @@ network:
 
 app:
   serviceAccount: managed-project-sa
-  image: "docker.io/t9kpublic/workflow-app:240830"
+  image: 
+    registry: "docker.io"
+    repository: "t9kpublic/workflow-app"
+    tag: "240830"
   imagePullPolicy: IfNotPresent
 
 docs: "https://t9k.github.io/ucman/latest/api/workflow/index.html"

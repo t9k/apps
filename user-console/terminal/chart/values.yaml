@@ -1,6 +1,6 @@
 image:
-  registry: docker.io
-  repository: t9kpublic/terminal
+  registry: "docker.io"
+  repository: "t9kpublic/terminal"
   tag: "240819"
   pullPolicy: IfNotPresent
 
@@ -30,6 +30,9 @@ global:
         oidc: ""
         securityServer: ""
     pepProxy:
-      image: "docker.io/t9kpublic/pep-proxy:1.0.12"
+      image:
+        registry: "docker.io"
+        repository: "t9kpublic/pep-proxy"
+        tag: "1.0.12"
       args:
         clientID: ""
