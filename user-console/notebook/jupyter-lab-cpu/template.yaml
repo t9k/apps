@@ -12,25 +12,6 @@ template:
     repo: "oci://docker.io/t9kpublic"
     chart: "jupyterlab-cpu"
     versions:
-    - version: 0.2.1
-      config: "file://$APP_DIR/configs/v0_2_0.yaml"
-      urls: 
-      - name: "jupyter"
-        url: "/t9k/notebooks/projects/{{ .Release.Namespace }}/name/{{ .Release.Name }}/lab"
-      readinessProbe:
-        resources:
-        - group: tensorstack.dev
-          version: v1beta1
-          resource: notebooks
-          name: "{{ .Release.Name }}"
-          message: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .message }}{{- end }}{{- end }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies:
-        crds:
-        - group: tensorstack.dev
-          version: v1beta1
-          resource: notebooks
     - version: 0.2.0
       config: "file://$APP_DIR/configs/v0_2_0.yaml"
       urls: 
