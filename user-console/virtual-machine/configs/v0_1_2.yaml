@@ -1,11 +1,17 @@
 rootDisk:
+  containerDisk:
+    enabled: false
+    image:
+      registry: "$(T9K_APP_IMAGE_REGISTRY)"
+      repository: "$(T9K_APP_IMAGE_NAMESPACE)/fedora-cloud-container-disk-demo"
+      tag: v0.36.4
   dataVolume:
     enabled: true
     fromOCIRegistry:
       enabled: true
       image:
-        registry: registry.cn-hangzhou.aliyuncs.com
-        repository: t9k/ubuntu-server-cloud
+        registry: "$(T9K_APP_IMAGE_REGISTRY)"
+        repository: "$(T9K_APP_IMAGE_NAMESPACE)/ubuntu-server-cloud"
         tag: 20.04-240819
 
 resources:

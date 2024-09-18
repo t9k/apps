@@ -21,8 +21,8 @@ spec:
     spec:
       containers:
       - name: server
-        image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        image: "{{ .Values.server.image.registry }}/{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
         args:
           - --model=/var/lib/t9k/model
           - --served-model-name={{ .Values.model.deployName }}

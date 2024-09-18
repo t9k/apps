@@ -49,17 +49,20 @@ app:
 
 ### 字段
 
-| 名称                                | 描述                              | 值                 |
-| ----------------------------------- | --------------------------------- | ------------------ |
-| `replicaCount`                      | 部署的副本数量                    | `1`                |
-| `image.registry`                    | Docker 镜像的仓库注册表           | `docker.io`        |
-| `image.repository`                  | Docker 镜像的仓库名称             | `vllm/vllm-openai` |
-| `image.tag`                         | Docker 镜像的标签                 | `v0.5.4`           |
-| `image.pullPolicy`                  | Docker 镜像的拉取策略             | `IfNotPresent`     |
-| `resources.limits.cpu`              | Kubernetes 资源的 CPU 限制        | `4`                |
-| `resources.limits.memory`           | Kubernetes 资源的内存限制         | `64Gi`             |
-| `resources.limits."nvidia.com/gpu"` | Kubernetes 资源的 NVIDIA GPU 限制 | `1`                |
-| `model.deployName`                  | 模型部署的名称                    | `llama3-1-8b`      |
-| `model.existingClaim`               | 包含模型文件的 PVC                | `vllm-llama3-1`    |
-| `model.subPath`                     | PVC 中模型文件所在的子路径        | `""`               |
-| `app.extraArgs`                     | 为 vLLM engine 设置的额外参数     | `[]`               |
+| 名称                                | 描述                              | 值                      |
+| ----------------------------------- | --------------------------------- | ----------------------- |
+| `replicaCount`                      | 部署的副本数量                    | `1`                     |
+| `server.image.registry`             | vllm 镜像的注册表                 | `docker.io`             |
+| `server.image.repository`           | vllm 镜像的仓库                   | `t9kpublic/vllm-openai` |
+| `server.image.tag`                  | vllm 镜像的标签                   | `v0.5.4`                |
+| `busybox.image.registry`            | busybox 镜像的注册表              | `docker.io`             |
+| `busybox.image.repository`          | busybox 镜像的仓库                | `t9kpublic/busybox`     |
+| `busybox.image.tag`                 | busybox 镜像的标签                | `20240913`              |
+| `imagePullPolicy`                   | Docker 镜像的拉取策略             | `IfNotPresent`          |
+| `resources.limits.cpu`              | Kubernetes 资源的 CPU 限制        | `4`                     |
+| `resources.limits.memory`           | Kubernetes 资源的内存限制         | `64Gi`                  |
+| `resources.limits."nvidia.com/gpu"` | Kubernetes 资源的 NVIDIA GPU 限制 | `1`                     |
+| `model.deployName`                  | 模型部署的名称                    | `llama3-1-8b`           |
+| `model.existingClaim`               | 包含模型文件的 PVC                | `vllm-llama3-1`         |
+| `model.subPath`                     | PVC 中模型文件所在的子路径        | `""`                    |
+| `app.extraArgs`                     | 为 vLLM engine 设置的额外参数     | `[]`                    |

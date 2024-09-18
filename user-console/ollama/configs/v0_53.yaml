@@ -1,3 +1,11 @@
+image:
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/ollama"
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "0.3.6"
+  pullPolicy: IfNotPresent
+
+
 ## @param resources.requests.cpu CPU request for the Ollama server pod
 ## @param resources.requests.memory Memory request for the Ollama server pod
 ## @param resources.limits.cpu CPU limit for the Ollama server pod

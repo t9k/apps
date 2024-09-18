@@ -7,7 +7,7 @@ authorization:
   enabled: true
   clientID: "t9k-client"
   pepProxy:
-    image: 
+    image:
       registry: "docker.io"
       repository: "t9kpublic/pep-proxy"
       tag: "1.0.12"
@@ -23,7 +23,7 @@ web:
   image:
     registry: "docker.io"
     repository: "t9kpublic/service-manager-web"
-    tag: "240815"  
+    tag: "240815"
     pullPolicy: IfNotPresent
   resourceTemplates:
     - name: smaller

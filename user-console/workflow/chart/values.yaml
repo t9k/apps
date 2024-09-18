@@ -2,7 +2,7 @@ authorization:
   enabled: true
   clientID: "t9k-client"
   pepProxy:
-    image: 
+    image:
       registry: "docker.io"
       repository: "t9kpublic/pep-proxy"
       tag: "1.0.12"
@@ -16,7 +16,7 @@ network:
 
 app:
   serviceAccount: managed-project-sa
-  image: 
+  image:
     registry: "docker.io"
     repository: "t9kpublic/workflow-app"
     tag: "240830"

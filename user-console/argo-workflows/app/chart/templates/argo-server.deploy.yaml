@@ -21,7 +21,7 @@ spec:
         - --configmap={{ .Release.Name }}
         - --basehref=/apps/{{ .Release.Namespace }}/argo-workflows/{{ .Release.Name }}/
         env: []
-        image: {{ .Values.server.image }}
+        image: {{ .Values.server.image.registry }}/{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}
         name: argo-server
         ports:
         - containerPort: 2746
