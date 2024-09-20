@@ -1,0 +1,21 @@
+image:
+  registry: tsz.io
+  repository: t9k/codeserver
+  tag: "4.23.1"
+  pullPolicy: IfNotPresent
+
+pvc: ""
+
+resources:
+  limits:
+    cpu: 16
+    memory: 32Gi
+
+nodeSelector: []
+
+service:
+  type: ClusterIP
+  port: 8080
+
+podSecurityContext:
+  fsGroup: 2000
