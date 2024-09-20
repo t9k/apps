@@ -21,6 +21,17 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/autotune-0.1.1/autotune-0.1.1.tgz
     version: 0.1.1
+  code-server:
+  - apiVersion: v2
+    appVersion: 4.23.1
+    created: "2024-09-20T07:09:02.69586881Z"
+    description: Code Server 是一个基于浏览器的 VSCode 环境。
+    digest: 538d7f3011bdf97862aa7a5072bec97d3af14768aac17ac5480ad5a22914feed
+    name: code-server
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/code-server-0.3.0/code-server-0.3.0.tgz
+    version: 0.3.0
   comfyui:
   - apiVersion: v2
     appVersion: "20240708"
@@ -1204,4 +1215,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2024-09-14T10:50:40.058015057Z"
+generated: "2024-09-20T07:09:02.81759818Z"
