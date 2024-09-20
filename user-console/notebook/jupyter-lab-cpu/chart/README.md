@@ -18,7 +18,7 @@ JupyterLab (CPU) 仅配置了 CPU。如要使用 NVIDIA GPU，请切换到 [Jupy
 
 ### 示例
 
-选用 PyTorch 环境，申请 16 个 CPU（核心）、32 GiB 内存资源，挂载存储卷 `tutorial`：
+选用 PyTorch 环境，挂载 PVC `tutorial`，申请 16 个 CPU（核心）、32 GiB 内存资源：
 
 ```yaml
 image:
@@ -40,7 +40,7 @@ ssh:
   serviceType: ClusterIP
 ```
 
-选用 conda 环境，申请 4 个 CPU（核心）、8 GiB 内存资源，挂载存储卷 `demo`，启用 ClusterIP 类型的 SSH 服务：
+选用 conda 环境，挂载 PVC `demo`，申请 4 个 CPU（核心）、8 GiB 内存资源，启用 ClusterIP 类型的 SSH 服务：
 
 ```yaml
 image:
@@ -71,9 +71,9 @@ ssh:
 | `image.repository`        | JupyterLab 容器镜像仓库。                                     | `t9kpublic/torch-2.1.0-notebook` |
 | `image.tag`               | JupyterLab 容器镜像标签。                                     | `20240716`                       |
 | `image.pullPolicy`        | JupyterLab 容器镜像拉取策略。                                 | `IfNotPresent`                   |
+| `pvc`                     | 挂载到 JupyterLab 上的 PVC 名称，作为 JupyterLab 的工作空间。 | `""`                             |
 | `resources.limits.cpu`    | JupyterLab 最多能使用的 CPU 数量。                            | `16`                             |
 | `resources.limits.memory` | JupyterLab 最多能使用的内存数量。                             | `32Gi`                           |
-| `pvc`                     | 挂载到 JupyterLab 上的 PVC 名称，作为 JupyterLab 的工作空间。 | `""`                             |
 | `ssh.enabled`             | 是否为 JupyterLab 启用 SSH 服务。                             | `false`                          |
 | `ssh.authorizedKeys`      | 一系列记录 SSH 公钥的 K8s Secret 资源。                       | `[]`                             |
 | `ssh.serviceType`         | SSH 服务类型，支持 ClusterIP 和 NodePort 两种。               | `ClusterIP`                      |

@@ -6,7 +6,7 @@ metadata:
   categories: 
   - IDE
   description: "JupyterLab (Hygon DCU) 是一个基于 Web 的开发环境，适用于 Hygon DCU 的计算任务。"
-  icon: "file://$APP_DIR/icon.svg"
+  icon: "file://$APP_DIR/icon-dcu.png"
 template:
   helm: 
     repo: "oci://docker.io/t9kpublic"

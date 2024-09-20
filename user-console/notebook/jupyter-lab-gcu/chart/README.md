@@ -16,7 +16,7 @@ JupyterLab (Enflame GCU) 额外配置了燧原 GCU，你可以在其中进行 GC
 
 ### 示例
 
-选用 PyTorch 环境，申请 16 个 CPU（核心）、32 GiB 内存资源以及 1 个燧原 GCU，挂载存储卷 `tutorial`：
+选用 PyTorch 环境，挂载 PVC `tutorial`，申请 16 个 CPU（核心）、32 GiB 内存资源以及 1 个燧原 GCU：
 
 ```yaml
 image:
@@ -39,7 +39,7 @@ ssh:
   serviceType: ClusterIP
 ```
 
-选用 PyTorch 环境，申请 4 个 CPU（核心）、8 GiB 内存资源以及 1 个燧原 GCU，挂载存储卷 `demo`，启用 ClusterIP 类型的 SSH 服务：
+选用 PyTorch 环境，挂载 PVC `demo`，申请 4 个 CPU（核心）、8 GiB 内存资源以及 1 个燧原 GCU，启用 ClusterIP 类型的 SSH 服务：
 
 ```yaml
 image:

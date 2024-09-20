@@ -6,7 +6,7 @@ metadata:
   categories: 
   - IDE
   description: "JupyterLab (NVIDIA GPU) 是一个基于 Web 的交互式开发环境，适用于 NVIDIA GPU 的计算任务。"
-  icon: "file://$APP_DIR/icon.svg"
+  icon: "file://$APP_DIR/icon-gpu.svg"
 template:
   helm: 
     repo: "oci://docker.io/t9kpublic"
