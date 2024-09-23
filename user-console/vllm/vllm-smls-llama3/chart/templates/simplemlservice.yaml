@@ -38,12 +38,16 @@ spec:
           httpGet:
             path: /health
             port: http
-          initialDelaySeconds: 60
+          initialDelaySeconds: 30
+          periodSeconds: 15
+          failureThreshold: 5
         readinessProbe:
           httpGet:
             path: /health
             port: http
-          initialDelaySeconds: 60
+          initialDelaySeconds: 30
+          periodSeconds: 15
+          failureThreshold: 5
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
         volumeMounts:
