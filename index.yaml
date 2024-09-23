@@ -97,6 +97,16 @@ entries:
     version: 0.3.7
   fish-speech:
   - apiVersion: v2
+    appVersion: 1.4.1
+    created: "2024-09-23T09:22:14.449773574Z"
+    description: Fish Speech 是一套全新的 TTS 解决方案，支持无微调的音色克隆。
+    digest: e134ff1615cd18daee845c58fe5351c1d1a41c471083280cca9922e974bca9b3
+    name: fish-speech
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/fish-speech-0.2.1/fish-speech-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
     appVersion: "1.2"
     created: "2024-08-22T02:35:38.91159008Z"
     description: Fish Speech 是一套全新的 TTS 解决方案，支持无微调的音色克隆。
@@ -274,6 +284,17 @@ entries:
     - https://github.com/t9k/apps/releases/download/llama-cpp-server-0.1.0/llama-cpp-server-0.1.0.tgz
     version: 0.1.0
   nextchat:
+  - apiVersion: v2
+    appVersion: 2.15.2
+    created: "2024-09-23T09:22:14.63528446Z"
+    description: NextChat 是一个设计精良的 ChatGPT 网页 UI，支持多种聊天服务，包括 ChatGPT、Claude、Gemini
+      和本地推理服务。
+    digest: 19f31b1390ba313eb8ba8ace41f2912d8a9e89e2f671ee9b44d5d1c56093d5c8
+    name: nextchat
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/nextchat-0.2.1/nextchat-0.2.1.tgz
+    version: 0.2.1
   - apiVersion: v2
     appVersion: 2.12.2
     created: "2024-08-22T02:35:39.23313517Z"
@@ -1225,4 +1246,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2024-09-23T05:58:31.892278523Z"
+generated: "2024-09-23T09:22:14.635494663Z"
