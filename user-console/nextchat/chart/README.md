@@ -65,7 +65,7 @@ env: []
 | `replicaCount`             | 副本数量                                                | `1`                        |
 | `image.registry`           | Docker 镜像的存储库                                     | `docker.io`                |
 | `image.repository`         | Docker 镜像的存储库名称                                 | `yidadaa/chatgpt-next-web` |
-| `image.tag`                | Docker 镜像的标签                                       | `v2.14.2`                  |
+| `image.tag`                | Docker 镜像的标签                                       | `v2.15.2`                  |
 | `image.pullPolicy`         | Docker 镜像的拉取策略                                   | `IfNotPresent`             |
 | `service.type`             | Kubernetes 服务的类型                                   | `ClusterIP`                |
 | `service.port`             | Kubernetes 服务的端口                                   | `3000`                     |

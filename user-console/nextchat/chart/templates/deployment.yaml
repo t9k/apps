@@ -48,6 +48,8 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
+            - name: HOSTNAME
+              value: "0.0.0.0"
             {{- include "nextchat.envs" . | nindent 12 }}
             {{- if gt (len .Values.env) 0 }}
             {{- toYaml .Values.env | nindent 12 }}

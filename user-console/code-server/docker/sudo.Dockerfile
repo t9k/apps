@@ -10,6 +10,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -yq --no-install-recommends \
     apt-transport-https \
+    bmon \
+    curl \
     dumb-init \
     emacs \
     git \

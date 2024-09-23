@@ -1,6 +1,6 @@
 # Fish Speech
 
-[Fish Speech](https://github.com/fishaudio/fish-speech) 是一套全新的 TTS 解决方案，包括模型、微调工具和推理工具。Fish Speech v1.2 模型在 30 万小时的英语、汉语和日语音频数据上训练，实现了接近人类水平的语音合成效果。
+[Fish Speech](https://github.com/fishaudio/fish-speech) 是一套全新的 TTS 解决方案，包括模型、微调工具和推理工具。[Fish Speech v1.4](https://huggingface.co/fishaudio/fish-speech-1.4) 模型在 70 万小时的多语言音频数据上训练，实现了接近人类水平的语音合成效果。
 
 Fish Speech 的优势包括：
 
@@ -36,7 +36,7 @@ resources:
 | ----------------------------------- | --------------------------------- | ----------------------- |
 | `image.registry`                    | Docker 镜像的存储库               | `docker.io`             |
 | `image.repository`                  | Docker 镜像的存储库名称           | `t9kpublic/fish-speech` |
-| `image.tag`                         | Docker 镜像的标签                 | `v1.2`                  |
+| `image.tag`                         | Docker 镜像的标签                 | `v1.4.1`                |
 | `image.pullPolicy`                  | Docker 镜像的拉取策略             | `IfNotPresent`          |
 | `service.type`                      | Kubernetes 服务的类型             | `ClusterIP`             |
 | `service.port`                      | Kubernetes 服务的端口             | `7860`                  |

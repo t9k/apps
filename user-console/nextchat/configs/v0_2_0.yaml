@@ -39,6 +39,5 @@ llm:
 ## @param env Array of extra environment variables
 ##
 env: []
-  # # 代理 URL，例如 "http://127.0.0.1:7890"
   # - name: PROXY_URL
   #   value: ""
