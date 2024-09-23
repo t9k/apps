@@ -1,15 +1,3 @@
-## @param image.registry Repository registry for the Docker image
-## @param image.repository Repository name for the Docker image
-## @param image.tag Image tag for the Docker image (immutable tags are recommended)
-## @param image.pullPolicy Image pull policy for the Docker image
-##
-image:
-  registry: docker.io
-  repository: t9kpublic/vllm-openai
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "v0.6.1.post2"
-  pullPolicy: IfNotPresent
-
 ## @param resources.limits.cpu CPU limit for Kubernetes resources
 ## @param resources.limits.memory Memory limit for Kubernetes resources
 ## @param resources.limits."nvidia.com/gpu" NVIDIA GPU limit for Kubernetes resources
@@ -97,7 +85,6 @@ model:
     # 引用 s3-env 类型的 Secret 的键值
     existingSecret: ""
 
-<<<<<<< HEAD
 ## @param app.extraArgs Extra arguments for the vLLM engine
 ##
 app:
@@ -111,8 +98,6 @@ app:
     # - "--quantization=bitsandbytes"
     # - "--load-format=bitsandbytes"
 
-=======
->>>>>>> f0b8322 (Support custom registry)
 ## @param env Array of extra environment variables
 ##
 env: []

@@ -55,9 +55,6 @@ app:
 | `server.image.registry`             | vllm 镜像的注册表                 | `docker.io`             |
 | `server.image.repository`           | vllm 镜像的仓库                   | `t9kpublic/vllm-openai` |
 | `server.image.tag`                  | vllm 镜像的标签                   | `v0.5.4`                |
-| `busybox.image.registry`            | busybox 镜像的注册表              | `docker.io`             |
-| `busybox.image.repository`          | busybox 镜像的仓库                | `t9kpublic/busybox`     |
-| `busybox.image.tag`                 | busybox 镜像的标签                | `20240913`              |
 | `imagePullPolicy`                   | Docker 镜像的拉取策略             | `IfNotPresent`          |
 | `resources.limits.cpu`              | Kubernetes 资源的 CPU 限制        | `4`                     |
 | `resources.limits.memory`           | Kubernetes 资源的内存限制         | `64Gi`                  |

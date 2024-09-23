@@ -8,19 +8,16 @@ resources:
     memory: 64Gi
     nvidia.com/gpu: 1
 
+## @param server.image.registry Repository registry for the Docker image
+## @param server.image.repository Repository name for the Docker image
+## @param server.image.tag Image tag for the Docker image (immutable tags are recommended)
+##
 server:
   image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
     # Overrides the image tag whose default is the chart appVersion.
     tag: "v0.5.4"
-
-busybox:
-  image:
-    registry: "$(T9K_APP_IMAGE_REGISTRY)"
-    repository: "$(T9K_APP_IMAGE_NAMESPACE)/busybox"
-    # Overrides the image tag whose default is the chart appVersion.
-    tag: "20240913"
 
 ## @param model.deployName Name by which the model is deployed
 ## @param model.existingClaim PVC containing the model files
