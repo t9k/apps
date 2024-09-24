@@ -36,6 +36,10 @@ vLLM 无缝支持 HuggingFace 上大多数流行的开源模型，包括：
 
 ## 配置
 
+### 前提条件
+
+NVIDIA GPU 的[计算能力（compute capability）](https://developer.nvidia.com/cuda-gpus#compute)达到 7.0 及以上，即 NVIDIA V100、NVIDIA TITAN V、Geforce RTX 20 系及之后的产品。
+
 ### 说明
 
 考虑两种情况：
