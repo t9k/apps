@@ -10,7 +10,7 @@ replicaCount: 1
 server:
   image:
     registry: docker.io
-    repository: vllm/vllm-openai
+    repository: t9kpublic/vllm-openai
     # Overrides the image tag whose default is the chart appVersion.
     tag: "v0.5.4"
 
