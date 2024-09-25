@@ -16,4 +16,5 @@ TensorStack AI 平台的 User Console 提供了运行 **应用（Apps）** 的�
 * [Apps 的注册和注销](../docs/register.md)
 * [Apps 模版的格式](../docs/template.md)
 * [Apps 开发](../docs/dev.md)
+* [Apps 发布](../docs/release.md)
 * [命令行工具 - t9k-app](../docs/appendix.md)
