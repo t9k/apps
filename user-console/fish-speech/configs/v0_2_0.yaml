@@ -1,3 +1,12 @@
+## @param image.registry Docker registry for the image
+## @param image.repository Repository name for the image
+## @param image.tag Tag for the image version
+##
+image:
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/fish-speech"
+  tag: "v1.2"
+
 ## @param resources.limits.cpu CPU limit for Kubernetes resources
 ## @param resources.limits.memory Memory limit for Kubernetes resources
 ## @param resources.limits."nvidia.com/gpu" NVIDIA GPU limit for Kubernetes resources

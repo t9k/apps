@@ -7,4 +7,4 @@ web:
   image:
     registry: "docker.io"
     repository: "t9kpublic/service-manager-web"
-    tag: "240815"  
+    tag: "240815"

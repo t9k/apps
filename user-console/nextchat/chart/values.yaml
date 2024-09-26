@@ -10,7 +10,7 @@ replicaCount: 1
 image:
   registry: docker.io
   repository: yidadaa/chatgpt-next-web
-  tag: "v2.14.2"
+  tag: "v2.15.2"
   pullPolicy: IfNotPresent
 
 ## @param service.type Service type for the Kubernetes service
@@ -79,6 +79,5 @@ llm:
 ## @param env Array of extra environment variables
 ##
 env: []
-  # # 代理 URL，例如 "http://127.0.0.1:7890"
   # - name: PROXY_URL
   #   value: ""

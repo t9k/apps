@@ -1,10 +1,7 @@
-ARG VERSION=4.92.2
-
-FROM codercom/code-server:${VERSION} as codeserver
+FROM codercom/code-server:4.92.2 as codeserver
 
 ARG BUILD_SDK_RELEASE=1.78.7
 
-# FROM tsz.io/t9k/build-sdk:${BUILD_SDK_RELEASE} as buildsdk
 FROM tsz.io/t9k/build-sdk:1.78.7 as buildsdk
 
 FROM pytorch/pytorch:2.4.1-cuda12.1-cudnn9-devel
@@ -13,6 +10,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -yq --no-install-recommends \
     apt-transport-https \
+    bmon \
+    curl \
     dumb-init \
     emacs \
     git \

@@ -10,7 +10,7 @@
 
 网页 UI 的使用方法请参阅 [RStudio User Guide](https://docs.posit.co/ide/user/)。
 
-除了网页 UI，App 还支持通过 SSH 远程连接（需要启用 SSH 服务），让你能够使用熟悉的本地终端或 IDE，像在本地开发一样进行远程开发。限于篇幅，具体步骤请参阅[如何通过 SSH 远程连接](https://t9k.github.io/ucman/latest/reference/faq/faq-in-jupyterlab-usage.html#%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87-ssh-%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5)。
+除了网页 UI，App 还支持通过 SSH 远程连接（需要启用 SSH 服务），让你能够使用熟悉的本地终端或 IDE，像在本地开发一样进行远程开发。限于篇幅，具体步骤请参阅[如何通过 SSH 远程连接](https://t9k.github.io/ucman/latest/reference/faq/faq-in-ide-usage.html#%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87-ssh-%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5)。
 
 ## 配置
 
@@ -81,6 +81,15 @@ ssh:
 
 当前应用可以选用以下镜像：
 
-| 名称                                    | 环境      |
-| --------------------------------------- | --------- |
-| `t9kpublic/rocker-4.2.3-rstudio:1.72.1` | R, Python |
+| 名称                                           |
+| ---------------------------------------------- |
+| `t9kpublic/rocker-4.2.3-rstudio:1.72.1`        |
+| `t9kpublic/rocker-4.2.3-rstudio:1.72.1-sudo`   |
+| `t9kpublic/rocker-4.2.3-tidyverse:1.72.1`      |
+| `t9kpublic/rocker-4.2.3-tidyverse:1.72.1-sudo` |
+| `t9kpublic/rocker-4.2.3-verse:1.72.1`          |
+| `t9kpublic/rocker-4.2.3-verse:1.72.1-sudo`     |
+| `t9kpublic/rocker-4.2.3-ml:1.72.1`             |
+| `t9kpublic/rocker-4.2.3-ml:1.72.1-sudo`        |
+
+每个镜像都包含 RStudio，以及 R 和 Python 环境，预装了一些命令行工具。关于这些镜像的更多信息，请参阅 [The Rocker Images](https://rocker-project.org/images/)。

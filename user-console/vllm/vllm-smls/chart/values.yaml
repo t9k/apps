@@ -2,17 +2,31 @@
 ##
 replicaCount: 1
 
-## @param image.registry Repository registry for the Docker image
-## @param image.repository Repository name for the Docker image
-## @param image.tag Image tag for the Docker image (immutable tags are recommended)
-## @param image.pullPolicy Image pull policy for the Docker image
+## @param server.image.registry Repository registry for the Docker image
+## @param server.image.repository Repository name for the Docker image
+## @param server.image.tag Image tag for the Docker image (immutable tags are recommended)
 ##
-image:
-  registry: docker.io
-  repository: t9kpublic/vllm-openai
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "v0.6.1.post2"
-  pullPolicy: IfNotPresent
+server:
+  image:
+    registry: docker.io
+    repository: t9kpublic/vllm-openai
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "v0.5.4"
+
+## @param kubectl.image.registry Repository registry for the Docker image
+## @param kubectl.image.repository Repository name for the Docker image
+## @param kubectl.image.tag Image tag for the Docker image (immutable tags are recommended)
+##
+kubectl:
+  image:
+    registry: docker.io
+    repository: t9kpublic/kubectl
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "1.27"
+
+## @param imagePullPolicy Image pull policy for the Docker image
+##
+imagePullPolicy: IfNotPresent
 
 ## @param resources.limits.cpu CPU limit for Kubernetes resources
 ## @param resources.limits.memory Memory limit for Kubernetes resources

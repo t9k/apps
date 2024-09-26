@@ -4,29 +4,29 @@
 
 vLLM 的速度优势包括：
 
-* 最先进的服务吞吐量
-* 使用 PagedAttention 高效管理注意力键和值内存
-* 连续批处理传入请求
-* 使用 CUDA/HIP 图实现快速模型执行
-* 量化技术：GPTQ、AWQ、SqueezeLLM、FP8 KV 缓存
-* 优化的 CUDA 内核
+- 最先进的服务吞吐量
+- 使用 PagedAttention 高效管理注意力键和值内存
+- 连续批处理传入请求
+- 使用 CUDA/HIP 图实现快速模型执行
+- 量化技术：GPTQ、AWQ、SqueezeLLM、FP8 KV 缓存
+- 优化的 CUDA 内核
 
 vLLM 灵活且易用，具备以下特点：
 
-* 无缝集成流行的 Hugging Face 模型
-* 使用多种解码算法（包括并行采样、束搜索等）进行高吞吐量服务
-* 支持分布式推理的张量并行
-* 流式输出
-* 兼容 OpenAI 的 API 服务器
-* 支持 NVIDIA 和 AMD GPUs
-* （实验性）前缀缓存支持
-* （实验性）多 lora 支持
+- 无缝集成流行的 Hugging Face 模型
+- 使用多种解码算法（包括并行采样、束搜索等）进行高吞吐量服务
+- 支持分布式推理的张量并行
+- 流式输出
+- 兼容 OpenAI 的 API 服务器
+- 支持 NVIDIA 和 AMD GPUs
+- （实验性）前缀缓存支持
+- （实验性）多 lora 支持
 
 vLLM 无缝支持 HuggingFace 上大多数流行的开源模型，包括：
 
-* 类 Transformer 的 LLM（例如 Llama）
-* 专家混合 LLM（例如 Mixtral）
-* 多模态 LLM（例如 LLaVA）
+- 类 Transformer 的 LLM（例如 Llama）
+- 专家混合 LLM（例如 Mixtral）
+- 多模态 LLM（例如 LLaVA）
 
 ## 使用方法
 
@@ -35,6 +35,10 @@ vLLM 无缝支持 HuggingFace 上大多数流行的开源模型，包括：
 验证成功，此时推理服务可以作为 OpenAI API 的替代，即可以使用 `http://$ENDPOINT` 替代 `https://api.openai.com`。
 
 ## 配置
+
+### 前提条件
+
+NVIDIA GPU 的[计算能力（compute capability）](https://developer.nvidia.com/cuda-gpus#compute)达到 7.0 及以上，即 NVIDIA V100、NVIDIA TITAN V、Geforce RTX 20 系及之后的产品。
 
 ### 说明
 
@@ -92,10 +96,13 @@ env:
 | 名称                                | 描述                                           | 值                      |
 | ----------------------------------- | ---------------------------------------------- | ----------------------- |
 | `replicaCount`                      | 副本数量                                       | `1`                     |
-| `image.registry`                    | Docker 镜像的存储库                            | `docker.io`             |
-| `image.repository`                  | Docker 镜像的存储库名称                        | `t9kpublic/vllm-openai` |
-| `image.tag`                         | Docker 镜像的标签                              | `v0.6.1.post2`          |
-| `image.pullPolicy`                  | Docker 镜像的拉取策略                          | `IfNotPresent`          |
+| `server.image.registry`             | vllm 镜像的注册表                              | `docker.io`             |
+| `server.image.repository`           | vllm 镜像的仓库                                | `t9kpublic/vllm-openai` |
+| `server.image.tag`                  | vllm 镜像的标签                                | `v0.5.4`                |
+| `kubectl.image.registry`            | kubectl 镜像的注册表                           | `docker.io`             |
+| `kubectl.image.repository`          | kubectl 镜像的仓库                             | `t9kpublic/kubectl`     |
+| `kubectl.image.tag`                 | kubectl 镜像的标签                             | `1.27`                  |
+| `imagePullPolicy`                   | Docker 镜像的拉取策略                          | `IfNotPresent`          |
 | `resources.limits.cpu`              | Kubernetes 资源的 CPU 限制                     | `4`                     |
 | `resources.limits.memory`           | Kubernetes 资源的内存限制                      | `64Gi`                  |
 | `resources.limits."nvidia.com/gpu"` | Kubernetes 资源的 NVIDIA GPU 限制              | `1`                     |

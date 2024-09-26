@@ -1,3 +1,6 @@
 server:
   serviceAccount: managed-project-sa
-  image: "quay.io/argoproj/argocli:v3.5.10"
+  image:
+    registry: "docker.io"
+    repository: "t9kpublic/argocli"
+    tag: "v3.5.10"
