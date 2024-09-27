@@ -105,8 +105,8 @@ RUN set -x; cd "$(mktemp -d)" \
 RUN echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' > ~/.bashrc
 RUN echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' > ~/.zshrc
 
-RUN echo 'alias k=kubectl' > ~/.bashrc
-RUN echo 'alias k=kubectl' > ~/.zshrc
+RUN echo 'alias k=kubectl' >> ~/.bashrc
+RUN echo 'alias k=kubectl' >> ~/.zshrc
 
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 ENV PS1='\[\e[1;32m\][${PWD} \u@\h]\n\$ \[\e[0m\]'
