@@ -24,6 +24,16 @@ entries:
   code-server:
   - apiVersion: v2
     appVersion: 4.23.1
+    created: "2024-09-30T08:08:13.720992703Z"
+    description: Code Server 是一个基于浏览器的 VSCode 环境。
+    digest: ca3517ffeae101164f5320f30f0af773ffea378450edf93c73c35dee7fff20ca
+    name: code-server
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/code-server-0.3.1/code-server-0.3.1.tgz
+    version: 0.3.1
+  - apiVersion: v2
+    appVersion: 4.23.1
     created: "2024-09-20T07:09:02.69586881Z"
     description: Code Server 是一个基于浏览器的 VSCode 环境。
     digest: 538d7f3011bdf97862aa7a5072bec97d3af14768aac17ac5480ad5a22914feed
@@ -1256,4 +1266,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2024-09-24T05:19:49.872839046Z"
+generated: "2024-09-30T08:08:14.06616191Z"
