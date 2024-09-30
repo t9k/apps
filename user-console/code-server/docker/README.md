@@ -7,6 +7,6 @@
 执行以下命令：
 
 ```bash
-docker build . -t t9kpublic/code-server:20240923
-docker build . -f sudo.Dockerfile -t t9kpublic/code-server:20240923-sudo
+docker build . -t t9kpublic/code-server:20240930
+docker build . -f sudo.Dockerfile -t t9kpublic/code-server:20240930-sudo
 ```

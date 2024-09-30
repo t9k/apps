@@ -12,8 +12,8 @@ template:
     repo: "oci://docker.io/t9kpublic"
     chart: "code-server"
     versions:
-    - version: 0.3.0
-      config: "file://$APP_DIR/configs/v0_3_0.yaml"
+    - version: 0.3.1
+      config: "file://$APP_DIR/configs/v0_3_1.yaml"
       urls: 
       - name: UI
         url: /apps/{{ .Release.Namespace }}/code-server/{{ .Release.Name }}/

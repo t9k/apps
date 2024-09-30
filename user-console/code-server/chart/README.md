@@ -20,7 +20,7 @@
 image:
   registry: docker.io
   repository: t9kpublic/code-server
-  tag: "20240923"
+  tag: "20240930"
   pullPolicy: IfNotPresent
 
 pvc: "tutorial"
@@ -41,7 +41,7 @@ nodeSelector:
 image:
   registry: docker.io
   repository: t9kpublic/code-server
-  tag: "20240923"
+  tag: "20240930"
   pullPolicy: IfNotPresent
 
 pvc: "demo"
@@ -59,7 +59,7 @@ resources:
 | ----------------------------------- | --------------------------------------------------------------- | ----------------------- |
 | `image.registry`                    | Code Server 容器镜像注册表。                                    | `docker.io`             |
 | `image.repository`                  | Code Server 容器镜像仓库。                                      | `t9kpublic/code-server` |
-| `image.tag`                         | Code Server 容器镜像标签。                                      | `20240923`              |
+| `image.tag`                         | Code Server 容器镜像标签。                                      | `20240930`              |
 | `image.pullPolicy`                  | Code Server 容器镜像拉取策略。                                  | `IfNotPresent`          |
 | `pvc`                               | 挂载到 Code Server 上的 PVC 名称，作为 Code Server 的工作空间。 | `""`                    |
 | `resources.limits.cpu`              | Code Server 最多能使用的 CPU 数量。                             | `16`                    |
@@ -73,7 +73,7 @@ resources:
 
 | 名称                                  | 环境             |
 | ------------------------------------- | ---------------- |
-| `t9kpublic/code-server:20240923`      | PyTorch 2, conda |
-| `t9kpublic/code-server:20240923-sudo` | PyTorch 2, conda |
+| `t9kpublic/code-server:20240930`      | PyTorch 2, conda |
+| `t9kpublic/code-server:20240930-sudo` | PyTorch 2, conda |
 
 每个镜像包含 Code Server 和特定的环境（机器学习框架或 conda 环境），同时预装了一些 Python 包、命令行工具和平台工具。
