@@ -1,0 +1,19 @@
+image:
+  registry: docker.io
+  repository: t9kpublic/torch-2.1.0-notebook
+  tag: "20240716"
+  pullPolicy: IfNotPresent
+
+pvc: ""
+
+resources:
+  limits:
+    cpu: 16
+    memory: 32Gi
+
+ssh:
+  enabled: false
+  authorizedKeys: []
+  serviceType: ClusterIP
+
+nodeSelector: []
