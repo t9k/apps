@@ -1,6 +1,6 @@
 要获取服务端点，运行：
 
-  export ENDPOINT=$(kubectl get smls {{ .Release.Name }} -ojsonpath='{.status.address.url}'):8000
+  export ENDPOINT=$(kubectl get mls {{ .Release.Name }} -ojsonpath='{.status.address.url}')
   
 要测试聊天，运行：
 

@@ -1,0 +1,23 @@
+image:
+  server:
+    registry: "docker.io"
+    repository: "t9kpublic/vllm-openai"
+    tag: "v0.6.3"
+    pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    cpu: 4
+    memory: 64Gi
+    nvidia.com/gpu: 1
+
+model:
+  deployName: "llama"
+
+  volume:
+    storageClass: ""
+    size: 32Gi
+    accessModes:
+      - ReadWriteOnce
+    existingClaim: "vllm"
+    subPath: "Llama-3.1-8B-Instruct/"

@@ -1,0 +1,27 @@
+apiVersion: tensorstack.dev/v1beta1
+kind: MLService
+metadata:
+  name: {{ include "vllm.fullname" . }}
+  labels:
+    {{- include "vllm.labels" . | nindent 4 }}
+spec:
+  default: default
+  releases:
+    - name: default
+      predictor:
+        minReplicas: {{ .Values.autoScaling.minReplicas }}
+        maxReplicas: {{ .Values.autoScaling.maxReplicas }}
+        template:
+          metadata:
+            annotations: 
+              {{- toYaml .Values.autoScaling.annotations | nindent 14 }}
+        model:
+          runtime: {{ include "vllm.fullname" . }}
+        storage:
+          pvc:
+            {{- if .Values.model.volume.existingClaim }}
+            name: {{ .Values.model.volume.existingClaim }}
+            {{- else }}
+            name: {{ include "vllm.fullname" . }}
+            {{- end }}
+            subPath: {{ .Values.model.volume.subPath }}

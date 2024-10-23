@@ -12,14 +12,14 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "vllm"
     versions:
-    - version: 0.2.1
-      config: "file://$APP_DIR/configs/v0_2_1.yaml"
+    - version: 0.2.2
+      config: "file://$APP_DIR/configs/v0_2_2.yaml"
       urls: []
       readinessProbe:
         resources:
         - group: tensorstack.dev
           version: v1beta1
-          resource: simplemlservices
+          resource: mlservices
           name: "{{ .Release.Name }}"
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"

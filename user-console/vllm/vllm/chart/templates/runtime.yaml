@@ -1,0 +1,54 @@
+apiVersion: tensorstack.dev/v1beta1
+kind: MLServiceRuntime
+metadata:
+  name: {{ include "vllm.fullname" . }}
+  labels:
+    {{- include "vllm.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: pre-install
+spec:
+  enabled: true
+  template:
+    spec:
+      {{- if .Values.model.source }}
+      initContainers:
+      - name: wait-for-datacube
+        image: "{{ .Values.image.initializer.registry }}/{{ .Values.image.initializer.repository }}:{{ .Values.image.initializer.tag }}"
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        command: ["/bin/sh", "-c"]
+        args: ["kubectl wait --for=condition=Complete datacube/{{ .Release.Name }} --timeout=-1s"]
+      {{- end }}
+      serviceAccountName: managed-project-sa
+      containers:
+      - name: user-container
+        image: "{{ .Values.image.server.registry }}/{{ .Values.image.server.repository }}:{{ .Values.image.server.tag }}"
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        args:
+          - --model=/var/lib/t9k/model
+          - --served-model-name={{ .Values.model.deployName }}
+          {{ $tensorParallelSize := 1 -}}
+          {{- if hasKey .Values.resources.limits "nvidia.com/gpu" -}}
+            {{- $tensorParallelSize = index .Values.resources.limits "nvidia.com/gpu" -}}
+          {{- else if hasKey .Values.resources.limits "enflame.com/gcu" -}}
+            {{- $tensorParallelSize = index .Values.resources.limits "enflame.com/gcu" -}}
+          {{- else if hasKey .Values.resources.limits "metax-tech.com/gpu" -}}
+            {{- $tensorParallelSize = index .Values.resources.limits "metax-tech.com/gpu" -}}
+          {{- else if hasKey .Values.resources.limits "hygon.com/dcu" -}}
+            {{- $tensorParallelSize = index .Values.resources.limits "hygon.com/dcu" -}}
+          {{- end -}}
+          - --tensor-parallel-size={{ $tensorParallelSize }}
+          {{ range .Values.app.extraArgs }}
+          - {{ . }}
+          {{ end }}
+        ports:
+        - containerPort: 8000
+          protocol: TCP
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+        volumeMounts:
+        - name: dshm
+          mountPath: /dev/shm
+      volumes:
+      - name: dshm
+        emptyDir:
+          medium: Memory

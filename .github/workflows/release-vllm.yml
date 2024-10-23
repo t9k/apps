@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - "user-console/vllm/vllm-smls/chart/Chart.yaml"
+      - "user-console/vllm/vllm/chart/Chart.yaml"
 
 jobs:
   release:
@@ -28,6 +28,6 @@ jobs:
       - name: Package and push chart
         run: |
           cd $GITHUB_WORKSPACE
-          cd user-console/vllm/vllm-smls
+          cd user-console/vllm/vllm
           helm package ./chart
           helm push *.tgz oci://docker.io/t9kpublic
