@@ -4,36 +4,43 @@ ARG BUILD_SDK_RELEASE=1.78.7
 
 FROM tsz.io/t9k/build-sdk:1.78.7 as buildsdk
 
-FROM pytorch/pytorch:2.4.1-cuda12.1-cudnn9-devel
+FROM pytorch/pytorch:2.5.0-cuda12.1-cudnn9-devel
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -yq --no-install-recommends \
-    apt-transport-https \
-    bmon \
-    curl \
-    dumb-init \
-    emacs \
-    git \
-    git-lfs \
-    graphviz \
-    htop \
-    locales \
-    lsb-release \
-    man-db \
-    nano \
-    openssh-client \
-    openssh-server \
-    rclone \
-    rsync \
-    s3cmd \
-    sudo \
-    tmux \
-    unzip \
-    vim \
-    wget \
-    zip \
-    zsh \
+  apt-transport-https \
+  bmon \
+  build-essential \
+  bzip2 \
+  ca-certificates \
+  curl \
+  dumb-init \
+  emacs \
+  g++ \
+  git \
+  git-lfs \
+  gnupg \
+  graphviz \
+  htop \
+  less \
+  locales \
+  lsb-release \
+  man-db \
+  nano \
+  openssh-client \
+  openssh-server \
+  rclone \
+  rsync \
+  s3cmd \
+  sudo \
+  tmux \
+  tree \
+  unzip \
+  vim \
+  wget \
+  zip \
+  zsh \
   && git lfs install \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
@@ -46,24 +53,26 @@ ENV LANG=en_US.UTF-8
 RUN pip install --no-cache-dir --upgrade pip && \
   pip install --no-cache-dir --default-timeout=100 \
   accelerate==0.34.2 \
-  datasets==2.21.0 \
-  h5py==3.11.0 \
-  huggingface-hub==0.25.0 \
-  jupyter==1.0.0 \
+  datasets==3.0.1 \
+  h5py==3.12.1 \
+  huggingface-hub==0.26.0 \
+  jupyter==1.1.1 \
   lightning==2.4.0 \
   pytorch-lightning==2.4.0 \
   matplotlib==3.9.2 \
-  modelscope==1.18.0 \
-  modelscope[datasets]==1.18.0 \
-  pandas==2.2.2 \
+  modelscope==1.19.0 \
+  modelscope[datasets]==1.19.0 \
+  pandas==2.2.3 \
   sentencepiece==0.2.0 \
-  torch-model-archiver==0.11.1 \
+  torch-model-archiver==0.12.0 \
   torch-tb-profiler==0.4.3 \
-  torch-workflow-archiver==0.2.14 \
-  torchmetrics==1.4.2 \
+  torch-workflow-archiver==0.2.15 \
+  torchmetrics==1.5.0 \
   torchtext==0.18.0 \
-  transformers==4.44.2
+  transformers==4.45.2
   
+RUN conda install -y -c tartansandal conda-bash-completion
+
 RUN groupadd --gid=1000 t9kuser && mkdir /t9k && \
 useradd -rm --create-home -d /t9k/mnt --shell /bin/bash \
 --uid=1000 --gid=1000 t9kuser
