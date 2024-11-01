@@ -23,8 +23,8 @@
 ```yaml
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
-  repository: "$(T9K_APP_IMAGE_NAMESPACE)/torch-2.1.0-notebook"
-  tag: "20240716"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/jupyterlab-torch-2.5.0"
+  tag: "20241031"
   pullPolicy: IfNotPresent
 
 pvc: "tutorial"
@@ -45,8 +45,8 @@ ssh:
 ```yaml
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
-  repository: "$(T9K_APP_IMAGE_NAMESPACE)/miniconda-23.9.0-notebook"
-  tag: "20240716"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/jupyterlab-miniconda-24.7.1"
+  tag: "20241031"
   pullPolicy: IfNotPresent
 
 pvc: "demo"
@@ -66,19 +66,19 @@ ssh:
 
 ### 字段
 
-| 名称                      | 描述                                                          | 值                                                |
-| ------------------------- | ------------------------------------------------------------- | ------------------------------------------------- |
-| `image.registry`          | JupyterLab 容器镜像注册表。                                   | `$(T9K_APP_IMAGE_REGISTRY)`                       |
-| `image.repository`        | JupyterLab 容器镜像仓库。                                     | `$(T9K_APP_IMAGE_NAMESPACE)/torch-2.1.0-notebook` |
-| `image.tag`               | JupyterLab 容器镜像标签。                                     | `20240716`                                        |
-| `image.pullPolicy`        | JupyterLab 容器镜像拉取策略。                                 | `IfNotPresent`                                    |
-| `pvc`                     | 挂载到 JupyterLab 上的 PVC 名称，作为 JupyterLab 的工作空间。 | `""`                                              |
-| `resources.limits.cpu`    | JupyterLab 最多能使用的 CPU 数量。                            | `16`                                              |
-| `resources.limits.memory` | JupyterLab 最多能使用的内存数量。                             | `32Gi`                                            |
-| `ssh.enabled`             | 是否为 JupyterLab 启用 SSH 服务。                             | `false`                                           |
-| `ssh.authorizedKeys`      | 一系列记录 SSH 公钥的 K8s Secret 资源。                       | `[]`                                              |
-| `ssh.serviceType`         | SSH 服务类型，支持 ClusterIP 和 NodePort 两种。               | `ClusterIP`                                       |
-| `nodeSelector`            | 用于选择节点，JupyterLab 只会被调度到标签与之匹配的节点上。   | `null`                                            |
+| 名称                      | 描述                                                          | 值                                                  |
+| ------------------------- | ------------------------------------------------------------- | --------------------------------------------------- |
+| `image.registry`          | JupyterLab 容器镜像注册表。                                   | `$(T9K_APP_IMAGE_REGISTRY)`                         |
+| `image.repository`        | JupyterLab 容器镜像仓库。                                     | `$(T9K_APP_IMAGE_NAMESPACE)/jupyterlab-torch-2.5.0` |
+| `image.tag`               | JupyterLab 容器镜像标签。                                     | `20241031`                                          |
+| `image.pullPolicy`        | JupyterLab 容器镜像拉取策略。                                 | `IfNotPresent`                                      |
+| `pvc`                     | 挂载到 JupyterLab 上的 PVC 名称，作为 JupyterLab 的工作空间。 | `""`                                                |
+| `resources.limits.cpu`    | JupyterLab 最多能使用的 CPU 数量。                            | `16`                                                |
+| `resources.limits.memory` | JupyterLab 最多能使用的内存数量。                             | `32Gi`                                              |
+| `ssh.enabled`             | 是否为 JupyterLab 启用 SSH 服务。                             | `false`                                             |
+| `ssh.authorizedKeys`      | 一系列记录 SSH 公钥的 K8s Secret 资源。                       | `[]`                                                |
+| `ssh.serviceType`         | SSH 服务类型，支持 ClusterIP 和 NodePort 两种。               | `ClusterIP`                                         |
+| `nodeSelector`            | 用于选择节点，JupyterLab 只会被调度到标签与之匹配的节点上。   | `null`                                              |
 
 ### 镜像列表
 
@@ -90,24 +90,24 @@ ssh:
 
 仅使用 CPU 计算（不使用加速设备）时，可以选用以下镜像：
 
-| 名称                                                                      | 环境             |
-| ------------------------------------------------------------------------- | ---------------- |
-| `$(T9K_APP_IMAGE_NAMESPACE)/torch-2.1.0-notebook:20240716`                | PyTorch 2, conda |
-| `$(T9K_APP_IMAGE_NAMESPACE)/torch-2.1.0-notebook:20240716-sudo`           | PyTorch 2, conda |
-| `$(T9K_APP_IMAGE_NAMESPACE)/tensorflow-2.14.0-notebook-cpu:20240716`      | TensorFlow 2     |
-| `$(T9K_APP_IMAGE_NAMESPACE)/tensorflow-2.14.0-notebook-cpu:20240716-sudo` | TensorFlow 2     |
-| `$(T9K_APP_IMAGE_NAMESPACE)/miniconda-23.9.0-notebook:20240716`           | conda            |
-| `$(T9K_APP_IMAGE_NAMESPACE)/miniconda-23.9.0-notebook:20240716-sudo`      | conda            |
+| 名称                                                                        | 环境             |
+| --------------------------------------------------------------------------- | ---------------- |
+| `$(T9K_APP_IMAGE_NAMESPACE)/jupyterlab-torch-2.5.0:20241031`                | PyTorch 2, conda |
+| `$(T9K_APP_IMAGE_NAMESPACE)/jupyterlab-torch-2.5.0:20241031-sudo`           | PyTorch 2, conda |
+| `$(T9K_APP_IMAGE_NAMESPACE)/jupyterlab-tensorflow-2.17.0-cpu:20241031`      | TensorFlow 2     |
+| `$(T9K_APP_IMAGE_NAMESPACE)/jupyterlab-tensorflow-2.17.0-cpu:20241031-sudo` | TensorFlow 2     |
+| `$(T9K_APP_IMAGE_NAMESPACE)/jupyterlab-miniconda-24.7.1:20241031`           | conda            |
+| `$(T9K_APP_IMAGE_NAMESPACE)/jupyterlab-miniconda-24.7.1:20241031-sudo`      | conda            |
 
 #### NVIDIA GPU
 
 使用 NVIDIA GPU 作为加速设备时，可以选用以下镜像：
 
-| 名称                                                                      | 环境             |
-| ------------------------------------------------------------------------- | ---------------- |
-| `$(T9K_APP_IMAGE_NAMESPACE)/torch-2.1.0-notebook:20240716`                | PyTorch 2, conda |
-| `$(T9K_APP_IMAGE_NAMESPACE)/torch-2.1.0-notebook:20240716-sudo`           | PyTorch 2, conda |
-| `$(T9K_APP_IMAGE_NAMESPACE)/tensorflow-2.14.0-notebook-gpu:20240716`      | TensorFlow 2     |
-| `$(T9K_APP_IMAGE_NAMESPACE)/tensorflow-2.14.0-notebook-gpu:20240716-sudo` | TensorFlow 2     |
-| `$(T9K_APP_IMAGE_NAMESPACE)/miniconda-23.9.0-notebook:20240716`           | conda            |
-| `$(T9K_APP_IMAGE_NAMESPACE)/miniconda-23.9.0-notebook:20240716-sudo`      | conda            |
+| 名称                                                                        | 环境             |
+| --------------------------------------------------------------------------- | ---------------- |
+| `$(T9K_APP_IMAGE_NAMESPACE)/jupyterlab-torch-2.5.0:20241031`                | PyTorch 2, conda |
+| `$(T9K_APP_IMAGE_NAMESPACE)/jupyterlab-torch-2.5.0:20241031-sudo`           | PyTorch 2, conda |
+| `$(T9K_APP_IMAGE_NAMESPACE)/jupyterlab-tensorflow-2.17.0-cpu:20241031`      | TensorFlow 2     |
+| `$(T9K_APP_IMAGE_NAMESPACE)/jupyterlab-tensorflow-2.17.0-cpu:20241031-sudo` | TensorFlow 2     |
+| `$(T9K_APP_IMAGE_NAMESPACE)/jupyterlab-miniconda-24.7.1:20241031`           | conda            |
+| `$(T9K_APP_IMAGE_NAMESPACE)/jupyterlab-miniconda-24.7.1:20241031-sudo`      | conda            |

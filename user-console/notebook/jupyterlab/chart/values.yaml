@@ -1,7 +1,7 @@
 image:
   registry: docker.io
-  repository: t9kpublic/torch-2.1.0-notebook
-  tag: "20240716"
+  repository: t9kpublic/jupyterlab-torch-2.5.0
+  tag: "20241031"
   pullPolicy: IfNotPresent
 
 pvc: ""
