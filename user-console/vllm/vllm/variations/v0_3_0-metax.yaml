@@ -4,7 +4,7 @@
 ## @param server.image.pullPolicy Image pull policy for the server image
 ## @param server.resources.limits.cpu CPU limit for Kubernetes resources
 ## @param server.resources.limits.memory Memory limit for Kubernetes resources
-## @param server.resources.limits."nvidia.com/gpu" NVIDIA GPU limit for Kubernetes resources
+## @param server.resources.limits."metax-tech.com/gpu" MetaX GPU limit for Kubernetes resources
 ## @param server.model.deployName Name by which the model is deployed
 ## @param server.model.volume.storageClass Storage class for the model volume
 ## @param server.model.volume.size Size of the model volume
@@ -17,22 +17,23 @@
 ## @param server.app.extraArgs Extra arguments for vLLM engine
 ## @param server.env Extra environment variables to add to vLLM server container
 ## @param server.extraVolumeMounts Extra volumeMounts to add to vLLM server container
-## @param server.extraVolume Extra volumes to add to vLLM server container
+## @param server.extraVolume Extra volumes to add to vLLM server Pod
 ## @param server.securityContext Extra security contexts to add to vLLM server container
+## @param server.nodeSelector Node labels for vLLM server Pod assignment
 ##
 server:
   image:
-    registry: "$(T9K_APP_IMAGE_REGISTRY)"
-    repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
+    registry: "registry.suanfeng.t9kcloud.cn"
+    repository: "testing/mxc500-vllm"
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "v0.6.3"
+    tag: "20241010"
     pullPolicy: IfNotPresent
 
   resources:
     limits:
       cpu: 4
       memory: 64Gi
-      nvidia.com/gpu: 1
+      metax-tech.com/gpu: 1
 
   model:
     # 模型以该名称被部署
@@ -73,6 +74,7 @@ server:
   extraVolume: []
 
   securityContext: {}
+  nodeSelector: {}
 
 ## @param datacube.source Source of the model files (`huggingface`, `git`, `s3`, or "")
 ## @param datacube.huggingface.id Hugging Face ID of the model
