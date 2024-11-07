@@ -1,4 +1,4 @@
-{{- if not .Values.model.volume.existingClaim -}}
+{{- if not .Values.server.model.volume.existingClaim -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -6,14 +6,14 @@ metadata:
   labels:
     {{- include "vllm.labels" . | nindent 4 }}
 spec:
-  {{- if .Values.model.volume.storageClass }}
-  storageClassName: {{ .Values.model.volume.storageClass | quote }}
+  {{- if .Values.server.model.volume.storageClass }}
+  storageClassName: {{ .Values.server.model.volume.storageClass | quote }}
   {{- end }}
   accessModes:
-  {{- range .Values.model.volume.accessModes }}
+  {{- range .Values.server.model.volume.accessModes }}
     - {{ . | quote }}
   {{- end }}
   resources:
     requests:
-      storage: {{ .Values.model.volume.size | quote }}
+      storage: {{ .Values.server.model.volume.size | quote }}
 {{- end }}

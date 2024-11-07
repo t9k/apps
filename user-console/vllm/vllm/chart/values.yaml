@@ -1,32 +1,45 @@
-image:
-  server:
+server:
+  image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
     tag: "v0.6.3"
     pullPolicy: IfNotPresent
 
-  initializer:
-    registry: "$(T9K_APP_IMAGE_REGISTRY)"
-    repository: "$(T9K_APP_IMAGE_NAMESPACE)/kubectl"
-    tag: "1.27"
-    pullPolicy: IfNotPresent
+  resources:
+    limits:
+      cpu: 4
+      memory: 64Gi
 
-resources:
-  limits:
-    cpu: 4
-    memory: 64Gi
+  model:
+    deployName: ""
 
-model:
-  deployName: ""
+    volume:
+      storageClass: ""
+      size: 32Gi
+      accessModes:
+        - ReadWriteOnce
+      existingClaim: ""
+      subPath: ""
 
-  volume:
-    storageClass: ""
-    size: 32Gi
-    accessModes:
-      - ReadWriteOnce
-    existingClaim: ""
-    subPath: ""
+  autoScaling:
+    minReplicas: 1
+    maxReplicas: 1
 
+    annotations: {}
+
+  app:
+    extraArgs: []
+
+  env: []
+
+  nodeSelector: {}
+
+  extraVolumeMounts: []
+  extraVolume: []
+
+  securityContext: {}
+
+datacube:
   source: ""
   huggingface:
     id: ""
@@ -39,13 +52,11 @@ model:
   s3:
     url: ""
     existingSecret: ""
+  env: []
 
-autoScaling:
-  minReplicas: ""
-  maxReplicas: ""
-  annotations: {}
-
-app:
-  extraArgs: []
-
-env: []
+initializer:
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/kubectl"
+    tag: "1.27"
+    pullPolicy: IfNotPresent
