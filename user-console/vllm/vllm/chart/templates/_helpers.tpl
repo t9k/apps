@@ -65,52 +65,52 @@ Create the name of the service account to use
 Get the options of datacube
 */}}
 {{- define "vllm.options" -}}
-{{- if eq .Values.model.source "huggingface" }}
+{{- if eq .Values.datacube.source "huggingface" }}
 - name: repo
-  value: {{ .Values.model.huggingface.id | quote }}
-{{- if .Values.model.huggingface.files }}
+  value: {{ .Values.datacube.huggingface.id | quote }}
+{{- if .Values.datacube.huggingface.files }}
 - name: files
-  value: {{ .Values.model.huggingface.files | quote }}
+  value: {{ .Values.datacube.huggingface.files | quote }}
 {{- end }}
-{{- if .Values.model.huggingface.existingSecret }}
+{{- if .Values.datacube.huggingface.existingSecret }}
 - name: token
   valueFrom:
     secretKeyRef:
-      name: {{ .Values.model.huggingface.existingSecret | quote }}
+      name: {{ .Values.datacube.huggingface.existingSecret | quote }}
       key: token
 {{- end }}
-{{- else if eq .Values.model.source "git" }}
+{{- else if eq .Values.datacube.source "git" }}
 - name: url
-  value: {{ .Values.model.git.url | quote }}
-{{- if .Values.model.git.ref }}
+  value: {{ .Values.datacube.git.url | quote }}
+{{- if .Values.datacube.git.ref }}
 - name: ref
-  value: {{ .Values.model.git.ref | quote }}
+  value: {{ .Values.datacube.git.ref | quote }}
 {{- end }}
-{{- if .Values.model.git.existingSecret }}
+{{- if .Values.datacube.git.existingSecret }}
 - name: token
   valueFrom:
     secretKeyRef:
-      name: {{ .Values.model.git.existingSecret | quote }}
+      name: {{ .Values.datacube.git.existingSecret | quote }}
       key: token
 {{- end }}
-{{- else if eq .Values.model.source "s3" }}
+{{- else if eq .Values.datacube.source "s3" }}
 - name: s3-uri
-  value: {{ .Values.model.s3.url | quote }}
-{{- if .Values.model.s3.existingSecret }}
+  value: {{ .Values.datacube.s3.url | quote }}
+{{- if .Values.datacube.s3.existingSecret }}
 - name: s3-endpoint
   valueFrom:
     secretKeyRef:
-      name: {{ .Values.model.s3.existingSecret | quote }}
+      name: {{ .Values.datacube.s3.existingSecret | quote }}
       key: endpoint
 - name: s3-access-key-id
   valueFrom:
     secretKeyRef:
-      name: {{ .Values.model.s3.existingSecret | quote }}
+      name: {{ .Values.datacube.s3.existingSecret | quote }}
       key: accessKeyID
 - name: s3-secret-access-key
   valueFrom:
     secretKeyRef:
-      name: {{ .Values.model.s3.existingSecret | quote }}
+      name: {{ .Values.datacube.s3.existingSecret | quote }}
       key: secretAccessKey
 {{- end }}
 {{- end }}

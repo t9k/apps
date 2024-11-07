@@ -10,45 +10,48 @@ spec:
   enabled: true
   template:
     spec:
-      {{- if .Values.model.source }}
+      {{- if .Values.datacube.source }}
       initContainers:
       - name: wait-for-datacube
-        image: "{{ .Values.image.initializer.registry }}/{{ .Values.image.initializer.repository }}:{{ .Values.image.initializer.tag }}"
-        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        image: "{{ .Values.initializer.image.registry }}/{{ .Values.initializer.image.repository }}:{{ .Values.initializer.image.tag }}"
+        imagePullPolicy: {{ .Values.initializer.image.pullPolicy }}
         command: ["/bin/sh", "-c"]
-        args: ["kubectl wait --for=condition=Complete datacube/{{ .Release.Name }} --timeout=-1s"]
+        args: ["kubectl wait --for=condition=Complete datacube/{{ include "vllm.fullname" . }} --timeout=-1s"]
       {{- end }}
       serviceAccountName: managed-project-sa
       containers:
       - name: user-container
-        image: "{{ .Values.image.server.registry }}/{{ .Values.image.server.repository }}:{{ .Values.image.server.tag }}"
-        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        securityContext:
+          {{- if .Values.server.env }}
+          {{- toYaml .Values.server.securityContext | nindent 10 }}
+          {{- end }}
+        image: "{{ .Values.server.image.registry }}/{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
+        imagePullPolicy: {{ .Values.server.image.pullPolicy }}
         args:
           - --model=/var/lib/t9k/model
-          - --served-model-name={{ .Values.model.deployName }}
-          {{ $tensorParallelSize := 1 -}}
-          {{- if hasKey .Values.resources.limits "nvidia.com/gpu" -}}
-            {{- $tensorParallelSize = index .Values.resources.limits "nvidia.com/gpu" -}}
-          {{- else if hasKey .Values.resources.limits "enflame.com/gcu" -}}
-            {{- $tensorParallelSize = index .Values.resources.limits "enflame.com/gcu" -}}
-          {{- else if hasKey .Values.resources.limits "metax-tech.com/gpu" -}}
-            {{- $tensorParallelSize = index .Values.resources.limits "metax-tech.com/gpu" -}}
-          {{- else if hasKey .Values.resources.limits "hygon.com/dcu" -}}
-            {{- $tensorParallelSize = index .Values.resources.limits "hygon.com/dcu" -}}
-          {{- end -}}
-          - --tensor-parallel-size={{ $tensorParallelSize }}
-          {{ range .Values.app.extraArgs }}
+          - --served-model-name={{ .Values.server.model.deployName }}
+          {{ range .Values.server.app.extraArgs }}
           - {{ . }}
           {{ end }}
+        env:
+          {{- if .Values.server.env }}
+          {{- toYaml .Values.server.env | nindent 10 }}
+          {{- end }}
         ports:
         - containerPort: 8000
           protocol: TCP
         resources:
-          {{- toYaml .Values.resources | nindent 12 }}
+          {{- toYaml .Values.server.resources | nindent 10 }}
         volumeMounts:
-        - name: dshm
-          mountPath: /dev/shm
+          - name: dshm
+            mountPath: /dev/shm
+          {{- if .Values.server.extraVolumeMounts }}
+          {{- toYaml .Values.server.extraVolumeMounts | nindent 10 }}
+          {{- end }}
       volumes:
-      - name: dshm
-        emptyDir:
-          medium: Memory
+        - name: dshm
+          emptyDir:
+            medium: Memory
+        {{- if .Values.server.extraVolume }}
+        {{- toYaml .Values.server.extraVolume | nindent 8 }}
+        {{- end }}

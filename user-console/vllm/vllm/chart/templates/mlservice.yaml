@@ -9,19 +9,19 @@ spec:
   releases:
     - name: default
       predictor:
-        minReplicas: {{ .Values.autoScaling.minReplicas }}
-        maxReplicas: {{ .Values.autoScaling.maxReplicas }}
+        minReplicas: {{ .Values.server.autoScaling.minReplicas }}
+        maxReplicas: {{ .Values.server.autoScaling.maxReplicas }}
         template:
           metadata:
             annotations: 
-              {{- toYaml .Values.autoScaling.annotations | nindent 14 }}
+              {{- toYaml .Values.server.autoScaling.annotations | nindent 14 }}
         model:
           runtime: {{ include "vllm.fullname" . }}
         storage:
           pvc:
-            {{- if .Values.model.volume.existingClaim }}
-            name: {{ .Values.model.volume.existingClaim }}
+            {{- if .Values.server.model.volume.existingClaim }}
+            name: {{ .Values.server.model.volume.existingClaim }}
             {{- else }}
             name: {{ include "vllm.fullname" . }}
             {{- end }}
-            subPath: {{ .Values.model.volume.subPath }}
+            subPath: {{ .Values.server.model.volume.subPath }}
