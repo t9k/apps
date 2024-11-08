@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    {{ include "fastgpt.labels" . | nindent 4 }}
+  name: {{ include "fastgpt.fullname" . }}
+data:
+  config.json: |
+    {
+      "systemEnv": {{ .Values.app.config.systemEnv | toJson }},
+      "llmModels": {{ .Values.app.config.llmModels | toJson }},
+      "vectorModels": {{ .Values.app.config.vectorModels | toJson }},
+      "reRankModels": {{ .Values.app.config.reRankModels | toJson }},
+      "audioSpeechModels": {{ .Values.app.config.audioSpeechModels | toJson }},
+      "whisperModel": {{ .Values.app.config.whisperModel | toJson }}
+    }

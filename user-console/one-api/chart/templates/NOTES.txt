@@ -1,0 +1,34 @@
+One API 的服务端点为：
+
+  http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local
+
+{{- if contains "ClusterIP" .Values.service.type }}
+
+要访问网页 UI，运行：
+
+  kubectl --namespace {{ .Release.Namespace }} port-forward service/{{ .Release.Name }} 3001:{{ .Values.service.port }}
+
+  或
+
+  t9k-pf --namespace {{ .Release.Namespace }} service {{ .Release.Name }} 3001:{{ .Values.service.port }}
+
+然后访问 http://127.0.0.1:3001
+
+{{- else if contains "NodePort" .Values.service.type }}
+
+要访问网页 UI，运行：
+
+  export NODE_PORT=$(kubectl --namespace {{ .Release.Namespace }} get service {{ .Release.Name }} -o jsonpath="{.spec.ports[0].nodePort}" )
+  export NODE_IP=$(kubectl --namespace {{ .Release.Namespace }} get node -o jsonpath="{.items[0].status.addresses[0].address}")
+
+然后访问 http://$NODE_IP:$NODE_PORT
+
+{{- else if contains "LoadBalancer" .Values.service.type }}
+
+要访问网页 UI，运行：
+
+  export EXTERNAL_IP=$(kubectl --namespace {{ .Release.Namespace }} get service {{ .Release.Name }} -o jsonpath="{.status.loadBalancer.ingress[0].ip}" )
+
+然后访问 http://$EXTERNAL_IP:{{ .Values.service.port }}
+
+{{- end }}

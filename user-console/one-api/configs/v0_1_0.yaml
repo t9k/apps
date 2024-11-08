@@ -1,0 +1,18 @@
+image:
+  registry: docker.io
+  repository: justsong/one-api
+  tag: "v0.6.7"
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    cpu: 1
+    memory: 2Gi
+
+persistence:
+  enabled: true
+  size: 500Mi
+  storageClass: ""
+  accessMode: ReadWriteMany
+  volumeMode: Filesystem
+  existingClaim: ""
