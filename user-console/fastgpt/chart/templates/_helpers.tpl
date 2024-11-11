@@ -43,10 +43,30 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
+Sandbox common labels
+*/}}
+{{- define "fastgpt.sandboxLabels" -}}
+helm.sh/chart: {{ include "fastgpt.chart" . }}
+{{ include "fastgpt.sandboxSelectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
 Selector labels
 */}}
 {{- define "fastgpt.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "fastgpt.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Sandbox selector labels
+*/}}
+{{- define "fastgpt.sandboxSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "fastgpt.name" . }}-sandbox
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 

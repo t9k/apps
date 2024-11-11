@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fastgpt.fullname" . }}-sandbox
+  labels:
+    {{- include "fastgpt.sandboxLabels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "fastgpt.sandboxSelectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.sandbox.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "fastgpt.sandboxLabels" . | nindent 8 }}
+        {{- with .Values.sandbox.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.sandbox.image.registry }}/{{ .Values.sandbox.image.repository }}:{{ .Values.sandbox.image.tag }}"
+          imagePullPolicy: {{ .Values.sandbox.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.sandbox.service.port }}
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.sandbox.resources | nindent 12 }}
+      {{- with .Values.sandbox.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.sandbox.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.sandbox.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

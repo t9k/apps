@@ -18,8 +18,6 @@ app:
   tokenKey: "any"
   rootKey: "root_key"
   fileTokenKey: "filetoken"
-  sandboxUrl: "http://sandbox:3000"
-  feDomain: ""
   logLevel: "info"
   storeLogLevel: "warn"
 
@@ -104,6 +102,27 @@ ingress:
 nodeSelector: {}
 affinity: {}
 tolerations: []
+
+# components
+sandbox:
+  image:
+    registry: docker.io
+    repository: t9kpublic/fastgpt-sandbox
+    tag: ""
+    pullPolicy: IfNotPresent
+
+  resources:
+    limits:
+      cpu: 2
+      memory: 4Gi
+
+  service:
+    type: ClusterIP
+    port: 3000
+  
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
 
 # sub-charts
 mongodb:

@@ -83,3 +83,15 @@ app:
     #   model: "whisper-1"
     #   name: "Whisper1"
     #   charsPointsPrice: 0
+
+sandbox:
+  image:
+    registry: docker.io
+    repository: t9kpublic/fastgpt-sandbox
+    tag: "v4.8.12"
+    pullPolicy: IfNotPresent
+
+  resources:
+    limits:
+      cpu: 2
+      memory: 4Gi
