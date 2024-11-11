@@ -1,18 +1,18 @@
-One API 的服务端点为：
+Chat Nio 的 OpenAI API 服务端点为：
 
-  http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local:3000
+  http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local:8094
 
 {{- if contains "ClusterIP" .Values.service.type }}
 
 要访问网页 UI，运行：
 
-  kubectl --namespace {{ .Release.Namespace }} port-forward service/{{ .Release.Name }} 3001:{{ .Values.service.port }}
+  kubectl --namespace {{ .Release.Namespace }} port-forward service/{{ .Release.Name }} 8094:{{ .Values.service.port }}
 
   或
 
-  t9k-pf --namespace {{ .Release.Namespace }} service {{ .Release.Name }} 3001:{{ .Values.service.port }}
+  t9k-pf --namespace {{ .Release.Namespace }} service {{ .Release.Name }} 8094:{{ .Values.service.port }}
 
-然后访问 http://127.0.0.1:3001
+然后访问 http://127.0.0.1:8094
 
 {{- else if contains "NodePort" .Values.service.type }}
 

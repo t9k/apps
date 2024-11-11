@@ -1,0 +1,64 @@
+image:
+  registry: docker.io
+  repository: programzmh/chatnio
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    cpu: 1
+    memory: 2Gi
+
+persistence:
+  enabled: true
+  size: 1Gi
+  storageClass: ""
+  accessMode: ReadWriteMany
+  existingClaim: ""
+
+service:
+  type: ClusterIP
+  port: 8094
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+nodeSelector: {}
+affinity: {}
+tolerations: []
+
+# sub-charts
+mysql:
+  enabled: true
+  image:
+    tag: 5.7.43
+  auth:
+    database: chatnio
+    username: chatnio
+    password: chatnio123456!
+    rootPassword: root
+  primary:
+    resources:
+      limits:
+        cpu: 1
+        memory: 2Gi
+    persistence:
+      enabled: true
+
+redis:
+  enabled: true
+  image:
+    tag: 7.4.1
+  auth:
+    enabled: false
+  master:
+    persistence:
+      enabled: true

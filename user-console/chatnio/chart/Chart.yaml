@@ -1,0 +1,13 @@
+apiVersion: v2
+name: chatnio
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.0
+appVersion: latest
+dependencies:
+- name: mysql
+  repository: oci://registry-1.docker.io/bitnamicharts
+  version: 9.18.2
+- name: redis
+  repository: oci://registry-1.docker.io/bitnamicharts
+  version: 20.2.1
