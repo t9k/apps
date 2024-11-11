@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fastgpt.fullname" . }}
+  labels:
+    {{- include "fastgpt.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "fastgpt.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "fastgpt.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: OPENAI_BASE_URL
+              value: {{ .Values.app.openAiBaseUrl }}
+            - name: DB_MAX_LINK
+              value: {{ .Values.app.dbMaxLink | quote }}
+            - name: SANDBOX_URL
+              value: "http://{{ .Release.Name }}-sandbox.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.sandbox.service.port }}"
+            - name: FE_DOMAIN
+              value: "http://localhost:3000"
+            - name: LOG_LEVEL
+              value: {{ .Values.app.logLevel }}
+            - name: STORE_LOG_LEVEL
+              value: {{ .Values.app.storeLogLevel }}
+          envFrom:
+            - secretRef:
+                name: {{ include "fastgpt.fullname" . }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /app/data/config.json
+              name: config
+              subPath: config.json
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "fastgpt.fullname" . }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

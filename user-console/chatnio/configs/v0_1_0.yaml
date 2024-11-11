@@ -1,0 +1,17 @@
+image:
+  registry: docker.io
+  repository: programzmh/chatnio
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+resources:
+  limits:
+    cpu: 1
+    memory: 2Gi
+
+persistence:
+  enabled: true
+  size: 1Gi
+  storageClass: ""
+  accessMode: ReadWriteMany
+  existingClaim: ""

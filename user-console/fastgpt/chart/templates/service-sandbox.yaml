@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "fastgpt.fullname" . }}-sandbox
+  labels:
+    {{- include "fastgpt.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.sandbox.service.type }}
+  ports:
+    - port: {{ .Values.sandbox.service.port }}
+      {{- if .Values.sandbox.service.nodePort }}
+      nodePort: {{ .Values.sandbox.service.nodePort }}
+      {{- end}}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "fastgpt.sandboxSelectorLabels" . | nindent 4 }}
