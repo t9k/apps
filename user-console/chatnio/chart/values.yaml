@@ -39,6 +39,8 @@ tolerations: []
 mysql:
   enabled: true
   image:
+    registry: docker.io
+    repository: bitnami/mysql
     tag: 5.7.43
   auth:
     database: chatnio
@@ -56,6 +58,8 @@ mysql:
 redis:
   enabled: true
   image:
+    registry: docker.io
+    repository: bitnami/redis
     tag: 7.4.1
   auth:
     enabled: false

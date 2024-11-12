@@ -1,7 +1,7 @@
 image:
-  registry: docker.io
-  repository: programzmh/chatnio
-  tag: "latest"
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/chatnio"
+  tag: "20241109"
   pullPolicy: IfNotPresent
 
 resources:
@@ -15,3 +15,34 @@ persistence:
   storageClass: ""
   accessMode: ReadWriteMany
   existingClaim: ""
+
+mysql:
+  enabled: true
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/mysql"
+    tag: 5.7.43
+  auth:
+    database: chatnio
+    username: chatnio
+    password: chatnio123456!
+    rootPassword: root
+  primary:
+    resources:
+      limits:
+        cpu: 1
+        memory: 2Gi
+    persistence:
+      enabled: true
+
+redis:
+  enabled: true
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/redis"
+    tag: 7.4.1
+  auth:
+    enabled: false
+  master:
+    persistence:
+      enabled: true

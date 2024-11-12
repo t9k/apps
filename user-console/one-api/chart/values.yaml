@@ -44,6 +44,8 @@ tolerations: []
 mysql:
   enabled: true
   image:
+    registry: docker.io
+    repository: bitnami/mysql
     tag: 5.7.43
   auth:
     database: oneapi

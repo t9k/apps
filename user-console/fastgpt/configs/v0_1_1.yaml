@@ -1,6 +1,6 @@
 image:
-  registry: docker.io
-  repository: t9kpublic/fastgpt
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/fastgpt"
   tag: "v4.8.12"
   pullPolicy: IfNotPresent
 
@@ -86,8 +86,8 @@ app:
 
 sandbox:
   image:
-    registry: docker.io
-    repository: t9kpublic/fastgpt-sandbox
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/fastgpt-sandbox"
     tag: "v4.8.12"
     pullPolicy: IfNotPresent
 
@@ -95,3 +95,37 @@ sandbox:
     limits:
       cpu: 2
       memory: 4Gi
+
+mongodb:
+  # -- Enable or disable the built-in MangoDB
+  enabled: true
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/mongodb"
+    tag: 8.0.0-debian-12-r1
+  architecture: replicaset
+  replicaCount: 1
+  auth:
+    rootUser: root
+    rootPassword: "123456"
+  replicaSetName: rs0
+
+  persistence:
+    enabled: true
+    storageClass: ""
+    size: 2Gi 
+
+postgresql:
+  # -- Enable or disable the built-in PostgreSQL
+  enabled: true
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/linuxsuren-pgvector"
+    tag: v0.0.1
+  global:
+    postgresql:
+      auth:
+        # -- The password of PostgreSQL, default username is `postgres`
+        postgresPassword: postgres
+        # -- The default database of PostgreSQL
+        database: postgres

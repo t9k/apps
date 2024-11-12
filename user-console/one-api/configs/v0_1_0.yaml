@@ -1,6 +1,6 @@
 image:
-  registry: docker.io
-  repository: justsong/one-api
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/one-api"
   tag: "v0.6.7"
   pullPolicy: IfNotPresent
 
@@ -16,3 +16,20 @@ persistence:
   accessMode: ReadWriteMany
   volumeMode: Filesystem
   existingClaim: ""
+
+mysql:
+  enabled: true
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/mysql"
+    tag: 5.7.43
+  auth:
+    database: oneapi
+    rootPassword: "123456"
+  primary:
+    resources:
+      limits:
+        cpu: 1
+        memory: 2Gi
+    persistence:
+      enabled: true

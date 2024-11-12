@@ -128,6 +128,10 @@ sandbox:
 mongodb:
   # -- Enable or disable the built-in MangoDB
   enabled: true
+  image:
+    registry: docker.io
+    repository: bitnami/mongodb
+    tag: 8.0.0-debian-12-r1
   architecture: replicaset
   replicaCount: 1
   auth:
@@ -157,8 +161,7 @@ postgresql:
   # -- Enable or disable the built-in PostgreSQL
   enabled: true
   image:
-#    registry: 172.11.0.6:30002
-    # -- The PostgreSQL image which include the pgvector extension. See also the source code from https://github.com/LinuxSuRen/pgvector-docker
+    registry: docker.io
     repository: linuxsuren/pgvector
     tag: v0.0.1
   global:
