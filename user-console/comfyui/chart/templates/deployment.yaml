@@ -43,27 +43,33 @@ spec:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 30
-            periodSeconds: 15
+            initialDelaySeconds: 120
+            periodSeconds: 30
             failureThreshold: 5
           readinessProbe:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 30
-            periodSeconds: 15
+            initialDelaySeconds: 120
+            periodSeconds: 30
             failureThreshold: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            - mountPath: /home/runner
+            - mountPath: /root
               name: data
             - mountPath: /dev/shm
               name: dshm
       volumes:
-        - name: data
+          {{- if .Values.persistence.existingClaim }}
+        - name: "data"
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim }}
+          {{- else }}
+        - name: "data"
           persistentVolumeClaim:
             claimName: {{ include "comfyui.fullname" . }}
+          {{- end }}
         - name: dshm
           emptyDir:
             medium: Memory

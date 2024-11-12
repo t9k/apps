@@ -3,5 +3,5 @@
 执行以下命令：
 
 ```bash
-docker build . -t t9kpublic/comfyui:20240709
+docker build . -t t9kpublic/comfyui:v0.2.7
 ```

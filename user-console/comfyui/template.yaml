@@ -5,15 +5,15 @@ metadata:
   displayName: "ComfyUI"
   categories: ["AI"]
   description: "ComfyUI 是一个功能强大且模块化的 Stable Diffusion 图形用户界面和后端，支持基于图、节点和流程图设计和执行高级流水线。"
-  # icon: "file://$APP_DIR/icon.png"
+  icon: "file://$APP_DIR/icon.png"
 template:
   helm:
     repo: "oci://docker.io/t9kpublic"
     # repo: "https://t9k.github.io/apps/"
     chart: "comfyui"
     versions:
-    - version: 0.2.0
-      config: "file://$APP_DIR/configs/v0_2_0.yaml"
+    - version: 0.2.1
+      config: "file://$APP_DIR/configs/v0_2_1.yaml"
       urls: 
       - name: UI
         url: /apps/{{ .Release.Namespace }}/comfyui/{{ .Release.Name }}/

@@ -1,15 +1,17 @@
-kind: PersistentVolumeClaim
+{{- if not .Values.persistence.existingClaim }}
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   name: {{ include "comfyui.fullname" . }}
   labels:
   {{- include "comfyui.labels" . | nindent 4 }}
 spec:
-  resources:
-    requests:
-      storage: {{ .Values.persistence.size }}
   {{- if .Values.persistence.storageClass -}}
   storageClassName: {{ .Values.persistence.storageClass }}
   {{- end }}
   accessModes:
   {{- toYaml .Values.persistence.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.size }}
+{{- end }}
