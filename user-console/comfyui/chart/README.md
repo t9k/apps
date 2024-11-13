@@ -4,6 +4,29 @@
 
 与常见的网页 UI 相比，ComfyUI 具有一些独特的特性。它的自由度和灵活性较高，支持高度定制化和工作流复用，对系统配置要求较低，并且能够加快原始图像的生成速度。但由于拥有众多插件节点和较为复杂的操作流程，学习门槛相对较高。
 
+## 发布说明
+
+### 1.0.0
+
+全新的 ComfyUI 应用，允许用户使用 v0.2.7 或 v0.2.3 版本的 ComfyUI，通过指定以下镜像：
+
+| 镜像                       | ComfyUI 版本 |
+| -------------------------- | ------------ |
+| `t9kpublic/comfyui:v0.2.7` | v0.2.7       |
+| `t9kpublic/comfyui:v0.2.3` | v0.2.3       |
+
+应用理论上兼容 ComfyUI 的所有[功能特性](https://github.com/comfyanonymous/ComfyUI?tab=readme-ov-file#features)，覆盖了几乎所有 AI 绘图相关的使用场景。目前已验证的主要功能包括：
+
+* 支持 Stable Diffusion 1.x、Stable Diffusion 2.x、[SDXL](https://comfyanonymous.github.io/ComfyUI_examples/sdxl/) 和 [Stable Diffusion 3.5](https://comfyanonymous.github.io/ComfyUI_examples/sd3/)
+* 支持 [Stable Video Diffusion](https://comfyanonymous.github.io/ComfyUI_examples/video/)
+* 支持 [Flux](https://comfyanonymous.github.io/ComfyUI_examples/flux/)
+* 支持 [LoRA](https://comfyanonymous.github.io/ComfyUI_examples/lora/)
+* 支持 [Hypernetwork](https://comfyanonymous.github.io/ComfyUI_examples/hypernetworks/)
+* 支持[放大模型（Upscale Model）](https://comfyanonymous.github.io/ComfyUI_examples/upscale_models/)
+* 支持 [ControlNet](https://comfyanonymous.github.io/ComfyUI_examples/upscale_models/)
+* [图生图（Img2Img）](https://comfyanonymous.github.io/ComfyUI_examples/img2img/)
+* [内补绘制（Inpainting）和外补绘制（Outpainting）](https://comfyanonymous.github.io/ComfyUI_examples/inpaint/)
+
 ## 使用方法
 
 待应用就绪后，点击右侧的 <svg width="1em" height="1em" class="MuiSvgIcon-root MuiSvgIcon-colorPrimary MuiSvgIcon-fontSizeMedium css-jxtyyz" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="OpenInNewIcon"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"></path></svg> 进入网页 UI，即可开始编辑和执行 Stable Diffusion 工作流。
@@ -37,14 +60,6 @@
 * 生成的图像文件存储在同一个 PVC 的 `ComfyUI/outputs` 目录下，你可以在这里查看已生成的图片。
 
 * 默认的 PVC 大小为 64 GiB，请根据要下载的模型文件的总大小以及要生成的图像文件的总大小进行适当的调整。此外，该 PVC 在创建完成后也可以进行扩容。
-
-* 经过测试，当前应用支持以下模型：
-
-  * Stable Diffusion 1.x
-  * Stable Diffusion 2.x
-  * [SDXL](https://comfyanonymous.github.io/ComfyUI_examples/sdxl/)
-  * [Stable Diffusion 3.5](https://comfyanonymous.github.io/ComfyUI_examples/sd3/)
-  * [Flux](https://comfyanonymous.github.io/ComfyUI_examples/flux/)
 
 ## 配置
 

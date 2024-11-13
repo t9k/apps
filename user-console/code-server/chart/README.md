@@ -56,17 +56,17 @@ nodeSelector:
 
 ### 字段
 
-| 名称                                | 描述                                                            | 值                                       |
-| ----------------------------------- | --------------------------------------------------------------- | ---------------------------------------- |
-| `image.registry`                    | Code Server 容器镜像注册表。                                    | `$(T9K_APP_IMAGE_REGISTRY)`              |
-| `image.repository`                  | Code Server 容器镜像仓库。                                      | `$(T9K_APP_IMAGE_NAMESPACE)/code-server` |
-| `image.tag`                         | Code Server 容器镜像标签。                                      | `20241023`                               |
-| `image.pullPolicy`                  | Code Server 容器镜像拉取策略。                                  | `IfNotPresent`                           |
-| `pvc`                               | 挂载到 Code Server 上的 PVC 名称，作为 Code Server 的工作空间。 | `""`                                     |
-| `resources.limits.cpu`              | Code Server 最多能使用的 CPU 数量。                             | `16`                                     |
-| `resources.limits.memory`           | Code Server 最多能使用的内存数量。                              | `32Gi`                                   |
-| `resources.limits."nvidia.com/gpu"` | Code Server 最多能使用的 GPU 数量。                             | `1`                                      |
-| `nodeSelector`                      | 用于选择节点，Code Server 只会被调度到标签与之匹配的节点上。    | `null`                                   |
+| 名称                                | 描述                                                          | 值                                       |
+| ----------------------------------- | ------------------------------------------------------------- | ---------------------------------------- |
+| `image.registry`                    | Code Server 容器镜像注册表                                    | `$(T9K_APP_IMAGE_REGISTRY)`              |
+| `image.repository`                  | Code Server 容器镜像仓库                                      | `$(T9K_APP_IMAGE_NAMESPACE)/code-server` |
+| `image.tag`                         | Code Server 容器镜像标签                                      | `20241023`                               |
+| `image.pullPolicy`                  | Code Server 容器镜像拉取策略                                  | `IfNotPresent`                           |
+| `pvc`                               | 挂载到 Code Server 上的 PVC 名称，作为 Code Server 的工作空间 | `""`                                     |
+| `resources.limits.cpu`              | Code Server 最多能使用的 CPU 数量                             | `16`                                     |
+| `resources.limits.memory`           | Code Server 最多能使用的内存数量                              | `32Gi`                                   |
+| `resources.limits."nvidia.com/gpu"` | Code Server 最多能使用的 GPU 数量                             | `1`                                      |
+| `nodeSelector`                      | 用于选择节点，Code Server 只会被调度到标签与之匹配的节点上    | `null`                                   |
 
 ### 镜像列表
 

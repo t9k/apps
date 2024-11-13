@@ -2,7 +2,6 @@
 [ -z "$PS1" ] && return
 
 export PS1='\[\e[1;32m\][${PWD} \u@\h]\n\$ \[\e[0m\]'
-set -o vi
 set -o emacs
 alias k=kubectl
 alias ll='ls -al'

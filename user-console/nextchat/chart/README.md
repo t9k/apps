@@ -16,7 +16,7 @@
 
 在 `llm` 字段下正确填写模型提供商以及相应的 API Key 和 URL，必要时提供代理。
 
-如要将兼容 OpenAI API 的本地推理服务（例如 vLLM 应用的推理服务）作为模型提供商，将 `llm.provider` 字段的值设为 `openai`，将 `llm.apiKey` 字段的值设为任意非空字符串，将 `llm.openai.baseUrl` 字段的值设为该本地推理服务的服务端点。此外还需要在网页 UI 的设置中提供模型的部署名称并选择该名称（以 `mistral-7b` 为例）：
+如要将兼容 OpenAI API 的本地推理服务（例如 vLLM 应用的推理服务）作为模型提供商，将 `llm.provider` 字段的值设为 `openai`，将 `llm.apiKey` 字段的值设为任意非空字符串，将 `llm.openai.baseUrl` 字段的值设为该本地推理服务的服务端点。此外还需要在网页 UI 的设置中提供模型的部署名称并选择该名称。
 
 ![](https://s2.loli.net/2024/06/18/r6nc8sWwu2APReh.png)
 
