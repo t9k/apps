@@ -73,6 +73,16 @@ entries:
   comfyui:
   - apiVersion: v2
     appVersion: v0.2.3
+    created: "2024-11-13T07:29:14.455674878Z"
+    description: ComfyUI 是一个功能强大且模块化的 Stable Diffusion 图形用户界面和后端，支持基于图、节点和流程图设计和执行高级流水线。
+    digest: 69ce6f4edc6dc24b8efb09f4d00736bee5e86a7b098698576b3901da8e8cd542
+    name: comfyui
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/comfyui-1.0.0/comfyui-1.0.0.tgz
+    version: 1.0.0
+  - apiVersion: v2
+    appVersion: v0.2.3
     created: "2024-11-12T11:17:06.070140331Z"
     description: ComfyUI 是一个功能强大且模块化的 Stable Diffusion 图形用户界面和后端，支持基于图、节点和流程图设计和执行高级流水线。
     digest: 346aba27b83115db5b7399201797cb81f81203316b7201f195fc02890637844e
@@ -1357,4 +1367,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2024-11-12T11:17:06.448773614Z"
+generated: "2024-11-13T07:29:15.701814466Z"
