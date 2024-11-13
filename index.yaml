@@ -361,6 +361,17 @@ entries:
     version: 0.1.0
   nextchat:
   - apiVersion: v2
+    appVersion: 2.15.8
+    created: "2024-11-13T10:59:40.350031283Z"
+    description: NextChat 是一个设计精良的 ChatGPT 网页 UI，支持多种聊天服务，包括 ChatGPT、Claude、Gemini
+      和本地推理服务。
+    digest: 26f5a23a7aeb969c1999b9bce75816adfebb6a3146e7b5e4e3505d19a3668546
+    name: nextchat
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/nextchat-0.2.2/nextchat-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
     appVersion: 2.15.2
     created: "2024-09-23T09:22:14.63528446Z"
     description: NextChat 是一个设计精良的 ChatGPT 网页 UI，支持多种聊天服务，包括 ChatGPT、Claude、Gemini
@@ -438,6 +449,35 @@ entries:
     - https://github.com/t9k/apps/releases/download/nextchat-0.1.1/nextchat-0.1.1.tgz
     version: 0.1.1
   ollama:
+  - annotations:
+      artifacthub.io/category: ai-machine-learning
+      artifacthub.io/changes: |
+        - kind: changed
+          description: upgrade ollama to 0.4.1
+    apiVersion: v2
+    appVersion: 0.4.1
+    created: "2024-11-13T10:59:40.439742267Z"
+    description: Ollama 提供本地使用 LLM 的解决方案。
+    digest: 93503f00860aed6116c16d3b34428dd9d084075ce90ad7a9843a5ef97abce5f2
+    home: https://ollama.ai/
+    icon: https://ollama.ai/public/ollama.png
+    keywords:
+    - ai
+    - llm
+    - llama
+    - mistral
+    kubeVersion: ^1.16.0-0
+    maintainers:
+    - email: contact@otwld.com
+      name: OTWLD
+    name: ollama
+    sources:
+    - https://github.com/ollama/ollama
+    - https://github.com/otwld/ollama-helm
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/ollama-0.53.1/ollama-0.53.1.tgz
+    version: 0.53.1
   - annotations:
       artifacthub.io/category: ai-machine-learning
       artifacthub.io/changes: |
@@ -601,6 +641,43 @@ entries:
     - https://github.com/t9k/apps/releases/download/one-api-0.1.0/one-api-0.1.0.tgz
     version: 0.1.0
   open-webui:
+  - annotations:
+      licenses: MIT
+    apiVersion: v2
+    appVersion: 0.3.35
+    created: "2024-11-13T10:59:40.680093704Z"
+    dependencies:
+    - condition: ollama.enabled
+      import-values:
+      - child: service
+        parent: ollama.service
+      name: ollama
+      repository: https://otwld.github.io/ollama-helm/
+      version: '>=0.24.0'
+    - condition: pipelines.enabled
+      import-values:
+      - child: service
+        parent: pipelines.service
+      name: pipelines
+      repository: https://helm.openwebui.com
+      version: '>=0.0.1'
+    description: Open WebUI 是一个用户友好的聊天交互网页界面。
+    digest: c003d3eb89c47671abad53293e030d700fc090a92028fc70f30da7a16fdecf09
+    home: https://www.openwebui.com/
+    icon: https://raw.githubusercontent.com/open-webui/open-webui/main/static/favicon.png
+    keywords:
+    - llm
+    - chat
+    - web-ui
+    name: open-webui
+    sources:
+    - https://github.com/open-webui/helm-charts
+    - https://github.com/open-webui/open-webui/pkgs/container/open-webui
+    - https://github.com/otwld/ollama-helm/
+    - https://hub.docker.com/r/ollama/ollama
+    urls:
+    - https://github.com/t9k/apps/releases/download/open-webui-3.1.7/open-webui-3.1.7.tgz
+    version: 3.1.7
   - annotations:
       licenses: MIT
     apiVersion: v2
@@ -1367,4 +1444,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2024-11-13T07:29:15.701814466Z"
+generated: "2024-11-13T10:59:40.974842636Z"
