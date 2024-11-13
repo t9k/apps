@@ -1,14 +1,16 @@
-## @param image.registry Docker registry for the image
-## @param image.repository Repository name for the image
-## @param image.tag Tag for the image version
+## @param image.registry GPT Researcher image registry
+## @param image.repository GPT Researcher image repository
+## @param image.tag GPT Researcher image tag
+## @param image.pullPolicy GPT Researcher image pull policy
 ##
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
   repository: "$(T9K_APP_IMAGE_NAMESPACE)/gpt-researcher"
   tag: 0.2.6
+  pullPolicy: IfNotPresent
 
-## @param resources.limits.cpu CPU limit for Kubernetes resources
-## @param resources.limits.memory Memory limit for Kubernetes resources
+## @param resources.limits.cpu CPU limit for GPT Researcher container
+## @param resources.limits.memory Memory limit for GPT Researcher container
 ##
 resources:
   limits:

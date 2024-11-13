@@ -11,7 +11,7 @@ image:
   registry: docker.io
   repository: ollama/ollama
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.3.6"
+  tag: ""
   pullPolicy: IfNotPresent
 
 ## @param ollama.gpu.enabled Enable GPU integration

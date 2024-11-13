@@ -33,6 +33,12 @@ LLaMA-Factory 支持：
 默认配置：
 
 ```yaml
+image:
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/llama-board"
+  tag: "20240730"
+  pullPolicy: IfNotPresent
+
 resources:
   limits:
     cpu: 4
@@ -48,22 +54,15 @@ persistence:
 
 ### 字段
 
-| 名称                                | 描述                              | 值                      |
-| ----------------------------------- | --------------------------------- | ----------------------- |
-| `image.registry`                    | Docker 镜像的存储库               | `docker.io`             |
-| `image.repository`                  | Docker 镜像的存储库名称           | `t9kpublic/llama-board` |
-| `image.tag`                         | Docker 镜像的标签                 | `20240730`              |
-| `image.pullPolicy`                  | Docker 镜像的拉取策略             | `IfNotPresent`          |
-| `service.type`                      | Kubernetes 服务的类型             | `ClusterIP`             |
-| `service.port`                      | Kubernetes 服务的端口             | `7860`                  |
-| `ingress.enabled`                   | 启用/禁用 Kubernetes Ingress      | `false`                 |
-| `ingress.className`                 | Ingress 类名称                    | ``                      |
-| `ingress.annotations`               | Kubernetes Ingress 注释           | `{}`                    |
-| `ingress.hosts`                     | Kubernetes Ingress 的主机列表     | `[]`                    |
-| `ingress.tls`                       | Kubernetes Ingress 的 TLS 配置    | `[]`                    |
-| `resources.limits.cpu`              | Kubernetes 资源的 CPU 限制        | `4`                     |
-| `resources.limits.memory`           | Kubernetes 资源的内存限制         | `64Gi`                  |
-| `resources.limits."nvidia.com/gpu"` | Kubernetes 资源的 NVIDIA GPU 限制 | `1`                     |
-| `persistence.size`                  | 持久卷声明的大小                  | `50Gi`                  |
-| `persistence.storageClass`          | 持久卷声明的存储类别              | ``                      |
-| `persistence.accessModes`           | 持久卷声明的访问模式              | `["ReadWriteOnce"]`     |
+| 名称                                | 描述                                     | 值                                       |
+| ----------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| `image.registry`                    | LLaMA Board 镜像注册表                   | `$(T9K_APP_IMAGE_REGISTRY)`              |
+| `image.repository`                  | LLaMA Board 镜像仓库                     | `$(T9K_APP_IMAGE_NAMESPACE)/llama-board` |
+| `image.tag`                         | LLaMA Board 镜像标签                     | `20240730`                               |
+| `image.pullPolicy`                  | LLaMA Board 镜像拉取策略                 | `IfNotPresent`                           |
+| `resources.limits.cpu`              | LLaMA Board 容器能使用的 CPU 上限        | `4`                                      |
+| `resources.limits.memory`           | LLaMA Board 容器能使用的内存上限         | `64Gi`                                   |
+| `resources.limits."nvidia.com/gpu"` | LLaMA Board 容器能使用的 NVIDIA GPU 上限 | `1`                                      |
+| `persistence.size`                  | PVC 的大小                               | `50Gi`                                   |
+| `persistence.storageClass`          | PVC 的存储类型                           | ``                                       |
+| `persistence.accessModes`           | PVC 的访问模式                           | `["ReadWriteOnce"]`                      |

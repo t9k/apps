@@ -1,8 +1,8 @@
-## @param pvc Select a pvc as File Browser workspace.
+## @param pvc Mount a pvc as File Browser workspace
 pvc: ""
 
-## @param resources.limits.cpu CPU limit for the App container
-## @param resources.limits.memory Memory limit for the App container
+## @param resources.limits.cpu CPU limit for File Browser container
+## @param resources.limits.memory Memory limit for File Browser container
 resources:
   limits:
     cpu: 100m

@@ -1,5 +1,6 @@
-kind: PersistentVolumeClaim
+{{- if not .Values.persistence.existingClaim }}
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   name: {{ include "stable-diffusion-webui-aki.fullname" . }}
   labels:
@@ -13,3 +14,4 @@ spec:
   {{- end }}
   accessModes:
   {{- toYaml .Values.persistence.accessModes | nindent 4 }}
+{{- end }}

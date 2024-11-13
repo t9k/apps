@@ -68,9 +68,15 @@ spec:
             - mountPath: /dev/shm
               name: dshm
       volumes:
-        - name: data
+          {{- if .Values.persistence.existingClaim }}
+        - name: "data"
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim }}
+          {{- else }}
+        - name: "data"
           persistentVolumeClaim:
             claimName: {{ include "stable-diffusion-webui-aki.fullname" . }}
+          {{- end }}
         - name: dshm
           emptyDir:
             medium: Memory

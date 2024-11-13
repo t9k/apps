@@ -3,7 +3,6 @@ kind: Template
 metadata:
   name: argo-workflows
   displayName: Argo Workflows
-  defaultVersion: 0.1.0
   categories: ["Tool"]
   description: "Argo Workflows 是一个开源的工作流引擎，用于编排多步骤并行作业。"
   icon: "file://$APP_DIR/icon.png"

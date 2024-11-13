@@ -1,7 +1,7 @@
-## @param image.registry Repository registry for the Docker image
-## @param image.repository Repository name for the Docker image
-## @param image.tag Image tag for the Docker image (immutable tags are recommended)
-## @param image.pullPolicy Image pull policy for the Docker image
+## @param image.registry RStudio image registry
+## @param image.repository RStudio image repository
+## @param image.tag RStudio image tag
+## @param image.pullPolicy RStudio image pull policy
 ##
 image:
   registry: docker.io
@@ -9,11 +9,11 @@ image:
   tag: "1.72.1"
   pullPolicy: IfNotPresent
 
-## @param pvc Mount a pvc as RStudio working directory
+## @param pvc Mount a pvc as RStudio workspace
 pvc: ""
 
-## @param resources.cpu The maximum number of CPU the RStudio can use
-## @param resources.memory The maximum number of CPU the RStudio can use
+## @param resources.limits.cpu CPU limit for RStudio container
+## @param resources.limits.memory Memory limit for RStudio container
 resources:
   limits:
     cpu: 16

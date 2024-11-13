@@ -1,15 +1,17 @@
-## @param image.registry Docker registry for the image
-## @param image.repository Repository name for the image
-## @param image.tag Tag for the image version
+## @param image.registry Fish Speech image registry
+## @param image.repository Fish Speech image repository
+## @param image.tag Fish Speech image tag
+## @param image.pullPolicy Fish Speech image pull policy
 ##
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
   repository: "$(T9K_APP_IMAGE_NAMESPACE)/fish-speech"
-  tag: "v1.2"
+  tag: "v1.4.1"
+  pullPolicy: IfNotPresent
 
-## @param resources.limits.cpu CPU limit for Kubernetes resources
-## @param resources.limits.memory Memory limit for Kubernetes resources
-## @param resources.limits."nvidia.com/gpu" NVIDIA GPU limit for Kubernetes resources
+## @param resources.limits.cpu CPU limit for Fish Speech container
+## @param resources.limits.memory Memory limit for Fish Speech container
+## @param resources.limits."nvidia.com/gpu" NVIDIA GPU limit for Fish Speech container
 ##
 resources:
   limits:

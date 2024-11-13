@@ -91,7 +91,7 @@ service:
 openaiBaseApiUrl: ""
 
 # -- Additional environments variables on the output Deployment definition. Most up-to-date environment variables can be found here: https://docs.openwebui.com/getting-started/env-configuration/
-extraEnvVars:
+env:
   # -- Default API key value for Pipelines. Should be updated in a production deployment, or be changed to the required API key if not using Pipelines
   - name: OPENAI_API_KEY
     value: "0p3n-w3bu!"
@@ -114,14 +114,14 @@ podSecurityContext:
   # fsGroupChangePolicy: Always
   # sysctls: []
   # supplementalGroups: []
-  # fsGroup: 1001
+  # fsGroup: 2000
 
 # -- Configure container security context
 # ref: <https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-containe>
 containerSecurityContext:
   {}
-  # runAsUser: 1001
-  # runAsGroup: 1001
+  # runAsUser: 1000
+  # runAsGroup: 1000
   # runAsNonRoot: true
   # privileged: false
   # allowPrivilegeEscalation: false

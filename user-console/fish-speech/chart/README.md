@@ -32,19 +32,12 @@ resources:
 
 ### 字段
 
-| 名称                                | 描述                              | 值                      |
-| ----------------------------------- | --------------------------------- | ----------------------- |
-| `image.registry`                    | Docker 镜像的存储库               | `docker.io`             |
-| `image.repository`                  | Docker 镜像的存储库名称           | `t9kpublic/fish-speech` |
-| `image.tag`                         | Docker 镜像的标签                 | `v1.4.1`                |
-| `image.pullPolicy`                  | Docker 镜像的拉取策略             | `IfNotPresent`          |
-| `service.type`                      | Kubernetes 服务的类型             | `ClusterIP`             |
-| `service.port`                      | Kubernetes 服务的端口             | `7860`                  |
-| `ingress.enabled`                   | 启用/禁用 Kubernetes Ingress      | `false`                 |
-| `ingress.className`                 | Ingress 类名称                    | ``                      |
-| `ingress.annotations`               | Kubernetes Ingress 注释           | `{}`                    |
-| `ingress.hosts`                     | Kubernetes Ingress 的主机列表     | `[]`                    |
-| `ingress.tls`                       | Kubernetes Ingress 的 TLS 配置    | `[]`                    |
-| `resources.limits.cpu`              | Kubernetes 资源的 CPU 限制        | `1`                     |
-| `resources.limits.memory`           | Kubernetes 资源的内存限制         | `4Gi`                   |
-| `resources.limits."nvidia.com/gpu"` | Kubernetes 资源的 NVIDIA GPU 限制 | `1`                     |
+| 名称                                | 描述                                     | 值                                       |
+| ----------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| `image.registry`                    | Fish Speech 镜像注册表                   | `$(T9K_APP_IMAGE_REGISTRY)`              |
+| `image.repository`                  | Fish Speech 镜像仓库                     | `$(T9K_APP_IMAGE_NAMESPACE)/fish-speech` |
+| `image.tag`                         | Fish Speech 镜像标签                     | `v1.4.1`                                 |
+| `image.pullPolicy`                  | Fish Speech 镜像拉取策略                 | `IfNotPresent`                           |
+| `resources.limits.cpu`              | Fish Speech 容器能使用的 CPU 上限        | `16`                                     |
+| `resources.limits.memory`           | Fish Speech 容器能使用的内存上限         | `32Gi`                                   |
+| `resources.limits."nvidia.com/gpu"` | Fish Speech 容器能使用的 NVIDIA GPU 上限 | `1`                                      |

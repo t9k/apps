@@ -63,19 +63,19 @@ ssh:
 
 ### 字段
 
-| 名称                 | 描述                                                     | 值                               |
-| -------------------- | -------------------------------------------------------- | -------------------------------- |
-| `image.registry`     | JupyterLab 容器镜像注册表。                              | `docker.io`                      |
-| `image.repository`   | JupyterLab 容器镜像仓库。                                | `t9kpublic/rocker-4.2.3-rstudio` |
-| `image.tag`          | JupyterLab 容器镜像标签。                                | `1.72.1`                         |
-| `image.pullPolicy`   | JupyterLab 容器镜像拉取策略。                            | `IfNotPresent`                   |
-| `resources.cpu`      | JupyterLab 最多能使用的 CPU 数量。                       | `16`                             |
-| `resources.memory`   | JupyterLab 最多能使用的内存数量。                        | `32Gi`                           |
-| `pvc`                | 挂载到 RStudio 上的 PVC 名称，作为 RStudio 的工作空间。  | `""`                             |
-| `ssh.authorizedKeys` | 一系列记录 SSH 公钥的 K8s Secret 资源。                  | `[]`                             |
-| `ssh.enabled`        | 是否在 Notebook 上启用 SSH 服务。                        | `false`                          |
-| `ssh.serviceType`    | SSH 服务类型，支持 ClusterIP 和 NodePort 两种。          | `ClusterIP`                      |
-| `nodeSelector`       | 用于选择节点，RStudio 只会被调度到标签与之匹配的节点上。 | `null`                           |
+| 名称                      | 描述                                                   | 值                                                |
+| ------------------------- | ------------------------------------------------------ | ------------------------------------------------- |
+| `image.registry`          | RStudio 镜像注册表                                     | `$(T9K_APP_IMAGE_REGISTRY)`                       |
+| `image.repository`        | RStudio 镜像仓库                                       | `$(T9K_APP_IMAGE_NAMESPACE)/rocker-4.2.3-rstudio` |
+| `image.tag`               | RStudio 镜像标签                                       | `1.72.1`                                          |
+| `image.pullPolicy`        | RStudio 镜像拉取策略                                   | `IfNotPresent`                                    |
+| `pvc`                     | 挂载到 RStudio 上的 PVC 名称，作为 RStudio 的工作空间  | `""`                                              |
+| `resources.limits.cpu`    | RStudio 容器能使用的 CPU 上限                          | `16`                                              |
+| `resources.limits.memory` | RStudio 容器能使用的内存上限                           | `32Gi`                                            |
+| `ssh.authorizedKeys`      | 一系列记录 SSH 公钥的 K8s Secret 资源                  | `[]`                                              |
+| `ssh.enabled`             | 是否在 Notebook 上启用 SSH 服务                        | `false`                                           |
+| `ssh.serviceType`         | SSH 服务类型，支持 ClusterIP 和 NodePort 两种          | `ClusterIP`                                       |
+| `nodeSelector`            | 用于选择节点，RStudio 只会被调度到标签与之匹配的节点上 | `[]`                                              |
 
 ### 镜像列表
 

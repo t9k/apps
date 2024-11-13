@@ -1,7 +1,7 @@
-## @param image.registry Repository registry for the Docker image
-## @param image.repository Repository name for the Docker image
-## @param image.tag Image tag for the Docker image (immutable tags are recommended)
-## @param image.pullPolicy Image pull policy for the Docker image
+## @param image.registry TensorBoard image registry
+## @param image.repository TensorBoard image repository
+## @param image.tag TensorBoard image tag
+## @param image.pullPolicy TensorBoard image pull policy
 ##
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
@@ -22,8 +22,8 @@ image:
 #       - ""
 logDir: {}
 
-## @param resources.limits.cpu CPU limit for the App container
-## @param resources.limits.memory Memory limit for the App container
+## @param resources.limits.cpu CPU limit for TensorBoard container
+## @param resources.limits.memory Memory limit for TensorBoard container
 resources:
   limits:
     cpu: 200m

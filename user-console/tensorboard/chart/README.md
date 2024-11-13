@@ -32,8 +32,8 @@ App 支持 PVC 和 S3 两种数据源，配置时必须且只能选择其中一�
 
 ```yaml
 image:
-  registry: docker.io
-  repository: t9kpublic/tensorboard
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/tensorboard"
   tag: "2.17.0"
   pullPolicy: IfNotPresent
 
@@ -53,8 +53,8 @@ resources:
 
 ```yaml
 image:
-  registry: docker.io
-  repository: t9kpublic/tensorboard
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/tensorboard"
   tag: "2.17.0"
   pullPolicy: IfNotPresent
 
@@ -73,18 +73,18 @@ resources:
 
 ### 字段
 
-| 名称                       | 描述                                                                                                        | 值                      |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------- |
-| `image.registry`           | TensorBoard 容器镜像注册表。                                                                                | `docker.io`             |
-| `image.repository`         | TensorBoard 容器镜像仓库。                                                                                  | `t9kpublic/tensorboard` |
-| `image.tag`                | TensorBoard 容器镜像标签。                                                                                  | `2.17.0`                |
-| `image.pullPolicy`         | TensorBoard 容器镜像拉取策略。                                                                              | `IfNotPresent`          |
-| `logDir`                   | TensorBoard 数据源，支持 PVC 和 S3 两种数据源。                                                             | `{}`                    |
-| `logDir.pvc`               | 使用 PVC 作为 TensorBoard 数据源。                                                                          | `[]`                    |
-| `logDir.pvc[@].name`       | PVC 名称。                                                                                                  | `""`                    |
-| `logDir.pvc[@].subPath`    | PVC 中数据地址，该地址为数据在 PVC 中的相对地址。                                                           | `[]`                    |
-| `logDir.s3`                | 使用 S3 数据库作为 TensorBoard 数据源。                                                                     | `{}`                    |
-| `logDir.s3.secretRef.name` | 一个记录 S3 URL、密钥等信息的 K8s Secret 的名称。                                                           | `""`                    |
-| `logDir.s3.uri`            | S3 [folder](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-folders.html) 的 uri，以 `/` 结尾。 | `""`                    |
-| `resources.limits.cpu`     | TensorBoard 最多能使用的 CPU 数量。                                                                         | `200m`                  |
-| `resources.limits.memory`  | TensorBoard 最多能使用的内存数量。                                                                          | `4Gi`                   |
+| 名称                       | 描述                                                                                                      | 值                                       |
+| -------------------------- | --------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `image.registry`           | TensorBoard 镜像注册表                                                                                    | `$(T9K_APP_IMAGE_REGISTRY)`              |
+| `image.repository`         | TensorBoard 镜像仓库                                                                                      | `$(T9K_APP_IMAGE_NAMESPACE)/tensorboard` |
+| `image.tag`                | TensorBoard 镜像标签                                                                                      | `2.17.0`                                 |
+| `image.pullPolicy`         | TensorBoard 镜像拉取策略                                                                                  | `IfNotPresent`                           |
+| `logDir`                   | TensorBoard 数据源，支持 PVC 和 S3 两种数据源                                                             | `{}`                                     |
+| `logDir.pvc`               | 使用 PVC 作为 TensorBoard 数据源                                                                          | `[]`                                     |
+| `logDir.pvc[@].name`       | PVC 名称                                                                                                  | `""`                                     |
+| `logDir.pvc[@].subPath`    | PVC 中数据地址，该地址为数据在 PVC 中的相对地址                                                           | `[]`                                     |
+| `logDir.s3`                | 使用 S3 数据库作为 TensorBoard 数据源                                                                     | `{}`                                     |
+| `logDir.s3.secretRef.name` | 一个记录 S3 URL、密钥等信息的 K8s Secret 的名称                                                           | `""`                                     |
+| `logDir.s3.uri`            | S3 [folder](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-folders.html) 的 uri，以 `/` 结尾 | `""`                                     |
+| `resources.limits.cpu`     | TensorBoard 容器能使用的 CPU 上限                                                                         | `200m`                                   |
+| `resources.limits.memory`  | TensorBoard 容器能使用的内存上限                                                                          | `4Gi`                                    |

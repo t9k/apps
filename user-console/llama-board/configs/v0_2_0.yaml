@@ -1,14 +1,17 @@
-## @param image.registry Docker registry for the image
-## @param image.repository Repository name for the image
-## @param image.tag Tag for the image version
+## @param image.registry LLaMA Board image registry
+## @param image.repository LLaMA Board image repository
+## @param image.tag LLaMA Board image tag
+## @param image.pullPolicy LLaMA Board image pull policy
 ##
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
   repository: "$(T9K_APP_IMAGE_NAMESPACE)/llama-board"
   tag: "20240730"
+  pullPolicy: IfNotPresent
 
-## @param resources.limits.cpu CPU limit for Kubernetes resources
-## @param resources.limits.memory Memory limit for Kubernetes resources
+## @param resources.limits.cpu CPU limit for LLaMA Board container
+## @param resources.limits.memory Memory limit for LLaMA Board container
+## @param resources.limits."nvidia.com/gpu" NVIDIA GPU limit for LLaMA Board container
 ##
 resources:
   limits:
@@ -16,9 +19,9 @@ resources:
     memory: 64Gi
     nvidia.com/gpu: 1
 
-## @param persistence.size Size of the persistent volume claim
-## @param persistence.storageClass Storage class for the persistent volume claim
-## @param persistence.accessModes Access modes for the persistent volume claim
+## @param persistence.size Size of the PVC
+## @param persistence.storageClass Storage class for the PVC
+## @param persistence.accessModes Access modes for the PVC
 ##
 persistence:
   size: 50Gi

@@ -59,7 +59,7 @@
 
 * 生成的图像文件存储在同一个 PVC 的 `ComfyUI/outputs` 目录下，你可以在这里查看已生成的图片。
 
-* 默认的 PVC 大小为 64 GiB，请根据要下载的模型文件的总大小以及要生成的图像文件的总大小进行适当的调整。此外，该 PVC 在创建完成后也可以进行扩容。
+* 默认的 PVC 大小为 64 GiB，请根据要下载的模型文件的总大小以及要生成的图像文件的总大小进行适当的调整。此外，该 PVC 在创建完成后也可以进行扩容（取决于存储后端是否支持）。
 
 ## 配置
 
@@ -94,17 +94,17 @@ env: []
 
 | 名称                                | 描述                                 | 值                                   |
 | ----------------------------------- | ------------------------------------ | ------------------------------------ |
-| `image.registry`                    | ComfyUI 容器镜像的存储库             | `$(T9K_APP_IMAGE_REGISTRY)`          |
-| `image.repository`                  | ComfyUI 容器镜像的存储库名称         | `$(T9K_APP_IMAGE_NAMESPACE)/comfyui` |
-| `image.tag`                         | ComfyUI 容器镜像的标签               | `v0.2.3`                             |
-| `image.pullPolicy`                  | ComfyUI 容器镜像的拉取策略           | `IfNotPresent`                       |
-| `resources.limits.cpu`              | ComfyUI 最多能使用的 CPU 数量        | `4`                                  |
-| `resources.limits.memory`           | ComfyUI 最多能使用的内存数量         | `64Gi`                               |
-| `resources.limits."nvidia.com/gpu"` | ComfyUI 最多能使用的 NVIDIA GPU 数量 | `1`                                  |
+| `image.registry`                    | ComfyUI 镜像注册表                   | `$(T9K_APP_IMAGE_REGISTRY)`          |
+| `image.repository`                  | ComfyUI 镜像仓库                     | `$(T9K_APP_IMAGE_NAMESPACE)/comfyui` |
+| `image.tag`                         | ComfyUI 镜像标签                     | `v0.2.3`                             |
+| `image.pullPolicy`                  | ComfyUI 镜像拉取策略                 | `IfNotPresent`                       |
+| `resources.limits.cpu`              | ComfyUI 容器能使用的 CPU 上限        | `4`                                  |
+| `resources.limits.memory`           | ComfyUI 容器能使用的内存上限         | `64Gi`                               |
+| `resources.limits."nvidia.com/gpu"` | ComfyUI 容器能使用的 NVIDIA GPU 上限 | `1`                                  |
 | `persistence.size`                  | PVC 的大小                           | `64Gi`                               |
-| `persistence.storageClass`          | PVC 的存储类别                       | ``                                   |
+| `persistence.storageClass`          | PVC 的存储类型                       | ``                                   |
 | `persistence.accessModes`           | PVC 的访问模式                       | `["ReadWriteOnce"]`                  |
-| `persistence.existingClaim`         | 使用的现有 PVC 名称                  | ``                                   |
+| `persistence.existingClaim`         | 使用的现有 PVC 的名称                | ``                                   |
 | `env`                               | 额外的环境变量数组                   | `[]`                                 |
 
 ### 镜像列表

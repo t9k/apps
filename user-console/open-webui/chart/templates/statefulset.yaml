@@ -85,8 +85,8 @@ spec:
         - name: OPENAI_API_BASE_URL
           value: "https://api.openai.com/v1"
         {{ end }}
-        {{- if .Values.extraEnvVars }}
-          {{- toYaml .Values.extraEnvVars | nindent 8 }}
+        {{- if .Values.env }}
+          {{- toYaml .Values.env | nindent 8 }}
         {{- end }}
         tty: true
       {{- with .Values.nodeSelector }}

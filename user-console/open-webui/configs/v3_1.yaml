@@ -1,34 +1,43 @@
-## @param resources.limits.cpu CPU limit for the Ollama server pod
-## @param resources.limits.memory Memory limit for the Ollama server pod
+## @param image.registry Open WebUI image registry
+## @param image.repository Open WebUI image repository
+## @param image.tag Open WebUI image tag
+## @param image.pullPolicy Open WebUI image pull policy
+##
+image:
+  registry: ghcr.io
+  repository: open-webui/open-webui
+  tag: "git-96c8654"
+  pullPolicy: IfNotPresent
+
+## @param resources.limits.cpu CPU limit for Open WebUI container
+## @param resources.limits.memory Memory limit for Open WebUI container
 ##
 resources:
   limits:
     cpu: 1
     memory: 2Gi
 
-## @param persistence.storageClass Storage class for the persistent volume claim
-## @param persistence.size Size of the persistent volume claim
-## @param persistence.accessModes Access modes for the persistent volume claim. If using multiple replicas, you must update accessModes to ReadWriteMany
+## @param persistence.size Size of the PVC
+## @param persistence.storageClass Storage class for the PVC
+## @param persistence.accessModes Access modes for the PVC. If using multiple replicas, you must update accessModes to ReadWriteMany
 ## @param persistence.existingClaim Name of an existing PVC to use
 ##
 persistence:
-  storageClass: ""
   size: 2Gi
+  storageClass: ""
   accessModes:
     - ReadWriteOnce
   existingClaim: ""
 
 ## @param ollama.enabled Enable/disable installation of Ollama Helm chart
 ## @param ollama.ollama.gpu.enabled Enable/disable GPU support for Ollama
-## @param ollama.ollama.gpu.type GPU type for Ollama (e.g., nvidia)
+## @param ollama.ollama.gpu.type GPU type for Ollama (`nvidia` or `amd`)
 ## @param ollama.ollama.gpu.number Number of GPUs to allocate for Ollama
 ## @param ollama.ollama.models List of models to be deployed with Ollama
-## @param ollama.resources.requests.cpu CPU request for the Ollama server pod
-## @param ollama.resources.requests.memory Memory request for the Ollama server pod
-## @param ollama.resources.limits.cpu CPU limit for the Ollama server pod
-## @param ollama.resources.limits.memory Memory limit for the Ollama server pod
-## @param ollama.persistentVolume.enabled Enable persistence using Persistent Volume Claims
-## @param ollama.persistentVolume.size Ollama server data Persistent Volume size
+## @param ollama.resources.limits.cpu CPU limit for Ollama server container
+## @param ollama.resources.limits.memory Memory limit for Ollama server container
+## @param ollama.persistentVolume.enabled Enable persistence using PVC
+## @param ollama.persistentVolume.size Size of the PVC for Ollama server data
 ##
 ollama:
   enabled: true
@@ -43,10 +52,6 @@ ollama:
     #  - mistral
 
   resources:
-    requests:
-      cpu: 1
-      # cpu: 8  # if gpu is disabled
-      memory: 8Gi
     limits:
       cpu: 1
       # cpu: 16  # if gpu is disabled
@@ -69,7 +74,7 @@ pipelines:
 
 ## @param env Array of extra environment variables
 ##
-extraEnvVars: []
+env: []
   # - name: OPENAI_API_KEY
   #   valueFrom:
   #     secretKeyRef:

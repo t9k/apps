@@ -1,6 +1,7 @@
-## @param image.registry Docker registry for the image
-## @param image.repository Repository name for the image
-## @param image.tag Tag for the image version
+## @param image.registry ComfyUI image registry
+## @param image.repository ComfyUI image repository
+## @param image.tag ComfyUI image tag
+## @param image.pullPolicy ComfyUI image pull policy
 ##
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
@@ -8,9 +9,9 @@ image:
   tag: "v0.2.3"
   pullPolicy: IfNotPresent
 
-## @param resources.limits.cpu CPU limit for Kubernetes resources
-## @param resources.limits.memory Memory limit for Kubernetes resources
-## @param resources.limits."nvidia.com/gpu" NVIDIA GPU limit for Kubernetes resources
+## @param resources.limits.cpu CPU limit for ComfyUI container
+## @param resources.limits.memory Memory limit for ComfyUI container
+## @param resources.limits."nvidia.com/gpu" NVIDIA GPU limit for ComfyUI container
 ##
 resources:
   limits:

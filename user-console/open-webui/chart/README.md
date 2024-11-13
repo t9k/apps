@@ -16,7 +16,7 @@
 
 * 应用数据全部存储在随应用创建的 PVC `app-open-webui-xxxxxxxx` 中，包括聊天记录、上传的文件、工具模型（文本嵌入模型等）、向量数据等。
 
-* 默认的 PVC 大小为 2 GiB，请根据应用的使用规模进行适当的调整。另外，该 PVC 在创建完成后也可以进行扩容。
+* 默认的 PVC 大小为 2 GiB，请根据应用的使用规模进行适当的调整。另外，该 PVC 在创建完成后也可以进行扩容（取决于存储后端是否支持）。
 
 * 首个注册的用户将自动成为应用的管理员，后续注册的用户需要由管理员手动激活（或者由管理员修改默认用户角色）。只有管理员可以进入管理员面板，修改外部连接、模型、Pipelines、数据库等关键设置。
 
@@ -37,6 +37,12 @@
 应用本身申请 1 个 CPU（核心）和 2 GiB 内存资源，创建一个大小 2 GiB 的 PVC 以持久化应用数据；部署一个新的 Ollama 服务，其申请 1 个 CPU（核心）、16 GiB 内存资源以及 1 个 NVIDIA GPU，创建一个大小 30GiB 的 PVC 以存储 Ollama 服务器数据，启动时拉取两个模型；启用 Pipelines：
 
 ```yaml
+image:
+  registry: ghcr.io
+  repository: open-webui/open-webui
+  tag: "git-96c8654"
+  pullPolicy: IfNotPresent
+
 resources:
   limits:
     cpu: 1
@@ -79,20 +85,26 @@ pipelines:
   enabled: true
   extraEnvVars: []
 
-extraEnvVars: []
+env: []
 ```
 
 调用已有的 Ollama API 服务端点；禁用 Pipelines：
 
 ```yaml
+image:
+  registry: ghcr.io
+  repository: open-webui/open-webui
+  tag: "git-96c8654"
+  pullPolicy: IfNotPresent
+
 resources:
   limits:
     cpu: 1
     memory: 2Gi
 
 persistence:
-  storageClass: ""
   size: 2Gi
+  storageClass: ""
   accessModes:
     - ReadWriteOnce
   existingClaim: ""
@@ -125,35 +137,26 @@ pipelines:
   enabled: false
   extraEnvVars: []
 
-extraEnvVars: []
+env: []
 ```
 
 ### 字段
 
-| 名称                        | 类型   | 值                        | 描述                                                                                                                                               |
-| --------------------------- | ------ | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `replicaCount`              | int    | `1`                       | 副本数量                                                                                                                                           |
-| `image.registry`            | string | `"ghcr.io"`               | Docker 镜像的仓库注册表                                                                                                                            |
-| `image.repository`          | string | `"open-webui/open-webui"` | Docker 镜像的仓库名称                                                                                                                              |
-| `image.tag`                 | string | `"latest"`                | Docker 镜像的标签                                                                                                                                  |
-| `image.pullPolicy`          | string | `"IfNotPresent"`          | Docker 镜像的拉取策略                                                                                                                              |
-| `service.type`              | string | `"ClusterIP"`             | Kubernetes 服务的类型                                                                                                                              |
-| `service.port`              | int    | `80`                      | Kubernetes 服务的端口                                                                                                                              |
-| `ingress.enabled`           | bool   | `false`                   | 启用/禁用 Ingress                                                                                                                                  |
-| `ingress.class`             | string | `""`                      | Ingress 类                                                                                                                                         |
-| `ingress.annotations`       | object | `{}`                      | 使用适当的注释用于您的 Ingress 控制器，例如，对于 NGINX：nginx.ingress.kubernetes.io/rewrite-target: /                                             |
-| `ingress.host`              | string | `""`                      | Ingress 的主机                                                                                                                                     |
-| `ingress.tls`               | bool   | `false`                   | Ingress 的 TLS 配置                                                                                                                                |
-| `ingress.existingSecret`    | string | `""`                      | 已有的 Secret 作为 Ingress 的 TLS 配置                                                                                                             |
-| `resources.limits.cpu`      | string | `"1"`                     | Kubernetes 资源的 CPU 限制                                                                                                                         |
-| `resources.limits.memory`   | string | `"2Gi"`                   | Kubernetes 资源的内存限制                                                                                                                          |
-| `persistence.storageClass`  | string | `""`                      | PVC 的存储类                                                                                                                                       |
-| `persistence.size`          | string | `"2Gi"`                   | PVC 的大小                                                                                                                                         |
-| `persistence.accessModes`   | list   | `["ReadWriteOnce"]`       | PVC 的访问模式。如果使用多个副本，必须更新 accessModes 为 ReadWriteMany                                                                            |
-| `persistence.existingClaim` | string | `""`                      | 使用现有 PVC 的名称                                                                                                                                |
-| `ollama.enabled`            | bool   | `true`                    | 自动从 https://otwld.github.io/ollama-helm/ 安装 Ollama Helm chart，使用 [Helm Values](https://github.com/otwld/ollama-helm/#helm-values) 进行配置 |
-| `ollama.*`                  |        |                           | 参考 [Helm Values](https://github.com/otwld/ollama-helm/#helm-values) 或 Ollama 应用的参数                                                         |
-| `ollamaUrls`                | list   | `[]`                      | Ollama API 服务端点列表。这些可以替代自动安装 Ollama Helm chart，或与其一起添加。注意服务端点需要添加 `http://` 前缀。                             |
-| `pipelines.enabled`         | bool   | `true`                    | 自动安装 Pipelines chart 以使用 Pipelines 扩展 Open WebUI 功能：https://github.com/open-webui/pipelines                                            |
-| `pipelines.extraEnvVars`    | list   | `[]`                      | 此部分可用于传递所需的环境变量到您的 pipelines（例如 Langfuse 主机名）                                                                             |
-| `extraEnvVars`              | list   | `[]`                      | 输出部署定义中的其他环境变量。                                                                                                                     |
+| 名称                        | 描述                                                                                                                                               | 值                      |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| `image.registry`            | Open WebUI 镜像注册表                                                                                                                              | `ghcr.io`               |
+| `image.repository`          | Open WebUI 镜像仓库                                                                                                                                | `open-webui/open-webui` |
+| `image.tag`                 | Open WebUI 镜像标签                                                                                                                                | `git-96c8654`           |
+| `image.pullPolicy`          | Open WebUI 镜像拉取策略                                                                                                                            | `IfNotPresent`          |
+| `resources.limits.cpu`      | Open WebUI 容器能使用的 CPU 上限                                                                                                                   | `1`                     |
+| `resources.limits.memory`   | Open WebUI 容器能使用的内存上限                                                                                                                    | `2Gi`                   |
+| `persistence.size`          | PVC 的大小                                                                                                                                         | `2Gi`                   |
+| `persistence.storageClass`  | PVC 的存储类型                                                                                                                                     | `""`                    |
+| `persistence.accessModes`   | PVC 的访问模式，多个副本时需使用 `ReadWriteMany`                                                                                                   | `["ReadWriteOnce"]`     |
+| `persistence.existingClaim` | 使用的现有 PVC 的名称                                                                                                                                | `""`                    |
+| `ollama.enabled`            | 是否从 https://otwld.github.io/ollama-helm/ 安装 Ollama Helm chart，使用 [Helm Values](https://github.com/otwld/ollama-helm/#helm-values) 进行配置 | `true`                  |
+| `ollama.*`                  | 请参考 [Helm Values](https://github.com/otwld/ollama-helm/#helm-values) 或 Ollama 应用的参数                                                       |                         |
+| `ollamaUrls`                | Ollama API 服务端点列表。注意服务端点需要添加 `http://` 前缀                                                                                       | `[]`                    |
+| `pipelines.enabled`         | 是否安装 Pipelines chart 以使用 Pipelines 扩展 Open WebUI 功能：https://github.com/open-webui/pipelines                                            | `true`                  |
+| `pipelines.extraEnvVars`    | Pipelines 的额外的环境变量数组                                                                                                                     | `[]`                    |
+| `env`                       | 额外的环境变量数组                                                                                                                                 | `[]`                    |

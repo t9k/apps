@@ -1,7 +1,7 @@
-## @param image.registry Repository registry for the Docker image
-## @param image.repository Repository name for the Docker image
-## @param image.tag Image tag for the Docker image (immutable tags are recommended)
-## @param image.pullPolicy Image pull policy for the Docker image
+## @param image.registry JupyterLab image registry
+## @param image.repository JupyterLab image repository
+## @param image.tag JupyterLab image tag
+## @param image.pullPolicy JupyterLab image pull policy
 ##
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
@@ -9,15 +9,17 @@ image:
   tag: "20241031"
   pullPolicy: IfNotPresent
 
-## @param pvc Mount a PVC as JupyterLab working directory
+## @param pvc Mount a PVC as JupyterLab workspace
 pvc: ""
 
-## @param resources.limits.cpu CPU limit for the App container
-## @param resources.limits.memory Memory limit for the App container
+## @param resources.limits.cpu CPU limit for JupyterLab container
+## @param resources.limits.memory Memory limit for JupyterLab container
+## @param resources.limits."nvidia.com/gpu" NVIDIA GPU limit for JupyterLab container
 resources:
   limits:
     cpu: 16
     memory: 32Gi
+    nvidia.com/gpu: 1
 
 ## @param ssh.enabled Set true to start a SSH Service for JupyterLab
 ## @param ssh.authorizedKeys A list of names of v1.Secret containing SSH public keys authorized for access to this SSH service

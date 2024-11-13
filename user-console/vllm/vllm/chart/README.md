@@ -203,41 +203,41 @@ initializer:
 
 ### 字段
 
-| 名称                                       | 描述                                           | 值                                       |
-| ------------------------------------------ | ---------------------------------------------- | ---------------------------------------- |
-| `server.image.registry`                    | 服务器镜像的注册表                             | `$(T9K_APP_IMAGE_REGISTRY)`              |
-| `server.image.repository`                  | 服务器镜像的仓库                               | `$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai` |
-| `server.image.tag`                         | 服务器镜像的标签                               | `v0.6.3`                                 |
-| `server.image.pullPolicy`                  | 服务器镜像的拉取策略                           | `IfNotPresent`                           |
-| `server.resources.limits.cpu`              | 服务器容器的 CPU 限制                          | `4`                                      |
-| `server.resources.limits.memory`           | 服务器容器的内存限制                           | `64Gi`                                   |
-| `server.resources.limits."nvidia.com/gpu"` | 服务器容器的 NVIDIA GPU 限制                   | `1`                                      |
-| `server.model.deployName`                  | 部署模型的名称                                 | ``                                       |
-| `server.model.volume.storageClass`         | 模型卷的存储类别                               | ``                                       |
-| `server.model.volume.size`                 | 模型卷的大小                                   | `32Gi`                                   |
-| `server.model.volume.accessModes`          | 模型卷的访问模式                               | `ReadWriteOnce`                          |
-| `server.model.volume.existingClaim`        | 已有的 PVC 模型卷                              | ``                                       |
-| `server.model.volume.subPath`              | 模型卷的子目录                                 | ``                                       |
-| `server.autoScaling.minReplicas`           | 自动容量伸缩的最小副本数                       | `1`                                      |
-| `server.autoScaling.maxReplicas`           | 自动容量伸缩的最大副本数                       | `1`                                      |
-| `server.autoScaling.annotations`           | Knative Service 自动扩缩的注解                 | {}                                       |
-| `server.app.extraArgs`                     | 为 vLLM engine 设置的额外参数                  | `[]`                                     |
-| `server.env`                               | 添加到服务器容器的额外的环境变量               | `[]`                                     |
-| `server.extraVolumeMounts`                 | 添加到服务器容器的额外的 volume mount          | `[]`                                     |
-| `server.extraVolume`                       | 添加到服务器 Pod 的额外的卷                    | `[]`                                     |
-| `server.securityContext`                   | 添加到服务器容器的额外的 security context      | `{}`                                     |
-| `server.nodeSelector`                      | 用于服务器 Pod 分配的节点标签                  | `{}`                                     |
-| `datacube.source`                          | 模型的来源（`huggingface`, `git`, `s3` 或 ""） | ``                                       |
-| `datacube.huggingface.id`                  | 模型的 Hugging Face ID                         | ``                                       |
-| `datacube.huggingface.files`               | 从 Hugging Face 模型仓库下载的文件             | ``                                       |
-| `datacube.huggingface.existingSecret`      | Hugging Face token 的 Secret 引用              | ``                                       |
-| `datacube.git.url`                         | Git 仓库 URL                                   | ``                                       |
-| `datacube.git.ref`                         | Git 分支、标签或 commit                        | ``                                       |
-| `datacube.git.existingSecret`              | Git token 的 Secret 引用                       | ``                                       |
-| `datacube.s3.url`                          | S3 URL                                         | ``                                       |
-| `datacube.s3.existingSecret`               | 包含 S3 凭证的 s3-env 类型的 Secret 引用       | ``                                       |
-| `datacube.env`                             | 添加到 datacube 容器的额外的环境变量           | `[]`                                     |
-| `initializer.image.registry`               | 初始化器镜像的注册表                           | `$(T9K_APP_IMAGE_REGISTRY)`              |
-| `initializer.image.repository`             | 初始化器镜像的仓库                             | `$(T9K_APP_IMAGE_NAMESPACE)/kubectl`     |
-| `initializer.image.tag`                    | 初始化器镜像的标签                             | `1.27`                                   |
-| `initializer.image.pullPolicy`             | 初始化器镜像的拉取策略                         | `IfNotPresent`                           |
+| 名称                                       | 描述                                            | 值                                       |
+| ------------------------------------------ | ----------------------------------------------- | ---------------------------------------- |
+| `server.image.registry`                    | vLLM 服务器镜像注册表                           | `$(T9K_APP_IMAGE_REGISTRY)`              |
+| `server.image.repository`                  | vLLM 服务器镜像仓库                             | `$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai` |
+| `server.image.tag`                         | vLLM 服务器镜像标签                             | `v0.6.3`                                 |
+| `server.image.pullPolicy`                  | vLLM 服务器镜像拉取策略                         | `IfNotPresent`                           |
+| `server.resources.limits.cpu`              | vLLM 服务器容器能使用的 CPU 上限                | `4`                                      |
+| `server.resources.limits.memory`           | vLLM 服务器容器能使用的内存上限                 | `64Gi`                                   |
+| `server.resources.limits."nvidia.com/gpu"` | vLLM 服务器容器能使用的 NVIDIA GPU 上限         | `1`                                      |
+| `server.model.deployName`                  | 部署模型的名称                                  | ``                                       |
+| `server.model.volume.storageClass`         | 模型卷的存储类别                                | ``                                       |
+| `server.model.volume.size`                 | 模型卷的大小                                    | `32Gi`                                   |
+| `server.model.volume.accessModes`          | 模型卷的访问模式                                | `ReadWriteOnce`                          |
+| `server.model.volume.existingClaim`        | 已有的 PVC 模型卷                               | ``                                       |
+| `server.model.volume.subPath`              | 模型卷的子目录                                  | ``                                       |
+| `server.autoScaling.minReplicas`           | 自动容量伸缩的最小副本数                        | `1`                                      |
+| `server.autoScaling.maxReplicas`           | 自动容量伸缩的最大副本数                        | `1`                                      |
+| `server.autoScaling.annotations`           | Knative Service 自动扩缩的注解                  | {}                                       |
+| `server.app.extraArgs`                     | 为 vLLM engine 设置的额外参数                   | `[]`                                     |
+| `server.env`                               | 添加到 vLLM 服务器容器的额外的环境变量          | `[]`                                     |
+| `server.extraVolumeMounts`                 | 添加到 vLLM 服务器容器的额外的 volume mount     | `[]`                                     |
+| `server.extraVolume`                       | 添加到 vLLM 服务器 Pod 的额外的卷               | `[]`                                     |
+| `server.securityContext`                   | 添加到 vLLM 服务器容器的额外的 security context | `{}`                                     |
+| `server.nodeSelector`                      | 用于 vLLM 服务器 Pod 分配的节点标签             | `{}`                                     |
+| `datacube.source`                          | 模型的来源（`huggingface`, `git`, `s3` 或 ""）  | ``                                       |
+| `datacube.huggingface.id`                  | 模型的 Hugging Face ID                          | ``                                       |
+| `datacube.huggingface.files`               | 从 Hugging Face 模型仓库下载的文件              | ``                                       |
+| `datacube.huggingface.existingSecret`      | Hugging Face token 的 Secret 引用               | ``                                       |
+| `datacube.git.url`                         | Git 仓库 URL                                    | ``                                       |
+| `datacube.git.ref`                         | Git 分支、标签或 commit                         | ``                                       |
+| `datacube.git.existingSecret`              | Git token 的 Secret 引用                        | ``                                       |
+| `datacube.s3.url`                          | S3 URL                                          | ``                                       |
+| `datacube.s3.existingSecret`               | 包含 S3 凭证的 s3-env 类型的 Secret 引用        | ``                                       |
+| `datacube.env`                             | 添加到 DataCube 容器的额外的环境变量            | `[]`                                     |
+| `initializer.image.registry`               | 初始化器镜像注册表                              | `$(T9K_APP_IMAGE_REGISTRY)`              |
+| `initializer.image.repository`             | 初始化器镜像仓库                                | `$(T9K_APP_IMAGE_NAMESPACE)/kubectl`     |
+| `initializer.image.tag`                    | 初始化器镜像标签                                | `1.27`                                   |
+| `initializer.image.pullPolicy`             | 初始化器镜像拉取策略                            | `IfNotPresent`                           |

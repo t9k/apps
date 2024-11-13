@@ -25,6 +25,12 @@
 与 ChatGPT 聊天：
 
 ```yaml
+image:
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/chatgpt-next-web"
+  tag: "v2.15.8"
+  pullPolicy: IfNotPresent
+
 resources:
   limits:
     cpu: 1
@@ -44,6 +50,12 @@ env:
 与 vLLM 应用的推理服务聊天：
 
 ```yaml
+image:
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/chatgpt-next-web"
+  tag: "v2.15.8"
+  pullPolicy: IfNotPresent
+
 resources:
   limits:
     cpu: 1
@@ -60,28 +72,20 @@ env: []
 
 ### 字段
 
-| 名称                       | 描述                                                    | 值                         |
-| -------------------------- | ------------------------------------------------------- | -------------------------- |
-| `replicaCount`             | 副本数量                                                | `1`                        |
-| `image.registry`           | Docker 镜像的存储库                                     | `docker.io`                |
-| `image.repository`         | Docker 镜像的存储库名称                                 | `yidadaa/chatgpt-next-web` |
-| `image.tag`                | Docker 镜像的标签                                       | `v2.15.2`                  |
-| `image.pullPolicy`         | Docker 镜像的拉取策略                                   | `IfNotPresent`             |
-| `service.type`             | Kubernetes 服务的类型                                   | `ClusterIP`                |
-| `service.port`             | Kubernetes 服务的端口                                   | `3000`                     |
-| `ingress.enabled`          | 启用/禁用 Kubernetes Ingress                            | `false`                    |
-| `ingress.className`        | Ingress 类名称                                          | ``                         |
-| `ingress.annotations`      | Kubernetes Ingress 注释                                 | `{}`                       |
-| `ingress.hosts`            | Kubernetes Ingress 的主机列表                           | `[]`                       |
-| `ingress.tls`              | Kubernetes Ingress 的 TLS 配置                          | `[]`                       |
-| `resources.limits.cpu`     | Kubernetes 资源的 CPU 限制                              | `1`                        |
-| `resources.limits.memory`  | Kubernetes 资源的内存限制                               | `2Gi`                      |
-| `llm.provider`             | 模型提供商 (`openai`、`azure`、`anthropic` 或 `google`) | `openai`                   |
-| `llm.apiKey`               | 访问语言模型提供商的 API 密钥                           | ``                         |
-| `llm.openai.baseUrl`       | 兼容 OpenAI API 的服务器的 URL                          | `https://api.openai.com`   |
-| `llm.azure.url`            | Azure 语言模型 API 的 URL                               | ``                         |
-| `llm.azure.apiVersion`     | Azure 语言模型 API 的版本                               | ``                         |
-| `llm.anthropic.url`        | Anthropic 语言模型 API 的 URL                           | ``                         |
-| `llm.anthropic.apiVersion` | Anthropic 语言模型 API 的版本                           | ``                         |
-| `llm.google.url`           | Google 语言模型 API 的 URL                              | ``                         |
-| `env`                      | 额外的环境变量数组                                      | `[]`                       |
+| 名称                       | 描述                                                    | 值                                            |
+| -------------------------- | ------------------------------------------------------- | --------------------------------------------- |
+| `image.registry`           | NextChat 镜像注册表                                     | `$(T9K_APP_IMAGE_REGISTRY)`                   |
+| `image.repository`         | NextChat 镜像仓库                                       | `$(T9K_APP_IMAGE_NAMESPACE)/chatgpt-next-web` |
+| `image.tag`                | NextChat 镜像标签                                       | `v2.15.8`                                     |
+| `image.pullPolicy`         | NextChat 镜像拉取策略                                   | `IfNotPresent`                                |
+| `resources.limits.cpu`     | NextChat 容器能使用的 CPU 上限                          | `1`                                           |
+| `resources.limits.memory`  | NextChat 容器能使用的内存上限                           | `2Gi`                                         |
+| `llm.provider`             | 模型提供商 (`openai`、`azure`、`anthropic` 或 `google`) | `openai`                                      |
+| `llm.apiKey`               | 访问语言模型提供商的 API 密钥                           | ``                                            |
+| `llm.openai.baseUrl`       | 兼容 OpenAI API 的服务器的 URL                          | `https://api.openai.com`                      |
+| `llm.azure.url`            | Azure 语言模型 API 的 URL                               | ``                                            |
+| `llm.azure.apiVersion`     | Azure 语言模型 API 的版本                               | ``                                            |
+| `llm.anthropic.url`        | Anthropic 语言模型 API 的 URL                           | ``                                            |
+| `llm.anthropic.apiVersion` | Anthropic 语言模型 API 的版本                           | ``                                            |
+| `llm.google.url`           | Google 语言模型 API 的 URL                              | ``                                            |
+| `env`                      | 额外的环境变量数组                                      | `[]`                                          |

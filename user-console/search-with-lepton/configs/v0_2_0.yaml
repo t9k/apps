@@ -1,20 +1,21 @@
-## @param resources.limits.cpu CPU limit for Kubernetes resources
-## @param resources.limits.memory Memory limit for Kubernetes resources
+## @param image.registry Search with Lepton image registry
+## @param image.repository Search with Lepton image repository
+## @param image.tag Search with Lepton image tag
+## @param image.pullPolicy Search with Lepton image pull policy
+##
+image:
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/search-with-lepton"
+  tag: "20240208"
+  pullPolicy: IfNotPresent
+
+## @param resources.limits.cpu CPU limit for Search with Lepton container
+## @param resources.limits.memory Memory limit for Search with Lepton container
 ##
 resources:
   limits:
     cpu: 1
     memory: 2Gi
-
-## @param image.registry Docker registry for the image
-## @param image.repository Repository name for the image
-## @param image.tag Tag for the image version
-##
-image:
-  registry: "$(T9K_APP_IMAGE_REGISTRY)"
-  repository: "$(T9K_APP_IMAGE_NAMESPACE)/search-with-lepton"
-  tag: "20240730"
-
 
 ## @param llm.baseUrl URL of the server compatible with the OpenAI API
 ## @param llm.apiKey API key for accessing the OpenAI API

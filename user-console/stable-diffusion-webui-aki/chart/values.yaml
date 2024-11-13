@@ -1,27 +1,13 @@
-## @param image.registry Repository registry for the Docker image
-## @param image.repository Repository name for the Docker image
-## @param image.tag Image tag for the Docker image (immutable tags are recommended)
-## @param image.pullPolicy Image pull policy for the Docker image
-##
 image:
   registry: docker.io
   repository: t9kpublic/stable-diffusion-webui
   tag: "20240514"
   pullPolicy: IfNotPresent
 
-## @param service.type Service type for the Kubernetes service
-## @param service.port Port for the Kubernetes service
-##
 service:
   type: ClusterIP
   port: 7860
 
-## @param ingress.enabled Enable/disable Kubernetes ingress
-## @param ingress.className Ingress class name
-## @param ingress.annotations Annotations for Kubernetes ingress
-## @param ingress.hosts List of hosts for Kubernetes ingress
-## @param ingress.tls TLS configuration for Kubernetes ingress
-##
 ingress:
   enabled: false
   className: ""
@@ -34,22 +20,15 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-## @param resources.limits.cpu CPU limit for Kubernetes resources
-## @param resources.limits.memory Memory limit for Kubernetes resources
-## @param resources.limits."nvidia.com/gpu" NVIDIA GPU limit for Kubernetes resources
-##
 resources:
   limits:
     cpu: 4
     memory: 64Gi
     nvidia.com/gpu: 1
 
-## @param persistence.size Size of the persistent volume claim
-## @param persistence.storageClass Storage class for the persistent volume claim
-## @param persistence.accessModes Access modes for the persistent volume claim
-##
 persistence:
-  size: 32Gi
+  size: 64Gi
   storageClass: ""
   accessModes:
   - ReadWriteOnce
+  existingClaim: ""
