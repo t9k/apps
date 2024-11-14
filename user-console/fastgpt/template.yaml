@@ -4,7 +4,7 @@ metadata:
   name: fastgpt
   displayName: "FastGPT"
   categories: ["AI"]
-  description: "FastGPT"
+  description: "FastGPT 是一个基于 LLM 的知识平台，提供了一整套开箱即用的功能，如数据处理、RAG 检索和可视化 AI 工作流编排，使您能够轻松开发和部署复杂的问答系统，而无需大量的设置或配置。"
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm:

@@ -1,31 +1,62 @@
+## @param image.registry One API image registry
+## @param image.repository One API image repository
+## @param image.tag One API image tag
+## @param image.pullPolicy One API image pull policy
+##
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
   repository: "$(T9K_APP_IMAGE_NAMESPACE)/one-api"
   tag: "v0.6.7"
   pullPolicy: IfNotPresent
 
+## @param resources.limits.cpu CPU limit for One API container
+## @param resources.limits.memory Memory limit for One API container
+##
 resources:
   limits:
     cpu: 1
     memory: 2Gi
 
+## @param persistence.enabled Enable/disable persistence using PVC
+## @param persistence.size Size of the PVC
+## @param persistence.storageClass Storage class for the PVC
+## @param persistence.accessMode Access mode for the PVC
+## @param persistence.existingClaim Name of an existing PVC to use
+##
 persistence:
   enabled: true
   size: 500Mi
   storageClass: ""
   accessMode: ReadWriteMany
-  volumeMode: Filesystem
   existingClaim: ""
 
+## @param mysql.enabled Enable/disable installation of MySQL
+##
 mysql:
   enabled: true
+
+  ## @param mysql.image.registry MySQL image registry
+  ## @param mysql.image.repository MySQL image repository
+  ## @param mysql.image.tag MySQL image tag
+  ## @param mysql.image.pullPolicy MySQL image pull policy
+  ##
   image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/mysql"
     tag: 5.7.43
+    pullPolicy: IfNotPresent
+
+  ## @param mysql.auth.database MySQL database name
+  ## @param mysql.auth.rootPassword MySQL root password
+  ##
   auth:
     database: oneapi
     rootPassword: "123456"
+
+  ## @param mysql.primary.resources.limits.cpu CPU limit for MySQL container
+  ## @param mysql.primary.resources.limits.memory Memory limit for MySQL container
+  ## @param mysql.primary.persistence.enabled Enable persistence using PVC for MySQL
+  ##
   primary:
     resources:
       limits:

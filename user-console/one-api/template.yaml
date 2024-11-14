@@ -4,7 +4,7 @@ metadata:
   name: one-api
   displayName: "One API"
   categories: ["AI"]
-  description: "One API"
+  description: "One API 是一个 OpenAI 接口管理与分发系统，支持多个主流 LLM 服务提供商。"
   icon: "file://$APP_DIR/icon.png"
 template:
   helm:
