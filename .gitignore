@@ -3,3 +3,6 @@
 
 # For local test
 local-test/
+
+# Helm packages
+*.tgz
