@@ -4,7 +4,7 @@ metadata:
   name: chatnio
   displayName: "Chat Nio"
   categories: ["AI"]
-  description: "Chat Nio"
+  description: "Chat Nio 是下一代的 AI 一站式解决方案，面向 B/C 端用户，全面支持多种主流 AI 模型。"
   icon: "file://$APP_DIR/icon.png"
 template:
   helm:
