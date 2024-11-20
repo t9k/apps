@@ -38,8 +38,8 @@
 
 ```yaml
 image:
-  registry: ghcr.io
-  repository: open-webui/open-webui
+  registry: docker.io
+  repository: t9kpublic/open-webui
   tag: "git-96c8654"
   pullPolicy: IfNotPresent
 
@@ -92,8 +92,8 @@ env: []
 
 ```yaml
 image:
-  registry: ghcr.io
-  repository: open-webui/open-webui
+  registry: docker.io
+  repository: t9kpublic/open-webui
   tag: "git-96c8654"
   pullPolicy: IfNotPresent
 
@@ -144,8 +144,8 @@ env: []
 
 | 名称                        | 描述                                                                                                                                               | 值                      |
 | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
-| `image.registry`            | Open WebUI 镜像注册表                                                                                                                              | `ghcr.io`               |
-| `image.repository`          | Open WebUI 镜像仓库                                                                                                                                | `open-webui/open-webui` |
+| `image.registry`            | Open WebUI 镜像注册表                                                                                                                              | `docker.io`               |
+| `image.repository`          | Open WebUI 镜像仓库                                                                                                                                | `t9kpublic/open-webui` |
 | `image.tag`                 | Open WebUI 镜像标签                                                                                                                                | `git-96c8654`           |
 | `image.pullPolicy`          | Open WebUI 镜像拉取策略                                                                                                                            | `IfNotPresent`          |
 | `resources.limits.cpu`      | Open WebUI 容器能使用的 CPU 上限                                                                                                                   | `1`                     |
@@ -157,6 +157,18 @@ env: []
 | `ollama.enabled`            | 是否从 https://otwld.github.io/ollama-helm/ 安装 Ollama Helm chart，使用 [Helm Values](https://github.com/otwld/ollama-helm/#helm-values) 进行配置 | `true`                  |
 | `ollama.*`                  | 请参考 [Helm Values](https://github.com/otwld/ollama-helm/#helm-values) 或 Ollama 应用的参数                                                       |                         |
 | `ollamaUrls`                | Ollama API 服务端点列表。注意服务端点需要添加 `http://` 前缀                                                                                       | `[]`                    |
+| `ollama.image.registry`            | Ollama 镜像注册表                                                                                                                              | `docker.io`               |
+| `ollama.image.repository`          | Ollama 镜像仓库                                                                                                                                | `t9kpublic/ollama` |
+| `ollama.image.tag`                 | Ollama 镜像标签                                                                                                                                | `0.3.6`           |
+| `ollama.image.pullPolicy`          | Ollama 镜像拉取策略                                                                                                                            | `IfNotPresent`          |
+| `ollama.resources.limits.cpu`      | Ollama 容器能使用的 CPU 上限                                                                                                                   | `2`                     |
+| `ollama.resources.limits.memory`   | Ollama 容器能使用的内存上限                                                                                                                    | `16Gi`                   |
 | `pipelines.enabled`         | 是否安装 Pipelines chart 以使用 Pipelines 扩展 Open WebUI 功能：https://github.com/open-webui/pipelines                                            | `true`                  |
 | `pipelines.extraEnvVars`    | Pipelines 的额外的环境变量数组                                                                                                                     | `[]`                    |
+| `pipelines.image.registry`            | Pipelines 镜像注册表                                                                                                                              | `docker.io`               |
+| `pipelines.image.repository`          | Pipelines 镜像仓库                                                                                                                                | `t9kpublic/pipelines` |
+| `pipelines.image.tag`                 | Pipelines 镜像标签                                                                                                                                | `main`           |
+| `pipelines.image.pullPolicy`          | Pipelines 镜像拉取策略                                                                                                                            | `IfNotPresent`          |
+| `pipelines.resources.limits.cpu`      | Pipelines 容器能使用的 CPU 上限                                                                                                                   | `4`                     |
+| `pipelines.resources.limits.memory`   | Pipelines 容器能使用的内存上限                                                                                                                    | `8Gi`                   |
 | `env`                       | 额外的环境变量数组                                                                                                                                 | `[]`                    |

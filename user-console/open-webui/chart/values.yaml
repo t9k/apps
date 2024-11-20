@@ -3,6 +3,7 @@ nameOverride: ""
 ollama:
   # -- Automatically install Ollama Helm chart from https://otwld.github.io/ollama-helm/. Use [Helm Values](https://github.com/otwld/ollama-helm/#helm-values) to configure
   enabled: true
+
   # -- Example Ollama configuration with nvidia GPU enabled, automatically downloading a model, and deploying a PVC for model persistence
   # ollama:
   #   gpu:
@@ -15,11 +16,37 @@ ollama:
   # persistentVolume:
   #   enabled: true
 
+  # Docker image
+  image:
+    registry: docker.io
+    # -- Docker image registry
+    repository: t9kpublic/ollama
+
+    # -- Docker pull policy
+    pullPolicy: IfNotPresent
+
+    # -- Docker image tag, overrides the image tag whose default is the chart appVersion.
+    tag: "0.3.6"
+  resources:
+    # -- Pod limit
+    limits:
+      memory: 8Gi
+      cpu: 4
+
 pipelines:
   # -- Automatically install Pipelines chart to extend Open WebUI functionality using Pipelines: https://github.com/open-webui/pipelines
   enabled: true
   # -- This section can be used to pass required environment variables to your pipelines (e.g. Langfuse hostname)
   extraEnvVars: []
+  image:
+    registry: ghcr.io
+    repository: open-webui/pipelines
+    tag: main
+    pullPolicy: Always
+  resources:
+    limits:
+      memory: 16Gi
+      cpu: 2
 
 # -- A list of Ollama API endpoints. These can be added in lieu of automatically installing the Ollama Helm chart, or in addition to it.
 ollamaUrls: []
@@ -32,9 +59,9 @@ podAnnotations: {}
 replicaCount: 1
 # -- Open WebUI image tags can be found here: https://github.com/open-webui/open-webui/pkgs/container/open-webui
 image:
-  registry: ghcr.io
-  repository: open-webui/open-webui
-  tag: latest
+  registry: docker.io
+  repository: t9kpublic/open-webui
+  tag: git-96c8654
   pullPolicy: IfNotPresent
 
 # -- Configure imagePullSecrets to use private registry
@@ -43,7 +70,11 @@ imagePullSecrets: []
 # imagePullSecrets:
 # - name: myRegistryKeySecretName
 
-resources: {}
+resources:
+  limits:
+    cpu: "1"
+    memory: 2Gi
+
 ingress:
   enabled: false
   class: ""
