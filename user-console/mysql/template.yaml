@@ -1,0 +1,28 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: mysql
+  displayName: "MySQL"
+  categories: ["Database"]
+  description: "MySQL 是一个开源的关系型数据库管理系统，以高性能、可靠性和易用性著称，广泛应用于网站和应用程序的数据存储与管理。"
+  icon: "file://$APP_DIR/icon.png"
+template:
+  helm:
+    repo: "oci://registry-1.docker.io/bitnamicharts"
+    # repo: "https://charts.bitnami.com/bitnami"
+    chart: "mysql"
+    versions:
+    - version: 11.1.20
+      urls: []
+      # readinessProbe:
+      #   resources:
+      #   - group: apps
+      #     version: v1
+      #     resource: statefulset
+      #     name: {{ .Release.Name }}-mysql-master
+      #     currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
+      #     desiredStatus: "True"
+      dependencies: {}
+    - version: 9.23.0
+      urls: []
+      dependencies: {}
