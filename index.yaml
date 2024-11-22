@@ -1016,6 +1016,17 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/search-with-lepton-0.1.1/search-with-lepton-0.1.1.tgz
     version: 0.1.1
+  searxng:
+  - apiVersion: v2
+    appVersion: 2024.11.17-10d3af84b
+    created: "2024-11-22T11:27:23.219786479Z"
+    description: Kubito SearXNG Helm Chart
+    digest: 98a9082ce793736685c8a6d49ff777d3ec0a67f258b010238cff89aa70ebc412
+    name: searxng
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/searxng-0.1.0/searxng-0.1.0.tgz
+    version: 0.1.0
   service-manager:
   - apiVersion: v2
     appVersion: 0.1.1
@@ -1492,4 +1503,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2024-11-22T09:19:10.079574777Z"
+generated: "2024-11-22T11:27:23.219949101Z"
