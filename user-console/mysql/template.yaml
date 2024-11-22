@@ -14,15 +14,23 @@ template:
     versions:
     - version: 11.1.20
       urls: []
-      # readinessProbe:
-      #   resources:
-      #   - group: apps
-      #     version: v1
-      #     resource: statefulset
-      #     name: {{ .Release.Name }}-mysql-master
-      #     currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
-      #     desiredStatus: "True"
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: statefulsets
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
+          desiredStatus: "True"
       dependencies: {}
     - version: 9.23.0
       urls: []
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: statefulsets
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
+          desiredStatus: "True"
       dependencies: {}
