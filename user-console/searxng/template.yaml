@@ -1,0 +1,28 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: searxng
+  displayName: "SearXNG"
+  categories: ["AI"]
+  description: "SearXNG 是一个免费的互联网元搜索引擎，它汇总来自各种搜索服务和数据库的结果。用户不会被追踪或建立个人档案。"
+  icon: "file://$APP_DIR/icon.svg"
+template:
+  helm:
+    repo: "oci://docker.io/t9kpublic"
+    # repo: "https://t9k.github.io/apps/"
+    chart: "searxng"
+    versions:
+    - version: 0.1.0
+      config: "file://$APP_DIR/configs/v0_1_0.yaml"
+      urls:
+      - name: UI
+        url: /apps/{{ .Release.Namespace }}/searxng/{{ .Release.Name }}/
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: deployments
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      dependencies: {}
