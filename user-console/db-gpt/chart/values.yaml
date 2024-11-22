@@ -1,0 +1,56 @@
+image:
+  registry: docker.io
+  repository: t9kpublic/dbgpt-allinone
+  tag: "v0.6.2"
+  pullPolicy: IfNotPresent
+
+dotenv:
+  enabled: true
+  data: |-
+    LLM_MODEL=proxyllm
+    PROXY_SERVER_URL=
+    PROXY_API_KEY=
+    PROXYLLM_BACKEND=
+
+    EMBEDDING_MODEL=proxy_http_openapi
+    proxy_http_openapi_proxy_server_url=
+    proxy_http_openapi_proxy_api_key=
+    proxy_http_openapi_proxy_backend=
+
+    LOCAL_DB_HOST=127.0.0.1
+    LOCAL_DB_PASSWORD=aa123456
+    MYSQL_ROOT_PASSWORD=aa123456
+    ALLOWLISTED_PLUGINS=db_dashboard
+    LANGUAGE=zh
+
+resources:
+  limits:
+    cpu: 4
+    memory: 8Gi
+
+persistence:
+  enabled: true
+  size: 20Gi
+  storageClass: ""
+  accessMode: ReadWriteMany
+  volumeMode: Filesystem
+  existingClaim: ""
+
+service:
+  type: ClusterIP
+  port: 5670
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+nodeSelector: {}
+affinity: {}
+tolerations: []

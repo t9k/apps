@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "db-gpt.fullname" . }}
+  labels:
+    {{- include "db-gpt.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "db-gpt.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "db-gpt.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            {{- toYaml .Values.env | nindent 12 }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            failureThreshold: 5
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+              subPath: data/
+            - name: data
+              mountPath: /app/models
+              subPath: models/
+            - name: data
+              mountPath: /app/pilot/data
+              subPath: pilot/data/
+            - name: data
+              mountPath: /app/pilot/message
+              subPath: pilot/message
+            {{- if .Values.dotenv.enabled }}
+            - mountPath: /app/.env
+              name: dotenv
+              subPath: .env
+              readOnly: true
+            {{- end }}
+      volumes:
+      {{- if .Values.dotenv.enabled }}
+        - name: dotenv
+          configMap:
+            name: {{ include "db-gpt.fullname" . }}-dotenv
+      {{- end }}
+      {{- if not .Values.persistence.enabled }}
+        - name: "data"
+          emptyDir: {}
+      {{- else if .Values.persistence.existingClaim }}
+        - name: "data"
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim }}
+      {{- else }}
+        - name: "data"
+          persistentVolumeClaim:
+            claimName: {{ include "db-gpt.fullname" . }}
+      {{- end -}}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

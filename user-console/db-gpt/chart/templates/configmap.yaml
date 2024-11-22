@@ -1,0 +1,11 @@
+{{- if .Values.dotenv.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "db-gpt.fullname" . }}-dotenv
+  labels:
+    {{- include "db-gpt.labels" . | nindent 4 }}
+data:
+  .env: |
+    {{- .Values.dotenv.data | nindent 4 }}
+{{- end }}
