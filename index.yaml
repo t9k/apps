@@ -123,6 +123,17 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/comfyui-0.1.0/comfyui-0.1.0.tgz
     version: 0.1.0
+  db-gpt:
+  - apiVersion: v2
+    appVersion: v0.6.2
+    created: "2024-11-22T09:19:10.079382928Z"
+    description: A Helm chart for Kubernetes
+    digest: 2d3a8194a216fbe7b10e88c05aaa8a0cb3d329a2ceb4e89126b46fbc32a307f8
+    name: db-gpt
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/db-gpt-0.1.1/db-gpt-0.1.1.tgz
+    version: 0.1.1
   dify:
   - apiVersion: v2
     appVersion: 0.6.10
@@ -1481,4 +1492,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2024-11-20T05:18:24.272702638Z"
+generated: "2024-11-22T09:19:10.079574777Z"
