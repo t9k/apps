@@ -8,7 +8,7 @@
 
 ![](https://s2.loli.net/2024/11/18/ypD6eV1q2nUdGzK.png)
 
-网页 UI 的使用方法请参阅[功能介绍](https://doc.tryfastgpt.ai/docs/guide/course/quick-start/)。
+网页 UI 的使用方法请参阅[功能介绍](https://doc.tryfastgpt.ai/docs/guide/)。
 
 ## 配置
 
@@ -257,6 +257,7 @@ postgresql:
 | `app.fileTokenKey`                                   | 文件 token 密钥               | `filetoken`                                      |
 | `app.logLevel`                                       | 应用日志级别                  | `info`                                           |
 | `app.storeLogLevel`                                  | 存储日志级别                  | `warn`                                           |
+| `app.config`                                         | 存储日志级别                  | `warn`                                           |
 | `sandbox.image.registry`                             | Sandbox 镜像注册表            | `$(T9K_APP_IMAGE_REGISTRY)`                      |
 | `sandbox.image.repository`                           | Sandbox 镜像仓库              | `$(T9K_APP_IMAGE_NAMESPACE)/fastgpt-sandbox`     |
 | `sandbox.image.tag`                                  | Sandbox 镜像标签              | `v4.8.12`                                        |

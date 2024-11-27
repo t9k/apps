@@ -10,7 +10,7 @@
 
 ![](https://s2.loli.net/2024/11/19/CETzmiyMtGSdbwV.png)
 
-网页 UI 的使用方法请参阅[功能介绍](https://doc.tryfastgpt.ai/docs/guide/course/quick-start/)。
+网页 UI 的使用方法请参阅 [Chat Nio 文档](https://www.coai.dev/docs/introduction)。
 
 ## 使用说明
 
@@ -95,7 +95,6 @@ redis:
 | `mysql.image.registry`                  | MySQL 镜像注册表              | `$(T9K_APP_IMAGE_REGISTRY)`          |
 | `mysql.image.repository`                | MySQL 镜像仓库                | `$(T9K_APP_IMAGE_NAMESPACE)/mysql`   |
 | `mysql.image.tag`                       | MySQL 镜像标签                | `5.7.43`                             |
-| `mysql.image.pullPolicy`                | MySQL 镜像拉取策略            | `IfNotPresent`                       |
 | `mysql.auth.database`                   | MySQL 数据库名称              | `chatnio`                            |
 | `mysql.auth.username`                   | MySQL 用户名                  | `chatnio`                            |
 | `mysql.auth.password`                   | MySQL 用户密码                | `chatnio123456!`                     |
@@ -107,6 +106,5 @@ redis:
 | `redis.image.registry`                  | Redis 镜像注册表              | `$(T9K_APP_IMAGE_REGISTRY)`          |
 | `redis.image.repository`                | Redis 镜像仓库                | `$(T9K_APP_IMAGE_NAMESPACE)/redis`   |
 | `redis.image.tag`                       | Redis 镜像标签                | `7.4.1`                              |
-| `redis.image.pullPolicy`                | Redis 镜像拉取策略            | `IfNotPresent`                       |
 | `redis.auth.enabled`                    | 是否启用 Redis 认证           | `false`                              |
 | `redis.master.persistence.enabled`      | 是否为 Redis 启用持久化存储   | `true`                               |

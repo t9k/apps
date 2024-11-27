@@ -1,19 +1,24 @@
-## @param global.host Host for the application
-## @param global.port Port for the application
-## @param global.enableTLS Enable TLS for the application
-## @param global.image.tag Tag for the application image
-## @param global.edition Edition for the application (`SELF_HOSTED` or other)
-## @param global.extraEnvs Extra environment variables for the application
-## @param global.extraBackendEnvs Extra backend environment variables for the application
-##
+# Default values for dify.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# volume and volumeMounts would be injected to api and worker
+volumes: []
+
+volumeMounts: []
+
+nameOverride: ""
+fullnameOverride: ""
+
 global:
-  host: "dify.t9kcloud.cn"
-  # Change this is your ingress is exposed with port other than 443, 80, like 8080 for instance
+  host: ""
+  # # Change this is your ingress is exposed with port other than 443, 80, like 8080 for instance
   port: ""
   enableTLS: false
   image:
-    tag: "0.6.10"
+    tag: ""
   edition: "SELF_HOSTED"
+  storageType: "s3"
   # the following extra configs would be injected into:
   # * frontend
   # * api
@@ -27,68 +32,51 @@ global:
   # SECRET_KEY is a must, check https://docs.dify.ai/getting-started/install-self-hosted/environments#secret_key for detail
   # read more on the readme page for secret ref
   - name: SECRET_KEY
-    value: "tensorstack"
+    value: "PleaseReplaceThisToYourSecretOrUse"
   # use secretRef to protect your secret
   # - name: SECRET_KEY
   #   valueFrom:
   #     secretKeyRef:
   #       name: dify
   #       key: SECRET_KEY
-  - name: MIGRATION_ENABLED
-    value: "true"
-  - name: OPENAI_API_BASE
-    value: "https://api.openai.com/v1"
 
-## @param ingress.enabled Enable/disable Kubernetes ingress
-## @param ingress.className Ingress class name
-## @param ingress.annotations Annotations for Kubernetes ingress
-## @param ingress.tlsSecretName Name of the TLS secret for Kubernetes ingress
-##
+  # Provide extra labels for all deployments and related pods of this chart
+  labels: {}
+
 ingress:
-  enabled: true
+  enabled: false
   className: ""
-  annotations: {}
+  annotations:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   tlsSecretName: "dify-tls"
 
-## @param frontend.replicaCount Number of replicas for the deployment of frontend
-## @param frontend.image.repository Repository name for the Docker image
-## @param frontend.image.tag Image tag for the Docker image (immutable tags are recommended)
-## @param frontend.image.pullPolicy Image pull policy for the Docker image
-## @param frontend.envs Extra environment variables for the frontend
-## @param frontend.service.type Service type for the Kubernetes service of frontend
-## @param frontend.service.port Port for the Kubernetes service of frontend
-## @param frontend.containerPort Container port of frontend
-## @param frontend.resources.limits.cpu CPU limit for Kubernetes resources of frontend
-## @param frontend.resources.limits.memory Memory limit for Kubernetes resources of frontend
-## @param frontend.livenessProbe.httpGet.path HTTP path for liveness probe
-## @param frontend.livenessProbe.httpGet.port Port for liveness probe
-## @param frontend.livenessProbe.httpGet.httpHeaders HTTP headers for liveness probe
-## @param frontend.livenessProbe.initialDelaySeconds Initial delay seconds for livenessProbe
-## @param frontend.livenessProbe.timeoutSeconds Timeout seconds for livenessProbe
-## @param frontend.livenessProbe.periodSeconds Period seconds for livenessProbe
-## @param frontend.livenessProbe.successThreshold Success threshold for livenessProbe
-## @param frontend.livenessProbe.failureThreshold Failure threshold for livenessProbe
-## @param frontend.readinessProbe.httpGet.path HTTP path for liveness probe
-## @param frontend.readinessProbe.httpGet.port Port for liveness probe
-## @param frontend.readinessProbe.httpGet.httpHeaders HTTP headers for liveness probe
-## @param frontend.readinessProbe.initialDelaySeconds Initial delay seconds for readinessProbe
-## @param frontend.readinessProbe.timeoutSeconds Timeout seconds for readinessProbe
-## @param frontend.readinessProbe.periodSeconds Period seconds for readinessProbe
-## @param frontend.readinessProbe.successThreshold Success threshold for readinessProbe
-## @param frontend.readinessProbe.failureThreshold Failure threshold for readinessProbe
-##
 frontend:
   replicaCount: 1
 
   image:
     repository: langgenius/dify-web
+    pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
-    pullPolicy: IfNotPresent
 
-  envs: []
+  envs:
+    - name: HOSTNAME
+      value: "0.0.0.0"
+  imagePullSecrets: []
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
 
   service:
     type: ClusterIP
@@ -97,10 +85,26 @@ frontend:
   containerPort: 3000
 
   resources:
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
     limits:
-      cpu: 500m
-      memory: 1Gi
+      cpu: 1
+      memory: 2Gi
 
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
   livenessProbe:
     httpGet:
       path: /apps
@@ -113,7 +117,6 @@ frontend:
     periodSeconds: 30
     successThreshold: 1
     failureThreshold: 2
-
   readinessProbe:
     httpGet:
       path: /apps
@@ -127,42 +130,14 @@ frontend:
     successThreshold: 1
     failureThreshold: 2
 
-## @param api.replicaCount Number of replicas for the deployment of api
-## @param api.image.repository Repository name for the Docker image
-## @param api.image.tag Image tag for the Docker image (immutable tags are recommended)
-## @param api.image.pullPolicy Image pull policy for the Docker image
-## @param api.envs Extra environment variables for the api
-## @param api.service.type Service type for the Kubernetes service of api
-## @param api.service.port Port for the Kubernetes service of api
-## @param api.containerPort Container port of api
-## @param api.resources.limits.cpu CPU limit for Kubernetes resources of api
-## @param api.resources.limits.memory Memory limit for Kubernetes resources of api
-## @param api.livenessProbe.httpGet.path HTTP path for liveness probe
-## @param api.livenessProbe.httpGet.port Port for liveness probe
-## @param api.livenessProbe.httpGet.httpHeaders HTTP headers for liveness probe
-## @param api.livenessProbe.initialDelaySeconds Initial delay seconds for livenessProbe
-## @param api.livenessProbe.timeoutSeconds Timeout seconds for livenessProbe
-## @param api.livenessProbe.periodSeconds Period seconds for livenessProbe
-## @param api.livenessProbe.successThreshold Success threshold for livenessProbe
-## @param api.livenessProbe.failureThreshold Failure threshold for livenessProbe
-## @param api.readinessProbe.httpGet.path HTTP path for liveness probe
-## @param api.readinessProbe.httpGet.port Port for liveness probe
-## @param api.readinessProbe.httpGet.httpHeaders HTTP headers for liveness probe
-## @param api.readinessProbe.initialDelaySeconds Initial delay seconds for readinessProbe
-## @param api.readinessProbe.timeoutSeconds Timeout seconds for readinessProbe
-## @param api.readinessProbe.periodSeconds Period seconds for readinessProbe
-## @param api.readinessProbe.successThreshold Success threshold for readinessProbe
-## @param api.readinessProbe.failureThreshold Failure threshold for readinessProbe
-##
 api:
   replicaCount: 1
 
   image:
     repository: langgenius/dify-api
+    pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
-    pullPolicy: IfNotPresent
-
   envs:
   # sandbox
   - name: CODE_MAX_NUMBER
@@ -179,7 +154,21 @@ api:
     value: "30"
   - name: CODE_MAX_NUMBER_ARRAY_LENGTH
     value: "1000"
-  
+  imagePullSecrets: []
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
   service:
     type: ClusterIP
     port: 80
@@ -187,9 +176,26 @@ api:
   containerPort: 5001
 
   resources:
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
     limits:
       cpu: 1
       memory: 2Gi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
 
   livenessProbe:
     httpGet:
@@ -200,7 +206,6 @@ api:
     periodSeconds: 30
     successThreshold: 1
     failureThreshold: 2
-
   readinessProbe:
     httpGet:
       path: /health
@@ -211,53 +216,56 @@ api:
     successThreshold: 1
     failureThreshold: 10
 
-## @param api.replicaCount Number of replicas for the deployment of api
-## @param api.image.repository Repository name for the Docker image
-## @param api.image.tag Image tag for the Docker image (immutable tags are recommended)
-## @param api.image.pullPolicy Image pull policy for the Docker image
-## @param api.resources.limits.cpu CPU limit for Kubernetes resources of api
-## @param api.resources.limits.memory Memory limit for Kubernetes resources of api
-##
 worker:
   replicaCount: 1
 
   image:
     repository: langgenius/dify-api
+    pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
-    pullPolicy: IfNotPresent
+
+  imagePullSecrets: []
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
 
   resources:
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
     limits:
       cpu: 1
       memory: 2Gi
 
-## @param sandbox.replicaCount Number of replicas for the deployment of sandbox
-## @param sandbox.apiKey API key for the sandbox
-## @param sandbox.apiKeySecret API key secret for the sandbox
-## @param sandbox.image.repository Repository name for the Docker image
-## @param sandbox.image.tag Image tag for the Docker image (immutable tags are recommended)
-## @param sandbox.image.pullPolicy Image pull policy for the Docker image
-## @param sandbox.config.python_requirements Python requirements for the sandbox
-## @param sandbox.envs Extra environment variables for the sandbox
-## @param sandbox.service.type Service type for the Kubernetes service of sandbox
-## @param sandbox.service.port Port for the Kubernetes service of sandbox
-## @param sandbox.containerPort Container port of sandbox
-## @param sandbox.resources.limits.cpu CPU limit for Kubernetes resources of sandbox
-## @param sandbox.resources.limits.memory Memory limit for Kubernetes resources of sandbox
-## @param sandbox.livenessProbe.tcpSocket.port Port for the TCP socket in the livenessProbe
-## @param sandbox.livenessProbe.initialDelaySeconds Initial delay seconds for livenessProbe
-## @param sandbox.livenessProbe.timeoutSeconds Timeout seconds for livenessProbe
-## @param sandbox.livenessProbe.periodSeconds Period seconds for livenessProbe
-## @param sandbox.livenessProbe.successThreshold Success threshold for livenessProbe
-## @param sandbox.livenessProbe.failureThreshold Failure threshold for livenessProbe
-## @param sandbox.readinessProbe.tcpSocket.port Port for the TCP socket in the readinessProbe
-## @param sandbox.readinessProbe.initialDelaySeconds Initial delay seconds for readinessProbe
-## @param sandbox.readinessProbe.timeoutSeconds Timeout seconds for readinessProbe
-## @param sandbox.readinessProbe.periodSeconds Period seconds for readinessProbe
-## @param sandbox.readinessProbe.successThreshold Success threshold for readinessProbe
-## @param sandbox.readinessProbe.failureThreshold Failure threshold for readinessProbe
-##
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  # livenessprobe for worker, default no probe
+  livenessProbe: {}
+  readinessProbe: {}
+
 sandbox:
   replicaCount: 1
   # please change to avoid abuse
@@ -266,9 +274,9 @@ sandbox:
   apiKeySecret: ""
   image:
     repository: langgenius/dify-sandbox
+    pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: "0.2.0"
-    pullPolicy: IfNotPresent
   config:
     # python_requirements: |
     #   numpy==1.20.3
@@ -280,6 +288,20 @@ sandbox:
     value: "release"
   - name: WORKER_TIMEOUT
     value: "15"
+  imagePullSecrets: []
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
 
   service:
     type: ClusterIP
@@ -288,9 +310,26 @@ sandbox:
   containerPort: 8194
 
   resources:
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
     limits:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 1
+      memory: 2Gi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
 
   readinessProbe:
     tcpSocket:
@@ -300,7 +339,6 @@ sandbox:
     periodSeconds: 5
     successThreshold: 1
     failureThreshold: 10
-
   livenessProbe:
     tcpSocket:
       port: http
@@ -312,15 +350,6 @@ sandbox:
 
 ##### dependencies #####
 
-## @param redis.embedded Set to true to use embedded Redis, false to use external Redis
-## @param redis.url Redis URL for connecting to an external Redis instance
-## @param redis.urlSecret Secret containing the Redis URL
-## @param redis.urlSecretKey Key within the secret containing the Redis URL
-## @param redis.architecture Redis architecture (`standalone`, `replicated`, etc.)
-## @param redis.auth.password Password for authenticating with Redis
-## @param redis.master.persistence.enabled Set to true to enable persistence for Redis master
-## @param redis.master.persistence.size Size of the persistence volume for Redis master
-##
 redis:
   # using embedded redis
   # connection info would be set automatically
@@ -340,12 +369,6 @@ redis:
       enabled: false
       size: 8Gi
 
-## @param postgresql.embedded Set to true to use embedded PostgreSQL, false to use external PostgreSQL
-## @param postgresql.architecture PostgreSQL architecture (`standalone`, `replicated`, etc.)
-## @param postgresql.auth.postgresPassword Password for the 'postgres' user
-## @param postgresql.auth.database Name of the default database
-## @param postgresql.primary.persistence.enabled Set to true to enable persistence for the primary PostgreSQL instance
-##
 postgresql:
   # using embedded postgresql
   # connection info would be set automatically
@@ -362,14 +385,6 @@ postgresql:
     persistence:
       enabled: false
 
-## @param minio.embedded Set to true to use embedded MinIO, false to use external MinIO
-## @param minio.externalHost Hostname for the external MinIO instance
-## @param minio.externalPort Port for the external MinIO instance
-## @param minio.auth.rootUser Root user for authenticating with MinIO
-## @param minio.auth.rootPassword Password for the root user
-## @param minio.defaultBuckets Default buckets to be created in MinIO
-## @param minio.persistence.enabled Set to true to enable persistence for MinIO
-##
 minio:
   embedded: true
   # using embedded minio
@@ -382,3 +397,15 @@ minio:
   defaultBuckets: "dify"
   persistence:
     enabled: false
+
+qdrant:
+  embedded: true
+  # using embedded qdrant
+  # connection info would be set automatically
+  # best to use external vector db if you have one
+  # setting embedded to false and set vector db config in envrionment variable
+  image:
+    repository: docker.io/qdrant/qdrant
+    pullPolicy: IfNotPresent
+    tag: ""
+  apiKey: dify

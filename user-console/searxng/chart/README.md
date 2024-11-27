@@ -1,6 +1,6 @@
 # SearXNG
 
-SearXNG 是一个尊重隐私、可破解的元搜索引擎。元搜索引擎（或搜索聚合器）是一种在线信息检索工具，它利用网络搜索引擎的数据生成自己的搜索结果。SearXNG 接收用户的输入，立即查询多个搜索引擎以获取结果，并将收集到的数据进行排序后呈现给用户。
+[SearXNG](https://github.com/searxng/searxng) 是一个尊重隐私、可破解的元搜索引擎。元搜索引擎（或搜索聚合器）是一种在线信息检索工具，它利用网络搜索引擎的数据生成自己的搜索结果。SearXNG 接收用户的输入，立即查询多个搜索引擎以获取结果，并将收集到的数据进行排序后呈现给用户。
 
 ## 使用方法
 
@@ -138,20 +138,18 @@ env:
 
 ### 字段
 
-为你生成适合 SearXNG 配置的表格：
-
-| 名称                      | 描述                          | 值                                   |
-| ------------------------- | ----------------------------- | ------------------------------------ |
-| `image.registry`          | SearXNG 镜像注册表            | `$(T9K_APP_IMAGE_REGISTRY)`          |
-| `image.repository`        | SearXNG 镜像仓库              | `$(T9K_APP_IMAGE_NAMESPACE)/searxng` |
-| `image.tag`               | SearXNG 镜像标签              | `2024.11.17-10d3af84b`               |
-| `image.pullPolicy`        | SearXNG 镜像拉取策略          | `IfNotPresent`                       |
-| `config.settings.enabled` | 是否启用设置配置              | `true`                               |
-| `config.settings.data`    | 设置配置                      |                                      |
-| `config.limiter.enabled`  | 是否启用限流器配置            | `true`                               |
-| `config.limiter.data`     | 限流器配置                    |                                      |
-| `config.uwsgi.enabled`    | 是否启用 uWSGI 配置           | `true`                               |
-| `config.uwsgi.data`       | uWSGI 配置                    |                                      |
-| `resources.limits.cpu`    | SearXNG 容器能使用的 CPU 上限 | `4`                                  |
-| `resources.limits.memory` | SearXNG 容器能使用的内存上限  | `8Gi`                                |
-| `env`                     | 额外的环境变量数组            | `[]`                                 |
+| 名称                      | 描述                          | 值                                           |
+| ------------------------- | ----------------------------- | -------------------------------------------- |
+| `image.registry`          | SearXNG 镜像注册表            | `$(T9K_APP_IMAGE_REGISTRY)`                  |
+| `image.repository`        | SearXNG 镜像仓库              | `$(T9K_APP_IMAGE_NAMESPACE)/searxng`         |
+| `image.tag`               | SearXNG 镜像标签              | `2024.11.17-10d3af84b`                       |
+| `image.pullPolicy`        | SearXNG 镜像拉取策略          | `IfNotPresent`                               |
+| `config.settings.enabled` | 是否启用设置配置              | `true`                                       |
+| `config.settings.data`    | 设置配置                      |                                              |
+| `config.limiter.enabled`  | 是否启用限流器配置            | `true`                                       |
+| `config.limiter.data`     | 限流器配置                    |                                              |
+| `config.uwsgi.enabled`    | 是否启用 uWSGI 配置           | `true`                                       |
+| `config.uwsgi.data`       | uWSGI 配置                    |                                              |
+| `resources.limits.cpu`    | SearXNG 容器能使用的 CPU 上限 | `4`                                          |
+| `resources.limits.memory` | SearXNG 容器能使用的内存上限  | `8Gi`                                        |
+| `env`                     | 额外的环境变量数组            | `[{"name": "TZ", "value": "Asia/Shanghai"}]` |

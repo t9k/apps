@@ -7,8 +7,11 @@ metadata:
   labels:
     {{- include "dify.labels" . | nindent 4 }}
     app.kubernetes.io/component: api
+    {{- include "dify.global.labels" . | nindent 4 }}
 spec:
+  {{- if not .Values.api.autoscaling.enabled }}
   replicas: {{ .Values.api.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "dify.selectorLabels" . | nindent 6 }}
@@ -22,6 +25,7 @@ spec:
       labels:
         {{- include "dify.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: api
+        {{- include "dify.global.labels" . | nindent 8 }}
     spec:
       {{- with .Values.api.imagePullSecrets }}
       imagePullSecrets:
@@ -33,15 +37,11 @@ spec:
         - name: {{ .Chart.Name }}-api
           securityContext:
             {{- toYaml .Values.api.securityContext | nindent 12 }}
-          image: "{{ .Values.api.image.repository }}:{{ coalesce .Values.api.image.tag .Values.global.image.tag .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.api.image.pullPolicy }}
+          image: "{{ .Values.global.image.registry }}/{{ .Values.api.image.repository }}:{{ coalesce .Values.api.image.tag .Values.global.image.tag .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.global.image.pullPolicy }}
           env:
             - name: MODE
               value: "api"
-            - name: VECTOR_STORE
-              value: "qdrant"
-            - name: QDRANT_URL
-              value: http://{{ .Release.Name }}-qdrant.{{ .Release.Namespace }}.svc.cluster.local
             {{- include "dify.commonEnvs" . | nindent 12 }}
             {{- include "dify.commonBackendEnvs" . | nindent 12 }}
             {{- with .Values.global.extraEnvs }}
@@ -109,8 +109,11 @@ metadata:
   labels:
     {{- include "dify.labels" . | nindent 4 }}
     app.kubernetes.io/component: worker
+    {{- include "dify.global.labels" . | nindent 4 }}
 spec:
+  {{- if not .Values.worker.autoscaling.enabled }}
   replicas: {{ .Values.worker.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "dify.selectorLabels" . | nindent 6 }}
@@ -124,6 +127,7 @@ spec:
       labels:
         {{- include "dify.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: worker
+        {{- include "dify.global.labels" . | nindent 8 }}
     spec:
       {{- with .Values.worker.imagePullSecrets }}
       imagePullSecrets:
@@ -135,17 +139,15 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.worker.securityContext | nindent 12 }}
-          image: "{{ .Values.worker.image.repository }}:{{ coalesce .Values.worker.image.tag .Values.global.image.tag .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.worker.image.pullPolicy }}
+          image: "{{ .Values.global.image.registry }}/{{ .Values.worker.image.repository }}:{{ coalesce .Values.worker.image.tag .Values.global.image.tag .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.global.image.pullPolicy }}
           args:
           - worker
           env:
             - name: MODE
               value: "worker"
-            - name: VECTOR_STORE
-              value: "qdrant"
-            - name: QDRANT_URL
-              value: http://{{ .Release.Name }}-qdrant.{{ .Release.Namespace }}.svc.cluster.local
+            - name: LOG_LEVEL
+              value: "INFO"
             {{- include "dify.commonEnvs" . | nindent 12 }}
             {{- include "dify.commonBackendEnvs" . | nindent 12 }}
             {{- with .Values.global.extraEnvs }}
@@ -194,8 +196,11 @@ metadata:
   labels:
     {{- include "dify.labels" . | nindent 4 }}
     app.kubernetes.io/component: frontend
+    {{- include "dify.global.labels" . | nindent 4 }}
 spec:
+  {{- if not .Values.frontend.autoscaling.enabled }}
   replicas: {{ .Values.frontend.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "dify.selectorLabels" . | nindent 6 }}
@@ -209,6 +214,7 @@ spec:
       labels:
         {{- include "dify.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: frontend
+        {{- include "dify.global.labels" . | nindent 8 }}
     spec:
       {{- with .Values.frontend.imagePullSecrets }}
       imagePullSecrets:
@@ -220,11 +226,9 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.frontend.securityContext | nindent 12 }}
-          image: "{{ .Values.frontend.image.repository }}:{{ coalesce .Values.frontend.image.tag .Values.global.image.tag .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+          image: "{{ .Values.global.image.registry }}/{{ .Values.frontend.image.repository }}:{{ coalesce .Values.frontend.image.tag .Values.global.image.tag .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.global.image.pullPolicy }}
           env:
-            - name: HOSTNAME
-              value: "0.0.0.0"
           {{- include "dify.commonEnvs" . | nindent 12 }}
           {{- with .Values.global.extraEnvs }}
           {{- toYaml . | nindent 12 }}
@@ -269,8 +273,11 @@ metadata:
   labels:
     {{- include "dify.labels" . | nindent 4 }}
     app.kubernetes.io/component: sandbox
+    {{- include "dify.global.labels" . | nindent 4 }}
 spec:
+  {{- if not .Values.sandbox.autoscaling.enabled }}
   replicas: {{ .Values.sandbox.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "dify.selectorLabels" . | nindent 6 }}
@@ -284,6 +291,7 @@ spec:
       labels:
         {{- include "dify.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: sandbox
+        {{- include "dify.global.labels" . | nindent 8 }}
     spec:
       {{- with .Values.sandbox.imagePullSecrets }}
       imagePullSecrets:
@@ -295,8 +303,8 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.sandbox.securityContext | nindent 12 }}
-          image: "{{ .Values.sandbox.image.repository }}:{{ coalesce .Values.sandbox.image.tag .Values.global.image.tag .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.sandbox.image.pullPolicy }}
+          image: "{{ .Values.global.image.registry }}/{{ .Values.sandbox.image.repository }}:{{ .Values.sandbox.image.tag | default "latest" }}"
+          imagePullPolicy: {{ .Values.global.image.pullPolicy }}
           env:
           - name: PLACEHOLDER
             value: "PLACEHOLDER"

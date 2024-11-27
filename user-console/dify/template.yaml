@@ -4,7 +4,7 @@ metadata:
   name: dify
   displayName: Dify
   categories: ["AI"]
-  description: "Dify 是一个开源的 LLM 应用开发平台。其直观的界面结合了 AI 工作流、RAG 管道、Agent、模型管理、可观测性功能等，让您可以快速从原型到生产。"
+  description: "Dify 是一个开源的 LLM 应用开发平台。其直观的界面结合了智能 AI 工作流、RAG 管道、代理能力、模型管理、可观测性功能等，使你能够快速从原型开发到生产部署。"
   icon: "file://$APP_DIR/icon.png"
 template:
   helm:
@@ -12,10 +12,9 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "dify"
     versions:
-    - version: 0.3.7
-      urls: 
-      - name: UI
-        url: "http://{{ .Values.global.host }}"
+    - version: 0.3.8
+      config: "file://$APP_DIR/configs/v0_3_8.yaml"
+      urls: []
       readinessProbe:
         resources:
         - group: apps

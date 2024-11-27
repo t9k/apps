@@ -8,7 +8,7 @@
 
 ![](https://s2.loli.net/2024/09/20/REwK5AdXVugJYLt.png)
 
-网页 UI 的使用方法请参阅 [Visual Studio Code Docs](https://code.visualstudio.com/docs) 和 [FAQ of Code Server](https://coder.com/docs/code-server/FAQ)。
+网页 UI 的使用方法请参阅 [Visual Studio Code Documentation](https://code.visualstudio.com/docs) 和 [FAQ of Code Server](https://coder.com/docs/code-server/FAQ)。
 
 ## 配置
 

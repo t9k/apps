@@ -50,6 +50,26 @@ app.kubernetes.io/name: {{ include "dify.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
+{{/*
+Global labels
+*/}}
+{{- define "dify.global.labels" -}}
+{{- if .Values.global.labels }}
+{{- toYaml .Values.global.labels }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "dify.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "dify.fullname" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
 {{- define "dify.baseUrl" -}}
 {{ if .Values.global.enableTLS }}https://{{ else }}http://{{ end }}{{.Values.global.host}}{{ if .Values.global.port }}:{{.Values.global.port}}{{ end }}
 {{- end }}
@@ -57,47 +77,53 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{/*
 dify environments
 commonEnvs are for all containers
-commonBackendEnvs are for api and worker containers 
+commonBackendEnvs are for api and worker containers
 */}}
 {{- define "dify.commonEnvs" -}}
 - name: EDITION
   value: {{ .Values.global.edition }}
-{{- range tuple "CONSOLE_API_URL" "CONSOLE_WEB_URL" "SERVICE_API_URL" "APP_API_URL" "APP_WEB_URL" }}
+- name: APP_WEB_URL
+  value: http://127.0.0.1:3000
+{{- range tuple "CONSOLE_API_URL" "CONSOLE_WEB_URL" "SERVICE_API_URL" "APP_API_URL" }}
 - name: {{ . }}
-  value: {{ include "dify.baseUrl" $ }}
+  value: http://127.0.0.1:3001
 {{- end }}
+- name: CONSOLE_CORS_ALLOW_ORIGINS
+  value: "*"
+- name: WEB_API_CORS_ALLOW_ORIGINS
+  value: "*"
 {{- end }}
-
-
 {{- define "dify.commonBackendEnvs" -}}
+- name: STORAGE_TYPE
+  value: {{ .Values.global.storageType }}
+
 {{- if .Values.redis.embedded }}
 - name: CELERY_BROKER_URL
-  value: redis://:{{ .Values.redis.auth.password }}@{{ .Release.Name }}-redis-master:6379/1
+  value: redis://:{{ .Values.redis.auth.password }}@{{ include "dify.fullname" . }}-redis-master:6379/1
 - name: REDIS_HOST
-  value: {{ .Release.Name }}-redis-master
+  value: {{ include "dify.fullname" . }}-redis-master
 - name: REDIS_DB
   value: "1"
 - name: REDIS_PASSWORD
   value: {{ .Values.redis.auth.password }}
 {{- end }}
+
 {{- if .Values.postgresql.embedded }}
 - name: DB_USERNAME
   value: postgres
 - name: DB_PASSWORD
   value: "{{ .Values.postgresql.auth.postgresPassword }}"
 - name: DB_HOST
-  value: {{ .Release.Name }}-postgresql
+  value: {{ include "dify.fullname" . }}-postgresql
 - name: DB_PORT
   value: "5432"
 - name: DB_DATABASE
   value: {{ .Values.postgresql.auth.database }}
 {{- end }}
-- name: STORAGE_TYPE
-  value: "s3"
 
 {{- if .Values.minio.embedded }}
 - name: S3_ENDPOINT
-  value: http://{{ .Release.Name }}-minio:{{ .Values.minio.service.ports.api }}
+  value: http://{{ include "dify.fullname" . }}-minio:{{ .Values.minio.service.ports.api }}
 - name: S3_BUCKET_NAME
   value: {{ .Values.minio.defaultBuckets }}
 - name: S3_ACCESS_KEY
@@ -105,4 +131,16 @@ commonBackendEnvs are for api and worker containers
 - name: S3_SECRET_KEY
   value: {{ .Values.minio.auth.rootPassword }}
 {{- end }}
+
+{{- if .Values.qdrant.embedded }}
+- name: VECTOR_STORE
+  value: qdrant
+- name: QDRANT_URL
+  value: http://{{ .Release.Name }}-qdrant.{{ .Release.Namespace }}.svc.cluster.local:6333
+- name: QDRANT_API_KEY
+  value: {{ .Values.qdrant.apiKey }}
+- name: QDRANT_CLIENT_TIMEOUT
+  value: "20"
+{{- end }}
+
 {{- end }}
