@@ -1,0 +1,34 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ template "mlflow.v0.tracking.fullname" . }}
+  labels: {{- include "common.labels.standard" ( dict "customLabels" .Values.commonLabels "context" $ ) | nindent 4 }}
+    app.kubernetes.io/part-of: mlflow
+    app.kubernetes.io/component: tracking
+    {{- if .Values.tracking.service.labels }}
+    {{- include "common.tplvalues.render" ( dict "value" .Values.tracking.service.labels "context" $ ) | nindent 4 }}
+    {{- end }}
+  {{- if or .Values.tracking.service.annotations .Values.commonAnnotations }}
+  {{- $annotations := include "common.tplvalues.merge" (dict "values" ( list .Values.tracking.service.annotations .Values.commonAnnotations ) "context" .) }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" $annotations "context" $ ) | nindent 4 }}
+  {{- end }}
+spec:
+  gateways:
+  - project-gateway
+  hosts:
+  - '*'
+  http:
+  - headers:
+      request:
+        remove: 
+        - cookie
+    match:
+    - uri:
+        prefix: /apps/{{ .Release.Namespace }}/mlflow/{{ .Release.Name }}/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: {{ template "mlflow.v0.tracking.fullname" . }}
+        port:
+          number: {{ get .Values.tracking.service.ports (include "mlflow.v0.tracking.protocol" .) }}

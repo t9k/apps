@@ -1,0 +1,3 @@
+MLflow 的 Tracking Server URI 为：
+
+  http://{{ template "mlflow.v0.tracking.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
