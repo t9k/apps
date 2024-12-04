@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: 1.12.1
+appVersion: 1.14.0.post0
 dependencies:
 - condition: redis.enabled
   name: redis
@@ -8,11 +8,11 @@ dependencies:
 - condition: postgresql.enabled
   name: postgresql
   repository: https://charts.bitnami.com/bitnami
-  version: 11.9.13
+  version: 15.5.15
 description: Label Studio is a data labeling tool
 home: https://labelstud.io/
 icon: https://raw.githubusercontent.com/heartexlabs/label-studio/master/images/logo.png
 kubeVersion: '>= 1.14.0-0'
 name: label-studio
 type: application
-version: 1.4.8
+version: 1.7.2

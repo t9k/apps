@@ -1,0 +1,61 @@
+## @param global.host Label Studio host domain
+## @param global.csrfTrustedOrigins Label Studio CSRF trusted origins
+##
+global:
+  host: "$(T9K_HOME_DOMAIN)"
+  csrfTrustedOrigins: "$(T9K_HOME_DOMAIN)"
+
+  ## @param global.image.registry Label Studio image registry
+  ## @param global.image.repository Label Studio image repository
+  ## @param global.image.tag Label Studio image tag
+  ## @param global.image.pullPolicy Label Studio image pull policy
+  ##
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/label-studio"
+    tag: "1.14.0.post0"
+    pullPolicy: IfNotPresent
+
+  ## @param global.persistence.enabled Enable persistence using PVC
+  ## @param global.persistence.config.volume.size Size of the PVC
+  ## @param global.persistence.config.volume.storageClass Storage class for the PVC
+  ## @param global.persistence.config.volume.accessModes Access modes for the PVC
+  ## @param global.persistence.config.volume.existingClaim Name of an existing PVC to use
+  ##
+  persistence:
+    enabled: true
+    config:
+      volume:
+        size: 10Gi
+        storageClass: ""
+        accessModes:
+          - ReadWriteOnce
+        existingClaim: ""
+
+## @param app.resources.limits.cpu CPU limit for Label Studio container
+## @param app.resources.limits.memory Memory limit for Label Studio container
+##
+app:
+  resources:
+    limits:
+      cpu: 1
+      memory: 2Gi
+
+## @param postgresql.enabled Enable/disable PostgreSQL installation
+## @param postgresql.image.registry PostgreSQL image registry
+## @param postgresql.image.repository PostgreSQL image repository
+## @param postgresql.image.tag PostgreSQL image tag
+## @param postgresql.auth.username PostgreSQL username
+## @param postgresql.auth.password PostgreSQL password
+## @param postgresql.auth.database PostgreSQL database name
+##
+postgresql:
+  enabled: true
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/postgresql"
+    tag: "13.15.0"
+  auth:
+    username: "labelstudio"
+    password: "labelstudio"
+    database: "labelstudio"

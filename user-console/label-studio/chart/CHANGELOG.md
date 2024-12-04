@@ -1,19 +1,39 @@
 # Changelog
 
-## Unreleased
-
+## 1.7.0
 ### Improvements
+* Explicitly set dnsPolicy, shareProcessNamespace and enableServiceLinks.
+* Set shareProcessNamespace and enableServiceLinks to `false`. 
 
-* 
+## 1.6.0
+### Improvements
+* Upgrade psql helm chart.
+* Pin psql version to 13.15.0.
+* Allow defining more global variables
 
-### Fixes
+## 1.5.0
+### Improvements
+* Add support for template variables in helm values.
+
+## 1.4.11
+### Improvements
+* Reset resources for uwsgiExporter container.
+
+## 1.4.10
+### Improvements
+* Add support for resources definition in cronjobs.
+
+## 1.4.9
+### Improvements
+* Add support for deployment annotations using .Values.app.deploymentAnnotations.
+
 ## 1.4.7
 ### Fixes
 * Fix expose of LS_APP env variables to add namespace + allow to override.
 
 ## 1.4.5
 ### Improvements
-* Expose LS app service name and service port as an env variables. 
+* Expose LS app service name and service port as an env variables.
 
 ## 1.4.3
 ### Fixes

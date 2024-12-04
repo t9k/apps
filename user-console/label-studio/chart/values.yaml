@@ -3,14 +3,15 @@
 # Declare variables to be passed into your templates.
 
 global:
-  # Host name, e.g. https://kube.tensorstack.net
-  hostname: "https://proxy.nc201.kube.tensorstack.net"
+  host: "https://proxy.nc201.kube.tensorstack.net"
+  csrfTrustedOrigins: "https://proxy.nc201.kube.tensorstack.net"
 
   # Image pull secret to use for registry authentication.
   # Alternatively, you can specify the value as an array of strings.
   imagePullSecrets: []
 
   image:
+    registry: "docker.io"
     repository: heartexlabs/label-studio
     pullPolicy: IfNotPresent
     tag: ""
@@ -133,6 +134,8 @@ app:
   deploymentStrategy:
     type: RollingUpdate
 
+  deploymentAnnotations: { }
+  
   replicas: 1
 
   NameOverride: ""
@@ -146,25 +149,21 @@ app:
     - "label-studio-uwsgi"
 
   resources:
-    requests: {}
-      ## Example:
-      ## memory: "600Mi"
-      ## cpu: "250m"
-    limits: {}
-    ## Example:
-    ##  memory: "4000Mi"
-    ##  cpu: "4"
+    requests:
+      memory: 800Mi
+      cpu: 250m
+    limits:
+      memory: 4000Mi
+      cpu: 4
 
   initContainer:
     resources:
-      requests: {}
-        ## Example:
-        ## memory: 384Mi
-        ## cpu: 250m
-      limits: {}
-        ## Example:
-        ## memory: 512Mi
-        ## cpu: 500m
+      requests:
+        memory: 384Mi
+        cpu: 250m
+      limits:
+        memory: 512Mi
+        cpu: 500m
 
   nginx:
     args:
@@ -172,14 +171,12 @@ app:
     extraEnvironmentVars: {}
     extraEnvironmentSecrets: {}
     resources:
-      requests: {}
-        ## Example
-        ## memory: 384Mi
-        ## cpu: 250m
-      limits: {}
-        ## Example:
-        ## memory: 1G
-        ## cpu: 1000m
+      requests:
+        memory: 100Mi
+        cpu: 10m
+      limits:
+        memory: 200Mi
+        cpu: 20m
     livenessProbe:
       enabled: true
       path: "/nginx_health"
@@ -224,7 +221,7 @@ app:
 
   shareProcessNamespace: false
 
-  automountServiceAccountToken: true
+  automountServiceAccountToken: false
 
   # Extra k8s annotations to attach to the app pods
   # This can either be YAML or a YAML-formatted multi-line templated string map
@@ -315,7 +312,7 @@ app:
   # Definition of the serviceAccount used to run Label Studio Enterprise
   serviceAccount:
     # Specifies whether to create a service account
-    create: true
+    create: false
     # The name of the service account to use.
     # If not set and create is true, a name is generated using the fullname template
     name: ""
@@ -334,7 +331,7 @@ app:
   ##
   podSecurityContext:
     enabled: true
-    fsGroup: 1001
+    fsGroup: 1000
 
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
   ## @param containerSecurityContext.enabled Enable container Security Context
@@ -343,7 +340,7 @@ app:
   ##
   containerSecurityContext:
     enabled: true
-    runAsUser: 1001
+    runAsUser: 1000
     runAsNonRoot: true
     allowPrivilegeEscalation: false
 
@@ -465,7 +462,7 @@ rqworker:
 
   shareProcessNamespace: false
 
-  automountServiceAccountToken: true
+  automountServiceAccountToken: false
 
   # Extra k8s annotations to attach to the rqworker pods
   # This can either be YAML or a YAML-formatted multi-line templated string map
@@ -515,7 +512,7 @@ rqworker:
   # Definition of the serviceAccount used to run rqworker for Label Studio Enterprise
   serviceAccount:
     # Specifies whether to create a service account
-    create: true
+    create: false
     # The name of the service account to use.
     # If not set and create is true, a name is generated using the fullname template
     name: ""
@@ -534,7 +531,7 @@ rqworker:
   ##
   podSecurityContext:
     enabled: true
-    fsGroup: 1001
+    fsGroup: 1000
 
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
   ## @param containerSecurityContext.enabled Enable container Security Context
@@ -543,7 +540,7 @@ rqworker:
   ##
   containerSecurityContext:
     enabled: true
-    runAsUser: 1001
+    runAsUser: 1000
     runAsNonRoot: true
     allowPrivilegeEscalation: false
 
@@ -592,7 +589,7 @@ postgresql:
   clusterDomain: cluster.local
   architecture: standalone
   image:
-    tag: 13.12.0
+    tag: 13.15.0
   auth:
     username: "labelstudio"
     password: "labelstudio"
@@ -645,7 +642,7 @@ metrics:
       enabled: true
       allowPrivilegeEscalation: false
       readOnlyRootFilesystem: false
-      runAsUser: 1001
+      runAsUser: 1000
 
     resources:
       requests:
