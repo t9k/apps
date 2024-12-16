@@ -17,7 +17,7 @@ resources:
     memory: 64Gi
     nvidia.com/gpu: 1
 
-## @param persistence.size Size of the persistent volume claim
+## @param persistence.size Size of the PVC
 ##
 persistence:
   size: 32Gi

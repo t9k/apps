@@ -30,11 +30,11 @@ server:
       nvidia.com/gpu: 1
 
   ## @param server.model.deployName Name by which the model is deployed
-  ## @param server.model.volume.size Size of the model volume
-  ## @param server.model.volume.storageClass Storage class for the model volume
-  ## @param server.model.volume.accessModes Access modes for the model volume
-  ## @param server.model.volume.existingClaim Name of an existing model volume to use
-  ## @param server.model.volume.subPath Subdirectory of the model volume to mount
+  ## @param server.model.volume.size Size of the PVC
+  ## @param server.model.volume.storageClass Storage class for the PVC
+  ## @param server.model.volume.accessModes Access modes for the PVC
+  ## @param server.model.volume.existingClaim Name of an existing PVC to use
+  ## @param server.model.volume.subPath Subdirectory of the PVC to mount as model files
   ##
   model:
     # 模型以该名称被部署

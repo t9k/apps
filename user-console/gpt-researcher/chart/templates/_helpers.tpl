@@ -54,42 +54,30 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Get the enviroment variables
 */}}
 {{- define "gpt-researcher.envs" -}}
+- name: FAST_LLM
+  value: {{ .Values.llm.fastLlm | quote }}
+- name: SMART_LLM
+  value: {{ .Values.llm.smartLlm | quote }}
+- name: STRATEGIC_LLM
+  value: {{ .Values.llm.strategicLlm | quote }}
+- name: EMBEDDING
+  value: {{ .Values.llm.embedding | quote }}
+- name: FAST_TOKEN_LIMIT
+  value: {{ .Values.llm.fastTokenLimit | quote }}
+- name: SMART_TOKEN_LIMIT
+  value: {{ .Values.llm.smartTokenLimit | quote }}
+- name: SUMMARY_TOKEN_LIMIT
+  value: {{ .Values.llm.summaryTokenLimit | quote }}
+- name: TEMPERATURE
+  value: {{ .Values.llm.temperature | quote }}
 {{- if eq .Values.llm.provider "openai" }}
 - name: OPENAI_BASE_URL
-  value: {{ .Values.llm.openai.baseUrl | quote }}
-- name: FAST_LLM_MODEL
-  value: {{ .Values.llm.openai.fastModel | quote }}
-- name: SMART_LLM_MODEL
-  value: {{ .Values.llm.openai.smartModel | quote }}
-- name: FAST_TOKEN_LIMIT
-  value: {{ .Values.llm.openai.fastTokenLimit | quote }}
-- name: SMART_TOKEN_LIMIT
-  value: {{ .Values.llm.openai.smartTokenLimit | quote }}
-- name: SUMMARY_TOKEN_LIMIT
-  value: {{ .Values.llm.openai.summaryTokenLimit | quote }}
-- name: TEMPERATURE
-  value: {{ .Values.llm.openai.temperature | quote }}
+  value: {{ .Values.llm.baseUrl | quote }}
 {{- else if eq .Values.llm.provider "ollama"}}
-- name: LLM_PROVIDER
-  value: ollama
-- name: EMBEDDING_PROVIDER
-  value: ollama
+- name: OPENAI_API_BASE
+  value: {{ printf "%s/v1" .Values.llm.baseUrl | quote }}
 - name: OLLAMA_BASE_URL
-  value: {{ .Values.llm.ollama.baseUrl | quote }}
-- name: FAST_LLM_MODEL
-  value: {{ .Values.llm.ollama.fastModel | quote }}
-- name: SMART_LLM_MODEL
-  value: {{ .Values.llm.ollama.smartModel | quote }}
-- name: OLLAMA_EMBEDDING_MODEL
-  value: {{ .Values.llm.ollama.embeddingModel | quote }}
-- name: FAST_TOKEN_LIMIT
-  value: {{ .Values.llm.ollama.fastTokenLimit | quote }}
-- name: SMART_TOKEN_LIMIT
-  value: {{ .Values.llm.ollama.smartTokenLimit | quote }}
-- name: SUMMARY_TOKEN_LIMIT
-  value: {{ .Values.llm.ollama.summaryTokenLimit | quote }}
-- name: TEMPERATURE
-  value: {{ .Values.llm.ollama.temperature | quote }}
+  value: {{ .Values.llm.baseUrl | quote }}
 {{- end }}
 - name: RETRIEVER
   value: {{ .Values.retriever.provider | quote }}
@@ -118,5 +106,5 @@ Get the enviroment variables
 - name: SCRAPER
   value: {{ .Values.app.scraper | quote }}
 - name: MAX_SUBTOPICS
-  value: {{ .Values.app.userAgent | quote }}
+  value: {{ .Values.app.maxSubtopics | quote }}
 {{- end -}}

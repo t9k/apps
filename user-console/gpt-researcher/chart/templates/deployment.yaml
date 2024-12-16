@@ -41,10 +41,16 @@ spec:
             httpGet:
               path: /
               port: http
+            initialDelaySeconds: 15
+            periodSeconds: 15
+            failureThreshold: 5
           readinessProbe:
             httpGet:
               path: /
               port: http
+            initialDelaySeconds: 15
+            periodSeconds: 15
+            failureThreshold: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env: 
@@ -52,9 +58,23 @@ spec:
             {{- if gt (len .Values.env) 0 }}
             {{- toYaml .Values.env | nindent 12 }}
             {{- end }}
+            {{- if .Values.docs.enabled }}
+            - name: DOC_PATH
+              value: "/home/gpt-researcher/docs"
+            {{- end }}
           envFrom:
             - secretRef:
                 name: {{ include "gpt-researcher.fullname" . }}
+      {{- if .Values.docs.enabled }}
+          volumeMounts:
+            - name: data
+              mountPath: /home/gpt-researcher/docs
+              subPath: {{ .Values.docs.volume.subPath }}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ .Values.docs.volume.existingClaim }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

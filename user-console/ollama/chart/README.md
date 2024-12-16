@@ -30,7 +30,7 @@
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
   repository: "$(T9K_APP_IMAGE_NAMESPACE)/ollama"
-  tag: "0.4.1"
+  tag: "0.5.2"
   pullPolicy: IfNotPresent
 
 resources:
@@ -70,7 +70,7 @@ persistentVolume:
 | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
 | `image.registry`                 | Ollama 镜像注册表                                                                                                                                                                                 | `$(T9K_APP_IMAGE_REGISTRY)`         |
 | `image.repository`               | Ollama 镜像仓库                                                                                                                                                                                   | `$(T9K_APP_IMAGE_NAMESPACE)/ollama` |
-| `image.tag`                      | Ollama 镜像标签                                                                                                                                                                                   | `0.4.1`                             |
+| `image.tag`                      | Ollama 镜像标签                                                                                                                                                                                   | `0.5.2`                             |
 | `image.pullPolicy`               | Ollama 镜像拉取策略                                                                                                                                                                               | `IfNotPresent`                      |
 | `ollama.gpu.enabled`             | 启用 GPU 集成                                                                                                                                                                                     | `false`                             |
 | `ollama.gpu.type`                | GPU 类型：'nvidia' 或'amd'。如果 'ollama.gpu.enabled'，默认值是 'nvidia'。如果设置为'amd'，则会在镜像标签中添加 'rocm' 后缀（如果 'image.tag' 未被重载）。这是因为 AMD 和 CPU/CUDA 使用不同的镜像 | `"nvidia"`                          |

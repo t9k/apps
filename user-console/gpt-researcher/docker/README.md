@@ -5,6 +5,6 @@
 ```bash
 git clone https://github.com/assafelovic/gpt-researcher.git
 cd gpt-researcher
-git checkout tags/v.0.2.6
-docker build . -t t9kpublic/gpt-researcher:0.2.6
+git checkout tags/v3.1.5
+docker build . -t t9kpublic/gpt-researcher:v3.1.5
 ```

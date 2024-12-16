@@ -1,45 +1,16 @@
-## @param replicaCount Number of replicas for the deployment
-##
-replicaCount: 1
-
-## @param image.registry Repository registry for the Docker image
-## @param image.repository Repository name for the Docker image
-## @param image.tag Image tag for the Docker image (immutable tags are recommended)
-## @param image.pullPolicy Image pull policy for the Docker image
+## @param image.registry GPT Researcher image registry
+## @param image.repository GPT Researcher image repository
+## @param image.tag GPT Researcher image tag
+## @param image.pullPolicy GPT Researcher image pull policy
 ##
 image:
-  registry: docker.io
-  repository: t9kpublic/gpt-researcher
-  tag: v3.1.5
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/gpt-researcher"
+  tag: "v3.1.5"
   pullPolicy: IfNotPresent
 
-## @param service.type Service type for the Kubernetes service
-## @param service.port Port for the Kubernetes service
-##
-service:
-  type: ClusterIP
-  port: 8000
-
-## @param ingress.enabled Enable/disable Kubernetes ingress
-## @param ingress.className Ingress class name
-## @param ingress.annotations Annotations for Kubernetes ingress
-## @param ingress.hosts List of hosts for Kubernetes ingress
-## @param ingress.tls TLS configuration for Kubernetes ingress
-##
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts: []
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
-
-## @param resources.limits.cpu CPU limit for Kubernetes resources
-## @param resources.limits.memory Memory limit for Kubernetes resources
+## @param resources.limits.cpu CPU limit for GPT Researcher container
+## @param resources.limits.memory Memory limit for GPT Researcher container
 ##
 resources:
   limits:
@@ -59,11 +30,11 @@ resources:
 ## @param llm.temperature Sampling temperature for LLM responses, typically between 0 and 1. A higher value results in more randomness and creativity, while a lower value results in more focused and deterministic responses
 ##
 llm:
-  # 使用的模型提供商
-  # 应为 "openai" 或 "ollama"
+  # 使用的模型提供商，应为 "openai" 或 "ollama"
   provider: ""
   # 兼容 OpenAI API 的服务的 URL
   # 如使用 OpenAI API，请设为 "https://api.openai.com/v1"
+  # 如使用 Ollama 的 OpenAI 兼容 API，请设为 "http://app-ollama-xxxxxx.project.svc.cluster.local:11434"
   baseUrl: ""
   apiKey: ""
   fastLlm: "openai:gpt-4o-mini"
@@ -82,19 +53,11 @@ llm:
 retriever:
   # 使用的搜索引擎提供商，请参阅 https://docs.gptr.dev/docs/gpt-researcher/search-engines/retrievers
   provider: ""
+  # 对于 "duckduckgo"、"arxiv"，无需提供 API Key
+  # 对于 "Searx"，请设为 Searx 的服务端点
   apiKey: ""
   google:
     cxKey: ""
-
-## @param docs.enabled Enable/disable research on local documents
-## @param docs.volume.existingClaim Name of an existing PVC to use
-## @param docs.volume.subPath Subdirectory of the PVC to mount as documents
-##
-docs:
-  enabled: false
-  volume:
-    existingClaim: ""
-    subPath: ""
 
 ## @param app.userAgent Custom User-Agent string for web crawling and web requests
 ## @param app.similarityThreshold Threshold for determining when two documents are similar enough to be considered redundant
