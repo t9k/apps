@@ -65,7 +65,7 @@ llm:
   provider: "openai"
   apiKey: "any"
   openai:
-    baseUrl: "http://<ENDPOINT>"  # 安装 vLLM 应用，查看其应用信息以获取服务端点
+    baseUrl: "<VLLM_ENDPOINT>"  # 安装 vLLM 应用，查看其应用信息以获取服务端点
 
 env: []
 ```

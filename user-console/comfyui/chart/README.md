@@ -37,7 +37,7 @@
 
 ## 使用说明
 
-* 网页 UI 所加载的模型文件全部存储在随应用创建（或用户指定）的 PVC `app-comfyui-xxxxxxxx` 的 `ComfyUI/models` 目录下，已有的模型文件为镜像自带。你可以通过以下方法管理模型文件：
+* 网页 UI 所加载的模型文件全部存储在随应用创建（或用户指定）的 PVC `app-comfyui-xxxxxx` 的 `ComfyUI/models` 目录下，已有的模型文件为镜像自带。你可以通过以下方法管理模型文件：
 
     1. （需要设置 HTTP(s) 代理）使用 [ComfyUI 管理器](https://github.com/ltdrdata/ComfyUI-Manager)的**模型管理**安装某些模型（下载相应的模型文件）：
 

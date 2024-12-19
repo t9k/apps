@@ -12,7 +12,7 @@
 
 ## 使用说明
 
-* 网页 UI 所加载的模型文件全部存储在随应用创建的 PVC `app-stable-diffusion-webui-aki-xxxxxxxx` 的 `models` 目录下，已有的模型文件为镜像自带。你可以安装挂载该 PVC 的 Terminal 或 JupyterLab 应用，向其中下载更多的模型文件或删除已有的模型文件，完成后在网页 UI 点击相应的刷新按钮：
+* 网页 UI 所加载的模型文件全部存储在随应用创建的 PVC `app-stable-diffusion-webui-aki-xxxxxx` 的 `models` 目录下，已有的模型文件为镜像自带。你可以安装挂载该 PVC 的 Terminal 或 JupyterLab 应用，向其中下载更多的模型文件或删除已有的模型文件，完成后在网页 UI 点击相应的刷新按钮：
 
     ![](https://s2.loli.net/2024/06/18/WRPoig1Uk59uF7B.png)
 

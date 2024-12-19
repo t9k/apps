@@ -32,7 +32,7 @@ DB-GPT 的目的是通过多项技术能力的开发，如多模型管理（SMMF
 
 ### 示例
 
-配置 vLLM 应用部署的 qwen2.5:7b 作为聊天模型，另一个 vLLM 应用部署的 e5-mistral-7b-instruct 作为文本嵌入模型：
+使用 OpenAI API 的 gpt-4o-mini 作为聊天模型，text-embedding-3-large 作为文本嵌入模型，设置网络代理：
 
 ```yaml
 image:
@@ -45,14 +45,60 @@ dotenv:
   enabled: true
   data: |-
     LLM_MODEL=proxyllm
-    PROXY_SERVER_URL=<VLLM_CHAT_ENDPOINT>
+    PROXY_SERVER_URL=https://api.openai.com/v1/chat/completions
+    PROXY_API_KEY=<YOUR_OPENAI_API_KEY>
+    PROXYLLM_BACKEND=gpt-4o-mini
+
+    EMBEDDING_MODEL=proxy_openai
+    proxy_openai_proxy_server_url=https://api.openai.com/v1
+    proxy_openai_proxy_api_key=<YOUR_OPENAI_API_KEY>
+    proxy_openai_proxy_backend=text-embedding-3-large
+
+    LOCAL_DB_HOST=127.0.0.1
+    LOCAL_DB_PASSWORD=aa123456
+    MYSQL_ROOT_PASSWORD=aa123456
+    ALLOWLISTED_PLUGINS=db_dashboard
+    LANGUAGE=zh
+
+resources:
+  limits:
+    cpu: 4
+    memory: 8Gi
+
+persistence:
+  enabled: true
+  size: 20Gi
+  storageClass: ""
+  accessMode: ReadWriteMany
+
+env:
+  - name: HTTP_PROXY
+    value: "<YOUR_HTTP_PROXY>"
+  - name: HTTPS_PROXY
+    value: "<YOUR_HTTPS_PROXY>"
+```
+
+使用 vLLM 应用部署的 qwen（Qwen2.5-7B-Instruct）作为聊天模型，Ollama 应用部署的 all-minilm 作为文本嵌入模型：
+
+```yaml
+image:
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/dbgpt-allinone"
+  tag: "v0.6.2"
+  pullPolicy: IfNotPresent
+
+dotenv:
+  enabled: true
+  data: |-
+    LLM_MODEL=proxyllm
+    PROXY_SERVER_URL=<VLLM_ENDPOINT>/v1/chat/completions
     PROXY_API_KEY=none
-    PROXYLLM_BACKEND=qwen2.5:7b
+    PROXYLLM_BACKEND=qwen
 
     EMBEDDING_MODEL=proxy_http_openapi
-    proxy_http_openapi_proxy_server_url=<VLLM_EMBEDDING_ENDPOINT>
+    proxy_http_openapi_proxy_server_url=http://<OLLAMA_ENDPOINT>/v1/embeddings
     proxy_http_openapi_proxy_api_key=none
-    proxy_http_openapi_proxy_backend=e5-mistral-7b-instruct
+    proxy_http_openapi_proxy_backend=all-minilm
 
     LOCAL_DB_HOST=127.0.0.1
     LOCAL_DB_PASSWORD=aa123456
@@ -80,7 +126,7 @@ env: []
 | -------------------------- | ---------------------------- | ------------------------------------------- |
 | `image.registry`           | DB-GPT 镜像注册表            | `$(T9K_APP_IMAGE_REGISTRY)`                 |
 | `image.repository`         | DB-GPT 镜像仓库              | `$(T9K_APP_IMAGE_NAMESPACE)/dbgpt-allinone` |
-| `image.tag`                | DB-GPT 镜像标签              | `v0.6.2`                                  |
+| `image.tag`                | DB-GPT 镜像标签              | `v0.6.2`                                    |
 | `image.pullPolicy`         | DB-GPT 镜像拉取策略          | `IfNotPresent`                              |
 | `dotenv.enabled`           | 是否启用环境变量配置         | `true`                                      |
 | `dotenv.data`              | 环境变量配置                 |                                             |

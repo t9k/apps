@@ -14,7 +14,7 @@
 
 ## 使用说明
 
-* 应用数据全部存储在随应用创建的 PVC `app-open-webui-xxxxxxxx` 中，包括聊天记录、上传的文件、工具模型（文本嵌入模型等）、向量数据等。
+* 应用数据全部存储在随应用创建的 PVC `app-open-webui-xxxxxx` 中，包括聊天记录、上传的文件、工具模型（文本嵌入模型等）、向量数据等。
 
 * 默认的 PVC 大小为 2 GiB，请根据应用的使用规模进行适当的调整。另外，该 PVC 在创建完成后也可以进行扩容（取决于存储后端是否支持）。
 
@@ -131,7 +131,7 @@ ollama:
     enabled: true
     size: 30Gi
 
-ollamaUrls: ["http://<ENDPOINT>"]  # 安装 Ollama 应用，查看其应用信息以获取服务端点
+ollamaUrls: ["http://<OLLAMA_ENDPOINT>"]  # 安装 Ollama 应用，查看其应用信息以获取服务端点
 
 pipelines:
   enabled: false

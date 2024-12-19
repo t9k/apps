@@ -42,7 +42,7 @@ resources:
     memory: 2Gi
 
 llm:
-  baseUrl: "http://<ENDPOINT>/v1"  # 安装 vLLM 应用，查看其应用信息以获取服务端点
+  baseUrl: "<VLLM_ENDPOINT>/v1"  # 安装 vLLM 应用，查看其应用信息以获取服务端点
   apiKey: "any"
   modelName: "<DEPLOY_NAME>"  # 模型以该名称被部署
 

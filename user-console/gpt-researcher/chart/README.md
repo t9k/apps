@@ -87,7 +87,7 @@ resources:
 
 llm:
   provider: "ollama"
-  baseUrl: "http://app-ollama-xxxxxx.project.svc.cluster.local:11434"
+  baseUrl: "http://<OLLAMA_ENDPOINT>"
   apiKey: ""
   fastLlm: "ollama:llama3.2"
   smartLlm: "ollama:llama3.3"
@@ -100,7 +100,7 @@ llm:
 
 retriever:
   provider: "searx"
-  apiKey: "http://app-searxng-xxxxxx.project.svc.cluster.local:8080"
+  apiKey: "<SEARXNG_ENDPOINT>"
 
 app:
   userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0"
