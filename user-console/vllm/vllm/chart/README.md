@@ -32,7 +32,7 @@ vLLM 无缝支持 HuggingFace 上大多数流行的开源模型，包括：
 
 待应用就绪后，（安装并）进入一个终端应用，按照应用信息的指引执行命令以验证推理服务可用。
 
-验证成功后，就可以使用该推理服务替代 OpenAI API，即使用 `http://$ENDPOINT` 替代 `https://api.openai.com`。
+验证成功后，就可以使用该推理服务替代 OpenAI API，即使用 `$ENDPOINT` 替代 `https://api.openai.com`。
 
 ## 配置
 
@@ -74,7 +74,7 @@ server:
   image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
-    tag: "v0.6.3"
+    tag: "v0.6.5"
     pullPolicy: IfNotPresent
 
   resources:
@@ -113,7 +113,7 @@ server:
   image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
-    tag: "v0.6.3"
+    tag: "v0.6.5"
     pullPolicy: IfNotPresent
 
   resources:
@@ -131,7 +131,7 @@ server:
       accessModes:
         - ReadWriteOnce
       existingClaim: ""
-      subPath: "Qwen2.5-7B-Instruct"
+      subPath: "Qwen2.5-7B-Instruct/"
   
   autoScaling:
     minReplicas: 1
@@ -158,14 +158,14 @@ initializer:
     pullPolicy: IfNotPresent
 ```
 
-部署 Llama-3.1-70B-Instruct 模型为推理服务，模型文件位于 PVC `llm` 的 `Llama-3.1-70B-Instruct/` 子路径下，副本数量固定为 1：
+部署 Llama-3.1-70B-Instruct 模型为推理服务，模型文件位于 PVC `llm` 的 `Llama-3.1-70B-Instruct/` 子路径下，采用 4 度张量并行：
 
 ```yaml
 server:
   image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
-    tag: "v0.6.3"
+    tag: "v0.6.5"
     pullPolicy: IfNotPresent
 
   resources:
@@ -183,7 +183,7 @@ server:
       accessModes:
         - ReadWriteOnce
       existingClaim: "llm"
-      subPath: "Llama-3.1-70B-Instruct"
+      subPath: "Llama-3.1-70B-Instruct/"
   
   autoScaling:
     minReplicas: 1
@@ -201,13 +201,220 @@ initializer:
     pullPolicy: IfNotPresent
 ```
 
+部署 Qwen2.5-72B-Instruct 模型为推理服务，模型文件位于 PVC `llm` 的 `Qwen2.5-72B-Instruct/` 子路径下，采用 2 度张量并行，加载时进行 4bit 量化：
+
+```yaml
+server:
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
+    tag: "v0.6.5"
+    pullPolicy: IfNotPresent
+
+  resources:
+    limits:
+      cpu: 4
+      memory: 64Gi
+      nvidia.com/gpu: 2
+
+  model:
+    deployName: "qwen"
+
+    volume:
+      storageClass: ""
+      size: 24Gi
+      accessModes:
+        - ReadWriteOnce
+      existingClaim: "llm"
+      subPath: "Qwen2.5-72B-Instruct/"
+  
+  autoScaling:
+    minReplicas: 1
+    maxReplicas: 1
+
+  app:
+    extraArgs:
+      - "--tensor-parallel-size=2"
+      - "--quantization=bitsandbytes"
+      - "--load-format=bitsandbytes"
+
+initializer:
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/kubectl"
+    tag: "1.27"
+    pullPolicy: IfNotPresent
+```
+
+<!-- 部署 Mistral-Nemo-Instruct-2407.Q5_K_M.gguf 量化模型为推理服务，模型文件位于 PVC `llm` 的 `Mistral-Nemo-Instruct-2407-GGUF/` 子路径下：
+
+```yaml
+server:
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
+    tag: "v0.6.5"
+    pullPolicy: IfNotPresent
+
+  resources:
+    limits:
+      cpu: 4
+      memory: 64Gi
+      nvidia.com/gpu: 1
+
+  model:
+    deployName: "mistral-nemo"
+
+    volume:
+      storageClass: ""
+      size: 24Gi
+      accessModes:
+        - ReadWriteOnce
+      existingClaim: "llm"
+      subPath: "Mistral-Nemo-Instruct-2407-GGUF/"
+  
+  autoScaling:
+    minReplicas: 1
+    maxReplicas: 1
+
+initializer:
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/kubectl"
+    tag: "1.27"
+    pullPolicy: IfNotPresent
+``` -->
+
+部署 e5-mistral-7b-instruct 嵌入模型为推理服务，模型文件位于 PVC `llm` 的 `e5-mistral-7b-instruct/` 子路径下：
+
+```yaml
+server:
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
+    tag: "v0.6.5"
+    pullPolicy: IfNotPresent
+
+  resources:
+    limits:
+      cpu: 4
+      memory: 64Gi
+      nvidia.com/gpu: 1
+
+  model:
+    deployName: "e5-mistral-7b-instruct"
+
+    volume:
+      storageClass: ""
+      size: 32Gi
+      accessModes:
+        - ReadWriteOnce
+      existingClaim: "llm"
+      subPath: "e5-mistral-7b-instruct/"
+
+  autoScaling:
+    minReplicas: 1
+    maxReplicas: 1
+
+initializer:
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/kubectl"
+    tag: "1.27"
+    pullPolicy: IfNotPresent
+```
+
+部署 Qwen2-VL-7B-Instruct 多模态模型为推理服务，模型文件位于 PVC `llm` 的 `Qwen2-VL-7B-Instruct/` 子路径下：
+
+```yaml
+server:
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
+    tag: "v0.6.5"
+    pullPolicy: IfNotPresent
+
+  resources:
+    limits:
+      cpu: 4
+      memory: 64Gi
+      nvidia.com/gpu: 1
+
+  model:
+    deployName: "qwen"
+
+    volume:
+      storageClass: ""
+      size: 32Gi
+      accessModes:
+        - ReadWriteOnce
+      existingClaim: "llm"
+      subPath: "Qwen2-VL-7B-Instruct/"
+
+  autoScaling:
+    minReplicas: 1
+    maxReplicas: 1
+
+initializer:
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/kubectl"
+    tag: "1.27"
+    pullPolicy: IfNotPresent
+```
+
+部署 Mistral-7B-Instruct-v0.3 模型为推理服务，模型文件位于 PVC `llm` 的 `Mistral-7B-Instruct-v0.3/` 子路径下，启用工具调用（tool calling）：
+
+```yaml
+server:
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
+    tag: "v0.6.5"
+    pullPolicy: IfNotPresent
+
+  resources:
+    limits:
+      cpu: 4
+      memory: 64Gi
+      nvidia.com/gpu: 1
+
+  model:
+    deployName: "mistral"
+
+    volume:
+      storageClass: ""
+      size: 32Gi
+      accessModes:
+        - ReadWriteOnce
+      existingClaim: "llm"
+      subPath: "Mistral-7B-Instruct-v0.3/"
+
+  autoScaling:
+    minReplicas: 1
+    maxReplicas: 1
+
+  app:
+    extraArgs:
+      - "--enable-auto-tool-choice"
+      - "--tool-call-parser=mistral"
+      - "--chat-template=examples/tool_chat_template_mistral.jinja"
+
+initializer:
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/kubectl"
+    tag: "1.27"
+    pullPolicy: IfNotPresent
+```
+
 ### 字段
 
 | 名称                                       | 描述                                             | 值                                       |
 | ------------------------------------------ | ------------------------------------------------ | ---------------------------------------- |
 | `server.image.registry`                    | vLLM 服务器镜像注册表                            | `$(T9K_APP_IMAGE_REGISTRY)`              |
 | `server.image.repository`                  | vLLM 服务器镜像仓库                              | `$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai` |
-| `server.image.tag`                         | vLLM 服务器镜像标签                              | `v0.6.3`                                 |
+| `server.image.tag`                         | vLLM 服务器镜像标签                              | `v0.6.5`                                 |
 | `server.image.pullPolicy`                  | vLLM 服务器镜像拉取策略                          | `IfNotPresent`                           |
 | `server.resources.limits.cpu`              | vLLM 服务器容器能使用的 CPU 上限                 | `4`                                      |
 | `server.resources.limits.memory`           | vLLM 服务器容器能使用的内存上限                  | `64Gi`                                   |

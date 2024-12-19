@@ -146,7 +146,7 @@ resources:
 
 app:
   defaultRootPassword: "123456"
-  openAiBaseUrl: "<ENDPOINT>/v1"  # 安装 One API 应用，查看其应用信息以获取服务端点
+  openAiBaseUrl: "<ONE_API_ENDPOINT>/v1"  # 安装 One API 应用，查看其应用信息以获取服务端点
   chatApiKey: "<YOUR_ONE_API_TOKEN>"  # 进入 One API 应用，创建令牌
   dbMaxLink: "30"
   tokenKey: "any"
