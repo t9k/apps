@@ -23,7 +23,14 @@ template:
           name: "{{ .Release.Name }}"
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
-      dependencies: {}
+      dependencies:
+        crds:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: mlservices
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: datacubes
     - version: 0.3.1
       config: "file://$APP_DIR/configs/v0_3_1.yaml"
       urls: []
@@ -35,4 +42,11 @@ template:
           name: "{{ .Release.Name }}"
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
-      dependencies: {}
+      dependencies:
+        crds:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: mlservices
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: datacubes

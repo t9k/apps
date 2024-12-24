@@ -1,16 +1,16 @@
 apiVersion: app.tensorstack.dev/v1beta1
 kind: Template
 metadata:
-  name: jupyterlab
-  displayName: "JupyterLab"
+  name: jupyterlab-enflame
+  displayName: "JupyterLab (Enflame GCU)"
   categories: ["IDE"]
   description: "JupyterLab 是一个基于 Web 的交互式开发环境，用于代码开发和数据处理，支持数据科学、科学计算和机器学习等任务。"
   icon: "file://$APP_DIR/icon.svg"
 template:
-  helm: 
-    repo: "oci://docker.io/t9kpublic"
+  helm:
+    repo: "oci://registry.qingyang.t9kcloud.cn/t9kcharts"
     # repo: "https://t9k.github.io/apps/"
-    chart: "jupyterlab"
+    chart: "jupyterlab-enflame"
     versions:
     - version: 0.2.3
       config: "file://$APP_DIR/configs/v0_2_3.yaml"

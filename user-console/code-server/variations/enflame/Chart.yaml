@@ -1,5 +1,5 @@
 apiVersion: v2
-name: code-server
+name: code-server-enflame
 description: Code Server 是一个基于浏览器的 VSCode 环境。
 type: application
 version: 0.3.2

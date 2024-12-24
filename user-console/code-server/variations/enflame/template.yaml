@@ -1,15 +1,16 @@
 apiVersion: app.tensorstack.dev/v1beta1
 kind: Template
 metadata:
-  name: code-server
-  displayName: "Code Server"
+  name: code-server-enflame
+  displayName: "Code Server (Enflame GCU)"
   categories: ["IDE"]
   description: "Code Server 是一个基于浏览器的 VSCode 环境。"
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm: 
-    repo: "oci://docker.io/t9kpublic"
-    chart: "code-server"
+    repo: "oci://registry.qingyang.t9kcloud.cn/t9kcharts"
+    # repo: "https://t9k.github.io/apps/"
+    chart: "code-server-enflame"
     versions:
     - version: 0.3.2
       config: "file://$APP_DIR/configs/v0_3_2.yaml"

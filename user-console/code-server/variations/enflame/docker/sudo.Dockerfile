@@ -2,7 +2,14 @@ FROM codercom/code-server:4.92.2 as codeserver
 
 FROM tsz.io/t9k/build-sdk:1.78.7 as buildsdk
 
-FROM pytorch/pytorch:2.5.0-cuda12.1-cudnn9-devel
+FROM registry.qingyang.t9kcloud.cn/topsrider/ubuntu:amd64-22.04
+
+COPY TopsRider_i3x_3.2.203_deb_amd64.run .
+RUN ./TopsRider_i3x_3.2.203_deb_amd64.run -y -C torch-gcu-2 && \
+ rm ./TopsRider_i3x_3.2.203_deb_amd64.run
+
+ENV PATH=$PATH:/opt/tops/bin
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/tops/lib
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -68,17 +75,17 @@ RUN pip install --no-cache-dir --upgrade pip && \
   torchmetrics==1.5.0 \
   torchtext==0.18.0 \
   transformers==4.45.2
-  
-RUN conda install -y -c tartansandal conda-bash-completion
 
 RUN groupadd --gid=1000 t9kuser && mkdir /t9k && \
 useradd -rm --create-home -d /t9k/mnt --shell /bin/bash \
 --uid=1000 --gid=1000 t9kuser
 
+RUN echo 't9kuser:tensorstack' | chpasswd && echo "t9kuser ALL=(ALL:ALL) ALL" >> /etc/sudoers
+
 RUN chmod 755 /t9k/mnt
 WORKDIR /t9k/mnt
 
-COPY bashrc-conda /etc/bash.bashrc
+COPY bashrc /etc/bash.bashrc
 
 COPY --chown=t9kuser:t9kuser --from=codeserver /usr/bin/code-server /usr/bin/code-server
 COPY --chown=t9kuser:t9kuser --from=codeserver /usr/lib/code-server /usr/lib/code-server

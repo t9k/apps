@@ -7,21 +7,20 @@
 ##
 server:
 
-  ## @param image.registry vLLM image registry
-  ## @param image.repository vLLM image repository
-  ## @param image.tag vLLM image tag
-  ## @param image.pullPolicy vLLM image pull policy
+  ## @param server.image.registry vLLM image registry
+  ## @param server.image.repository vLLM image repository
+  ## @param server.image.tag vLLM image tag
+  ## @param server.image.pullPolicy vLLM image pull policy
   ##
   image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
-    # Overrides the image tag whose default is the chart appVersion.
     tag: "v0.6.5"
     pullPolicy: IfNotPresent
 
-  ## @param resources.limits.cpu CPU limit for vLLM container
-  ## @param resources.limits.memory Memory limit for vLLM container
-  ## @param resources.limits."nvidia.com/gpu" NVIDIA GPU limit for vLLM container
+  ## @param server.resources.limits.cpu CPU limit for vLLM container
+  ## @param server.resources.limits.memory Memory limit for vLLM container
+  ## @param server.resources.limits."nvidia.com/gpu" NVIDIA GPU limit for vLLM container
   ##
   resources:
     limits:

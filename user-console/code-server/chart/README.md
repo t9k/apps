@@ -78,16 +78,16 @@ nodeSelector:
 
 仅使用 CPU 计算（不使用加速设备）时，可以选用以下镜像：
 
-| 名称                                  | 环境             |
-| ------------------------------------- | ---------------- |
-| `t9kpublic/code-server:20241023`      | PyTorch 2, conda |
-| `t9kpublic/code-server:20241023-sudo` | PyTorch 2, conda |
+| 名称                                                   | 环境             |
+| ------------------------------------------------------ | ---------------- |
+| `$(T9K_APP_IMAGE_NAMESPACE)/code-server:20241023`      | PyTorch 2, conda |
+| `$(T9K_APP_IMAGE_NAMESPACE)/code-server:20241023-sudo` | PyTorch 2, conda |
 
 #### NVIDIA GPU
 
 使用 NVIDIA GPU 作为加速设备时，可以选用以下镜像：
 
-| 名称                                  | 环境             |
-| ------------------------------------- | ---------------- |
-| `t9kpublic/code-server:20241023`      | PyTorch 2, conda |
-| `t9kpublic/code-server:20241023-sudo` | PyTorch 2, conda |
+| 名称                                                   | 环境             |
+| ------------------------------------------------------ | ---------------- |
+| `$(T9K_APP_IMAGE_NAMESPACE)/code-server:20241023`      | PyTorch 2, conda |
+| `$(T9K_APP_IMAGE_NAMESPACE)/code-server:20241023-sudo` | PyTorch 2, conda |

@@ -25,7 +25,6 @@ server:
   image:
     registry: "registry.qingyang.t9kcloud.cn"
     repository: "topsrider/vllm-openai"
-    # Overrides the image tag whose default is the chart appVersion.
     tag: "20241223"
     pullPolicy: IfNotPresent
 
