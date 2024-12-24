@@ -136,6 +136,36 @@ entries:
     version: 0.1.1
   dify:
   - apiVersion: v2
+    appVersion: 0.11.2
+    created: "2024-12-24T09:40:19.190388249Z"
+    dependencies:
+    - condition: redis.embedded
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~19.1.1
+    - condition: postgresql.embedded
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~15.2.5
+    - condition: minio.embedded
+      name: minio
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~14.1.7
+    - condition: qdrant.embedded
+      name: qdrant
+      repository: https://qdrant.github.io/qdrant-helm
+      version: ~1.12.4
+    description: A Helm chart for Dify
+    digest: 1610922403e02a8930324bc1fd69510b2dc8527017f3896bccecc58ab4c5d09a
+    home: https://github.com/langgenius/dify
+    maintainers:
+    - name: douban
+    name: dify
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/dify-0.3.8/dify-0.3.8.tgz
+    version: 0.3.8
+  - apiVersion: v2
     appVersion: 0.6.10
     created: "2024-06-11T08:30:46.967106191Z"
     dependencies:
@@ -214,6 +244,16 @@ entries:
     - https://github.com/t9k/apps/releases/download/fish-speech-0.1.0/fish-speech-0.1.0.tgz
     version: 0.1.0
   gpt-researcher:
+  - apiVersion: v2
+    appVersion: 3.1.5
+    created: "2024-12-24T09:40:19.412606218Z"
+    description: GPT Researcher 是一个智能体代理，专门用于各种任务的综合在线研究。
+    digest: 2d9830d2f85d91f7e735e9441356fd509c647eaf6666d574ae18cd9acd5c506f
+    name: gpt-researcher
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/gpt-researcher-0.2.1/gpt-researcher-0.2.1.tgz
+    version: 0.2.1
   - apiVersion: v2
     appVersion: 0.2.6
     created: "2024-08-22T02:35:39.025080406Z"
@@ -317,6 +357,28 @@ entries:
     version: 0.1.1
   label-studio:
   - apiVersion: v2
+    appVersion: 1.14.0.post0
+    created: "2024-12-24T09:40:19.547643842Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.13.2
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.5.15
+    description: Label Studio is a data labeling tool
+    digest: 658a92ae097d718fec60cd28a3e2815655c49404363d0eeeba3f0e765fbe49b4
+    home: https://labelstud.io/
+    icon: https://raw.githubusercontent.com/heartexlabs/label-studio/master/images/logo.png
+    kubeVersion: '>= 1.14.0-0'
+    name: label-studio
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/label-studio-1.7.2/label-studio-1.7.2.tgz
+    version: 1.7.2
+  - apiVersion: v2
     appVersion: 1.12.1
     created: "2024-06-11T08:30:47.368791291Z"
     dependencies:
@@ -370,6 +432,57 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/llama-cpp-server-0.1.0/llama-cpp-server-0.1.0.tgz
     version: 0.1.0
+  mlflow:
+  - annotations:
+      category: MachineLearning
+      images: |
+        - name: git
+          image: docker.io/bitnami/git:2.47.0-debian-12-r2
+        - name: mlflow
+          image: docker.io/bitnami/mlflow:2.18.0-debian-12-r0
+        - name: os-shell
+          image: docker.io/bitnami/os-shell:12-debian-12-r33
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 2.18.0
+    created: "2024-12-24T09:40:19.782303662Z"
+    dependencies:
+    - condition: minio.enabled
+      name: minio
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 14.x.x
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 16.x.x
+    - name: common
+      repository: oci://registry-1.docker.io/bitnamicharts
+      tags:
+      - bitnami-common
+      version: 2.x.x
+    description: MLflow is an open-source platform designed to manage the end-to-end
+      machine learning lifecycle. It allows you to track experiments, package code
+      into reproducible runs, and share and deploy models.
+    digest: ca5d70c838d5731d70cd60b217a3120d58b386622d6fd6d0aef562342c9651b6
+    home: https://bitnami.com
+    icon: https://bitnami.com/assets/stacks/mlflow/img/mlflow-stack-220x234.png
+    keywords:
+    - mlflow
+    - models
+    - python
+    - machine
+    - learning
+    maintainers:
+    - name: Broadcom, Inc. All Rights Reserved.
+      url: https://github.com/bitnami/charts
+    name: mlflow
+    sources:
+    - https://github.com/bitnami/charts/tree/main/bitnami/mlflow
+    - https://github.com/bitnami/containers/tree/main/bitnami/mlflow
+    - https://github.com/mlflow/mlflow
+    urls:
+    - https://github.com/t9k/apps/releases/download/mlflow-2.2.1/mlflow-2.2.1.tgz
+    version: 2.2.1
   nextchat:
   - apiVersion: v2
     appVersion: 2.15.8
@@ -460,6 +573,35 @@ entries:
     - https://github.com/t9k/apps/releases/download/nextchat-0.1.1/nextchat-0.1.1.tgz
     version: 0.1.1
   ollama:
+  - annotations:
+      artifacthub.io/category: ai-machine-learning
+      artifacthub.io/changes: |
+        - kind: changed
+          description: upgrade ollama to 0.5.2
+    apiVersion: v2
+    appVersion: 0.5.2
+    created: "2024-12-24T09:40:20.101191954Z"
+    description: Ollama 提供本地使用 LLM 的解决方案。
+    digest: 5290f35973806ec2d50d771e5434c91f51a447d4442e1ca38d45616b35cb9d4b
+    home: https://ollama.ai/
+    icon: https://ollama.ai/public/ollama.png
+    keywords:
+    - ai
+    - llm
+    - llama
+    - mistral
+    kubeVersion: ^1.16.0-0
+    maintainers:
+    - email: contact@otwld.com
+      name: OTWLD
+    name: ollama
+    sources:
+    - https://github.com/ollama/ollama
+    - https://github.com/otwld/ollama-helm
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/ollama-0.54.2/ollama-0.54.2.tgz
+    version: 0.54.2
   - annotations:
       artifacthub.io/category: ai-machine-learning
       artifacthub.io/changes: |
@@ -1249,6 +1391,16 @@ entries:
     version: 0.1.1
   vllm:
   - apiVersion: v2
+    appVersion: v0.6.5
+    created: "2024-12-24T09:40:20.798986189Z"
+    description: vLLM 是一个高吞吐量和内存高效的 LLM 推理和服务引擎。
+    digest: e05b7e43a15d2d98b50555ca84279778cb31f61c8262d1776b5fc5f8a717a803
+    name: vllm
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/vllm-0.3.1/vllm-0.3.1.tgz
+    version: 0.3.1
+  - apiVersion: v2
     appVersion: v0.6.3
     created: "2024-11-07T08:40:59.688703767Z"
     description: vLLM 是一个高吞吐量和内存高效的 LLM 推理和服务引擎。
@@ -1503,4 +1655,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2024-11-22T11:27:23.219949101Z"
+generated: "2024-12-24T09:40:20.799209122Z"
