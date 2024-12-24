@@ -1,6 +1,6 @@
-FROM codercom/code-server:4.92.2 as codeserver
+FROM codercom/code-server:4.92.2 AS codeserver
 
-FROM tsz.io/t9k/build-sdk:1.78.7 as buildsdk
+FROM tsz.io/t9k/build-sdk:1.78.7 AS buildsdk
 
 FROM registry.qingyang.t9kcloud.cn/topsrider/ubuntu:amd64-22.04
 
