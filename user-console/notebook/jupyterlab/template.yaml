@@ -3,13 +3,13 @@ kind: Template
 metadata:
   name: jupyterlab
   displayName: "JupyterLab"
-  categories: 
-  - IDE
+  categories: ["IDE"]
   description: "JupyterLab 是一个基于 Web 的交互式开发环境，用于代码开发和数据处理，支持数据科学、科学计算和机器学习等任务。"
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm: 
     repo: "oci://docker.io/t9kpublic"
+    # repo: "https://t9k.github.io/apps/"
     chart: "jupyterlab"
     versions:
     - version: 0.2.3

@@ -2,7 +2,7 @@ apiVersion: app.tensorstack.dev/v1beta1
 kind: Template
 metadata:
   name: vllm-enflame
-  displayName: vLLM (Enflame GCU)
+  displayName: "vLLM (Enflame GCU)"
   categories: ["AI"]
   description: "vLLM 是一个高吞吐量和内存高效的 LLM 推理和服务引擎。"
   icon: "file://$APP_DIR/icon.png"
@@ -23,4 +23,11 @@ template:
           name: "{{ .Release.Name }}"
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
-      dependencies: {}
+      dependencies:
+        crds:
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: mlservices
+        - group: tensorstack.dev
+          version: v1beta1
+          resource: datacubes

@@ -3,8 +3,7 @@ kind: Template
 metadata:
   name: code-server
   displayName: "Code Server"
-  categories: 
-  - IDE
+  categories: ["IDE"]
   description: "Code Server 是一个基于浏览器的 VSCode 环境。"
   icon: "file://$APP_DIR/icon.svg"
 template:

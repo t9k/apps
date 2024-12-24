@@ -1,8 +1,6 @@
-FROM codercom/code-server:4.92.2 as codeserver
+FROM codercom/code-server:4.92.2 AS codeserver
 
-ARG BUILD_SDK_RELEASE=1.78.7
-
-FROM tsz.io/t9k/build-sdk:1.78.7 as buildsdk
+FROM tsz.io/t9k/build-sdk:1.78.7 AS buildsdk
 
 FROM pytorch/pytorch:2.5.0-cuda12.1-cudnn9-devel
 
