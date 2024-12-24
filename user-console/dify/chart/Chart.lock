@@ -1,15 +1,15 @@
 dependencies:
 - name: redis
-  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+  repository: oci://registry-1.docker.io/bitnamicharts
   version: 19.1.5
 - name: postgresql
-  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
-  version: 15.2.13
+  repository: oci://registry-1.docker.io/bitnamicharts
+  version: 15.2.12
 - name: minio
-  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+  repository: oci://registry-1.docker.io/bitnamicharts
   version: 14.1.8
 - name: qdrant
   repository: https://qdrant.github.io/qdrant-helm
-  version: 1.12.4
-digest: sha256:9f63454fc3f60d55b0f93186ec0f07aa7dc64eb8a20d73c28d98d9c94b1230a0
-generated: "2024-11-25T15:56:28.56953+08:00"
+  version: 1.12.5
+digest: sha256:35af6a95cab2bcf9059a22d7227ebb99b7133a206e0530b5a014e88b5574249b
+generated: "2024-12-24T17:38:29.276097+08:00"
