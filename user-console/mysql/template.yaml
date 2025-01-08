@@ -8,12 +8,13 @@ metadata:
   icon: "file://$APP_DIR/icon.png"
 template:
   helm:
-    repo: "oci://registry-1.docker.io/bitnamicharts"
+    repo: "oci://docker.io/t9kpublic"
     # repo: "https://charts.bitnami.com/bitnami"
     chart: "mysql"
     versions:
     - version: 11.1.20
       urls: []
+      config: "file://$APP_DIR/configs/v11_1_20.yaml"
       readinessProbe:
         resources:
         - group: apps
@@ -25,6 +26,7 @@ template:
       dependencies: {}
     - version: 9.23.0
       urls: []
+      config: "file://$APP_DIR/configs/v9_23_0.yaml"
       readinessProbe:
         resources:
         - group: apps
