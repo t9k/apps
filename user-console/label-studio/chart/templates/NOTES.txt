@@ -2,4 +2,4 @@ CHART NAME: {{ .Chart.Name }}
 CHART VERSION: {{ .Chart.Version }}
 APP VERSION: {{ .Chart.AppVersion }}
 
-Code Server 地址：<T9K_HOME_DOMAIN>/apps/{{ .Release.Namespace }}/label-studio/{{ .Release.Name }}/
+Label Studio 地址：<T9K_HOME_DOMAIN>/apps/{{ .Release.Namespace }}/label-studio/{{ .Release.Name }}/
