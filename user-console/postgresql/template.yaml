@@ -8,33 +8,13 @@ metadata:
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm:
-    repo: "https://charts.bitnami.com/bitnami"
+    repo: "oci://docker.io/t9kpublic"
+    # repo: "https://t9k.github.io/apps/"
     chart: "postgresql"
     versions:
-    - version: 15.5.0
+    - version: 15.5.15
       urls: []
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: statefulsets
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
-    - version: 14.3.3
-      urls: []
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: statefulsets
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
-    - version: 13.4.4
-      urls: []
+      config: "file://$APP_DIR/configs/v15_5_15.yaml"
       readinessProbe:
         resources:
         - group: apps
@@ -46,17 +26,7 @@ template:
       dependencies: {}
     - version: 12.12.10
       urls: []
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: statefulsets
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
-    - version: 11.9.13
-      urls: []
+      config: "file://$APP_DIR/configs/v12_12_10.yaml"
       readinessProbe:
         resources:
         - group: apps

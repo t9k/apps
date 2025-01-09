@@ -8,11 +8,12 @@ metadata:
   icon: "file://$APP_DIR/icon.svg"
 template:
   helm:
-    repo: "https://charts.bitnami.com/bitnami"
+    repo: "oci://docker.io/t9kpublic"
     chart: "mongodb"
     versions:
     - version: 15.6.1
       urls: []
+      config: "file://$APP_DIR/configs/v15_6_1.yaml"
       readinessProbe:
         resources:
         - group: apps
@@ -24,17 +25,7 @@ template:
       dependencies: {}
     - version: 14.13.0
       urls: []
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
-    - version: 13.18.5
-      urls: []
+      config: "file://$APP_DIR/configs/v14_13_0.yaml"
       readinessProbe:
         resources:
         - group: apps

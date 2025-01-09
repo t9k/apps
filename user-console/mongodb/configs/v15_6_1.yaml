@@ -1,0 +1,35 @@
+## @section Global parameters
+## @param global.storageClass Global StorageClass for Persistent Volume(s)
+global:
+  storageClass: ""
+
+## Bitnami MongoDB(&reg;) image
+## ref: https://hub.docker.com/r/bitnami/mongodb/tags/
+## @param image.registry [default: REGISTRY_NAME] MongoDB(&reg;) image registry
+## @param image.repository [default: REPOSITORY_NAME/mongodb] MongoDB(&reg;) image registry
+## @skip image.tag MongoDB(&reg;) image tag (immutable tags are recommended)
+## @param image.digest MongoDB(&reg;) image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
+## @param image.pullPolicy MongoDB(&reg;) image pull policy
+## @param image.pullSecrets Specify docker-registry secret names as an array
+## @param image.debug Set to true if you would like to see extra information on logs
+##
+image:
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/mongodb"
+  tag: 7.0.11-debian-12-r0
+  digest: ""
+  ## Specify a imagePullPolicy
+  ## ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
+  ##
+  pullPolicy: IfNotPresent
+  ## Optionally specify an array of imagePullSecrets.
+  ## Secrets must be manually created in the namespace.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ## e.g:
+  ## pullSecrets:
+  ##   - myRegistryKeySecretName
+  ##
+  pullSecrets: []
+  ## Set to true if you would like to see extra information on logs
+  ##
+  debug: false

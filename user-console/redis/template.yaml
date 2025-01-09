@@ -13,6 +13,7 @@ template:
     versions:
     - version: 19.5.0
       urls: []
+      config: "file://$APP_DIR/configs/v19_5_0.yaml"
       # readinessProbe:
       #   resources:
       #   - group: apps
@@ -24,7 +25,9 @@ template:
       dependencies: {}
     - version: 18.19.4
       urls: []
+      config: "file://$APP_DIR/configs/v18_19_4.yaml"
       dependencies: {}
     - version: 17.17.1
       urls: []
+      config: "file://$APP_DIR/configs/v17_17_1.yaml"
       dependencies: {}
