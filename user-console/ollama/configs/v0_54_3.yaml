@@ -1,0 +1,80 @@
+## @param image.registry Ollama image registry
+## @param image.repository Ollama image repository
+## @param image.tag Ollama image tag
+## @param image.pullPolicy Ollama image pull policy
+##
+image:
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/ollama"
+  tag: "0.5.2"
+  pullPolicy: IfNotPresent
+
+## @param resources.requests.cpu CPU request for the Ollama server pod
+## @param resources.requests.memory Memory request for the Ollama server pod
+## @param resources.limits.cpu CPU limit for the Ollama server pod
+## @param resources.limits.memory Memory limit for the Ollama server pod
+##
+resources:  # do NOT add `nvidia.com/gpu` manually
+  requests:
+    cpu: 1
+    # cpu: 8  # if gpu is disabled
+    memory: 8Gi
+
+  limits:
+    cpu: 1
+    # cpu: 16  # if gpu is disabled
+    memory: 16Gi
+
+## @param ollama.gpu.enabled Enable GPU integration
+## @param ollama.gpu.type GPU type: 'nvidia' or 'amd'
+## @param ollama.gpu.number Number of GPUs
+## @param ollama.models List of models to pull at container startup
+## @param ollama.insecure Add insecure flag for pulling at container startup
+## @param ollama.env Array of extra environment variables
+##
+ollama:
+  gpu:
+    enabled: true
+    # If 'ollama.gpu.enabled', default value is nvidia
+    # If set to 'amd', this will add 'rocm' suffix to image tag if 'image.tag' is not override
+    # This is due cause AMD and CPU/CUDA are different images
+    type: 'nvidia'
+    number: 1
+
+  # The more you add, the longer the container will take to start if models are not present
+  models: []
+  #  - llama3.1
+  #  - qwen2.5
+
+  insecure: false
+
+  env: []
+  #  - name: OLLAMA_DEBUG
+  #    value: "1"
+  #  - name: OLLAMA_KEEP_ALIVE
+  #    value: "0"
+  #  - name: OLLAMA_LOAD_TIMEOUT
+  #    value: "0"
+
+## @param persistentVolume.enabled Enable persistence using Persistent Volume Claims
+## @param persistentVolume.accessModes Ollama server data Persistent Volume access modes
+## @param persistentVolume.annotations Ollama server data Persistent Volume annotations
+## @param persistentVolume.existingClaim PVC for persisting Ollama state, if bringing your own PVC
+## @param persistentVolume.size Ollama server data Persistent Volume size
+## @param persistentVolume.storageClass Ollama server data Persistent Volume Storage Class
+## @param persistentVolume.volumeMode Ollama server data Persistent Volume Binding Mode
+## @param persistentVolume.subPath Subdirectory of Ollama server data Persistent Volume to mount
+##
+persistentVolume:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  annotations: {}
+  # -- If you'd like to bring your own PVC for persisting Ollama state, pass the name of the
+  # created + ready PVC here. If set, this Chart will not create the default PVC.
+  # Requires server.persistentVolume.enabled: true
+  existingClaim: ""
+  size: 30Gi
+  storageClass: ""
+  volumeMode: ""
+  subPath: ""

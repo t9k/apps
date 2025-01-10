@@ -53,7 +53,7 @@ spec:
             - name: LD_LIBRARY_PATH
               value: /usr/local/nvidia/lib:/usr/local/nvidia/lib64
             {{- end}}
-            {{- with .Values.extraEnv }}
+            {{- with .Values.ollama.env }}
               {{- toYaml . | nindent 12 }}
             {{- end }}
           args:

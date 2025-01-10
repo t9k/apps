@@ -20,6 +20,7 @@ image:
 ## @param ollama.models List of models to pull at container startup
 ## @param ollama.insecure Add insecure flag for pulling at container startup
 ## @param ollama.mountPath Override ollama-data volume mount path, default: "/root/.ollama"
+## @param ollama.env Array of extra environment variables
 ##
 ollama:
   gpu:
@@ -39,6 +40,14 @@ ollama:
   insecure: false
 
   mountPath: ""
+
+  env: []
+  #  - name: OLLAMA_DEBUG
+  #    value: "1"
+  #  - name: OLLAMA_KEEP_ALIVE
+  #    value: "0"
+  #  - name: OLLAMA_LOAD_TIMEOUT
+  #    value: "0"
 
 ## @param runtimeClassName Specify runtime class
 ##
@@ -130,12 +139,6 @@ readinessProbe:
 ## @param extraArgs Additional arguments on the output Deployment definition
 ##
 extraArgs: []
-
-## @param extraEnv Additional environments variables on the output Deployment definition
-##
-extraEnv: []
-#  - name: OLLAMA_DEBUG
-#    value: "1"
 
 ## @param persistentVolume.enabled Enable persistence using Persistent Volume Claims
 ## @param persistentVolume.accessModes Ollama server data Persistent Volume access modes

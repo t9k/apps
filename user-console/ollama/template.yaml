@@ -24,8 +24,8 @@ template:
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
       dependencies: {}
-    - version: 0.54.2
-      config: "file://$APP_DIR/configs/v0_54_2.yaml"
+    - version: 0.54.3
+      config: "file://$APP_DIR/configs/v0_54_3.yaml"
       urls: []
       readinessProbe:
         resources:

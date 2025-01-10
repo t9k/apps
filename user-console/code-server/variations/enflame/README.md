@@ -33,7 +33,7 @@ resources:
     memory: 32Gi
 ```
 
-选用 PyTorch 环境，挂载 PVC `tutorial`，申请 4 个 CPU（核心）、8 GiB 内存资源以及 1 个 Enflame GCU，调度到带有 label `nvidia.com/gpu.product: NVIDIA-A100-PCIE-40GB`（即拥有 NVIDIA A100 40GB GPU）的节点：
+选用 PyTorch 环境，挂载 PVC `tutorial`，申请 4 个 CPU（核心）、8 GiB 内存资源以及 1 个 Enflame GCU：
 
 ```yaml
 image:
@@ -48,10 +48,7 @@ resources:
   limits:
     cpu: 4
     memory: 8Gi
-    nvidia.com/gpu: 1
-
-nodeSelector:
-  nvidia.com/gpu.product: NVIDIA-A100-PCIE-40GB
+    enflame.com/gcu: 1
 ```
 
 ### 字段

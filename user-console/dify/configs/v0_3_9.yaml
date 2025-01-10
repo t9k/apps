@@ -1,0 +1,143 @@
+## @param global.extraEnvs Array of extra environment variables for frontend, api and worker
+## @param global.extraBackendEnvs Array of extra backend environment variables for api and worker
+##
+global:
+
+  ## @param global.image.registry Global image registry
+  ## @param global.image.tag Global image tag
+  ## @param global.image.pullPolicy Global image pull policy
+  ##
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    tag: "0.15.0"
+    pullPolicy: IfNotPresent
+
+  extraEnvs: []
+
+  extraBackendEnvs:
+  - name: SECRET_KEY
+    value: "tensorstack"
+  - name: MIGRATION_ENABLED
+    value: "true"
+
+## @param frontend.image.repository Frontend image repository
+##
+frontend:
+  image:
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/dify-web"
+
+## @param api.image.repository API image repository
+##
+api:
+  image:
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/dify-api"
+
+## @param worker.image.repository Worker image repository
+##
+worker:
+  image:
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/dify-api"
+
+## @param sandbox.apiKey Sandbox API key
+## @param sandbox.image.repository Sandbox image repository
+## @param sandbox.image.tag Sandbox image tag
+## @param sandbox.config.python_requirements Python requirements for sandbox
+##
+sandbox:
+  apiKey: "dify-sandbox"
+  image:
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/dify-sandbox"
+    tag: "0.2.10"
+  config:
+    # python_requirements: |
+    #   numpy==1.20.3
+    #   scipy==1.6.3
+    python_requirements: ""
+
+## @param redis.embedded Enable/disable embedded Redis
+## @param redis.auth.password Redis authentication password
+## @param redis.master.persistence.enabled Enable/disable Redis persistence
+## @param redis.master.persistence.size Redis persistent volume size
+##
+redis:
+  embedded: true
+
+  ## @param redis.image.registry Redis image registry
+  ## @param redis.image.repository Redis image repository
+  ## @param redis.image.tag Redis image tag
+  ##
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/redis"
+    tag: 7.4.1
+
+  auth:
+    password: "REDIS_PASSWORD"
+  master:
+    persistence:
+      enabled: false
+      size: 8Gi
+
+## @param postgresql.embedded Enable/disable embedded PostgreSQL
+## @param postgresql.auth.postgresPassword PostgreSQL admin password
+## @param postgresql.auth.database Default PostgreSQL database name
+## @param postgresql.primary.persistence.enabled Enable/disable PostgreSQL persistence
+##
+postgresql:
+  embedded: true
+
+  ## @param postgresql.image.registry PostgreSQL image registry
+  ## @param postgresql.image.repository PostgreSQL image repository
+  ## @param postgresql.image.tag PostgreSQL image tag
+  ##
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/postgresql"
+    tag: 16.3.0-debian-12-r4
+
+  auth:
+    postgresPassword: "testpassword"
+    database: "dify"
+  primary:
+    persistence:
+      enabled: false
+
+## @param minio.embedded Enable/disable embedded MinIO
+## @param minio.auth.rootUser MinIO root username
+## @param minio.auth.rootPassword MinIO root password
+## @param minio.persistence.enabled Enable/disable MinIO persistence
+##
+minio:
+  embedded: true
+
+  ## @param minio.image.registry MinIO image registry
+  ## @param minio.image.repository MinIO image repository
+  ## @param minio.image.tag MinIO image tag
+  ##
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/minio"
+    tag: 2024.4.18-debian-12-r0
+
+  auth:
+    rootUser: minioadmin
+    rootPassword: minioadmin
+  persistence:
+    enabled: false
+
+## @param qdrant.embedded Enable/disable embedded Qdrant
+## @param qdrant.apiKey Qdrant API key
+##
+qdrant:
+  embedded: true
+
+  ## @param qdrant.image.registry Qdrant image registry
+  ## @param qdrant.image.repository Qdrant image repository
+  ## @param qdrant.image.tag Qdrant image tag
+  ##
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/qdrant"
+    tag: v1.12.4
+
+  apiKey: dify

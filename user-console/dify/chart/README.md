@@ -20,7 +20,7 @@
 global:
   image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
-    tag: "0.11.2"
+    tag: "0.15.0"
     pullPolicy: IfNotPresent
 
   extraEnvs: []
@@ -104,7 +104,7 @@ qdrant:
 | 名称                                     | 描述                                        | 值                                                                                                 |
 | ---------------------------------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------- |
 | `global.image.registry`                  | 全局镜像注册表                              | `$(T9K_APP_IMAGE_REGISTRY)`                                                                        |
-| `global.image.tag`                       | 全局镜像标签                                | `0.11.2`                                                                                           |
+| `global.image.tag`                       | 全局镜像标签                                | `0.15.0`                                                                                           |
 | `global.image.pullPolicy`                | 全局镜像拉取策略                            | `IfNotPresent`                                                                                     |
 | `global.extraEnvs`                       | 额外的环境变量数组，用于前端、API 和 Worker | `[]`                                                                                               |
 | `global.extraBackendEnvs`                | 额外的环境变量数组，用于 API 和 Worker      | `[{"name": "SECRET_KEY", "value": "tensorstack"}, {"name": "MIGRATION_ENABLED", "value": "true"}]` |
