@@ -1,0 +1,7 @@
+apiVersion: v2
+name: autogen-studio
+description: AutoGen Studio 是一个无代码的多智能体工作流原型设计和运行工具。
+
+type: application
+version: 0.1.0
+appVersion: "0.4.3"

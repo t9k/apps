@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "autogen.fullname" . }}
+  labels:
+    {{- include "autogen.labels" . | nindent 4 }}
+spec:
+  gateways:
+  - project-gateway
+  hosts:
+  - '*'
+  http:
+  - headers:
+      request:
+        remove: 
+        - cookie
+    match:
+    - uri:
+        prefix: /apps/{{ .Release.Namespace }}/autogen/{{ .Release.Name }}/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: {{ .Release.Name }}
+        port:
+          number: {{ .Values.service.port }}

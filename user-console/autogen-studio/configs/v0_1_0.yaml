@@ -1,0 +1,18 @@
+## @param image.registry AutoGen Studio image registry
+## @param image.repository AutoGen Studio image repository
+## @param image.tag AutoGen Studio image tag
+## @param image.pullPolicy AutoGen Studio image pull policy
+##
+image:
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/autogen-studio"
+  tag: "v0.4.3"
+  pullPolicy: IfNotPresent
+
+## @param resources.limits.cpu CPU limit for AutoGen Studio container
+## @param resources.limits.memory Memory limit for AutoGen Studio container
+##
+resources:
+  limits:
+    cpu: 2
+    memory: 4Gi

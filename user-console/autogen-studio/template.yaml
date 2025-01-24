@@ -1,22 +1,22 @@
 apiVersion: app.tensorstack.dev/v1beta1
 kind: Template
 metadata:
-  name: fish-speech
-  displayName: "Fish Speech"
+  name: autogen-studio
+  displayName: "AutoGen Studio"
   categories: ["AI"]
-  description: "Fish Speech 是一套全新的 TTS 解决方案，支持无微调的音色克隆。"
-  icon: "file://$APP_DIR/icon.png"
+  description: "AutoGen Studio 是一个无代码的多智能体工作流原型设计和运行工具。"
+  icon: "file://$APP_DIR/icon.svg"
 template:
   helm:
     repo: "oci://docker.io/t9kpublic"
     # repo: "https://t9k.github.io/apps/"
-    chart: "fish-speech"
+    chart: "autogen-studio"
     versions:
-    - version: 0.2.2
-      config: "file://$APP_DIR/configs/v0_2_2.yaml"
+    - version: 0.1.0
+      config: "file://$APP_DIR/configs/v0_1_0.yaml"
       urls: []
       # - name: UI
-      #   url: /apps/{{ .Release.Namespace }}/fish-speech/{{ .Release.Name }}/
+      #   url: /apps/{{ .Release.Namespace }}/autogen-studio/{{ .Release.Name }}/
       readinessProbe:
         resources:
         - group: apps
@@ -25,4 +25,4 @@ template:
           name: "{{ .Release.Name }}"
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
-      dependencies: {}
+      dependencies: {} 
