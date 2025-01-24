@@ -1,5 +1,16 @@
 apiVersion: v1
 entries:
+  autogen-studio:
+  - apiVersion: v2
+    appVersion: 0.4.3
+    created: "2025-01-24T05:23:52.268009751Z"
+    description: AutoGen Studio 是一个无代码的多智能体工作流原型设计和运行工具。
+    digest: 66a25f70e4f3efdc3e274fa342f1852d5e81fd26a77e5d8b119b431270ee098d
+    name: autogen-studio
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/autogen-studio-0.1.0/autogen-studio-0.1.0.tgz
+    version: 0.1.0
   autotune:
   - apiVersion: v2
     appVersion: 0.1.1
@@ -243,6 +254,16 @@ entries:
     - https://github.com/t9k/apps/releases/download/fastgpt-0.1.1/fastgpt-0.1.1.tgz
     version: 0.1.1
   fish-speech:
+  - apiVersion: v2
+    appVersion: 1.5.0
+    created: "2025-01-24T05:23:52.381129052Z"
+    description: Fish Speech 是一套全新的 TTS 解决方案，支持无微调的音色克隆。
+    digest: 889c3055d4b0bec901b737098641ab5849081ac0a262a4b57e03b0889e477734
+    name: fish-speech
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/fish-speech-0.2.2/fish-speech-0.2.2.tgz
+    version: 0.2.2
   - apiVersion: v2
     appVersion: 1.4.1
     created: "2024-09-23T09:22:14.449773574Z"
@@ -1714,4 +1735,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2025-01-10T08:24:36.897432156Z"
+generated: "2025-01-24T05:23:52.381316223Z"
