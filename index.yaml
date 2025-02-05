@@ -1471,6 +1471,16 @@ entries:
     version: 0.1.1
   vllm:
   - apiVersion: v2
+    appVersion: v0.7.1
+    created: "2025-02-05T04:50:43.585041183Z"
+    description: vLLM 是一个高吞吐量和内存高效的 LLM 推理和服务引擎。
+    digest: aca71cae815d7e69de5405d15620df1f4036226c49173f9faf53d6679c33893e
+    name: vllm
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/vllm-0.3.2/vllm-0.3.2.tgz
+    version: 0.3.2
+  - apiVersion: v2
     appVersion: v0.6.5
     created: "2024-12-24T09:40:20.798986189Z"
     description: vLLM 是一个高吞吐量和内存高效的 LLM 推理和服务引擎。
@@ -1735,4 +1745,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2025-01-24T05:23:52.381316223Z"
+generated: "2025-02-05T04:50:43.585252739Z"
