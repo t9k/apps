@@ -12,27 +12,8 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "vllm"
     versions:
-    - version: 0.3.0
-      config: "file://$APP_DIR/configs/v0_3_0.yaml"
-      urls: []
-      readinessProbe:
-        resources:
-        - group: tensorstack.dev
-          version: v1beta1
-          resource: mlservices
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies:
-        crds:
-        - group: tensorstack.dev
-          version: v1beta1
-          resource: mlservices
-        - group: tensorstack.dev
-          version: v1beta1
-          resource: datacubes
-    - version: 0.3.1
-      config: "file://$APP_DIR/configs/v0_3_1.yaml"
+    - version: 0.3.2
+      config: "file://$APP_DIR/configs/v0_3_2.yaml"
       urls: []
       readinessProbe:
         resources:
