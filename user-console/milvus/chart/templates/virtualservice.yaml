@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ template "milvus.fullname" . }}
+  labels:
+{{ include "milvus.labels" . | indent 4 }}
+spec:
+  gateways:
+  - project-gateway
+  hosts:
+  - '*'
+  http:
+  - headers:
+      request:
+        remove: 
+        - cookie
+    match:
+    - uri:
+        prefix: /apps/{{ .Release.Namespace }}/milvus/{{ .Release.Name }}/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: {{ .Release.Name }}
+        port:
+          number: 9091

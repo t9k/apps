@@ -1,0 +1,25 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: milvus
+  displayName: "Milvus"
+  categories: ["Database"]
+  description: "Milvus 是一款专为海量数据设计的高性能向量数据库。它通过高效组织和检索文本、图像及多模态信息等非结构化数据，为各类AI应用提供核心支持。"
+  icon: "file://$APP_DIR/icon.png"
+template:
+  helm:
+    repo: "oci://docker.io/t9kpublic"
+    # repo: "https://t9k.github.io/apps/"
+    chart: "milvus"
+    versions:
+    - version: 4.2.38
+      urls: []
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: deployments
+          name: "{{ .Release.Name }}-mixcoord"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      dependencies: {}
