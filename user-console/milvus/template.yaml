@@ -14,6 +14,7 @@ template:
     versions:
     - version: 4.2.38
       urls: []
+      config: "file://$APP_DIR/configs/v4_2_38.yaml"
       readinessProbe:
         resources:
         - group: apps
