@@ -94,7 +94,7 @@ spec:
         {{- include "pulsar.toolset.certs.volumeMounts" . | nindent 8 }}
       containers:
       - name: "{{ template "pulsar.fullname" . }}-{{ .Values.pulsar_metadata.component }}"
-        image: "{{ template "pulsar.imageFullName" (dict "image" .Values.pulsar_metadata.image "root" .) }}"
+        image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.pulsar_metadata.image.pullPolicy }}
       {{- if .Values.pulsar_metadata.resources }}
         resources:
