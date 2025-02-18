@@ -264,81 +264,78 @@ kubectl delete pvc $(kubectl get pvc -l "${MILVUS_LABELS}" -o jsonpath='{range.i
 
 The following table lists the configurable parameters of the Milvus Service and their default values.
 
-| Parameter                                 | Description                                   | Default                                                 |
-|-------------------------------------------|-----------------------------------------------|---------------------------------------------------------|
-| `cluster.enabled`                         | Enable or disable Milvus Cluster mode         | `true`                                                 |
-| `image.all.repository`                    | Image repository                              | `milvusdb/milvus`                                       |
-| `image.all.tag`                           | Image tag                                     | `v2.5.4`                           |
-| `image.all.pullPolicy`                    | Image pull policy                             | `IfNotPresent`                                          |
-| `image.all.pullSecrets`                   | Image pull secrets                            | `{}`                                                    |
-| `image.tools.repository`                  | Config image repository                       | `milvusdb/milvus-config-tool`                                       |
-| `image.tools.tag`                         | Config image tag                              | `v0.1.2`                           |
-| `image.tools.pullPolicy`                  | Config image pull policy                      | `IfNotPresent`                                          |
-| `customConfigMap`                         | User specified ConfigMap for configuration    |
-| `extraConfigFiles`                        | Extra config to override default milvus.yaml  | `user.yaml:`                                                     |
-| `service.type`                            | Service type                                  | `ClusterIP`                                             |
-| `service.port`                            | Port where service is exposed                 | `19530`                                                 |
-| `service.portName`                        | Useful for [Istio protocol selection](https://istio.io/latest/docs/ops/configuration/traffic-management/protocol-selection/)   | `milvus`                                                |
-| `service.nodePort`                        | Service nodePort                              | `unset`                                                 |
-| `service.annotations`                     | Service annotations                           | `{}`                                                    |
-| `service.labels`                          | Service custom labels                         | `{}`                                                    |
-| `service.clusterIP`                       | Internal cluster service IP                   | `unset`                                                 |
-| `service.loadBalancerIP`                  | IP address to assign to load balancer (if supported) | `unset`                                          |
-| `service.loadBalancerSourceRanges`        | List of IP CIDRs allowed access to lb (if supported) | `[]`                                             |
-| `service.externalIPs`                     | Service external IP addresses                 | `[]`                                                    |
-| `ingress.enabled`                         | If true, Ingress will be created              | `false`                                                 |
-| `ingress.annotations`                     | Ingress annotations                           | `{}`                                                    |
-| `ingress.labels`                          | Ingress labels                                | `{}`                                                    |
-| `ingress.rules`                           | Ingress rules                                 | `[]`                                                    |
-| `ingress.tls`                             | Ingress TLS configuration                     | `[]`                                                    |
-| `serviceAccount.create`                   | Create a custom service account               | `false`                                                 |
-| `serviceAccount.name`                     | Service Account name                          | `milvus`                                                |
-| `serviceAccount.annotations`              | Service Account Annotations                   | `{}`                                                    |
-| `serviceAccount.labels`                   | Service Account labels                        | `{}`                                                    |
-| `metrics.enabled`                         | Export Prometheus monitoring metrics          | `true`                                                  |
-| `metrics.serviceMonitor.enabled`          | Create ServiceMonitor for Prometheus operator | `false`                                                 |
-| `metrics.serviceMonitor.additionalLabels` | Additional labels that can be used so ServiceMonitor will be discovered by Prometheus | `unset`         |
-| `log.level`                               | Logging level to be used. Valid levels are `debug`, `info`, `warn`, `error`, `fatal` | `info`          |
-| `log.file.maxSize`                        | The size limit of the log file (MB)           | `300`                                                   |
-| `log.file.maxAge`                         | The maximum number of days that the log is retained. (day) | `10`                                       |
-| `log.file.maxBackups`                     | The maximum number of retained logs.          | `20`                                                    |
-| `log.format`                              | Format used for the logs. Valid formats are `text` and `json` | `text`                                  |
-| `log.persistence.enabled`                 | Use persistent volume to store Milvus logs data | `false`                                               |
-| `log.persistence.mountPath`               | Milvus logs data persistence volume mount path | `/milvus/logs`                                         |
-| `log.persistence.annotations`             | PersistentVolumeClaim annotations             | `{}`                                                    |
-| `log.persistence.persistentVolumeClaim.existingClaim` | Use your own data Persistent Volume existing claim name | `unset`                           |
-| `log.persistence.persistentVolumeClaim.storageClass` | The Milvus logs data Persistent Volume Storage Class | `unset`                               |
-| `log.persistence.persistentVolumeClaim.accessModes` | The Milvus logs data Persistence access modes | `ReadWriteOnce`                               |
-| `log.persistence.persistentVolumeClaim.size` | The size of Milvus logs data Persistent Volume Storage Class | `5Gi`                                 |
-| `log.persistence.persistentVolumeClaim.subPath` | SubPath for Milvus logs data mount | `unset`                                                      |
-| `externalS3.enabled`                      | Enable or disable external S3                 | `false`                                                 |
-| `externalS3.host`                         | The host of the external S3                   | `unset`                                                 |
-| `externalS3.port`                         | The port of the external S3                   | `unset`                                                 |
-| `externalS3.rootPath`                     | The path prefix of the external S3            | `unset`                                                 |
-| `externalS3.accessKey`                    | The Access Key of the external S3             | `unset`                                                 |
-| `externalS3.secretKey`                    | The Secret Key of the external S3             | `unset`                                                 |
-| `externalS3.bucketName`                   | The Bucket Name of the external S3            | `unset`                                                 |
-| `externalS3.useSSL`                       | If true, use SSL to connect to the external S3 | `false`                                                |
-| `externalS3.useIAM`                       | If true, use iam to connect to the external S3 | `false`                                                |
-| `externalS3.cloudProvider`                | When `useIAM` enabled, only "aws" & "gcp" is supported for now | `aws`                                  |
-| `externalS3.iamEndpoint`                  | The IAM endpoint of  the external S3 | ``                                                |
-| `externalS3.region`                  | The region of  the external S3 | ``                                                |
-| `externalS3.useVirtualHost`                  | If true, the external S3 whether use virtual host bucket mode | ``                                                |
-| `externalEtcd.enabled`                    | Enable or disable external Etcd               | `false`                                                 |
-| `externalEtcd.endpoints`                  | The endpoints of the external etcd            | `{}`                                                    |
-| `externalPulsar.enabled`                  | Enable or disable external Pulsar             | `false`                                                 |
-| `externalPulsar.host`                     | The host of the external Pulsar               | `localhost`                                             |
-| `externalPulsar.port`                     | The port of the external Pulsar               | `6650`                                                  |
-| `externalPulsar.tenant`                   | The tenant of the external Pulsar             | `public`                                                  |
-| `externalPulsar.namespace`                | The namespace of the external Pulsar          | `default`                                                  |
-| `externalPulsar.authPlugin`               | The authPlugin of the external Pulsar         | `""`                                                  |
-| `externalPulsar.authParams`               | The authParams of the external Pulsar         | `""`                                                  |
-| `externalKafka.enabled`                   | Enable or disable external Kafka             | `false`                                                 |
-| `externalKafka.brokerList`                | The brokerList of the external Kafka separated by comma               | `localhost:9092`                                             |
-| `externalKafka.securityProtocol`          | The securityProtocol used for kafka authentication                    | `SASL_SSL`                                                   |
-| `externalKafka.sasl.mechanisms`           | SASL mechanism to use for kafka authentication                        | `PLAIN`                                                      |
-| `externalKafka.sasl.username`             | username for PLAIN or SASL/PLAIN authentication                       | ``                                                           |
-| `externalKafka.sasl.password`             | password for PLAIN or SASL/PLAIN authentication                       | ``                                                           |
+| Parameter                                             | Description                                                                                                                  | Default                             |
+| ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| `cluster.enabled`                                     | Enable or disable Milvus Cluster mode                                                                                        | `true`                              |
+| `image.registry`                                      | Image registry                                                                                                               | `$(T9K_APP_IMAGE_REGISTRY)`         |
+| `image.repository`                                    | Image repository                                                                                                             | `$(T9K_APP_IMAGE_NAMESPACE)/milvus` |
+| `image.tag`                                           | Image tag                                                                                                                    | `v2.5.4`                            |
+| `image.pullPolicy`                                    | Image pull policy                                                                                                            | `IfNotPresent`                      |
+| `customConfigMap`                                     | User specified ConfigMap for configuration                                                                                   |                                     |
+| `extraConfigFiles`                                    | Extra config to override default milvus.yaml                                                                                 | `user.yaml:`                        |
+| `service.type`                                        | Service type                                                                                                                 | `ClusterIP`                         |
+| `service.port`                                        | Port where service is exposed                                                                                                | `19530`                             |
+| `service.portName`                                    | Useful for [Istio protocol selection](https://istio.io/latest/docs/ops/configuration/traffic-management/protocol-selection/) | `milvus`                            |
+| `service.nodePort`                                    | Service nodePort                                                                                                             | `unset`                             |
+| `service.annotations`                                 | Service annotations                                                                                                          | `{}`                                |
+| `service.labels`                                      | Service custom labels                                                                                                        | `{}`                                |
+| `service.clusterIP`                                   | Internal cluster service IP                                                                                                  | `unset`                             |
+| `service.loadBalancerIP`                              | IP address to assign to load balancer (if supported)                                                                         | `unset`                             |
+| `service.loadBalancerSourceRanges`                    | List of IP CIDRs allowed access to lb (if supported)                                                                         | `[]`                                |
+| `service.externalIPs`                                 | Service external IP addresses                                                                                                | `[]`                                |
+| `ingress.enabled`                                     | If true, Ingress will be created                                                                                             | `false`                             |
+| `ingress.annotations`                                 | Ingress annotations                                                                                                          | `{}`                                |
+| `ingress.labels`                                      | Ingress labels                                                                                                               | `{}`                                |
+| `ingress.rules`                                       | Ingress rules                                                                                                                | `[]`                                |
+| `ingress.tls`                                         | Ingress TLS configuration                                                                                                    | `[]`                                |
+| `serviceAccount.create`                               | Create a custom service account                                                                                              | `false`                             |
+| `serviceAccount.name`                                 | Service Account name                                                                                                         | `milvus`                            |
+| `serviceAccount.annotations`                          | Service Account Annotations                                                                                                  | `{}`                                |
+| `serviceAccount.labels`                               | Service Account labels                                                                                                       | `{}`                                |
+| `metrics.enabled`                                     | Export Prometheus monitoring metrics                                                                                         | `true`                              |
+| `metrics.serviceMonitor.enabled`                      | Create ServiceMonitor for Prometheus operator                                                                                | `false`                             |
+| `metrics.serviceMonitor.additionalLabels`             | Additional labels that can be used so ServiceMonitor will be discovered by Prometheus                                        | `unset`                             |
+| `log.level`                                           | Logging level to be used. Valid levels are `debug`, `info`, `warn`, `error`, `fatal`                                         | `info`                              |
+| `log.file.maxSize`                                    | The size limit of the log file (MB)                                                                                          | `300`                               |
+| `log.file.maxAge`                                     | The maximum number of days that the log is retained. (day)                                                                   | `10`                                |
+| `log.file.maxBackups`                                 | The maximum number of retained logs.                                                                                         | `20`                                |
+| `log.format`                                          | Format used for the logs. Valid formats are `text` and `json`                                                                | `text`                              |
+| `log.persistence.enabled`                             | Use persistent volume to store Milvus logs data                                                                              | `false`                             |
+| `log.persistence.mountPath`                           | Milvus logs data persistence volume mount path                                                                               | `/milvus/logs`                      |
+| `log.persistence.annotations`                         | PersistentVolumeClaim annotations                                                                                            | `{}`                                |
+| `log.persistence.persistentVolumeClaim.existingClaim` | Use your own data Persistent Volume existing claim name                                                                      | `unset`                             |
+| `log.persistence.persistentVolumeClaim.storageClass`  | The Milvus logs data Persistent Volume Storage Class                                                                         | `unset`                             |
+| `log.persistence.persistentVolumeClaim.accessModes`   | The Milvus logs data Persistence access modes                                                                                | `ReadWriteOnce`                     |
+| `log.persistence.persistentVolumeClaim.size`          | The size of Milvus logs data Persistent Volume Storage Class                                                                 | `5Gi`                               |
+| `log.persistence.persistentVolumeClaim.subPath`       | SubPath for Milvus logs data mount                                                                                           | `unset`                             |
+| `externalS3.enabled`                                  | Enable or disable external S3                                                                                                | `false`                             |
+| `externalS3.host`                                     | The host of the external S3                                                                                                  | `unset`                             |
+| `externalS3.port`                                     | The port of the external S3                                                                                                  | `unset`                             |
+| `externalS3.rootPath`                                 | The path prefix of the external S3                                                                                           | `unset`                             |
+| `externalS3.accessKey`                                | The Access Key of the external S3                                                                                            | `unset`                             |
+| `externalS3.secretKey`                                | The Secret Key of the external S3                                                                                            | `unset`                             |
+| `externalS3.bucketName`                               | The Bucket Name of the external S3                                                                                           | `unset`                             |
+| `externalS3.useSSL`                                   | If true, use SSL to connect to the external S3                                                                               | `false`                             |
+| `externalS3.useIAM`                                   | If true, use iam to connect to the external S3                                                                               | `false`                             |
+| `externalS3.cloudProvider`                            | When `useIAM` enabled, only "aws" & "gcp" is supported for now                                                               | `aws`                               |
+| `externalS3.iamEndpoint`                              | The IAM endpoint of  the external S3                                                                                         | ``                                  |
+| `externalS3.region`                                   | The region of  the external S3                                                                                               | ``                                  |
+| `externalS3.useVirtualHost`                           | If true, the external S3 whether use virtual host bucket mode                                                                | ``                                  |
+| `externalEtcd.enabled`                                | Enable or disable external Etcd                                                                                              | `false`                             |
+| `externalEtcd.endpoints`                              | The endpoints of the external etcd                                                                                           | `{}`                                |
+| `externalPulsar.enabled`                              | Enable or disable external Pulsar                                                                                            | `false`                             |
+| `externalPulsar.host`                                 | The host of the external Pulsar                                                                                              | `localhost`                         |
+| `externalPulsar.port`                                 | The port of the external Pulsar                                                                                              | `6650`                              |
+| `externalPulsar.tenant`                               | The tenant of the external Pulsar                                                                                            | `public`                            |
+| `externalPulsar.namespace`                            | The namespace of the external Pulsar                                                                                         | `default`                           |
+| `externalPulsar.authPlugin`                           | The authPlugin of the external Pulsar                                                                                        | `""`                                |
+| `externalPulsar.authParams`                           | The authParams of the external Pulsar                                                                                        | `""`                                |
+| `externalKafka.enabled`                               | Enable or disable external Kafka                                                                                             | `false`                             |
+| `externalKafka.brokerList`                            | The brokerList of the external Kafka separated by comma                                                                      | `localhost:9092`                    |
+| `externalKafka.securityProtocol`                      | The securityProtocol used for kafka authentication                                                                           | `SASL_SSL`                          |
+| `externalKafka.sasl.mechanisms`                       | SASL mechanism to use for kafka authentication                                                                               | `PLAIN`                             |
+| `externalKafka.sasl.username`                         | username for PLAIN or SASL/PLAIN authentication                                                                              | ``                                  |
+| `externalKafka.sasl.password`                         | password for PLAIN or SASL/PLAIN authentication                                                                              | ``                                  |
 
 ### Milvus Standalone Deployment Configuration
 

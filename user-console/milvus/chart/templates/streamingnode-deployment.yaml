@@ -40,9 +40,9 @@ spec:
 {{ include "milvus.ud.annotations" . | indent 8 }}
     spec:
       serviceAccountName: {{ include "milvus.serviceAccount" . }}
-      {{- if .Values.image.all.pullSecrets }}
+      {{- if .Values.image.pullSecrets }}
       imagePullSecrets:
-      {{- range .Values.image.all.pullSecrets }}
+      {{- range .Values.image.pullSecrets }}
         - name: {{ . }}
       {{- end }}
       {{- end }}
@@ -61,8 +61,8 @@ spec:
       {{- end }}
       containers:
       - name: streamingnode
-        image: "{{ .Values.image.all.repository }}:{{ .Values.image.all.tag }}"
-        imagePullPolicy: {{ .Values.image.all.pullPolicy }}
+        image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         {{- if .Values.streamingNode.heaptrack.enabled }}
         args: [ "/milvus/tools/heaptrack/bin/heaptrack", "milvus", "run", "streamingnode" ]
         {{- else }}
