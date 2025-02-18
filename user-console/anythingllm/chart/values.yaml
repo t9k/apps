@@ -1,0 +1,17 @@
+image:
+  registry: docker.io
+  repository: mintplexlabs/anythingllm
+  tag: "1.7.4"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 3001
+
+resources:
+  limits:
+    cpu: 2
+    memory: 4Gi
+
+storage:
+  size: 10Gi

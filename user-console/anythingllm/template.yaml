@@ -1,0 +1,25 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: anythingllm
+  displayName: "AnythingLLM"
+  categories: ["AI"]
+  description: "AnythingLLM 是一个全栈应用程序，可以将任何文档、资源或内容转换为 LLM 在聊天过程中可以用作参考的上下文。"
+  icon: "file://$APP_DIR/icon.svg"
+template:
+  helm:
+    repo: "oci://docker.io/t9kpublic"
+    chart: "anythingllm"
+    versions:
+    - version: 0.1.0
+      config: "file://$APP_DIR/configs/v0_1_0.yaml"
+      urls: []
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: deployments
+          name: "{{ .Release.Name }}"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      dependencies: {}
