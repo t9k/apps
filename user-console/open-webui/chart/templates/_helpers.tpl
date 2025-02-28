@@ -1,8 +1,12 @@
 {{/*
-Set the name of the Open WebUI resources
+Allow the release namespace to be overridden for multi-namespace deployments in combined charts
 */}}
-{{- define "open-webui.name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- define "open-webui.namespace" -}}
+  {{- if .Values.namespaceOverride -}}
+    {{- .Values.namespaceOverride -}}
+  {{- else -}}
+    {{- .Release.Namespace -}}
+  {{- end -}}
 {{- end -}}
 
 {{/*
@@ -27,14 +31,14 @@ If release name contains chart name it will be used as a full name.
 Set the name of the integrated Ollama resources
 */}}
 {{- define "ollama.name" -}}
-ollama
+open-webui-ollama
 {{- end -}}
 
 {{/*
 Set the name of the integrated Pipelines resources
 */}}
 {{- define "pipelines.name" -}}
-pipelines
+open-webui-pipelines
 {{- end -}}
 
 {{/*
@@ -56,7 +60,7 @@ as a dependency of the Open WebUI chart
 {{- if .Values.ollama.enabled -}}
 {{- $clusterDomain := .Values.clusterDomain }}
 {{- $ollamaServicePort := .Values.ollama.service.port | toString }}
-{{- printf "http://%s-%s.%s.svc.cluster.local:%s" (.Release.Name) (include "ollama.name" .) (.Release.Namespace) $ollamaServicePort }}
+{{- printf "http://%s.%s.svc.%s:%s" (default .Values.ollama.name .Values.ollama.fullnameOverride) (.Release.Namespace) $clusterDomain $ollamaServicePort }}
 {{- end }}
 {{- end }}
 

@@ -1,34 +1,19 @@
 apiVersion: v2
 name: open-webui
-version: 3.1.8
-appVersion: 0.3.35
+version: 5.20.1
+appVersion: 0.5.18
 
 home: https://www.openwebui.com/
 icon: https://raw.githubusercontent.com/open-webui/open-webui/main/static/favicon.png
 
 description: "Open WebUI 是一个用户友好的聊天交互网页界面。"
 keywords:
-  - llm
-  - chat
-  - web-ui
-
-sources:
-  - https://github.com/open-webui/helm-charts
-  - https://github.com/open-webui/open-webui/pkgs/container/open-webui
-  - https://github.com/otwld/ollama-helm/
-  - https://hub.docker.com/r/ollama/ollama
-
-annotations:
-  licenses: MIT
+- llm
+- chat
+- web-ui
+- open-webui
 
 dependencies:
-- condition: ollama.enabled
-  import-values:
-  - child: service
-    parent: ollama.service
-  name: ollama
-  repository: https://otwld.github.io/ollama-helm/
-  version: '>=0.24.0'
 - condition: pipelines.enabled
   import-values:
   - child: service
@@ -36,3 +21,11 @@ dependencies:
   name: pipelines
   repository: https://helm.openwebui.com
   version: '>=0.0.1'
+
+annotations:
+  licenses: MIT
+
+sources:
+- https://github.com/open-webui/helm-charts
+- https://github.com/open-webui/open-webui/pkgs/container/open-webui
+- https://charts.bitnami.com/bitnami

@@ -20,10 +20,22 @@ spec:
   selector:
     matchLabels:
       {{- include "open-webui.selectorLabels" . | nindent 6 }}
+  {{- if .Values.strategy }}
+  {{- if .Values.persistence.enabled }}
+  updateStrategy:
+    {{- toYaml .Values.strategy | nindent 4 }}
+  {{- else }}
+  strategy:
+    {{- toYaml .Values.strategy | nindent 4 }}
+  {{- end }}
+  {{- end }}
   template:
     metadata:
       labels:
         {{- include "open-webui.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       {{- with .Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
@@ -36,7 +48,7 @@ spec:
       initContainers:
       - name: copy-app-data
         {{- with .Values.image }}
-        image: {{ .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}
+        image: {{ .repository }}:{{ .tag | default $.Chart.AppVersion }}
         imagePullPolicy: {{ .pullPolicy }}
         {{- end }}
         command: ['sh', '-c', 'cp -R -n /app/backend/data/* /tmp/app-data/']
@@ -44,14 +56,19 @@ spec:
         securityContext:
           {{- toYaml . | nindent 10 }}
         {{- end }}
-        {{- with .Values.resources }}
+        {{- with .Values.copyAppData.resources }}
         resources: {{- toYaml . | nindent 10 }}
         {{- end }}
         volumeMounts:
         - name: data
           mountPath: /tmp/app-data
+          {{- if .Values.persistence.subPath }}
+          subPath: {{ .Values.persistence.subPath }}
+          {{- end }}
+        {{- with .Values.volumeMounts.initContainer }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       enableServiceLinks: false
-      automountServiceAccountToken: false
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -59,12 +76,21 @@ spec:
       containers:
       - name: {{ .Chart.Name }}
         {{- with .Values.image }}
-        image: {{ .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}
+        image: {{ .repository }}:{{ .tag | default $.Chart.AppVersion }}
         imagePullPolicy: {{ .pullPolicy }}
         {{- end }}
         ports:
         - name: http
           containerPort: {{ .Values.service.containerPort }}
+        {{- with .Values.livenessProbe }}
+        livenessProbe: {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.readinessProbe }}
+        readinessProbe: {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.startupProbe }}
+        startupProbe: {{- toYaml . | nindent 10 }}
+        {{- end }}
         {{- with .Values.resources }}
         resources: {{- toYaml . | nindent 10 }}
         {{- end }}
@@ -75,21 +101,39 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /app/backend/data
+          {{- if .Values.persistence.subPath }}
+          subPath: {{ .Values.persistence.subPath }}
+          {{- end }}
+        {{- with .Values.volumeMounts.container }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
         env:
-        - name: OLLAMA_BASE_URLS
+        {{- if .Values.ollamaUrlsFromExtraEnv}}
+        {{- else if or .Values.ollamaUrls .Values.ollama.enabled }}
+        - name: "OLLAMA_BASE_URLS"
           value: {{ include "ollamaBaseUrls" . | quote }}
-        {{ if .Values.pipelines.enabled }}
-        - name: OPENAI_API_BASE_URL
-          value: {{ include "pipelines.serviceEndpoint" . }}
-        {{ else if .Values.openaiBaseApiUrl }}
-        - name: OPENAI_API_BASE_URL
-          value: {{ .Values.openaiBaseApiUrl }}
-        {{ else }}
-        - name: OPENAI_API_BASE_URL
-          value: "https://api.openai.com/v1"
-        {{ end }}
-        {{- if .Values.env }}
-          {{- toYaml .Values.env | nindent 8 }}
+        {{- else }}
+        - name: "ENABLE_OLLAMA_API"
+          value: "False"
+        {{- end }}
+        - name: "ENABLE_OPENAI_API"
+          value: "False"
+        {{- if .Values.extraEnvVars }}
+          {{- toYaml .Values.extraEnvVars | nindent 8 }}
+        {{- end }}
+        {{- if .Values.tika.enabled }}
+        - name: "CONTENT_EXTRACTION_ENGINE"
+          value: "Tika"
+        - name: "TIKA_SERVER_URL"
+          value: http://{{ .Chart.Name }}-tika:9998
+        {{- end }}
+        {{- if .Values.websocket.enabled }}
+        - name: "ENABLE_WEBSOCKET_SUPPORT"
+          value: "True"
+        - name: "WEBSOCKET_MANAGER"
+          value: {{ .Values.websocket.manager | default "redis" | quote }}
+        - name: "WEBSOCKET_REDIS_URL"
+          value: {{ .Values.websocket.url | quote }}
         {{- end }}
         tty: true
       {{- with .Values.nodeSelector }}
@@ -108,6 +152,10 @@ spec:
       topologySpreadConstraints:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with .Values.hostAliases }}
+      hostAliases:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       volumes:
       {{- if and .Values.persistence.enabled .Values.persistence.existingClaim }}
       - name: data
@@ -120,4 +168,7 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: {{ include "open-webui.fullname" . }}
+      {{- end }}
+      {{- with .Values.volumes }}
+      {{- toYaml . | nindent 6 }}
       {{- end }}

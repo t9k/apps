@@ -13,10 +13,7 @@ ollama:
   #     type: 'nvidia'
   #     number: 1
   #   models:
-  #     pull:
-  #       - llama3
-  #     run:
-  #       - llama3
+  #     - llama3
   # runtimeClassName: nvidia
   # persistentVolume:
   #   enabled: true
@@ -24,7 +21,7 @@ ollama:
 
 pipelines:
   # -- Automatically install Pipelines chart to extend Open WebUI functionality using Pipelines: https://github.com/open-webui/pipelines
-  enabled: true
+  enabled: false
   # -- This section can be used to pass required environment variables to your pipelines (e.g. Langfuse hostname)
   extraEnvVars: []
 
@@ -34,9 +31,6 @@ tika:
 
 # -- A list of Ollama API endpoints. These can be added in lieu of automatically installing the Ollama Helm chart, or in addition to it.
 ollamaUrls: []
-
-# -- Disables taking Ollama Urls from `ollamaUrls`  list
-ollamaUrlsFromExtraEnv: false
 
 websocket:
   # -- Enables websocket support in Open WebUI with env `ENABLE_WEBSOCKET_SUPPORT`
@@ -55,10 +49,6 @@ websocket:
     labels: {}
     # -- Redis annotations
     annotations: {}
-    # -- Redis pod
-    pods:
-      # -- Redis pod annotations
-      annotations: {}
     # -- Redis image
     image:
       repository: redis
@@ -84,11 +74,6 @@ websocket:
       port: 6379
       # -- Redis service node port. Valid only when type is `NodePort`
       nodePort: ""
-    # -- Redis tolerations for pod assignment
-    tolerations: []
-
-    # -- Redis affinity for pod assignment
-    affinity: {}
 
 # -- Deploys a Redis cluster with subchart 'redis' from bitnami
 redis-cluster:
@@ -135,23 +120,23 @@ imagePullSecrets: []
 
 # -- Probe for liveness of the Open WebUI container
 # ref: <https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes>
-livenessProbe:
-  httpGet:
-    path: /health
-    port: http
-  initialDelaySeconds: 150
-  periodSeconds: 30
-  failureThreshold: 5
+livenessProbe: {}
+# livenessProbe:
+#   httpGet:
+#     path: /health
+#     port: http
+#   failureThreshold: 1
+#   periodSeconds: 10
 
 # -- Probe for readiness of the Open WebUI container
 # ref: <https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes>
-readinessProbe:
-  httpGet:
-    path: /health
-    port: http
-  initialDelaySeconds: 150
-  periodSeconds: 30
-  failureThreshold: 5
+readinessProbe: {}
+# readinessProbe:
+#   httpGet:
+#     path: /health/db
+#     port: http
+#   failureThreshold: 1
+#   periodSeconds: 10
 
 # -- Probe for startup of the Open WebUI container
 # ref: <https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes>
@@ -170,25 +155,25 @@ copyAppData:
   resources: {}
 
 managedCertificate:
-  enabled: false
+  enabled: true
   name: "mydomain-chat-cert"  # You can override this name if needed
   domains:
     - chat.example.com # update to your real domain
 
 ingress:
-  enabled: false
+  enabled: true
   class: ""
   # -- Use appropriate annotations for your Ingress controller, e.g., for NGINX:  
-  annotations: {}
-  #   # Example for GKE Ingress
-  #   kubernetes.io/ingress.class: "gce"
-  #   kubernetes.io/ingress.global-static-ip-name: "open-webui-external-ip"   #  you need to create this address in GCP console
-  #   # Force HTTP to redirect to HTTPS
-  #   nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-  #   nginx.ingress.kubernetes.io/ssl-redirect: "true"
-  #   nginx.ingress.kubernetes.io/permanent-redirect: "https://chat.example.com"
-  #   networking.gke.io/managed-certificates: "mydomain-chat-cert"
-  #   # nginx.ingress.kubernetes.io/rewrite-target: / 
+  annotations: 
+    # Example for GKE Ingress
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.global-static-ip-name: "open-webui-external-ip"   #  you need to create this address in GCP console
+    # Force HTTP to redirect to HTTPS
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/permanent-redirect: "https://chat.example.com"
+    networking.gke.io/managed-certificates: "mydomain-chat-cert"
+    # nginx.ingress.kubernetes.io/rewrite-target: / 
   host: "chat.example.com"  # update to your real domain 
   additionalHosts: []
   tls: false
@@ -219,12 +204,9 @@ affinity: {}
 # -- Topology Spread Constraints for pod assignment
 topologySpreadConstraints: []
 
-# -- HostAliases to be added to hosts-file of each container
-hostAliases: []
-
 # -- Service values to expose Open WebUI pods to cluster
 service:
-  type: ClusterIP
+  type: LoadBalancer   # changed from ClusterIP to LoadBalancer for external access on GKE
   annotations: {}
   port: 80
   containerPort: 8080
@@ -233,12 +215,7 @@ service:
   loadBalancerClass: ""
 
 # -- OpenAI base API URL to use. Defaults to the Pipelines service endpoint when Pipelines are enabled, and "https://api.openai.com/v1" if Pipelines are not enabled and this value is blank
-openaiBaseApiUrl: "https://api.openai.com/v1"
-
-# -- OpenAI base API URLs to use. Overwrites the value in openaiBaseApiUrl if set
-openaiBaseApiUrls: []
-  # - "https://api.openai.com/v1"
-  # - "https://api.company.openai.com/v1"
+openaiBaseApiUrl: ""
 
 # -- Env vars added to the Open WebUI deployment. Most up-to-date environment variables can be found here: https://docs.openwebui.com/getting-started/env-configuration/
 extraEnvVars:

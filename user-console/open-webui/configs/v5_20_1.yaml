@@ -1,0 +1,61 @@
+## @param image.registry Open WebUI image registry
+## @param image.repository Open WebUI image repository
+## @param image.tag Open WebUI image tag
+## @param image.pullPolicy Open WebUI image pull policy
+##
+image:
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/open-webui"
+  tag: "v0.5.18"
+  pullPolicy: IfNotPresent
+
+## @param resources.limits.cpu CPU limit for Open WebUI container
+## @param resources.limits.memory Memory limit for Open WebUI container
+##
+resources:
+  limits:
+    cpu: 2
+    memory: 4Gi
+
+## @param persistence.size Size of the PVC
+## @param persistence.storageClass Storage class for the PVC
+## @param persistence.accessModes Access modes for the PVC. If using multiple replicas, you must update accessModes to ReadWriteMany
+## @param persistence.existingClaim Name of an existing PVC to use
+##
+persistence:
+  size: 2Gi
+  storageClass: ""
+  accessModes:
+    - ReadWriteOnce
+  existingClaim: ""
+
+## @param pipelines.enabled Automatically install Pipelines chart to extend Open WebUI functionality using Pipelines: https://github.com/open-webui/pipelines
+## @param pipelines.extraEnvVars This section can be used to pass required environment variables to your pipelines (e.g. Langfuse hostname)
+## @param pipelines.image.registry Pipelines image registry
+## @param pipelines.image.repository Pipelines image repository
+## @param pipelines.image.tag Pipelines image tag
+## @param pipelines.image.pullPolicy Pipelines image pull Policy
+## @param pipelines.resources.limits.cpu CPU limit for Pipelines server container
+## @param pipelines.resources.limits.memory Memory limit for Pipelines server container
+##
+pipelines:
+  enabled: false
+  extraEnvVars: []
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/pipelines"
+    tag: main
+    pullPolicy: Always
+  resources:
+    limits:
+      cpu: 4
+      memory: 8Gi
+
+## @param env Array of extra environment variables
+##
+env: []
+  # - name: OPENAI_API_KEY
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: openai-api-key
+  #       key: api-key
