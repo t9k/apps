@@ -48,7 +48,7 @@ spec:
       initContainers:
       - name: copy-app-data
         {{- with .Values.image }}
-        image: {{ .repository }}:{{ .tag | default $.Chart.AppVersion }}
+        image: {{ .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}
         imagePullPolicy: {{ .pullPolicy }}
         {{- end }}
         command: ['sh', '-c', 'cp -R -n /app/backend/data/* /tmp/app-data/']
@@ -76,7 +76,7 @@ spec:
       containers:
       - name: {{ .Chart.Name }}
         {{- with .Values.image }}
-        image: {{ .repository }}:{{ .tag | default $.Chart.AppVersion }}
+        image: {{ .registry }}/{{ .repository }}:{{ .tag | default $.Chart.AppVersion }}
         imagePullPolicy: {{ .pullPolicy }}
         {{- end }}
         ports:
