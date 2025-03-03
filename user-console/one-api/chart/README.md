@@ -24,7 +24,7 @@
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
   repository: "$(T9K_APP_IMAGE_NAMESPACE)/one-api"
-  tag: "v0.6.7"
+  tag: "v0.6.10"
   pullPolicy: IfNotPresent
 
 resources:
@@ -63,26 +63,26 @@ mysql:
 
 ### 字段
 
-| 名称                                | 描述                                                | 值                                        |
-|-----------------------------------|-----------------------------------------------------|------------------------------------------|
-| `image.registry`                  | One API 镜像注册表                                   | `$(T9K_APP_IMAGE_REGISTRY)`              |
-| `image.repository`                | One API 镜像仓库                                     | `$(T9K_APP_IMAGE_NAMESPACE)/one-api`     |
-| `image.tag`                      | One API 镜像标签                                     | `v0.6.7`                                 |
-| `image.pullPolicy`               | One API 镜像拉取策略                                  | `IfNotPresent`                           |
-| `resources.limits.cpu`           | One API 容器能使用的 CPU 上限                         | `1`                                      |
-| `resources.limits.memory`        | One API 容器能使用的内存上限                          | `2Gi`                                    |
-| `persistence.enabled`            | 是否启用 PVC 持久化存储                               | `true`                                   |
-| `persistence.size`               | PVC 的大小                                           | `500Mi`                                  |
-| `persistence.storageClass`       | PVC 的存储类型                                       | `""`                                     |
-| `persistence.accessMode`         | PVC 的访问模式                                       | `ReadWriteMany`                          |
-| `persistence.existingClaim`      | 使用的现有 PVC 的名称                                 | `""`                                     |
-| `mysql.enabled`                  | 是否安装 MySQL                                       | `true`                                   |
-| `mysql.image.registry`           | MySQL 镜像注册表                                     | `$(T9K_APP_IMAGE_REGISTRY)`              |
-| `mysql.image.repository`         | MySQL 镜像仓库                                       | `$(T9K_APP_IMAGE_NAMESPACE)/mysql`       |
-| `mysql.image.tag`               | MySQL 镜像标签                                       | `5.7.43`                                 |
-| `mysql.image.pullPolicy`        | MySQL 镜像拉取策略                                    | `IfNotPresent`                           |
-| `mysql.auth.database`           | MySQL 数据库名称                                     | `oneapi`                                 |
-| `mysql.auth.rootPassword`       | MySQL root 密码                                     | `123456`                                 |
-| `mysql.primary.resources.limits.cpu` | MySQL 容器能使用的 CPU 上限                       | `1`                                      |
-| `mysql.primary.resources.limits.memory` | MySQL 容器能使用的内存上限                     | `2Gi`                                    |
-| `mysql.primary.persistence.enabled` | 是否为 MySQL 启用 PVC 持久化存储                    | `true`                                   |
+| 名称                                    | 描述                             | 值                                   |
+| --------------------------------------- | -------------------------------- | ------------------------------------ |
+| `image.registry`                        | One API 镜像注册表               | `$(T9K_APP_IMAGE_REGISTRY)`          |
+| `image.repository`                      | One API 镜像仓库                 | `$(T9K_APP_IMAGE_NAMESPACE)/one-api` |
+| `image.tag`                             | One API 镜像标签                 | `v0.6.10`                            |
+| `image.pullPolicy`                      | One API 镜像拉取策略             | `IfNotPresent`                       |
+| `resources.limits.cpu`                  | One API 容器能使用的 CPU 上限    | `1`                                  |
+| `resources.limits.memory`               | One API 容器能使用的内存上限     | `2Gi`                                |
+| `persistence.enabled`                   | 是否启用 PVC 持久化存储          | `true`                               |
+| `persistence.size`                      | PVC 的大小                       | `500Mi`                              |
+| `persistence.storageClass`              | PVC 的存储类型                   | `""`                                 |
+| `persistence.accessMode`                | PVC 的访问模式                   | `ReadWriteMany`                      |
+| `persistence.existingClaim`             | 使用的现有 PVC 的名称            | `""`                                 |
+| `mysql.enabled`                         | 是否安装 MySQL                   | `true`                               |
+| `mysql.image.registry`                  | MySQL 镜像注册表                 | `$(T9K_APP_IMAGE_REGISTRY)`          |
+| `mysql.image.repository`                | MySQL 镜像仓库                   | `$(T9K_APP_IMAGE_NAMESPACE)/mysql`   |
+| `mysql.image.tag`                       | MySQL 镜像标签                   | `5.7.43`                             |
+| `mysql.image.pullPolicy`                | MySQL 镜像拉取策略               | `IfNotPresent`                       |
+| `mysql.auth.database`                   | MySQL 数据库名称                 | `oneapi`                             |
+| `mysql.auth.rootPassword`               | MySQL root 密码                  | `123456`                             |
+| `mysql.primary.resources.limits.cpu`    | MySQL 容器能使用的 CPU 上限      | `1`                                  |
+| `mysql.primary.resources.limits.memory` | MySQL 容器能使用的内存上限       | `2Gi`                                |
+| `mysql.primary.persistence.enabled`     | 是否为 MySQL 启用 PVC 持久化存储 | `true`                               |
