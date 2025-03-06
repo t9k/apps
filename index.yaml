@@ -1,5 +1,16 @@
 apiVersion: v1
 entries:
+  anythingllm:
+  - apiVersion: v2
+    appVersion: 1.7.4
+    created: "2025-03-06T10:57:24.23908836Z"
+    description: AnythingLLM 是一个全栈应用程序，可以将任何文档、资源或内容转换为 LLM 在聊天过程中可以用作参考的上下文。
+    digest: c4e64e613f87beb14a32ac80046e2afaa555c03d85f8536410428d545dd0f353
+    name: anythingllm
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/anythingllm-0.1.0/anythingllm-0.1.0.tgz
+    version: 0.1.0
   autogen-studio:
   - apiVersion: v2
     appVersion: 0.4.3
@@ -860,6 +871,20 @@ entries:
     version: 0.29.2
   one-api:
   - apiVersion: v2
+    appVersion: v0.6.10
+    created: "2025-03-06T10:57:24.486674977Z"
+    dependencies:
+    - name: mysql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: 9.18.2
+    description: A Helm chart for Kubernetes
+    digest: 4b14ac0d553dc0e239911ed2867bc38d6cd9efc17bc8f8ca4b8b606bed081f55
+    name: one-api
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/one-api-0.1.1/one-api-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     appVersion: v0.6.10-alpha.1
     created: "2024-11-11T08:31:38.825124751Z"
     dependencies:
@@ -874,6 +899,36 @@ entries:
     - https://github.com/t9k/apps/releases/download/one-api-0.1.0/one-api-0.1.0.tgz
     version: 0.1.0
   open-webui:
+  - annotations:
+      licenses: MIT
+    apiVersion: v2
+    appVersion: 0.5.18
+    created: "2025-03-06T10:57:24.607789162Z"
+    dependencies:
+    - condition: pipelines.enabled
+      import-values:
+      - child: service
+        parent: pipelines.service
+      name: pipelines
+      repository: https://helm.openwebui.com
+      version: '>=0.0.1'
+    description: Open WebUI 是一个用户友好的聊天交互网页界面。
+    digest: 733fb91c37c5442d1f0b0568bee708b66775889af326c46b5048fe69ecd90296
+    home: https://www.openwebui.com/
+    icon: https://raw.githubusercontent.com/open-webui/open-webui/main/static/favicon.png
+    keywords:
+    - llm
+    - chat
+    - web-ui
+    - open-webui
+    name: open-webui
+    sources:
+    - https://github.com/open-webui/helm-charts
+    - https://github.com/open-webui/open-webui/pkgs/container/open-webui
+    - https://charts.bitnami.com/bitnami
+    urls:
+    - https://github.com/t9k/apps/releases/download/open-webui-5.20.1/open-webui-5.20.1.tgz
+    version: 5.20.1
   - annotations:
       licenses: MIT
     apiVersion: v2
@@ -1745,4 +1800,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2025-02-05T04:50:43.585252739Z"
+generated: "2025-03-06T10:57:24.704417536Z"
