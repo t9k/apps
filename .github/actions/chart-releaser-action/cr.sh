@@ -305,6 +305,12 @@ lookup_changed_charts() {
 package_chart() {
   local chart="$1"
 
+  # 跳过 user-console/milvus/chart
+  if [[ "$chart" == "user-console/milvus/chart" ]]; then
+    echo "Skipping chart '$chart'..."
+    return
+  fi
+
   local args=("$chart" --package-path .cr-release-packages)
   if [[ -n "$config" ]]; then
     args+=(--config "$config")
