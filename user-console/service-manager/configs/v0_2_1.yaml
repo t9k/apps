@@ -1,0 +1,16 @@
+network:
+  domain:
+    home: "$(T9K_HOME_DOMAIN)"
+    auth: "$(T9K_AUTH_DOMAIN)"
+
+authorization:
+  pepProxy:
+    image:
+      registry: "$(T9K_APP_IMAGE_REGISTRY)"
+      repository: "$(T9K_APP_IMAGE_NAMESPACE)/pep-proxy"
+      tag: "1.0.14"
+web:
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/service-manager-web"
+    tag: "250306"

@@ -1,0 +1,26 @@
+network:
+  domain:
+    home: "$(T9K_HOME_DOMAIN)"
+    auth: "$(T9K_AUTH_DOMAIN)"
+
+cluster:
+  extendedResources:
+    gpu: ["nvidia.com/gpu.shared", "nvidia.com/gpu"]
+
+authorization:
+  pepProxy:
+    image:
+      registry: "$(T9K_APP_IMAGE_REGISTRY)"
+      repository: "$(T9K_APP_IMAGE_NAMESPACE)/pep-proxy"
+      tag: "1.0.14"
+
+server:
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/job-manager-server"
+    tag: "250306"
+web:
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/job-manager-web"
+    tag: "250306"
