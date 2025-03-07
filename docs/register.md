@@ -208,5 +208,5 @@ t9k-app unregister -k $APIKEY -s $APP_SERVER terminal
 如需修改项目的 RBAC 设置，可通过执行以下命令：
 
 ```bash
-kubectl edit clusterrole project-operator-project-role
+kubectl edit clusterrole project-operator-user-default-perms
 ```

@@ -25,7 +25,7 @@ argo-workflow-controller-54b7d46d9b-cdhfh   1/1     Running   0          8s
 为了普通用户能够在项目中管理 Argo Workflows 相关资源，管理员需要编辑项目的 RBAC 设置（[参考](https://github.com/t9k/apps/blob/master/docs/register.md#%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90)）：
 
 ```bash
-kubectl edit clusterrole project-operator-project-role
+kubectl edit clusterrole project-operator-user-default-perms
 ```
 
 在 `rules` 字段添加以下部分：
