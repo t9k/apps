@@ -1,5 +1,7 @@
-controller:
-  image: "quay.io/argoproj/workflow-controller:v3.5.10"
-
-executor:
-  image: "quay.io/argoproj/argoexec:v3.5.10"
+workflows:
+  controllerImage: "quay.io/argoproj/workflow-controller:v3.6.4"
+  executorImage: "quay.io/argoproj/argoexec:v3.6.4"
+events:
+  eventsImage: "quay.io/argoproj/argo-events:v1.9.4"
+  natsStreamingImage: "registry.cn-hangzhou.aliyuncs.com/t9k/nats-streaming:0.22.1"
+  metricsExporterImage: "registry.cn-hangzhou.aliyuncs.com/t9k/prometheus-nats-exporter:0.8.0"

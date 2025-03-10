@@ -3,4 +3,4 @@ server:
   image:
     registry: "docker.io"
     repository: "t9kpublic/argocli"
-    tag: "v3.5.10"
+    tag: "v3.6.4"

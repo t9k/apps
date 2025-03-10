@@ -19,7 +19,7 @@ spec:
         - --secure=false
         - --auth-mode=server
         - --configmap={{ .Release.Name }}
-        - --basehref=/apps/{{ .Release.Namespace }}/argo-workflows/{{ .Release.Name }}/
+        - --base-href=/apps/{{ .Release.Namespace }}/argo-workflows/{{ .Release.Name }}/
         env: []
         image: {{ .Values.server.image.registry }}/{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}
         resources:
