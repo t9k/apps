@@ -368,6 +368,16 @@ entries:
     version: 0.1.2
   job-manager:
   - apiVersion: v2
+    appVersion: 0.2.3
+    created: "2025-03-13T01:58:32.870426113Z"
+    description: A Helm chart for TensorStack App - Job Manager
+    digest: 50b1694bb10c6d1d7ee3c1b2d52915aa57515084e4ebf7cfc820fff3a581dd5a
+    name: job-manager
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/job-manager-0.2.3/job-manager-0.2.3.tgz
+    version: 0.2.3
+  - apiVersion: v2
     appVersion: 0.1.3
     created: "2024-09-11T05:22:19.810515101Z"
     description: A Helm chart for TensorStack App - Job Manager
@@ -1800,4 +1810,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2025-03-06T10:57:24.704417536Z"
+generated: "2025-03-13T01:58:32.870642478Z"
