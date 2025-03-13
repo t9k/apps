@@ -12,6 +12,33 @@ template:
     repo: "oci://docker.io/t9kpublic"
     chart: "job-manager"
     versions:
+    - version: 0.2.3
+      config: "file://$APP_DIR/configs/v0_2_3.yaml"
+      urls:
+      - name: job-manager
+        url: /apps/{{ .Release.Namespace }}/job-manager/{{ .Release.Name }}/web/
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: deployments
+          name: "{{ .Release.Name }}-server"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+        - group: apps
+          version: v1
+          resource: deployments
+          name: "{{ .Release.Name }}-web"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      dependencies:
+        crds:
+        - group: networking.istio.io
+          version: v1beta1
+          resource: virtualservices
+        services:
+        - namespace: t9k-system
+          name: k8s-resource-server
     - version: 0.2.2
       config: "file://$APP_DIR/configs/v0_2_2.yaml"
       urls:

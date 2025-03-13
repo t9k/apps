@@ -33,3 +33,6 @@ web:
 cluster:
   extendedResources:
     gpu: ["nvidia.com/gpu.shared", "nvidia.com/gpu"]
+
+t9kScheduler:
+  enabled: false
