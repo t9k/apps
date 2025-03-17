@@ -6,7 +6,7 @@
 image:
   registry: docker.io
   repository: t9kpublic/llama-board
-  tag: "20240730"
+  tag: "20250314"
   pullPolicy: IfNotPresent
 
 ## @param service.type Service type for the Kubernetes service

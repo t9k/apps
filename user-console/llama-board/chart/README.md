@@ -36,7 +36,7 @@ LLaMA-Factory 支持：
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
   repository: "$(T9K_APP_IMAGE_NAMESPACE)/llama-board"
-  tag: "20240730"
+  tag: "20250314"
   pullPolicy: IfNotPresent
 
 resources:
@@ -58,7 +58,7 @@ persistence:
 | ----------------------------------- | ---------------------------------------- | ---------------------------------------- |
 | `image.registry`                    | LLaMA Board 镜像注册表                   | `$(T9K_APP_IMAGE_REGISTRY)`              |
 | `image.repository`                  | LLaMA Board 镜像仓库                     | `$(T9K_APP_IMAGE_NAMESPACE)/llama-board` |
-| `image.tag`                         | LLaMA Board 镜像标签                     | `20240730`                               |
+| `image.tag`                         | LLaMA Board 镜像标签                     | `20250314`                               |
 | `image.pullPolicy`                  | LLaMA Board 镜像拉取策略                 | `IfNotPresent`                           |
 | `resources.limits.cpu`              | LLaMA Board 容器能使用的 CPU 上限        | `4`                                      |
 | `resources.limits.memory`           | LLaMA Board 容器能使用的内存上限         | `64Gi`                                   |
