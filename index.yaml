@@ -474,6 +474,16 @@ entries:
     version: 1.4.8
   llama-board:
   - apiVersion: v2
+    appVersion: 0.9.2
+    created: "2025-03-17T05:24:48.246167208Z"
+    description: Llama Board 是 LLaMA-Factory 项目的网页 UI，用于（增量）预训练、指令微调和评估开源 LLM。
+    digest: 7ee646043253435307cf454e55abdd9a794ba3fd7eb205eed7679d5bdc54d9ef
+    name: llama-board
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/llama-board-0.2.1/llama-board-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
     appVersion: 0.8.3
     created: "2024-08-22T02:35:39.142265718Z"
     description: Llama Board 是 LLaMA-Factory 项目的网页 UI，用于（增量）预训练、指令微调和评估开源 LLM。
@@ -1810,4 +1820,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2025-03-13T01:58:32.870642478Z"
+generated: "2025-03-17T05:24:48.246380897Z"
