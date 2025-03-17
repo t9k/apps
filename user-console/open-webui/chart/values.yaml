@@ -167,7 +167,10 @@ startupProbe: {}
 resources: {}
 
 copyAppData:
-  resources: {}
+  resources:
+    limits:
+      cpu: 1
+      memory: 2Gi
 
 managedCertificate:
   enabled: false
