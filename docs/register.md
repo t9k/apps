@@ -205,8 +205,43 @@ t9k-app unregister -k $APIKEY -s $APP_SERVER terminal
 
 一些 Apps 可能需要特定的 RBAC 权限才能正确部署，管理员在注册新应用时，应评估这些 RBAC 需求的合理性，及其风险。
 
-如需修改项目的 RBAC 设置，可通过执行以下命令：
+如需给用户添加额外 namespace 范围的 RBAC 权限，请创建具有 `tensorstack.dev/user-namespace-perm: "true"` 标签的 ClusterRole，如：
 
-```bash
-kubectl edit clusterrole project-operator-user-default-perms
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    tensorstack.dev/user-namespace-perm: "true"
+  name: user-namespace-perm-extra
+rules:
+- apiGroups:
+  - tensorstack.dev
+  resources:
+  - simplemlservices
+  verbs:
+  - '*'
 ```
+
+如需给用户添加额外 cluster 范围的 RBAC 权限，请创建具有 `tensorstack.dev/user-cluster-perm: "true"` 标签的 ClusterRole，如：
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    tensorstack.dev/user-cluster-perm: "true"
+  name: user-cluster-perm-extra
+rules:
+- apiGroups:
+  - argoproj.io
+  resources:
+  - clusterworkflowtemplates
+  verbs:
+  - get
+  - list
+  - watch
+```
+
+> [!IMPORTANT]
+> 用户的 cluster 范围 RBAC 权限应不超过 get/list/watch，否则不同 namespace 下的用户可以修改同一个 cluster 范围的资源，互相影响。
