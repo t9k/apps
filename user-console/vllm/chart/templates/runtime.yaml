@@ -19,10 +19,14 @@ spec:
         args: ["kubectl wait --for=condition=Complete datacube/{{ include "vllm.fullname" . }} --timeout=-1s"]
       {{- end }}
       serviceAccountName: managed-project-sa
+      nodeSelector:
+        {{- if .Values.server.nodeSelector }}
+        {{- toYaml .Values.server.nodeSelector | nindent 8 }}
+        {{- end }}
       containers:
       - name: user-container
         securityContext:
-          {{- if .Values.server.env }}
+          {{- if .Values.server.securityContext }}
           {{- toYaml .Values.server.securityContext | nindent 10 }}
           {{- end }}
         image: "{{ .Values.server.image.registry }}/{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"

@@ -1,0 +1,129 @@
+## @param server.image.registry Repository registry for the server image
+## @param server.image.repository Repository name for the server image
+## @param server.image.tag Image tag for the server image (immutable tags are recommended)
+## @param server.image.pullPolicy Image pull policy for the server image
+## @param server.resources.limits.cpu CPU limit for Kubernetes resources
+## @param server.resources.limits.memory Memory limit for Kubernetes resources
+## @param server.resources.limits."enflame.com/gcu" Enflame GCU limit for Kubernetes resources
+## @param server.model.deployName Name by which the model is deployed
+## @param server.model.volume.storageClass Storage class for the model volume
+## @param server.model.volume.size Size of the model volume
+## @param server.model.volume.accessModes Access modes for the model volume
+## @param server.model.volume.existingClaim PVC for the model volume, if bringing your own PVC
+## @param server.model.volume.subPath Subdirectory of the model volume to mount
+## @param server.autoScaling.minReplicas Minimum number of replicas for autoscaling
+## @param server.autoScaling.maxReplicas Maximum number of replicas for autoscaling
+## @param server.autoScaling.annotations Annotations for Knative Service autoscaling
+## @param server.app.extraArgs Extra arguments for vLLM engine
+## @param server.env Extra environment variables to add to vLLM server container
+## @param server.extraVolumeMounts Extra volumeMounts to add to vLLM server container
+## @param server.extraVolume Extra volumes to add to vLLM server Pod
+## @param server.securityContext Extra security contexts to add to vLLM server container
+## @param server.nodeSelector Node labels for vLLM server Pod assignment
+##
+server:
+  image:
+    registry: "registry.qy.t9kcloud.cn"
+    repository: "topsrider/vllm-openai"
+    tag: "20250224"
+    pullPolicy: IfNotPresent
+
+  resources:
+    limits:
+      cpu: 4
+      memory: 64Gi
+      enflame.com/gcu: 1
+
+  model:
+    # 模型以该名称被部署
+    deployName: ""
+
+    volume:
+      storageClass: ""
+      size: 32Gi
+      accessModes:
+        - ReadWriteOnce
+      existingClaim: ""
+      subPath: ""
+
+  autoScaling:
+    minReplicas: 1
+    maxReplicas: 1
+
+    # 为 Knative Service 设置的注解，参考 https://knative.dev/docs/serving/autoscaling/autoscaling-metrics/
+    annotations: {}
+      # autoscaling.knative.dev/metric: "concurrency"
+      # autoscaling.knative.dev/target-utilization-percentage: "70" 
+
+  app:
+    # 为 vLLM engine 设置的额外参数，参考 https://docs.vllm.ai/en/latest/models/engine_args.html
+    # 请勿设置 --model, --served-model-name
+    extraArgs: []
+      # - "--tensor-parallel-size=4"
+      # - "--trust-remote-code"
+      # - "--enforce-eager"
+      # - "--gpu-memory-utilization=1.0"
+      # - "--max-model-len=8192"
+      # - "--quantization=bitsandbytes"
+      # - "--load-format=bitsandbytes"
+
+  env: []
+
+  extraVolumeMounts: []
+  extraVolume: []
+
+  securityContext: {}
+  nodeSelector: {}
+
+## @param datacube.source Source of the model files (`huggingface`, `git`, `s3`, or "")
+## @param datacube.huggingface.id Hugging Face ID of the model
+## @param datacube.huggingface.files Files to download from the Hugging Face model repository
+## @param datacube.huggingface.existingSecret Secret whose value of key `token` is used as the Hugging Face token
+## @param datacube.git.url Git repository URL for the model
+## @param datacube.git.ref Git branch, tag, or commit for the model
+## @param datacube.git.existingSecret Secret whose value of key `token` is used as the Git token
+## @param datacube.s3.url S3 URL for the model
+## @param datacube.s3.existingSecret Secret of type s3-env containing the S3 credentials
+## @param datacube.env Extra environment variables to add to datacube container
+##
+datacube:
+  # 模型文件来源，应为 ""、"huggingface"、"git" 或 "s3"，"" 表示模型文件已存在，不使用 DataCube 下载
+  source: ""
+  huggingface:
+    # 模型的 Hugging Face ID，例如 "meta-llama/Meta-Llama-3-8B"
+    id: ""
+    # 下载的文件列表，例如 "README.md,tokenizer.json,tokenizer_config.json"，默认为所有文件
+    files: ""
+    # 引用 Secret 的键 token 的值作为 Hugging Face token
+    existingSecret: ""
+  git:
+    # Git 仓库路径
+    url: ""
+    # 分支、标签或 commit
+    ref: ""
+    # 引用 Secret 的键 token 的值作为 Git token
+    existingSecret: ""
+  s3:
+    # S3 路径
+    url: ""
+    # 引用 s3-env 类型的 Secret 的键值
+    existingSecret: ""
+  env: []
+    # - name: http_proxy
+    #   value: ""
+    # - name: https_proxy
+    #   value: ""
+    # - name: HF_ENDPOINT
+    #   value: ""
+
+## @param initializer.image.registry Repository registry for the initializer image
+## @param initializer.image.repository Repository name for the initializer image
+## @param initializer.image.tag Image tag for the initializer image (immutable tags are recommended)
+## @param initializer.image.pullPolicy Image pull policy for the initializer image
+initializer:
+  # 初始化器镜像，请勿修改
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/kubectl"
+    tag: "1.27"
+    pullPolicy: IfNotPresent

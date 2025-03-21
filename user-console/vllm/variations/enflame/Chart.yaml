@@ -2,5 +2,5 @@ apiVersion: v2
 name: vllm-enflame
 description: vLLM 是一个高吞吐量和内存高效的 LLM 推理和服务引擎。
 type: application
-version: 0.3.0
-appVersion: "20241223"
+version: 0.3.3
+appVersion: "0.6.1.post2"

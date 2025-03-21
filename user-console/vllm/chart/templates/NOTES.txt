@@ -6,6 +6,14 @@
 
   curl $ENDPOINT/v1/chat/completions -H "Content-Type: application/json" -d '{"model": "{{ .Values.server.model.deployName }}", "messages": [{"role": "user", "content": "hello"}], "temperature": 0.5}'
   
-要测试生成文本，运行：
+要测试文本补全，运行：
 
   curl $ENDPOINT/v1/completions -H "Content-Type: application/json" -d '{"model": "{{ .Values.server.model.deployName }}", "prompt": "Long long ago, there was", "max_tokens": 100, "temperature": 0.5}'
+
+要测试嵌入，运行：
+
+  curl $ENDPOINT/v1/embeddings -H "Content-Type: application/json" -d '{"model": "{{ .Values.server.model.deployName }}", "input": "The quick brown fox jumps over the lazy dog."}'
+
+要测试重排，运行：
+
+  curl $ENDPOINT/v1/rerank -H "Content-Type: application/json" -d '{"model": "{{ .Values.server.model.deployName }}", "query": "What is the capital of France?", "documents": ["The capital of Brazil is Brasilia.", "The capital of France is Paris.", "Horses and cows are both animals"]}'

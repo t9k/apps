@@ -1,32 +1,35 @@
 # vLLM
 
-[vLLM](https://github.com/vllm-project/vllm) 是一个快速、灵活且易用的开源 LLM 推理和服务库。
+[vLLM](https://github.com/vllm-project/vllm) 是一个快速且易于使用的 LLM 推理和服务库。
 
-vLLM 的速度优势包括：
+vLLM 具备以下高性能特性：
 
-- 最先进的服务吞吐量
-- 使用 PagedAttention 高效管理注意力键和值内存
-- 连续批处理传入请求
-- 使用 CUDA/HIP 图实现快速模型执行
-- 量化技术：GPTQ、AWQ、SqueezeLLM、FP8 KV 缓存
-- 优化的 CUDA 内核
+* 最先进的服务吞吐量
+* 高效管理注意力键值内存，采用 PagedAttention 技术
+* 持续批处理，优化传入请求的处理
+* CUDA/HIP 图加速，提升模型执行速度
+* 多种量化技术支持，包括 GPTQ、AWQ、INT4、INT8 和 FP8
+* 优化的 CUDA 内核，集成 FlashAttention 和 FlashInfer
+* 预测解码（Speculative Decoding）
+* 分块预填充（Chunked Prefill）
 
-vLLM 灵活且易用，具备以下特点：
+vLLM 具备灵活性和易用性，包括：
 
-- 无缝集成流行的 Hugging Face 模型
-- 使用多种解码算法（包括并行采样、束搜索等）进行高吞吐量服务
-- 支持分布式推理的张量并行
-- 流式输出
-- 兼容 OpenAI 的 API 服务器
-- 支持 NVIDIA 和 AMD GPUs
-- （实验性）前缀缓存支持
-- （实验性）多 lora 支持
+* 无缝集成 Hugging Face 热门模型
+* 支持多种解码算法，包括并行采样、束搜索等，实现高吞吐量推理
+* 支持张量并行与流水线并行，适用于分布式推理
+* 流式输出，提升用户体验
+* 兼容 OpenAI API 服务器
+* 支持多种硬件，包括 NVIDIA GPU、AMD CPU & GPU、Intel CPU & GPU、PowerPC CPU、TPU 以及 AWS Neuron
+* 前缀缓存（Prefix Caching）支持
+* 多 LoRA 支持
 
-vLLM 无缝支持 HuggingFace 上大多数流行的开源模型，包括：
+vLLM 无缝支持 Hugging Face 上大多数热门开源模型，包括：
 
-- 类 Transformer 的 LLM（例如 Llama）
-- 专家混合 LLM（例如 Mixtral）
-- 多模态 LLM（例如 LLaVA）
+* Transformer 类 LLM（如 Llama）
+* 混合专家（MoE）LLM（如 Mixtral、Deepseek-V2、V3）
+* 嵌入模型（如 E5-Mistral）
+* 多模态 LLM（如 LLaVA）
 
 ## 使用方法
 
@@ -67,14 +70,14 @@ App 支持自动容量伸缩，即根据服务负载的变化，在 `server.auto
 
 ### 示例
 
-部署 Llama-3.1-8B-Instruct 模型为推理服务，模型文件位于 PVC `llm` 的 `Llama-3.1-8B-Instruct/` 子路径下，副本数量固定为 1：
+部署 DeepSeek-R1-Distill-Qwen-7B 模型为推理服务，模型文件位于 PVC `llm` 的 `DeepSeek-R1-Distill-Qwen-7B/` 子路径下，副本数量固定为 1：
 
 ```yaml
 server:
   image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
-    tag: "v0.6.5"
+    tag: "v0.8.0"
     pullPolicy: IfNotPresent
 
   resources:
@@ -84,7 +87,7 @@ server:
       nvidia.com/gpu: 1
 
   model:
-    deployName: "llama"
+    deployName: "DeepSeek-R1-Distill-Qwen-7B"
 
     volume:
       storageClass: ""
@@ -92,7 +95,7 @@ server:
       accessModes:
         - ReadWriteOnce
       existingClaim: "llm"
-      subPath: "Llama-3.1-8B-Instruct/"
+      subPath: "DeepSeek-R1-Distill-Qwen-7B/"
 
   autoScaling:
     minReplicas: 1
@@ -106,14 +109,14 @@ initializer:
     pullPolicy: IfNotPresent
 ```
 
-部署 Qwen2.5-7B-Instruct 模型为推理服务，模型文件从 Hugging Face 下载，副本数量在 1-3 之间自动伸缩，维持每个副本的并发请求数不超过 10：
+部署 Qwen2.5-7B-Instruct 模型为推理服务，模型文件从 Hugging Face 下载，副本数量在 1-3 之间自动伸缩，维持每个副本的并发请求数不超过 32：
 
 ```yaml
 server:
   image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
-    tag: "v0.6.5"
+    tag: "v0.8.0"
     pullPolicy: IfNotPresent
 
   resources:
@@ -123,11 +126,11 @@ server:
       nvidia.com/gpu: 1
 
   model:
-    deployName: "qwen"
+    deployName: "Qwen2.5-7B-Instruct"
 
     volume:
       storageClass: ""
-      size: 24Gi
+      size: 32Gi
       accessModes:
         - ReadWriteOnce
       existingClaim: ""
@@ -138,7 +141,7 @@ server:
     maxReplicas: 3
     annotations: 
       autoscaling.knative.dev/metric: "concurrency"
-      autoscaling.knative.dev/target: "10"
+      autoscaling.knative.dev/target: "32"
 
 datacube:
   source: "huggingface"
@@ -158,32 +161,32 @@ initializer:
     pullPolicy: IfNotPresent
 ```
 
-部署 Llama-3.1-70B-Instruct 模型为推理服务，模型文件位于 PVC `llm` 的 `Llama-3.1-70B-Instruct/` 子路径下，采用 4 度张量并行：
+部署 Llama-3.3-70B-Instruct 模型为推理服务，模型文件位于 PVC `llm` 的 `Llama-3.3-70B-Instruct/` 子路径下，采用 4 度张量并行：
 
 ```yaml
 server:
   image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
-    tag: "v0.6.5"
+    tag: "v0.8.0"
     pullPolicy: IfNotPresent
 
   resources:
     limits:
-      cpu: 4
+      cpu: 8
       memory: 64Gi
       nvidia.com/gpu: 4
 
   model:
-    deployName: "llama"
+    deployName: "Llama-3.3-70B-Instruct"
 
     volume:
       storageClass: ""
-      size: 24Gi
+      size: 32Gi
       accessModes:
         - ReadWriteOnce
       existingClaim: "llm"
-      subPath: "Llama-3.1-70B-Instruct/"
+      subPath: "Llama-3.3-70B-Instruct/"
   
   autoScaling:
     minReplicas: 1
@@ -192,6 +195,10 @@ server:
   app:
     extraArgs:
       - "--tensor-parallel-size=4"
+      - "--gpu-memory-utilization=0.95"
+      - "--max-model-len=8192"
+      - "--max-num-seqs=64"
+      - "--enforce-eager"
 
 initializer:
   image:
@@ -208,7 +215,7 @@ server:
   image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
-    tag: "v0.6.5"
+    tag: "v0.8.0"
     pullPolicy: IfNotPresent
 
   resources:
@@ -218,11 +225,11 @@ server:
       nvidia.com/gpu: 2
 
   model:
-    deployName: "qwen"
+    deployName: "Qwen2.5-72B-Instruct"
 
     volume:
       storageClass: ""
-      size: 24Gi
+      size: 32Gi
       accessModes:
         - ReadWriteOnce
       existingClaim: "llm"
@@ -246,36 +253,40 @@ initializer:
     pullPolicy: IfNotPresent
 ```
 
-<!-- 部署 Mistral-Nemo-Instruct-2407.Q5_K_M.gguf 量化模型为推理服务，模型文件位于 PVC `llm` 的 `Mistral-Nemo-Instruct-2407-GGUF/` 子路径下：
+部署 QwQ-32B-GGUF 量化模型为推理服务，模型文件位于 PVC `llm` 的 `QwQ-32B-GGUF/qwq-32b-q5_k_m.gguf` 子路径下：
 
 ```yaml
 server:
   image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
-    tag: "v0.6.5"
+    tag: "v0.8.0"
     pullPolicy: IfNotPresent
 
   resources:
     limits:
       cpu: 4
       memory: 64Gi
-      nvidia.com/gpu: 1
+      nvidia.com/gpu: 2
 
   model:
-    deployName: "mistral-nemo"
+    deployName: "qwq-32b-q5-k-m"
 
     volume:
       storageClass: ""
-      size: 24Gi
+      size: 32Gi
       accessModes:
         - ReadWriteOnce
       existingClaim: "llm"
-      subPath: "Mistral-Nemo-Instruct-2407-GGUF/"
+      subPath: "QwQ-32B-GGUF/qwq-32b-q5_k_m.gguf"
   
   autoScaling:
     minReplicas: 1
     maxReplicas: 1
+
+  app:
+    extraArgs:
+      - "--tensor-parallel-size=2"
 
 initializer:
   image:
@@ -283,7 +294,7 @@ initializer:
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/kubectl"
     tag: "1.27"
     pullPolicy: IfNotPresent
-``` -->
+```
 
 部署 e5-mistral-7b-instruct 嵌入模型为推理服务，模型文件位于 PVC `llm` 的 `e5-mistral-7b-instruct/` 子路径下：
 
@@ -292,7 +303,7 @@ server:
   image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
-    tag: "v0.6.5"
+    tag: "v0.8.0"
     pullPolicy: IfNotPresent
 
   resources:
@@ -324,14 +335,14 @@ initializer:
     pullPolicy: IfNotPresent
 ```
 
-部署 Qwen2-VL-7B-Instruct 多模态模型为推理服务，模型文件位于 PVC `llm` 的 `Qwen2-VL-7B-Instruct/` 子路径下：
+部署 bge-reranker-v2-m3 重排模型为推理服务，模型文件位于 PVC `llm` 的 `bge-reranker-v2-m3/` 子路径下：
 
 ```yaml
 server:
   image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
-    tag: "v0.6.5"
+    tag: "v0.8.0"
     pullPolicy: IfNotPresent
 
   resources:
@@ -341,7 +352,46 @@ server:
       nvidia.com/gpu: 1
 
   model:
-    deployName: "qwen"
+    deployName: "bge-reranker-v2-m3"
+
+    volume:
+      storageClass: ""
+      size: 32Gi
+      accessModes:
+        - ReadWriteOnce
+      existingClaim: "llm"
+      subPath: "bge-reranker-v2-m3/"
+
+  autoScaling:
+    minReplicas: 1
+    maxReplicas: 1
+
+initializer:
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/kubectl"
+    tag: "1.27"
+    pullPolicy: IfNotPresent
+```
+
+部署 Qwen2-VL-7B-Instruct 多模态模型为推理服务，模型文件位于 PVC `llm` 的 `Qwen2-VL-7B-Instruct/` 子路径下：
+
+```yaml
+server:
+  image:
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
+    tag: "v0.8.0"
+    pullPolicy: IfNotPresent
+
+  resources:
+    limits:
+      cpu: 4
+      memory: 64Gi
+      nvidia.com/gpu: 1
+
+  model:
+    deployName: "Qwen2-VL-7B-Instruct"
 
     volume:
       storageClass: ""
@@ -370,7 +420,7 @@ server:
   image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai"
-    tag: "v0.6.5"
+    tag: "v0.8.0"
     pullPolicy: IfNotPresent
 
   resources:
@@ -380,7 +430,7 @@ server:
       nvidia.com/gpu: 1
 
   model:
-    deployName: "mistral"
+    deployName: "Mistral-7B-Instruct-v0.3"
 
     volume:
       storageClass: ""
@@ -414,7 +464,7 @@ initializer:
 | ------------------------------------------ | ------------------------------------------------ | ---------------------------------------- |
 | `server.image.registry`                    | vLLM 服务器镜像注册表                            | `$(T9K_APP_IMAGE_REGISTRY)`              |
 | `server.image.repository`                  | vLLM 服务器镜像仓库                              | `$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai` |
-| `server.image.tag`                         | vLLM 服务器镜像标签                              | `v0.6.5`                                 |
+| `server.image.tag`                         | vLLM 服务器镜像标签                              | `v0.8.0`                                 |
 | `server.image.pullPolicy`                  | vLLM 服务器镜像拉取策略                          | `IfNotPresent`                           |
 | `server.resources.limits.cpu`              | vLLM 服务器容器能使用的 CPU 上限                 | `4`                                      |
 | `server.resources.limits.memory`           | vLLM 服务器容器能使用的内存上限                  | `64Gi`                                   |
