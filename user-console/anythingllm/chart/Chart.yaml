@@ -2,5 +2,5 @@ apiVersion: v2
 name: anythingllm
 description: AnythingLLM 是一个全栈应用程序，可以将任何文档、资源或内容转换为 LLM 在聊天过程中可以用作参考的上下文。
 type: application
-version: 0.1.0
-appVersion: "1.7.4"
+version: 0.1.1
+appVersion: "1.7.6"

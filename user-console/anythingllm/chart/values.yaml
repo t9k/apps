@@ -1,7 +1,7 @@
 image:
   registry: docker.io
   repository: mintplexlabs/anythingllm
-  tag: "1.7.4"
+  tag: "1.7.6"
   pullPolicy: IfNotPresent
 
 service:

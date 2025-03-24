@@ -36,14 +36,16 @@ spec:
               path: /
               port: http
             initialDelaySeconds: 60
-            periodSeconds: 15
+            periodSeconds: 30
+            timeoutSeconds: 15
             failureThreshold: 5
           readinessProbe:
             httpGet:
               path: /
               port: http
             initialDelaySeconds: 60
-            periodSeconds: 15
+            periodSeconds: 30
+            timeoutSeconds: 15
             failureThreshold: 5
           env:
             - name: STORAGE_DIR

@@ -22,13 +22,13 @@ AnythingLLM 将您的文档划分为称为“工作区”的对象。工作区�
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
   repository: "$(T9K_APP_IMAGE_NAMESPACE)/anythingllm"
-  tag: "1.7.4"
+  tag: "1.7.6"
   pullPolicy: IfNotPresent
 
 resources:
   limits:
-    cpu: 2
-    memory: 4Gi
+    cpu: 4
+    memory: 8Gi
 
 storage:
   size: 10Gi
@@ -36,12 +36,12 @@ storage:
 
 ### 字段
 
-| 名称                      | 描述                              | 值                                        |
-| ------------------------- | --------------------------------- | ----------------------------------------- |
-| `image.registry`          | AnythingLLM 镜像注册表            | `$(T9K_APP_IMAGE_REGISTRY)`               |
+| 名称                      | 描述                              | 值                                       |
+| ------------------------- | --------------------------------- | ---------------------------------------- |
+| `image.registry`          | AnythingLLM 镜像注册表            | `$(T9K_APP_IMAGE_REGISTRY)`              |
 | `image.repository`        | AnythingLLM 镜像仓库              | `$(T9K_APP_IMAGE_NAMESPACE)/anythingllm` |
-| `image.tag`               | AnythingLLM 镜像标签              | `1.7.4`                                   |
-| `image.pullPolicy`        | AnythingLLM 镜像拉取策略          | `IfNotPresent`                            |
-| `resources.limits.cpu`    | AnythingLLM 容器能使用的 CPU 上限 | `2`                                       |
-| `resources.limits.memory` | AnythingLLM 容器能使用的内存上限  | `4Gi`                                     |
-| `storage.size`            | AnythingLLM 容器能使用的存储大小  | `10Gi`                                    |
+| `image.tag`               | AnythingLLM 镜像标签              | `1.7.6`                                  |
+| `image.pullPolicy`        | AnythingLLM 镜像拉取策略          | `IfNotPresent`                           |
+| `resources.limits.cpu`    | AnythingLLM 容器能使用的 CPU 上限 | `4`                                      |
+| `resources.limits.memory` | AnythingLLM 容器能使用的内存上限  | `8Gi`                                    |
+| `storage.size`            | AnythingLLM 容器能使用的存储大小  | `10Gi`                                   |

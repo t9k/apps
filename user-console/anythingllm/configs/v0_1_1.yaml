@@ -6,7 +6,7 @@
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
   repository: "$(T9K_APP_IMAGE_NAMESPACE)/anythingllm"
-  tag: "1.7.4"
+  tag: "1.7.6"
   pullPolicy: IfNotPresent
 
 ## @param resources.limits.cpu CPU limit for AnythingLLM container
