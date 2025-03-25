@@ -1,0 +1,20 @@
+apiVersion: app.tensorstack.dev/v1beta1
+kind: Template
+metadata:
+  name: tianxuan-autoagent
+  displayName: "天璇 AutoAgent"
+  categories: ["AI"]
+  description: "天璇 AutoAgent 是一个企业智能体平台。"
+  icon: "file://$APP_DIR/icon.png"
+template:
+  helm:
+    repo: "oci://docker.io/t9kpublic"
+    # repo: "https://t9k.github.io/apps/"
+    chart: "tianxuan-autoagent"
+    versions:
+    - version: 1.0.0
+      config: "file://$APP_DIR/configs/v1_0_0.yaml"
+      urls: 
+      - name: ui
+        url: http://10.10.206.137:32008
+      dependencies: {}
