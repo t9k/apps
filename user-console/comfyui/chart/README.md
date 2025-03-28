@@ -6,14 +6,26 @@
 
 ## 发布说明
 
+### 1.0.1
+
+新增 v0.3.27 版本的 ComfyUI，通过指定以下镜像：
+
+| 镜像                                            | ComfyUI 版本 |
+| ----------------------------------------------- | ------------ |
+| `registry.cn-hangzhou.aliyuncs.com/t9k:v0.3.27` | v0.3.27      |
+
+新增验证的主要功能包括：
+
+* （视频生成）
+
 ### 1.0.0
 
 全新的 ComfyUI 应用，允许用户使用 v0.2.7 或 v0.2.3 版本的 ComfyUI，通过指定以下镜像：
 
-| 镜像                       | ComfyUI 版本 |
-| -------------------------- | ------------ |
-| `t9kpublic/comfyui:v0.2.7` | v0.2.7       |
-| `t9kpublic/comfyui:v0.2.3` | v0.2.3       |
+| 镜像                                           | ComfyUI 版本 |
+| ---------------------------------------------- | ------------ |
+| `registry.cn-hangzhou.aliyuncs.com/t9k:v0.2.7` | v0.2.7       |
+| `registry.cn-hangzhou.aliyuncs.com/t9k:v0.2.3` | v0.2.3       |
 
 应用理论上兼容 ComfyUI 的所有[功能特性](https://github.com/comfyanonymous/ComfyUI?tab=readme-ov-file#features)，覆盖了几乎所有 AI 绘图相关的使用场景。目前已验证的主要功能包括：
 
@@ -71,7 +83,7 @@
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
   repository: "$(T9K_APP_IMAGE_NAMESPACE)/comfyui"
-  tag: "v0.2.3"
+  tag: "v0.3.27"
   pullPolicy: IfNotPresent
 
 resources:
@@ -96,7 +108,7 @@ env: []
 | ----------------------------------- | ------------------------------------ | ------------------------------------ |
 | `image.registry`                    | ComfyUI 镜像注册表                   | `$(T9K_APP_IMAGE_REGISTRY)`          |
 | `image.repository`                  | ComfyUI 镜像仓库                     | `$(T9K_APP_IMAGE_NAMESPACE)/comfyui` |
-| `image.tag`                         | ComfyUI 镜像标签                     | `v0.2.3`                             |
+| `image.tag`                         | ComfyUI 镜像标签                     | `v0.3.27`                            |
 | `image.pullPolicy`                  | ComfyUI 镜像拉取策略                 | `IfNotPresent`                       |
 | `resources.limits.cpu`              | ComfyUI 容器能使用的 CPU 上限        | `4`                                  |
 | `resources.limits.memory`           | ComfyUI 容器能使用的内存上限         | `64Gi`                               |
@@ -111,7 +123,8 @@ env: []
 
 当前应用可以选用以下镜像：
 
-| 镜像                       | ComfyUI 版本 |
-| -------------------------- | ------------ |
-| `t9kpublic/comfyui:v0.2.7` | v0.2.7       |
-| `t9kpublic/comfyui:v0.2.3` | v0.2.3       |
+| 镜像                                           | ComfyUI 版本 |
+| ---------------------------------------------- | ------------ |
+| `registry.cn-hangzhou.aliyuncs.com/t9k:v0.3.27` | v0.3.27       |
+| `registry.cn-hangzhou.aliyuncs.com/t9k:v0.2.7` | v0.2.7       |
+| `registry.cn-hangzhou.aliyuncs.com/t9k:v0.2.3` | v0.2.3       |

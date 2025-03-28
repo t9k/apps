@@ -1,4 +1,5 @@
 #!/bin/bash
+
 set -e
 
 if [ ! -f "/root/.download-complete" ] ; then

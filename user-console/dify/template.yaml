@@ -24,3 +24,15 @@ template:
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
       dependencies: {}
+    - version: 0.6.1
+      config: "file://$APP_DIR/configs/v0_6_1.yaml"
+      urls: []
+      readinessProbe:
+        resources:
+        - group: apps
+          version: v1
+          resource: deployments
+          name: "{{ .Release.Name }}-api"
+          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+          desiredStatus: "True"
+      dependencies: {}

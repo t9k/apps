@@ -93,6 +93,7 @@ commonBackendEnvs are for api and worker containers
 - name: WEB_API_CORS_ALLOW_ORIGINS
   value: "*"
 {{- end }}
+
 {{- define "dify.commonBackendEnvs" -}}
 - name: STORAGE_TYPE
   value: {{ .Values.global.storageType }}
@@ -100,6 +101,8 @@ commonBackendEnvs are for api and worker containers
 {{- if .Values.redis.embedded }}
 - name: CELERY_BROKER_URL
   value: redis://:{{ .Values.redis.auth.password }}@{{ include "dify.fullname" . }}-redis-master:6379/1
+- name: REDIS_PORT
+  value: "6379"
 - name: REDIS_HOST
   value: {{ include "dify.fullname" . }}-redis-master
 - name: REDIS_DB
@@ -107,7 +110,6 @@ commonBackendEnvs are for api and worker containers
 - name: REDIS_PASSWORD
   value: {{ .Values.redis.auth.password }}
 {{- end }}
-
 {{- if .Values.postgresql.embedded }}
 - name: DB_USERNAME
   value: postgres
@@ -132,15 +134,31 @@ commonBackendEnvs are for api and worker containers
   value: {{ .Values.minio.auth.rootPassword }}
 {{- end }}
 
-{{- if .Values.qdrant.embedded }}
-- name: VECTOR_STORE
-  value: qdrant
-- name: QDRANT_URL
-  value: http://{{ .Release.Name }}-qdrant.{{ .Release.Namespace }}.svc.cluster.local:6333
-- name: QDRANT_API_KEY
-  value: {{ .Values.qdrant.apiKey }}
-- name: QDRANT_CLIENT_TIMEOUT
-  value: "20"
+{{- if .Values.pluginDaemon.enabled }}
+- name: PLUGIN_DAEMON_URL
+  value: "http://{{ include "dify.fullname" . }}-plugin-daemon:{{ .Values.pluginDaemon.service.port }}"
+- name: MARKETPLACE_API_URL
+  value: 'https://marketplace.dify.ai'
+- name: PLUGIN_DAEMON_KEY
+{{- if .Values.pluginDaemon.serverKeySecret }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.pluginDaemon.serverKeySecret }}
+      key: plugin-daemon-key
+{{- else if .Values.pluginDaemon.serverKey }}
+  value: {{ .Values.pluginDaemon.serverKey | quote }}
+{{- else }}
+{{- end }}
+- name: PLUGIN_DIFY_INNER_API_KEY
+{{- if .Values.pluginDaemon.difyInnerApiKeySecret }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ .Values.pluginDaemon.difyInnerApiKeySecret }}
+      key: plugin-dify-inner-api-key
+{{- else if .Values.pluginDaemon.difyInnerApiKey }}
+  value: {{ .Values.pluginDaemon.difyInnerApiKey | quote }}
+{{- else }}
 {{- end }}
 
+{{- end }}
 {{- end }}

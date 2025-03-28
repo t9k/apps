@@ -1,6 +1,4 @@
-FROM yanwk/comfyui-boot:cu124-cn-20241111
-
-COPY download.sh /runner-scripts/download.sh
+FROM yanwk/comfyui-boot:cu124-cn-20250317
 
 RUN cd /root && \
   chmod +x /runner-scripts/download.sh && \

@@ -3,5 +3,5 @@
 执行以下命令：
 
 ```bash
-docker build . -t t9kpublic/comfyui:v0.2.7
+docker build . -t registry.cn-hangzhou.aliyuncs.com/t9k/comfyui:v0.3.27
 ```
