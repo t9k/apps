@@ -16,19 +16,28 @@ image:
 # in the image and helm chart.
 extraConfigFiles:
   user.yaml: |+
-    #    For example enable rest http for milvus proxy
-    #    proxy:
-    #      http:
-    #        enabled: true
-    #      maxUserNum: 100
-    #      maxRoleNum: 10
-    ##  Enable tlsMode and set the tls cert and key
+extraConfigFiles:
+  user.yaml: |+
+    ## For example enable rest http for milvus proxy
+    #  proxy:
+    #    http:
+    #      enabled: true
+    #    maxUserNum: 100
+    #    maxRoleNum: 10
+    #
+    ## Enable user authentication
+    #  common:
+    #   security:
+    #     authorizationEnabled: true
+    #     superUsers: root
+    #
+    ## Enable tlsMode and set the tls cert and key
     #  tls:
     #    serverPemPath: /etc/milvus/certs/tls.crt
     #    serverKeyPath: /etc/milvus/certs/tls.key
-    #   common:
-    #     security:
-    #       tlsMode: 1
+    #  common:
+    #    security:
+    #      tlsMode: 1
 
 minio:
   enabled: true

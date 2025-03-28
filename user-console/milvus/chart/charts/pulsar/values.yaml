@@ -431,9 +431,9 @@ bookkeeper:
     ## Set the resources used for running `bin/bookkeeper shell initnewcluster`
     ##
     resources:
-      # requests:
-        # memory: 4Gi
-        # cpu: 2
+      requests:
+        memory: 4Gi
+        cpu: 2
   replicaCount: 4
   updateStrategy:
     type: RollingUpdate
@@ -705,9 +705,9 @@ pulsar_metadata:
 
   # resources for bin/pulsar initialize-cluster-metadata
   resources:
-#    requests:
-#      memory: 512Mi
-#      cpu: 1
+    requests:
+      memory: 512Mi
+      cpu: 1
 
   ## optional you can specify tolerations and nodeSelectors for all init jobs (pulsar-init & bookkeeper-init)
   # tolerations: []

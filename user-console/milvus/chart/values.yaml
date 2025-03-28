@@ -267,7 +267,10 @@ proxy:
   enabled: true
   # You can set the number of replicas to -1 to remove the replicas field in case you want to use HPA
   replicas: 1
-  resources: {}
+  resources:
+    limits:
+      cpu: 500m
+      memory: 2Gi
   nodeSelector: {}
   affinity: {}
   tolerations: []
@@ -360,11 +363,10 @@ queryNode:
   enabled: true
   # You can set the number of replicas to -1 to remove the replicas field in case you want to use HPA
   replicas: 1
-  resources: {}
-  # Set local storage size in resources
-  # resources:
-  #   limits:
-  #     ephemeral-storage: 100Gi
+  resources:
+    limits:
+      cpu: 500m
+      memory: 2Gi
   nodeSelector: {}
   affinity: {}
   tolerations: []
@@ -414,10 +416,10 @@ indexNode:
   enabled: true
   # You can set the number of replicas to -1 to remove the replicas field in case you want to use HPA
   replicas: 1
-  resources: {}
-  # Set local storage size in resources
-  # limits:
-  #    ephemeral-storage: 100Gi
+  resources:
+    limits:
+      cpu: 500m
+      memory: 2Gi
   nodeSelector: {}
   affinity: {}
   tolerations: []
@@ -467,7 +469,10 @@ dataNode:
   enabled: true
   # You can set the number of replicas to -1 to remove the replicas field in case you want to use HPA
   replicas: 1
-  resources: {}
+  resources:
+    limits:
+      cpu: 500m
+      memory: 2Gi
   nodeSelector: {}
   affinity: {}
   tolerations: []
@@ -488,7 +493,10 @@ mixCoordinator:
   enabled: true
   # You can set the number of replicas greater than 1, only if enable active standby
   replicas: 1           # Run Mixture Coordinator mode with replication disabled
-  resources: {}
+  resources:
+    limits:
+      cpu: 500m
+      memory: 2Gi
   nodeSelector: {}
   affinity: {}
   tolerations: []
@@ -575,9 +583,6 @@ minio:
   useVirtualHost: false
   podDisruptionBudget:
     enabled: false
-  resources:
-    requests:
-      memory: 2Gi
 
   service:
     type: ClusterIP
@@ -589,6 +594,11 @@ minio:
     storageClass:
     accessMode: ReadWriteOnce
     size: 500Gi
+
+  resources:
+    limits:
+      cpu: 250m
+      memory: 2Gi
 
   livenessProbe:
     enabled: true
@@ -643,6 +653,11 @@ etcd:
     storageClass:
     accessMode: ReadWriteOnce
     size: 10Gi
+
+  resources:
+    limits:
+      cpu: 250m
+      memory: 500Mi
 
   ## Change default timeout periods to mitigate zoobie probe process
   livenessProbe:
