@@ -1,0 +1,30 @@
+## @param image.registry LLaMA Board image registry
+## @param image.repository LLaMA Board image repository
+## @param image.tag LLaMA Board image tag
+## @param image.pullPolicy LLaMA Board image pull policy
+##
+image:
+  registry: "registry.bnu.t9kcloud.cn:8443"
+  repository: "mximages/mxc500-llama-board"
+  tag: "2.29.0.8"
+  pullPolicy: IfNotPresent
+
+## @param resources.limits.cpu CPU limit for LLaMA Board container
+## @param resources.limits.memory Memory limit for LLaMA Board container
+## @param resources.limits."metax-tech.com/gpu" MetaX GPU limit for LLaMA Board container
+##
+resources:
+  limits:
+    cpu: 4
+    memory: 64Gi
+    metax-tech.com/gpu: 1
+
+## @param persistence.size Size of the PVC
+## @param persistence.storageClass Storage class for the PVC
+## @param persistence.accessModes Access modes for the PVC
+##
+persistence:
+  size: 50Gi
+  storageClass: ""
+  accessModes:
+  - ReadWriteOnce

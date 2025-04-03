@@ -30,9 +30,9 @@ LLaMA-Factory 支持：
 
 ### 加速设备
 
-使用 NVIDIA GPU 作为加速设备。
+使用 MetaX GPU 作为加速设备。
 
-<!-- 你还可以使用 Enflame GCU、MetaX GPU 或 Hygon DCU 作为加速设备，需要将 `nvidia.com/gpu` 分别替换为 `enflame.com/gcu`、`metax-tech.com/gpu` 和 `hygon.com/dcu`，并选用提供相应环境的镜像。 -->
+<!-- 你还可以使用 Enflame GCU、MetaX GPU 或 Hygon DCU 作为加速设备，需要将 `metax-tech.com/gpu` 分别替换为 `enflame.com/gcu`、`metax-tech.com/gpu` 和 `hygon.com/dcu`，并选用提供相应环境的镜像。 -->
 
 ### 示例
 
@@ -40,16 +40,16 @@ LLaMA-Factory 支持：
 
 ```yaml
 image:
-  registry: "$(T9K_APP_IMAGE_REGISTRY)"
-  repository: "$(T9K_APP_IMAGE_NAMESPACE)/llama-board"
-  tag: "20250314"
+  registry: "registry.bnu.t9kcloud.cn:8443"
+  repository: "mximages/mxc500-llama-board"
+  tag: "2.29.0.8"
   pullPolicy: IfNotPresent
 
 resources:
   limits:
     cpu: 4
     memory: 64Gi
-    nvidia.com/gpu: 1
+    metax-tech.com/gpu: 1
 
 persistence:
   size: 50Gi
@@ -60,15 +60,15 @@ persistence:
 
 ### 字段
 
-| 名称                                | 描述                                     | 值                                       |
-| ----------------------------------- | ---------------------------------------- | ---------------------------------------- |
-| `image.registry`                    | LLaMA Board 镜像注册表                   | `$(T9K_APP_IMAGE_REGISTRY)`              |
-| `image.repository`                  | LLaMA Board 镜像仓库                     | `$(T9K_APP_IMAGE_NAMESPACE)/llama-board` |
-| `image.tag`                         | LLaMA Board 镜像标签                     | `20250314`                               |
-| `image.pullPolicy`                  | LLaMA Board 镜像拉取策略                 | `IfNotPresent`                           |
-| `resources.limits.cpu`              | LLaMA Board 容器能使用的 CPU 上限        | `4`                                      |
-| `resources.limits.memory`           | LLaMA Board 容器能使用的内存上限         | `64Gi`                                   |
-| `resources.limits."nvidia.com/gpu"` | LLaMA Board 容器能使用的 NVIDIA GPU 上限 | `1`                                      |
-| `persistence.size`                  | PVC 的大小                               | `50Gi`                                   |
-| `persistence.storageClass`          | PVC 的存储类型                           | ``                                       |
-| `persistence.accessModes`           | PVC 的访问模式                           | `["ReadWriteOnce"]`                      |
+| 名称                                    | 描述                                    | 值                              |
+| --------------------------------------- | --------------------------------------- | ------------------------------- |
+| `image.registry`                        | LLaMA Board 镜像注册表                  | `registry.bnu.t9kcloud.cn:8443` |
+| `image.repository`                      | LLaMA Board 镜像仓库                    | `mximages/mxc500-llama-board`   |
+| `image.tag`                             | LLaMA Board 镜像标签                    | `2.29.0.8`                      |
+| `image.pullPolicy`                      | LLaMA Board 镜像拉取策略                | `IfNotPresent`                  |
+| `resources.limits.cpu`                  | LLaMA Board 容器能使用的 CPU 上限       | `4`                             |
+| `resources.limits.memory`               | LLaMA Board 容器能使用的内存上限        | `64Gi`                          |
+| `resources.limits."metax-tech.com/gpu"` | LLaMA Board 容器能使用的 MetaX GPU 上限 | `1`                             |
+| `persistence.size`                      | PVC 的大小                              | `50Gi`                          |
+| `persistence.storageClass`              | PVC 的存储类型                          | ``                              |
+| `persistence.accessModes`               | PVC 的访问模式                          | `["ReadWriteOnce"]`             |

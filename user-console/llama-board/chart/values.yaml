@@ -41,7 +41,6 @@ resources:
   limits:
     cpu: 4
     memory: 64Gi
-    nvidia.com/gpu: 1
 
 ## @param persistence.size Size of the persistent volume claim
 ## @param persistence.storageClass Storage class for the persistent volume claim
