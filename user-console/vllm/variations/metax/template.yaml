@@ -2,18 +2,18 @@ apiVersion: app.tensorstack.dev/v1beta1
 kind: Template
 metadata:
   name: vllm-metax
-  displayName: vLLM (MetaX GPU)
+  displayName: "vLLM (MetaX GPU)"
   categories: ["AI"]
   description: "vLLM 是一个高吞吐量和内存高效的 LLM 推理和服务引擎。"
   icon: "file://$APP_DIR/icon.png"
 template:
   helm:
-    repo: "oci://registry.suanfeng.t9kcloud.cn/t9kcharts"
+    repo: "oci://registry.bnu.t9kcloud.cn:8443/t9kcharts"
     # repo: "https://t9k.github.io/apps/"
     chart: "vllm-metax"
     versions:
-    - version: 0.3.0
-      config: "file://$APP_DIR/configs/v0_3_0.yaml"
+    - version: 0.3.3
+      config: "file://$APP_DIR/configs/v0_3_3.yaml"
       urls: []
       readinessProbe:
         resources:

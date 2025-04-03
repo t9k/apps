@@ -67,14 +67,14 @@ App 支持自动容量伸缩，即根据服务负载的变化，在 `server.auto
 
 ### 示例
 
-部署 Llama-3.1-8B-Instruct 模型为推理服务，模型文件位于 PVC `llm` 的 `Llama-3.1-8B-Instruct/` 子路径下，副本数量固定为 1：
+部署 DeepSeek-R1-Distill-Qwen-7B 模型为推理服务，模型文件位于 PVC `llm` 的 `DeepSeek-R1-Distill-Qwen-7B/` 子路径下，副本数量固定为 1：
 
 ```yaml
 server:
   image:
-    registry: "registry.suanfeng.t9kcloud.cn"
-    repository: "testing/mxc500-vllm"
-    tag: "20241010"
+    registry: "registry.bnu.t9kcloud.cn:8443"
+    repository: "mximages/mxc500-vllm"
+    tag: "2.29.0.8"
     pullPolicy: IfNotPresent
 
   resources:
@@ -84,7 +84,7 @@ server:
       metax-tech.com/gpu: 1
 
   model:
-    deployName: "llama"
+    deployName: "DeepSeek-R1-Distill-Qwen-7B"
 
     volume:
       storageClass: ""
@@ -92,7 +92,7 @@ server:
       accessModes:
         - ReadWriteOnce
       existingClaim: "llm"
-      subPath: "Llama-3.1-8B-Instruct/"
+      subPath: "DeepSeek-R1-Distill-Qwen-7B/"
 
   autoScaling:
     minReplicas: 1
@@ -106,14 +106,14 @@ initializer:
     pullPolicy: IfNotPresent
 ```
 
-部署 Qwen2.5-7B-Instruct 模型为推理服务，模型文件从 Hugging Face 下载，副本数量在 1-3 之间自动伸缩，维持每个副本的并发请求数不超过 10：
+部署 Qwen2.5-7B-Instruct 模型为推理服务，模型文件从 Hugging Face 下载，副本数量在 1-3 之间自动伸缩，维持每个副本的并发请求数不超过 32：
 
 ```yaml
 server:
   image:
-    registry: "registry.suanfeng.t9kcloud.cn"
-    repository: "testing/mxc500-vllm"
-    tag: "20241010"
+    registry: "registry.bnu.t9kcloud.cn:8443"
+    repository: "mximages/mxc500-vllm"
+    tag: "2.29.0.8"
     pullPolicy: IfNotPresent
 
   resources:
@@ -123,7 +123,7 @@ server:
       metax-tech.com/gpu: 1
 
   model:
-    deployName: "qwen"
+    deployName: "Qwen2.5-7B-Instruct"
 
     volume:
       storageClass: ""
@@ -138,7 +138,7 @@ server:
     maxReplicas: 3
     annotations: 
       autoscaling.knative.dev/metric: "concurrency"
-      autoscaling.knative.dev/target: "10"
+      autoscaling.knative.dev/target: "32"
 
 datacube:
   source: "huggingface"
@@ -158,14 +158,14 @@ initializer:
     pullPolicy: IfNotPresent
 ```
 
-部署 Llama-3.1-70B-Instruct 模型为推理服务，模型文件位于 PVC `llm` 的 `Llama-3.1-70B-Instruct/` 子路径下，副本数量固定为 1：
+部署 Llama-3.3-70B-Instruct 模型为推理服务，模型文件位于 PVC `llm` 的 `Llama-3.3-70B-Instruct/` 子路径下，采用 4 度张量并行：
 
 ```yaml
 server:
   image:
-    registry: "registry.suanfeng.t9kcloud.cn"
-    repository: "testing/mxc500-vllm"
-    tag: "20241010"
+    registry: "registry.bnu.t9kcloud.cn:8443"
+    repository: "mximages/mxc500-vllm"
+    tag: "2.29.0.8"
     pullPolicy: IfNotPresent
 
   resources:
@@ -175,7 +175,7 @@ server:
       metax-tech.com/gpu: 4
 
   model:
-    deployName: "llama"
+    deployName: "Llama-3.3-70B-Instruct"
 
     volume:
       storageClass: ""
@@ -183,7 +183,7 @@ server:
       accessModes:
         - ReadWriteOnce
       existingClaim: "llm"
-      subPath: "Llama-3.1-70B-Instruct"
+      subPath: "Llama-3.3-70B-Instruct/"
   
   autoScaling:
     minReplicas: 1
@@ -205,9 +205,9 @@ initializer:
 
 | 名称                                           | 描述                                           | 值                                   |
 | ---------------------------------------------- | ---------------------------------------------- | ------------------------------------ |
-| `server.image.registry`                        | 服务器镜像的注册表                             | `registry.suanfeng.t9kcloud.cn`      |
-| `server.image.repository`                      | 服务器镜像的仓库                               | `testing/mxc500-vllm`                |
-| `server.image.tag`                             | 服务器镜像的标签                               | `20241010`                           |
+| `server.image.registry`                        | 服务器镜像的注册表                             | `registry.bnu.t9kcloud.cn:8443`      |
+| `server.image.repository`                      | 服务器镜像的仓库                               | `mximages/mxc500-vllm`               |
+| `server.image.tag`                             | 服务器镜像的标签                               | `2.29.0.8`                           |
 | `server.image.pullPolicy`                      | 服务器镜像的拉取策略                           | `IfNotPresent`                       |
 | `server.resources.limits.cpu`                  | 服务器容器的 CPU 限制                          | `4`                                  |
 | `server.resources.limits.memory`               | 服务器容器的内存限制                           | `64Gi`                               |
