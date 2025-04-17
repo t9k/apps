@@ -9,7 +9,7 @@ image:
   tag: "1.72.1"
   pullPolicy: IfNotPresent
 
-## @param pvc Mount a pvc as notebook working directory.
+## @param[required] pvc Mount a pvc as notebook working directory.
 pvc: ""
 
 ## @param resources.cpu The maximum number of CPU the notebook can use.

@@ -9,7 +9,7 @@ image:
   tag: "1.72.1"
   pullPolicy: IfNotPresent
 
-## @param pvc Mount a pvc as RStudio workspace
+## @param[required] pvc Mount a pvc as RStudio workspace
 pvc: ""
 
 ## @param resources.limits.cpu CPU limit for RStudio container
