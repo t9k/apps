@@ -1,0 +1,108 @@
+FROM centos:8
+
+# modify yum download source
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*.repo && \
+    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*.repo
+
+# install develope tools
+RUN yum update -y && \
+    yum install -y git \
+      gcc \
+      cmake \
+      make \
+      openssl-devel \
+      zlib-devel \
+      epel-release \
+      json-c-devel \
+      wget \
+      zsh \
+      tmux
+
+RUN yum install -y dnf-plugins-core && \
+    dnf -y module enable libuv && \
+    yum install -y libuv-devel && \
+    ln -s /usr/include/libuv /usr/include/uv
+
+ARG GITHUB_PROXY="https://ghfast.top"
+
+# clone and compile libwebsockets
+RUN git clone $GITHUB_PROXY/https://github.com/warmcat/libwebsockets.git && \
+    cd libwebsockets && \
+    git checkout v4.1-stable && \
+    mkdir build && \
+    cd build && \
+    cmake .. \
+      -DLWS_WITH_LIBUV=ON \
+      -DLWS_LIBUV_INCLUDE_DIRS=/usr/include/libuv \
+      -DLWS_LIBUV_LIBRARIES=/usr/lib64/libuv.so && \
+    make && \
+    make install
+
+# clone and compile ttyd
+RUN git clone $GITHUB_PROXY/https://github.com/tsl0922/ttyd.git && \
+    cd ttyd && \
+    git checkout 1.6.3 && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make && \
+    make install
+
+# RUN yum install -y wget
+
+# install golang
+RUN cd /root && wget https://dl.google.com/go/go1.12.linux-arm64.tar.gz && \
+        tar zxvf go1.12.linux-arm64.tar.gz && \
+        rm -rf go1.12.linux-arm64.tar.gz && mkdir /root/work
+ENV GOROOT=/root/go GOPATH=/root/work PATH=$PATH:/root/go/bin:/root/work/bin
+
+# install kubectl
+RUN curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.25.9/bin/linux/arm64/kubectl" \
+    && chmod +x ./kubectl \
+    && mv ./kubectl /usr/local/bin/kubectl
+
+RUN yum install -y vim-enhanced && \
+        mkdir -p /var/lib/alternatives && \
+        update-alternatives --install /usr/bin/vim vim /usr/bin/vim-enhanced 100 && \
+        update-alternatives --set vim /usr/bin/vim-enhanced
+
+# install vim and vim plugins
+RUN git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim  && go get github.com/golang/lint || true
+
+# RUN vim +PluginInstall +qall -e || true && \
+#       && git clone https://github.com/Valloric/YouCompleteMe ~/.vim/bundle/YouCompleteMe \
+#       && cd ~/.vim/bundle/YouCompleteMe && \
+#        ./install.py --clangd-completer --go-completer --ts-completer
+
+# install helm
+RUN wget https://get.helm.sh/helm-v3.7.1-linux-arm64.tar.gz \
+    && tar -zxvf helm-v3.7.1-linux-arm64.tar.gz \
+    && mv linux-arm64/helm /usr/local/bin/helm \
+    && rm -rf linux-arm64 helm-v3.7.1-linux-arm64.tar.gz
+
+RUN sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+
+RUN set -x; cd "$(mktemp -d)" \
+    && OS="$(uname | tr '[:upper:]' '[:lower:]')" \
+    && ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" \
+    && KREW="krew-${OS}_${ARCH}" \
+    && curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" \
+    && tar zxvf "${KREW}.tar.gz" \
+    && ./"${KREW}" install krew \
+    && ./"${KREW}" install virt
+
+RUN echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' > ~/.bashrc
+RUN echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' > ~/.zshrc
+
+RUN echo 'alias k=kubectl' >> ~/.bashrc
+RUN echo 'alias k=kubectl' >> ~/.zshrc
+
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+ENV PS1='\[\e[1;32m\][${PWD} \u@\h]\n\$ \[\e[0m\]'
+RUN echo -e "export PROMPT=$'%F{green}%B[%~ %n@%m]\\n%# %b%f'" >> ~/.zshrc
+RUN echo "export LANG=en_US.UTF-8 export LC_ALL=en_US.UTF-8" >> ~/.zshrc
+
+# vim +PluginInstall +qall && vim +GoInstallBinaries &&
+# or using ttyd -p 8080 bash
+# or using ttyd -p 8080 zsh
+CMD ["ttyd", "-p", "8080", "zsh"]
