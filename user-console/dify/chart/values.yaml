@@ -92,13 +92,9 @@ frontend:
 
 
   resources:
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
     limits:
-      cpu: 250m
-      memory: 1Gi
+      cpu: 500m
+      memory: 2Gi
 
   autoscaling:
     enabled: false
@@ -184,13 +180,9 @@ api:
   containerPort: 5001
 
   resources:
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
     limits:
-      cpu: 250m
-      memory: 2Gi
+      cpu: 2
+      memory: 8Gi
 
   autoscaling:
     enabled: false
@@ -249,13 +241,9 @@ worker:
     # runAsUser: 1000
 
   resources:
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
     limits:
-      cpu: 250m
-      memory: 2Gi
+      cpu: 4
+      memory: 16Gi
 
   autoscaling:
     enabled: false
@@ -318,13 +306,9 @@ sandbox:
   containerPort: 8194
 
   resources:
-    # We usually recommend not to specify default resources and to leave this as a conscious
-    # choice for the user. This also increases chances charts run on environments with little
-    # resources, such as Minikube. If you do want to specify resources, uncomment the following
-    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
     limits:
-      cpu: 1
-      memory: 2Gi
+      cpu: 2
+      memory: 8Gi
 
   autoscaling:
     enabled: false
@@ -397,8 +381,8 @@ pluginDaemon:
 
   resources:
     limits:
-      cpu: 250m
-      memory: 2Gi
+      cpu: 2
+      memory: 4Gi
 
   nodeSelector: {}
 
@@ -429,8 +413,9 @@ redis:
   auth:
     password: "REDIS_PASSWORD"
   master:
+    resourcesPreset: "large"
     persistence:
-      enabled: false
+      enabled: true
       size: 8Gi
   networkPolicy:
     enabled: false
@@ -448,8 +433,9 @@ postgresql:
     postgresPassword: "testpassword"
     database: "dify"
   primary:
+    resourcesPreset: "xlarge"
     persistence:
-      enabled: false
+      enabled: true
     networkPolicy:
       enabled: false
 
@@ -463,7 +449,9 @@ minio:
     rootUser: minioadmin
     rootPassword: minioadmin
   defaultBuckets: "dify"
+  resourcesPreset: "large"
   persistence:
-    enabled: false
+    enabled: true
+    size: 100Gi
   networkPolicy:
     enabled: false

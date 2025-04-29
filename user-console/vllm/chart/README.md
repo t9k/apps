@@ -296,7 +296,7 @@ initializer:
     pullPolicy: IfNotPresent
 ```
 
-部署 e5-mistral-7b-instruct 嵌入模型为推理服务，模型文件位于 PVC `llm` 的 `e5-mistral-7b-instruct/` 子路径下：
+部署 bge-m3 嵌入模型为推理服务，模型文件位于 PVC `llm` 的 `bge-m3/` 子路径下：
 
 ```yaml
 server:
@@ -313,7 +313,7 @@ server:
       nvidia.com/gpu: 1
 
   model:
-    deployName: "e5-mistral-7b-instruct"
+    deployName: "bge-m3"
 
     volume:
       storageClass: ""
@@ -321,7 +321,7 @@ server:
       accessModes:
         - ReadWriteOnce
       existingClaim: "llm"
-      subPath: "e5-mistral-7b-instruct/"
+      subPath: "bge-m3/"
 
   autoScaling:
     minReplicas: 1
@@ -374,7 +374,7 @@ initializer:
     pullPolicy: IfNotPresent
 ```
 
-部署 Qwen2-VL-7B-Instruct 多模态模型为推理服务，模型文件位于 PVC `llm` 的 `Qwen2-VL-7B-Instruct/` 子路径下：
+部署 Qwen2.5-VL-7B-Instruct 多模态模型为推理服务，模型文件位于 PVC `llm` 的 `Qwen2.5-VL-7B-Instruct/` 子路径下：
 
 ```yaml
 server:
@@ -391,7 +391,7 @@ server:
       nvidia.com/gpu: 1
 
   model:
-    deployName: "Qwen2-VL-7B-Instruct"
+    deployName: "Qwen2.5-VL-7B-Instruct"
 
     volume:
       storageClass: ""
@@ -399,7 +399,7 @@ server:
       accessModes:
         - ReadWriteOnce
       existingClaim: "llm"
-      subPath: "Qwen2-VL-7B-Instruct/"
+      subPath: "Qwen2.5-VL-7B-Instruct/"
 
   autoScaling:
     minReplicas: 1

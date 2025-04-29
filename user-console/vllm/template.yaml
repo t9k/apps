@@ -12,8 +12,8 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "vllm"
     versions:
-    - version: 0.3.3
-      config: "file://$APP_DIR/configs/v0_3_3.yaml"
+    - version: 0.3.4
+      config: "file://$APP_DIR/configs/v0_3_4.yaml"
       urls: []
       readinessProbe:
         resources:

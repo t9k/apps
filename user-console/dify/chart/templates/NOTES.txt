@@ -9,13 +9,11 @@
 
   kubectl --namespace {{ .Release.Namespace }} port-forward service/{{ .Release.Name }}-frontend 3000:{{ .Values.frontend.service.port }}
   kubectl --namespace {{ .Release.Namespace }} port-forward service/{{ .Release.Name }}-api-svc 3001:{{ .Values.api.service.port }}
-  kubectl --namespace {{ .Release.Namespace }} port-forward service/{{ .Release.Name }}-plugin-daemon 5002:{{ .Values.pluginDaemon.service.port }}
 
   或
 
   t9k-pf --namespace {{ .Release.Namespace }} service {{ .Release.Name }}-frontend 3000:{{ .Values.frontend.service.port }}
   t9k-pf --namespace {{ .Release.Namespace }} service {{ .Release.Name }}-api-svc 3001:{{ .Values.api.service.port }}
-  t9k-pf --namespace {{ .Release.Namespace }} service {{ .Release.Name }}-plugin-daemon 5002:{{ .Values.api.service.port }}
 
 然后访问 http://127.0.0.1:3000
 
