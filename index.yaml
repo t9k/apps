@@ -104,6 +104,16 @@ entries:
     version: 0.3.0
   comfyui:
   - apiVersion: v2
+    appVersion: v0.3.27
+    created: "2025-04-29T07:02:16.369807301Z"
+    description: ComfyUI 是一个功能强大且模块化的 Stable Diffusion 图形用户界面和后端，支持基于图、节点和流程图设计和执行高级流水线。
+    digest: 780638da0cb95cab0007dae8454afbea5e1fbe15d5b8f520fe5525f59a629bf5
+    name: comfyui
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/comfyui-1.0.1/comfyui-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
     appVersion: v0.2.3
     created: "2024-11-13T07:29:14.455674878Z"
     description: ComfyUI 是一个功能强大且模块化的 Stable Diffusion 图形用户界面和后端，支持基于图、节点和流程图设计和执行高级流水线。
@@ -167,6 +177,32 @@ entries:
     - https://github.com/t9k/apps/releases/download/db-gpt-0.1.1/db-gpt-0.1.1.tgz
     version: 0.1.1
   dify:
+  - apiVersion: v2
+    appVersion: 1.1.3
+    created: "2025-04-29T07:02:16.536733322Z"
+    dependencies:
+    - condition: redis.embedded
+      name: redis
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~19.1.1
+    - condition: postgresql.embedded
+      name: postgresql
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~15.2.5
+    - condition: minio.embedded
+      name: minio
+      repository: oci://registry-1.docker.io/bitnamicharts
+      version: ~14.1.7
+    description: A Helm chart for Dify
+    digest: 3de43ae41114b64f812e47ac5bf425d1ab6cbbffa6e5f3cf9853fdd97d1668b2
+    home: https://github.com/langgenius/dify
+    maintainers:
+    - name: douban
+    name: dify
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/dify-0.6.2/dify-0.6.2.tgz
+    version: 0.6.2
   - apiVersion: v2
     appVersion: 0.15.0
     created: "2025-01-10T08:24:36.468207932Z"
@@ -1556,6 +1592,16 @@ entries:
     version: 0.1.1
   vllm:
   - apiVersion: v2
+    appVersion: v0.8.5
+    created: "2025-04-29T07:02:16.956628808Z"
+    description: vLLM 是一个高吞吐量和内存高效的 LLM 推理和服务引擎。
+    digest: b472a5ba43c61f47186f21bc1eccfa9402c15e0be3be774ec7da1817f6c4f5d5
+    name: vllm
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/vllm-0.3.4/vllm-0.3.4.tgz
+    version: 0.3.4
+  - apiVersion: v2
     appVersion: v0.8.0
     created: "2025-03-21T03:09:38.931513919Z"
     description: vLLM 是一个高吞吐量和内存高效的 LLM 推理和服务引擎。
@@ -1840,4 +1886,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2025-03-24T06:11:10.278279218Z"
+generated: "2025-04-29T07:02:16.95687512Z"
