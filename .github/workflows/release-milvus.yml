@@ -1,11 +1,11 @@
-name: Release Dify Helm Charts
+name: Release Milvus Helm Charts
 
 on:
   push:
     branches:
       - master
     paths:
-      - "user-console/dify/chart/Chart.yaml"
+      - "user-console/milvus/chart/Chart.yaml"
 
 jobs:
   release:
@@ -28,7 +28,7 @@ jobs:
       - name: Package and push chart
         run: |
           cd $GITHUB_WORKSPACE
-          cd user-console/dify
+          cd user-console/milvus
           helm dependency update ./chart
           helm package ./chart
           helm push *.tgz oci://docker.io/t9kpublic

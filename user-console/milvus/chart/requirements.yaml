@@ -1,7 +1,7 @@
 dependencies:
 - name: etcd
   version: 6.3.3
-  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+  repository: oci://registry-1.docker.io/bitnamicharts
   condition: etcd.enabled
   tags:
     - etcd
@@ -20,7 +20,7 @@ dependencies:
     - pulsarv3
 - name: kafka
   version: 15.5.1
-  repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+  repository: oci://registry-1.docker.io/bitnamicharts
   condition: kafka.enabled
   tags:
     - kafka
