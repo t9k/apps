@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: 1.1.3
+appVersion: 1.3.0
 dependencies:
 - condition: redis.embedded
   name: redis
@@ -16,7 +16,7 @@ dependencies:
 description: A Helm chart for Dify
 home: https://github.com/langgenius/dify
 maintainers:
-- name: douban
+- name: douban & t9k
 name: dify
 type: application
 version: 0.6.2
