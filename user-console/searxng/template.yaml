@@ -13,7 +13,7 @@ template:
     chart: "searxng"
     versions:
     - version: 0.1.0
-      config: "file://$APP_DIR/configs/v0_1_0.yaml"
+      config: "file://$APP_DIR/configs/v2/v0_1_0.yaml"
       urls:
       - name: UI
         url: /apps/{{ .Release.Namespace }}/searxng/{{ .Release.Name }}/

@@ -1,0 +1,96 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en NextChat image config.
+# +t9k:description:zh NextChat 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en NextChat image registry.
+  # +t9k:description:zh NextChat 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en NextChat image repository.
+  # +t9k:description:zh NextChat 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/chatgpt-next-web"
+  # +t9k:form
+  # +t9k:description:en NextChat image tag.
+  # +t9k:description:zh NextChat 镜像标签。
+  tag: "v2.15.8"
+  pullPolicy: IfNotPresent
+
+resources:
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
+  limits:
+    # +t9k:form
+    # +t9k:description:en CPU limit for the App container.
+    # +t9k:description:zh App CPU 限制。
+    cpu: 1    
+    # +t9k:form
+    # +t9k:description:en Memory limit for the App container.
+    # +t9k:description:zh App 内存限制。
+    memory: 2Gi
+
+# +t9k:description:en LLM config.
+# +t9k:description:zh LLM 配置。
+llm:
+  # 使用的模型提供商
+  # 应为 "openai"、"azure"、"anthropic"" 或 "google"
+  #
+  # +t9k:form
+  # +t9k:description:en Provider of the language model (`openai`, `azure`, `anthropic`, or `google`).
+  # +t9k:description:zh 语言模型提供商（`openai`, `azure`, `anthropic`, or `google`）。
+  provider: "openai"
+  # +t9k:form
+  # +t9k:description:en API key for the language model provider.
+  # +t9k:description:zh 语言模型提供商的 API 密钥。
+  apiKey: ""
+
+  # +t9k:description:en OpenAI model config.
+  # +t9k:description:zh OpenAI 模型配置。
+  openai:
+    # 兼容 OpenAI API 的服务器的 URL
+    # 如使用 OpenAI API，请设为 "https://api.openai.com"
+    #
+    # +t9k:form
+    # +t9k:description:en Base URL for OpenAI API-compatible servers.
+    # +t9k:description:zh 兼容 OpenAI API 的服务器的 URL。
+    baseUrl: "https://api.openai.com"
+  
+  # +t9k:description:en Azure model config.
+  # +t9k:description:zh Azure 模型配置。
+  azure:
+    # +t9k:form
+    # +t9k:description:en URL for Azure language model API.
+    # +t9k:description:zh Azure 语言模型 API 的 URL。
+    url: ""
+    # +t9k:form
+    # +t9k:description:en API version for Azure language model API.
+    # +t9k:description:zh Azure 语言模型 API 的版本。
+    apiVersion: ""
+
+  # +t9k:description:en Anthropic model config.
+  # +t9k:description:zh Anthropic 模型配置。
+  anthropic:
+    # +t9k:form
+    # +t9k:description:en URL for Anthropic language model API.
+    # +t9k:description:zh Anthropic 语言模型 API 的 URL。
+    url: ""
+    # +t9k:form
+    # +t9k:description:en API version for Anthropic language model API.
+    # +t9k:description:zh Anthropic 语言模型 API 的版本。
+    apiVersion: ""
+
+  # +t9k:description:en Google model config.
+  # +t9k:description:zh Google 模型配置。
+  google:
+    # +t9k:form
+    # +t9k:description:en URL for Google language model API.
+    # +t9k:description:zh Google 语言模型 API 的 URL。
+    url: ""
+
+# +t9k:form
+# +t9k:description:en Array of extra environment variables.
+# +t9k:description:zh 额外的环境变量列表。
+env: []
+  # - name: PROXY_URL
+  #   value: ""

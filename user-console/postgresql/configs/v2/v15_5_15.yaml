@@ -1,0 +1,99 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en Global config.
+# +t9k:description:zh 全局配置。
+global:
+  # +t9k:form
+  # +t9k:description:en Global StorageClass for Persistent Volume(s)
+  # +t9k:description:zh 全局 StorageClass 用于 Persistent Volume(s)
+  storageClass: ""
+
+# +t9k:description:en PostgreSQL image config.
+# +t9k:description:zh PostgreSQL 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en PostgreSQL image registry.
+  # +t9k:description:zh PostgreSQL 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en PostgreSQL image repository.
+  # +t9k:description:zh PostgreSQL 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/postgresql"
+  # +t9k:form
+  # +t9k:description:en PostgreSQL image tag.
+  # +t9k:description:zh PostgreSQL 镜像标签。
+  tag: 16.3.0-debian-12-r19
+  # Specify a imagePullPolicy
+  # ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
+  #
+  pullPolicy: IfNotPresent
+  # Optionally specify an array of imagePullSecrets.
+  # Secrets must be manually created in the namespace.
+  # ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  # e.g:
+  # pullSecrets:
+  #   - myRegistryKeySecretName
+  #
+  # +t9k:form
+  # +t9k:description:en Specify docker-registry secret names as an array.
+  # +t9k:description:zh 指定 docker-registry 密钥名称。
+  pullSecrets: []
+
+# +t9k:description:en PostgreSQL auth config.
+# +t9k:description:zh PostgreSQL 认证配置。
+auth:
+  # +t9k:form
+  # +t9k:description:en Assign a password to the "postgres" admin user. Otherwise, remote access will be blocked for this user.
+  # +t9k:description:zh 为 "postgres" 管理员用户分配密码。否则，将阻止此用户的远程访问。
+  enablePostgresUser: true
+  # +t9k:form
+  # +t9k:description:en Password for the "postgres" admin user. Ignored if `auth.existingSecret` is provided.
+  # +t9k:description:zh 为 "postgres" 管理员用户分配密码。忽略 `auth.existingSecret` 提供的密码。
+  postgresPassword: ""
+  # +t9k:form
+  # +t9k:description:en Name for a custom user to create.
+  # +t9k:description:zh 为自定义用户创建名称。
+  username: ""
+  # t9k:form
+  # t9k:description:en Password for the custom user to create. Ignored if `auth.existingSecret` is provided.
+  # t9k:description:zh 为自定义用户创建密码。如果 `auth.existingSecret` 已设置，则忽略该字段。
+  password: ""
+  # +t9k:form
+  # +t9k:description:en Name for a custom database to create.
+  # +t9k:description:zh 为自定义数据库创建名称。
+  database: ""
+  # +t9k:form
+  # +t9k:description:en Name of the replication user.
+  # +t9k:description:zh 为复制用户创建名称。
+  replicationUsername: repl_user
+  # +t9k:form
+  # +t9k:description:en Password for the replication user. Ignored if `auth.existingSecret` is provided.
+  # +t9k:description:zh 为复制用户创建密码。如果 `auth.existingSecret` 已设置，则忽略该字段。
+  replicationPassword: ""
+  # +t9k:form
+  # +t9k:description:en Name of existing secret to use for PostgreSQL credentials. `auth.postgresPassword`, `auth.password`, and `auth.replicationPassword` will be ignored and picked up from this secret. The secret might also contains the key `ldap-password` if LDAP is enabled. `ldap.bind_password` will be ignored and picked from this secret in this case.
+  # +t9k:description:zh 使用一个现有的密钥来使用 PostgreSQL 凭据。`auth.postgresPassword`, `auth.password`, 和 `auth.replicationPassword` 将被忽略，改从这个密钥中获取。如果启用了 LDAP，这个密钥也可能包含 `ldap-password` 键。在这种情况下，`ldap.bind_password` 将被忽略，从这个密钥中获取。
+  existingSecret: ""
+  # +t9k:description:en Secret keys for PostgreSQL credentials. Only used when `auth.existingSecret` is set.
+  # +t9k:description:zh Secret 中各字段含义。只在 `auth.existingSecret` 被设置时使用。
+  secretKeys:
+    # +t9k:form
+    # +t9k:description:en Name of key stand for admin password. Only used when `auth.existingSecret` is set.
+    # +t9k:description:zh Secret 中表示管理员密码的字段。只在 `auth.existingSecret` 被设置时使用。
+    adminPasswordKey: postgres-password
+    # +t9k:form
+    # +t9k:description:en Name of key stand for user password. Only used when `auth.existingSecret` is set.
+    # +t9k:description:zh Secret 中表示用户密码的字段。只在 `auth.existingSecret` 被设置时使用。
+    userPasswordKey: password
+    # +t9k:form
+    # +t9k:description:en Name of key stand for replication password. Only used when `auth.existingSecret` is set.
+    # +t9k:description:zh Secret 中表示复制密码的字段。只在 `auth.existingSecret` 被设置时使用。
+    replicationPasswordKey: replication-password
+  # +t9k:form
+  # +t9k:description:en Mount credentials as a files instead of using an environment variable.
+  # +t9k:description:zh 挂载凭据为文件而不是使用环境变量。
+  usePasswordFiles: false
+# +t9k:form
+# +t9k:description:en PostgreSQL architecture (`standalone` or `replication`).
+# +t9k:description:zh PostgreSQL 架构 (`standalone` 或 `replication`)。
+architecture: standalone

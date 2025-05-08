@@ -1,0 +1,142 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en ChatNio image config.
+# +t9k:description:zh ChatNio 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en ChatNio image registry.
+  # +t9k:description:zh ChatNio 镜像仓库。
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en ChatNio image repository.
+  # +t9k:description:zh ChatNio 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/chatnio"
+  # +t9k:form
+  # +t9k:description:en ChatNio image tag.
+  # +t9k:description:zh ChatNio 镜像标签。
+  tag: "20241109"
+  pullPolicy: IfNotPresent
+
+resources:
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
+  limits:
+    # +t9k:form
+    # +t9k:description:en CPU request for the App container.
+    # +t9k:description:zh App CPU 需求。
+    cpu: 1
+    # +t9k:form
+    # +t9k:description:en Memory limit for the App container.
+    # +t9k:description:zh App 内存限制。
+    memory: 2Gi
+
+# +t9k:description:en PVC config.
+# +t9k:description:zh 存储卷配置。
+persistence:
+  # +t9k:form
+  # +t9k:description:en Add pvc to ChatNio.
+  # +t9k:description:zh 为 ChatNio 添加 PVC。
+  enabled: true
+  # +t9k:form
+  # +t9k:description:en PVC size.
+  # +t9k:description:zh 存储卷大小。
+  size: 1Gi
+  # Storage class for the PVC.
+  storageClass: ""
+  # Access mode for the PVC.
+  accessMode: ReadWriteMany
+  # Name of an existing PVC to use.
+  existingClaim: ""
+
+# +t9k:description:en MySQL config.
+# +t9k:description:zh MySQL 配置。
+mysql:
+  # +t9k:form
+  # +t9k:description:en Add MySQL to ChatNio.
+  # +t9k:description:zh 为 ChatNio 添加 MySQL。
+  enabled: true
+
+  # +t9k:description:en MySQL image config.
+  # +t9k:description:zh MySQL 镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en MySQL image registry.
+    # +t9k:description:zh MySQL 镜像仓库。
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    # +t9k:form
+    # +t9k:description:en MySQL image repository.
+    # +t9k:description:zh MySQL 镜像名称。
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/mysql"
+    # +t9k:form
+    # +t9k:description:en MySQL image tag.
+    # +t9k:description:zh MySQL 镜像标签。
+    tag: 5.7.43
+
+  # +t9k:description:en MySQL auth config.
+  # +t9k:description:zh MySQL 验证信息。
+  auth:
+    # +t9k:form
+    # +t9k:description:en MySQL database.
+    # +t9k:description:zh MySQL 数据库。
+    database: chatnio
+    # +t9k:form
+    # +t9k:description:en Add MySQL user.
+    # +t9k:description:zh 添加 MySQL 用户。
+    username: chatnio
+    # +t9k:form
+    # +t9k:description:en MySQL user password.
+    # +t9k:description:zh MySQL 用户密码。
+    password: chatnio123456!
+    # +t9k:form
+    # +t9k:description:en MySQL root password.
+    # +t9k:description:zh MySQL root 用户密码。
+    rootPassword: root
+  
+  primary:
+    resources:
+      # +t9k:description:en App resource limit.
+      # +t9k:description:zh App 资源限额。
+      limits:
+        # +t9k:form
+        # +t9k:description:en CPU limit for the App container.
+        # +t9k:description:zh App CPU 限制。
+        cpu: 1
+        # +t9k:form
+        # +t9k:description:en Memory limit for the App container.
+        # +t9k:description:zh App 内存限制。
+        memory: 2Gi
+    persistence:
+      # +t9k:form
+      # +t9k:description:en Persistent storage.
+      # +t9k:description:zh 持久存储 MySQL 数据。
+      enabled: true
+
+# +t9k:description:en Redis config.
+# +t9k:description:zh Redis 配置。
+redis:
+  # +t9k:form
+  # +t9k:description:en Add Redis to ChatNio.
+  # +t9k:description:zh 为 ChatNio 添加 Redis。
+  enabled: true
+
+  # +t9k:description:en Redis image config.
+  # +t9k:description:zh Redis 镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en Redis image registry.
+    # +t9k:description:zh Redis 镜像仓库。
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    # +t9k:form
+    # +t9k:description:en Redis image repository.
+    # +t9k:description:zh Redis 镜像名称。
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/redis"
+    # +t9k:form
+    # +t9k:description:en Redis image tag.
+    # +t9k:description:zh Redis 镜像标签。
+    tag: 7.4.1
+
+  auth:
+    enabled: false
+  master:
+    persistence:
+      enabled: true

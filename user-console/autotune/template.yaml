@@ -13,7 +13,7 @@ template:
     chart: "autotune"
     versions:
     - version: 0.1.2
-      config: "file://$APP_DIR/configs/v0_1_2.yaml"
+      config: "file://$APP_DIR/configs/v2/v0_1_2.yaml"
       urls: 
       - name: autotune
         url: /apps/{{ .Release.Namespace }}/autotune/{{ .Release.Name }}/

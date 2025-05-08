@@ -11,8 +11,8 @@ template:
     repo: "oci://docker.io/t9kpublic"
     chart: "argo-workflows"
     versions:
-    - version: 0.2.1
-      config: "file://$APP_DIR/configs/v0_2_1.yaml"
+    - version: 0.2.2
+      config: "file://$APP_DIR/configs/v2/v0_2_2.yaml"
       urls: 
       - name: argo-workflows
         url: /apps/{{ .Release.Namespace }}/argo-workflows/{{ .Release.Name }}/

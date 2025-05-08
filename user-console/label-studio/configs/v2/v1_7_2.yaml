@@ -1,0 +1,113 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en Global config.
+# +t9k:description:zh 全局配置。
+global:
+  # +t9k:form
+  # +t9k:description:en Label Studio host domain.
+  # +t9k:description:zh Label Studio 域名。
+  host: "$(T9K_HOME_DOMAIN)"
+  # +t9k:form
+  # +t9k:description:en Label Studio CSRF trusted origins.
+  # +t9k:description:zh Label Studio CSRF 可信域名。
+  csrfTrustedOrigins: "$(T9K_HOME_DOMAIN)"
+
+  # +t9k:description:en Label Studio image config.
+  # +t9k:description:zh Label Studio 镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en Label Studio image registry.
+    # +t9k:description:zh Label Studio 镜像仓库。 
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    # +t9k:form
+    # +t9k:description:en Label Studio image repository.
+    # +t9k:description:zh Label Studio 镜像名称。
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/label-studio"
+    # +t9k:form
+    # +t9k:description:en Label Studio image tag.
+    # +t9k:description:zh Label Studio 镜像标签。
+    tag: "1.14.0.post0"
+    pullPolicy: IfNotPresent
+  
+  # +t9k:description:en Label Studio persistence config.
+  # +t9k:description:zh Label Studio 持久化存储配置。
+  persistence:
+    # +t9k:form
+    # +t9k:description:en Enable persistence using PVC.
+    # +t9k:description:zh 是否启用 PVC 持久化存储。
+    enabled: true
+    config:
+      # +t9k:description:en PVC config.
+      # +t9k:description:zh 存储卷配置。
+      volume:
+        # +t9k:form
+        # +t9k:description:en Size of the PVC.
+        # +t9k:description:zh 存储卷大小。
+        size: 10Gi
+        # +t9k:form
+        # +t9k:description:en Storage class for the PVC
+        # +t9k:description:zh 存储卷类型。
+        storageClass: ""
+        # +t9k:form
+        # +t9k:description:en Access modes for the PVC.
+        # +t9k:description:zh 存储卷访问模式。
+        accessModes:
+          - ReadWriteOnce
+        # +t9k:form
+        # +t9k:description:en Use an existing PVC.
+        # +t9k:description:zh 使用一个已存在的 PVC。
+        existingClaim: ""
+
+app:
+  resources:
+    # +t9k:description:en App resource limit.
+    # +t9k:description:zh App 资源限额。
+    limits:
+      # +t9k:form
+      # +t9k:description:en CPU limit for the App container.
+      # +t9k:description:zh App CPU 限制。
+      cpu: 1    
+      # +t9k:form
+      # +t9k:description:en Memory limit for the App container.
+      # +t9k:description:zh App 内存限制。
+      memory: 2Gi
+
+# +t9k:description:en PostgreSQL config.
+# +t9k:description:zh PostgreSQL 配置。
+postgresql:
+  # +t9k:form
+  # +t9k:description:en Add PostgreSQL to Label Studio.
+  # +t9k:description:zh 为 Label Studio 添加 PostgreSQL。
+  enabled: true
+
+  # +t9k:description:en PostgreSQL image config.
+  # +t9k:description:zh PostgreSQL 镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en PostgreSQL image registry.
+    # +t9k:description:zh PostgreSQL 镜像仓库。
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    # +t9k:form
+    # +t9k:description:en PostgreSQL image repository.
+    # +t9k:description:zh PostgreSQL 镜像名称。
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/postgresql"
+    # +t9k:form
+    # +t9k:description:en PostgreSQL image tag.
+    # +t9k:description:zh PostgreSQL 镜像标签。
+    tag: "13.15.0"
+
+  # +t9k:description:en PostgreSQL auth config.
+  # +t9k:description:zh PostgreSQL 认证信息。
+  auth:
+    # +t9k:form
+    # +t9k:description:en PostgreSQL username.
+    # +t9k:description:zh PostgreSQL 用户名。
+    username: "labelstudio"
+    # +t9k:form
+    # +t9k:description:en PostgreSQL password.
+    # +t9k:description:zh PostgreSQL 密码。
+    password: "labelstudio"
+    # +t9k:form
+    # +t9k:description:en PostgreSQL database name.
+    # +t9k:description:zh PostgreSQL 数据库名称。
+    database: "labelstudio"

@@ -1,3 +1,5 @@
+# +t9k:form:pattern v2
+
 ## Enable or disable Milvus Cluster mode
 cluster:
   enabled: true

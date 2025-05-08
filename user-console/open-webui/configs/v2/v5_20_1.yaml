@@ -1,0 +1,116 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en WebUI image config.
+# +t9k:description:zh WebUI 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en WebUI image registry.
+  # +t9k:description:zh WebUI 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en WebUI image repository.
+  # +t9k:description:zh WebUI 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/open-webui"
+  # +t9k:form
+  # +t9k:description:en WebUI image tag.
+  # +t9k:description:zh WebUI 镜像标签。
+  tag: "v0.5.18"
+  # +t9k:form
+  # +t9k:description:en WebUI image pull policy.
+  # +t9k:description:zh WebUI 镜像拉取策略。
+  pullPolicy: IfNotPresent
+
+resources:
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
+  limits:
+    # +t9k:form
+    # +t9k:description:en CPU limit for Open WebUI container.
+    # +t9k:description:zh Open WebUI 容器的 CPU 限额。
+    cpu: 2
+    # +t9k:form
+    # +t9k:description:en Memory limit for Open WebUI container.
+    # +t9k:description:zh Open WebUI 容器的内存限额。
+    memory: 4Gi
+
+## @param persistence.size Size of the PVC
+## @param persistence.storageClass Storage class for the PVC
+## @param persistence.accessModes Access modes for the PVC. If using multiple replicas, you must update accessModes to ReadWriteMany
+## @param persistence.existingClaim Name of an existing PVC to use
+##
+
+# +t9k:description:en Open WebUI persistence config.
+# +t9k:description:zh Open WebUI 持久化配置。
+persistence:
+  # +t9k:form
+  # +t9k:description:en Size of the PVC.
+  # +t9k:description:zh Open WebUI 存储卷大小。
+  size: 2Gi
+  # +t9k:form
+  # +t9k:description:en Storage class for the PVC.
+  # +t9k:description:zh Open WebUI 存储卷类型。
+  storageClass: ""
+  # +t9k:form
+  # +t9k:description:en Access modes for the PVC. If using multiple replicas, you must update accessModes to ReadWriteMany.
+  # +t9k:description:zh Open WebUI 存储卷访问模式。
+  accessModes:
+    - ReadWriteOnce
+  # +t9k:form
+  # +t9k:description:en Name of an existing PVC to use.
+  # +t9k:description:zh 使用已存在的存储卷。
+  existingClaim: ""
+
+# +t9k:description:en Pipelines config.
+# +t9k:description:zh Pipelines 配置。
+pipelines:
+  # +t9k:form
+  # +t9k:description:en Automatically install Pipelines chart to extend Open WebUI functionality using Pipelines: https://github.com/open-webui/pipelines.
+  # +t9k:description:zh 自动安装 Pipelines 图表以扩展 Open WebUI 功能: https://github.com/open-webui/pipelines。
+  enabled: false
+  # +t9k:form
+  # +t9k:description:en This section can be used to pass required environment variables to your pipelines (e.g. Langfuse hostname).
+  # +t9k:description:zh 此部分可用于将所需的环境变量传递给您的管道 (例如 Langfuse 主机名)。
+  extraEnvVars: []
+  # +t9k:description:en Pipelines image config.
+  # +t9k:description:zh Pipelines 镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en Pipelines image registry.
+    # +t9k:description:zh Pipelines 镜像仓库。
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    # +t9k:form
+    # +t9k:description:en Pipelines image repository.
+    # +t9k:description:zh Pipelines 镜像名称。
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/pipelines"
+    # +t9k:form
+    # +t9k:description:en Pipelines image tag.
+    # +t9k:description:zh Pipelines 镜像标签。
+    tag: main
+    # +t9k:form
+    # +t9k:description:en Pipelines image pull policy.
+    # +t9k:description:zh Pipelines 镜像拉取策略。
+    pullPolicy: Always
+  resources:
+    # +t9k:description:en Pipelines resource limit.
+    # +t9k:description:zh Pipelines 资源限额。
+    limits:
+      # +t9k:form
+      # +t9k:description:en CPU limit for Pipelines server container.
+      # +t9k:description:zh Pipelines 服务器容器的 CPU 限额。
+      cpu: 4
+      # +t9k:form
+      # +t9k:description:en Memory limit for Pipelines server container.
+      # +t9k:description:zh Pipelines 服务器容器的内存限额。
+      memory: 8Gi
+
+## @param env Array of extra environment variables
+##
+
+# +t9k:description:en Extra environment variables.
+# +t9k:description:zh 额外的环境变量。
+env: []
+  # - name: OPENAI_API_KEY
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: openai-api-key
+  #       key: api-key

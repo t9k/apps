@@ -1,0 +1,50 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en Global config.
+# +t9k:description:zh 全局配置。
+global:
+  # +t9k:form
+  # +t9k:description:en Global StorageClass for Persistent Volume(s)
+  # +t9k:description:zh 全局 StorageClass 用于 Persistent Volume(s)
+  storageClass: ""
+
+# +t9k:description:en MongoDB image config.
+# +t9k:description:zh MongoDB 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en MongoDB image registry.
+  # +t9k:description:zh MongoDB 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en MongoDB image repository.
+  # +t9k:description:zh MongoDB 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/mongodb"
+  # +t9k:form
+  # +t9k:description:en MongoDB image tag.
+  # +t9k:description:zh MongoDB 镜像标签。
+  tag: 7.0.11-debian-12-r0
+  # Specify a imagePullPolicy
+  # ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
+  #
+  pullPolicy: IfNotPresent
+  # +t9k:form
+  # +t9k:description:en MongoDB image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
+  # +t9k:description:zh MongoDB 镜像摘要。
+  digest: ""
+  # Optionally specify an array of imagePullSecrets.
+  # Secrets must be manually created in the namespace.
+  # ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  # e.g:
+  # pullSecrets:
+  #   - myRegistryKeySecretName
+  #
+  # +t9k:form
+  # +t9k:description:en Specify docker-registry secret names as an array.
+  # +t9k:description:zh 指定 docker-registry 密钥名称。
+  pullSecrets: []
+  ## Set to true if you would like to see extra information on logs
+  ##
+  # +t9k:form
+  # +t9k:description:en Set to true if you would like to see extra information on logs.
+  # +t9k:description:zh 是否显示额外的日志信息。
+  debug: false

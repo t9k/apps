@@ -1,0 +1,50 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en TensorBoard image config.
+# +t9k:description:zh TensorBoard 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en TensorBoard image registry.
+  # +t9k:description:zh TensorBoard 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en TensorBoard image repository.
+  # +t9k:description:zh TensorBoard 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/tensorboard"
+  # +t9k:form
+  # +t9k:description:en TensorBoard image tag.
+  # +t9k:description:zh TensorBoard 镜像标签。
+  tag: "2.17.0"
+  # +t9k:form
+  # +t9k:description:en TensorBoard image pull policy.
+  # +t9k:description:zh TensorBoard 镜像拉取策略。
+  pullPolicy: IfNotPresent
+
+# logDir:
+#   pvc:
+#     - name: tutorial
+#       subPath:
+#         - "train/logs"
+#   s3:
+#     secretRef:
+#       name: ""
+#     uri:
+#       - ""
+#
+# +t9k:form
+# +t9k:description:en Read tensorboard logs from pvc or s3 storage.
+# +t9k:description:zh 从 PVC 或 S3 存储读取 TensorBoard 日志。
+logDir: {}
+
+resources:
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
+  limits:
+    # +t9k:form
+    # +t9k:description:en CPU limit for the App container.
+    # +t9k:description:zh App CPU 限制。
+    cpu: 200m
+    # +t9k:form
+    # +t9k:description:en Memory limit for the App container.
+    # +t9k:description:zh App 内存限制。
+    memory: 4Gi

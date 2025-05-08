@@ -21,7 +21,7 @@ spec:
         - --configmap={{ .Release.Name }}
         - --base-href=/apps/{{ .Release.Namespace }}/argo-workflows/{{ .Release.Name }}/
         env: []
-        image: {{ .Values.server.image.registry }}/{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}
+        image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
         resources:
           limits:
             cpu: 500m
@@ -54,7 +54,7 @@ spec:
         kubernetes.io/os: linux
       securityContext:
         runAsNonRoot: true
-      serviceAccountName: {{ .Values.server.serviceAccount }}
+      serviceAccountName: {{ .Values.serviceAccount }}
       volumes:
       - emptyDir: {}
         name: tmp

@@ -1,0 +1,107 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en Ollama image config.
+# +t9k:description:zh Ollama 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en Ollama image registry.
+  # +t9k:description:zh Ollama 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en Ollama image repository.
+  # +t9k:description:zh Ollama 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/ollama"
+  # +t9k:form
+  # +t9k:description:en Ollama image tag.
+  # +t9k:description:zh Ollama 镜像标签。
+  tag: "0.5.2"
+  pullPolicy: IfNotPresent
+
+resources:  # do NOT add `nvidia.com/gpu` manually
+  # +t9k:description:en App resource request.
+  # +t9k:description:zh App 资源需求。
+  requests:
+    # +t9k:form
+    # +t9k:description:en CPU request for the App container.
+    # +t9k:description:zh App CPU 需求。
+    cpu: 1
+    # cpu: 8 # if gpu is disabled
+
+    # +t9k:form
+    # +t9k:description:en Memory request for the App container.
+    # +t9k:description:zh App 内存需求。
+    memory: 8Gi
+
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
+  limits:
+    # +t9k:form
+    # +t9k:description:en CPU limit for the App container.
+    # +t9k:description:zh App CPU 限制。
+    cpu: 1
+    # cpu: 16  # if gpu is disabled
+    
+    # +t9k:form
+    # +t9k:description:en Memory limit for the App container.
+    # +t9k:description:zh App 内存限制。
+    memory: 16Gi
+
+ollama:
+  gpu:
+    # +t9k:form
+    # +t9k:description:en Enable GPU integration.
+    # +t9k:description:zh 启用 GPU 集成。
+    enabled: true
+    # +t9k:form
+    # +t9k:description:en GPU type: 'nvidia' or 'amd', default nvidia. \nIf set to 'amd', this will add 'rocm' suffix to image tag if 'image.tag' is not override. \nThis is due cause AMD and CPU/CUDA are different images.
+    # +t9k:description:zh GPU 类型：nvidia 或 amd，默认为 nvidia。 \n如果设置为 amd 且未修改 image.tag 配置，将添加 'rocm' 后缀到镜像标签。 \n这是由于 AMD 和 CPU/CUDA 是不同的镜像。
+    type: 'nvidia'
+    # +t9k:form
+    # +t9k:description:en Number of GPUs.
+    # +t9k:description:zh GPU 数量。
+    number: 1
+
+  # +t9k:form
+  # +t9k:description:en Model List. \nThe more you add, the longer the container will take to start if models are not present.
+  # +t9k:description:zh 模型列表。 \n添加的越多，容器启动时拉取模型的时间越长。
+  models: []
+  #  - llama3.1
+  #  - qwen2.5
+
+  # +t9k:form
+  # +t9k:description:en Add insecure flag for pulling at container startup.
+  # +t9k:description:zh 启动容器时添加 insecure 标志。
+  insecure: false
+
+  # +t9k:form
+  # +t9k:description:en Array of extra environment variables.
+  # +t9k:description:zh 额外的环境变量列表。
+  env: []
+  #  - name: OLLAMA_DEBUG
+  #    value: "1"
+  #  - name: OLLAMA_KEEP_ALIVE
+  #    value: "0"
+  #  - name: OLLAMA_LOAD_TIMEOUT
+  #    value: "0"
+
+persistentVolume:
+  # Enable persistence using Persistent Volume Claims.
+  enabled: true
+  # Ollama server data Persistent Volume access modes
+  accessModes:
+    - ReadWriteOnce
+  # Ollama server data Persistent Volume annotations
+  annotations: {}
+  # PVC for persisting Ollama state, if bringing your own PVC
+  # -- If you'd like to bring your own PVC for persisting Ollama state, pass the name of the
+  # created + ready PVC here. If set, this Chart will not create the default PVC.
+  # Requires server.persistentVolume.enabled: true
+  existingClaim: ""
+  # Ollama server data Persistent Volume size
+  size: 30Gi
+  # Ollama server data Persistent Volume Storage Class
+  storageClass: ""
+  # Ollama server data Persistent Volume Binding Mode
+  volumeMode: ""
+  # Subdirectory of Ollama server data Persistent Volume to mount
+  subPath: ""

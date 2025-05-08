@@ -1,0 +1,37 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en AnythingLLM image config.
+# +t9k:description:zh AnythingLLM 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en AnythingLLM image registry.
+  # +t9k:description:zh AnythingLLM 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en AnythingLLM image repository.
+  # +t9k:description:zh AnythingLLM 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/anythingllm"
+  # +t9k:form
+  # +t9k:description:en AnythingLLM image tag.
+  # +t9k:description:zh AnythingLLM 镜像标签。
+  tag: "1.7.6"
+  pullPolicy: IfNotPresent
+
+resources:
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
+  limits:
+    # +t9k:form
+    # +t9k:description:en CPU limit for the App container.
+    # +t9k:description:zh App CPU 限制。
+    cpu: 4
+    # +t9k:form
+    # +t9k:description:en Memory limit for the App container.
+    # +t9k:description:zh App 内存限制。
+    memory: 8Gi
+
+storage:
+  # +t9k:form
+  # +t9k:description:en Storage size for AnythingLLM data.
+  # +t9k:description:zh AnythingLLM 所需存储空间大小。
+  size: 10Gi

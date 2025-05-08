@@ -1,0 +1,52 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en LLaMA Board image config.
+# +t9k:description:zh LLaMA Board 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en LLaMA Board image registry.
+  # +t9k:description:zh LLaMA Board 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en LLaMA Board image repository.
+  # +t9k:description:zh LLaMA Board 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/llama-board"
+  # +t9k:form
+  # +t9k:description:en LLaMA Board image tag.
+  # +t9k:description:zh LLaMA Board 镜像标签。
+  tag: "20250314"
+  pullPolicy: IfNotPresent
+
+resources:
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
+  limits:
+    # +t9k:form
+    # +t9k:description:en CPU limit for the App container.
+    # +t9k:description:zh App CPU 限制。
+    cpu: 4
+    # +t9k:form
+    # +t9k:description:en Memory limit for the App container.
+    # +t9k:description:zh App 内存限制。
+    memory: 64Gi
+    # +t9k:form
+    # +t9k:description:en NVIDIA GPU limit for App container.
+    # +t9k:description:zh App Nvidia GPU 限制。
+    nvidia.com/gpu: 1
+
+# +t9k:description:en Persistence config.
+# +t9k:description:zh 持久化配置。
+persistence:
+  # +t9k:form
+  # +t9k:description:en PVC size.
+  # +t9k:description:zh 存储卷大小。
+  size: 50Gi
+  # +t9k:form
+  # +t9k:description:en PVC storage class.
+  # +t9k:description:zh 存储卷类型。
+  storageClass: ""
+  # +t9k:form
+  # +t9k:description:en PVC access modes.
+  # +t9k:description:zh 存储卷访问模式。
+  accessModes:
+  - ReadWriteOnce

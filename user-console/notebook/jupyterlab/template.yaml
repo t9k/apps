@@ -13,7 +13,7 @@ template:
     chart: "jupyterlab"
     versions:
     - version: 0.2.3
-      config: "file://$APP_DIR/configs/v0_2_3.yaml"
+      config: "file://$APP_DIR/configs/v2/v0_2_3.yaml"
       urls: 
       - name: "jupyter"
         url: "/t9k/notebooks/projects/{{ .Release.Namespace }}/name/{{ .Release.Name }}/lab"

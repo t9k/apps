@@ -4,6 +4,7 @@ metadata:
   name: comfyui
   displayName: "ComfyUI"
   categories: ["AI"]
+  defaultVersion: 1.0.1
   description: "ComfyUI 是一个功能强大且模块化的 Stable Diffusion 图形用户界面和后端，支持基于图、节点和流程图设计和执行高级流水线。"
   icon: "file://$APP_DIR/icon.png"
 template:
@@ -13,7 +14,7 @@ template:
     chart: "comfyui"
     versions:
     - version: 1.0.0
-      config: "file://$APP_DIR/configs/v1_0_0.yaml"
+      config: "file://$APP_DIR/configs/v1/v1_0_0.yaml"
       urls: 
       - name: UI
         url: /apps/{{ .Release.Namespace }}/comfyui/{{ .Release.Name }}/
@@ -27,7 +28,7 @@ template:
           desiredStatus: "True"
       dependencies: {}
     - version: 1.0.1
-      config: "file://$APP_DIR/configs/v1_0_1.yaml"
+      config: "file://$APP_DIR/configs/v2/v1_0_1.yaml"
       urls: 
       - name: UI
         url: /apps/{{ .Release.Namespace }}/comfyui/{{ .Release.Name }}/

@@ -1,0 +1,44 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en Code Server image config.
+# +t9k:description:zh Code Server 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en Code Server image registry.
+  # +t9k:description:zh Code Server 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en Code Server image repository.
+  # +t9k:description:zh Code Server 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/code-server"
+  # +t9k:form
+  # +t9k:description:en Code Server image tag.
+  # +t9k:description:zh Code Server 镜像标签。
+  tag: "20241023"
+  # +t9k:form
+  # +t9k:description:en Code Server image pull policy.
+  # +t9k:description:zh Code Server 镜像拉取策略。
+  pullPolicy: IfNotPresent
+
+# +required
+# +t9k:form
+# +t9k:description:zh 绑定一个 PVC 作为 Code Server 工作空间。 
+# +t9k:description:en Mount a PVC as Code Server workspace.
+pvc: ""
+
+resources:
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
+  limits:
+    # +t9k:form
+    # +t9k:description:en CPU limit for the App container.
+    # +t9k:description:zh App CPU 限制。
+    cpu: 1    
+    # +t9k:form
+    # +t9k:description:en Memory limit for the App container.
+    # +t9k:description:zh App 内存限制。
+    memory: 16Gi
+    # +t9k:form
+    # +t9k:description:en NVIDIA GPU limit for App container.
+    # +t9k:description:zh App Nvidia GPU 限制。
+    nvidia.com/gpu: 1
