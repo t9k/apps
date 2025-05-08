@@ -310,6 +310,17 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/fastgpt-0.1.1/fastgpt-0.1.1.tgz
     version: 0.1.1
+  filebrowser:
+  - apiVersion: v2
+    appVersion: 2.18.0
+    created: "2025-05-08T06:49:29.881825951Z"
+    description: File Browser 为指定目录提供了一个文件管理界面，用于上传、删除、预览、重命名和编辑文件。
+    digest: b66fe7aef987de1eb3e71ade3cc1cb017786bb9fc0b33ba4c1accb56ed5aa21f
+    name: filebrowser
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/filebrowser-0.2.1/filebrowser-0.2.1.tgz
+    version: 0.2.1
   fish-speech:
   - apiVersion: v2
     appVersion: 1.5.0
@@ -1886,4 +1897,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2025-04-29T07:02:16.95687512Z"
+generated: "2025-05-08T06:49:32.056629679Z"
