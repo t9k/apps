@@ -1,0 +1,166 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en SearXNG image config.
+# +t9k:description:zh SearXNG 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en SearXNG image registry.
+  # +t9k:description:zh SearXNG 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en SearXNG image repository.
+  # +t9k:description:zh SearXNG 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/searxng"
+  # +t9k:form
+  # +t9k:description:en SearXNG image tag.
+  # +t9k:description:zh SearXNG 镜像标签。
+  tag: "2024.11.17-10d3af84b"
+  pullPolicy: IfNotPresent
+
+# +t9k:description:en App config.
+# +t9k:description:zh App 配置。
+config:
+  # +t9k:description:en Setting Configuration.
+  # +t9k:description:zh Setting 配置。
+  settings:
+    # +t9k:form
+    # +t9k:description:en Enable/disable settings configuration.
+    # +t9k:description:zh 启用/禁用 settings 配置。
+    enabled: true
+    # +t9k:form
+    # +t9k:description:en Settings configuration.
+    # +t9k:description:zh Setting 配置内容。
+    data: |-
+      use_default_settings: true
+
+      engines:
+        - name: bing
+          disabled: false
+
+      search:
+        safe_search: 0
+        autocomplete: ""
+        default_lang: ""
+        formats:
+          - html
+          - json
+
+      server:
+        base_url: $(T9K_HOME_DOMAIN)/apps/{{ .Release.Namespace }}/searxng/{{ .Release.Name }}/
+        port: 8080
+        bind_address: "0.0.0.0"
+        secret_key: "57dc63125e7eef404481411b99c21fb9a5763b724b0bc88f2440ef373cf94809"
+        limiter: false
+        image_proxy: true
+
+      ui:
+        static_use_hash: true
+
+      outgoing:
+        request_timeout: 2.0
+        max_request_timeout: 10.0
+        useragent_suffix: ""
+        pool_connections: 100
+        pool_maxsize: 10
+        enable_http2: true
+
+        # proxies:
+        #   all://:
+        #     - http://proxy1:8080
+
+  # +t9k:description:en Limiter configuration.
+  # +t9k:description:zh Limiter 配置。
+  limiter:
+    # +t9k:form
+    # +t9k:description:en Enable/disable limiter configuration.
+    # +t9k:description:zh 启用/禁用 limiter 配置。
+    enabled: true
+    # +t9k:form
+    # +t9k:description:en Limiter configuration.
+    # +t9k:description:zh Limiter 配置内容。
+    data: |-
+      [botdetection.ip_limit]
+      # activate link_token method in the ip_limit method
+      link_token = true
+
+  # +t9k:description:en uWSGI configuration.
+  # +t9k:description:zh uWSGI 配置。
+  uwsgi:
+    # +t9k:form
+    # +t9k:description:en Enable/disable uWSGI configuration.
+    # +t9k:description:zh 启用/禁用 uWSGI 配置。
+    enabled: true
+    # +t9k:form
+    # +t9k:description:en uWSGI configuration.
+    # +t9k:description:zh uWSGI 配置内容。
+    data: |-
+      [uwsgi]
+      # Who will run the code
+      uid = searxng
+      gid = searxng
+
+      # Number of workers (usually CPU count)
+      # default value: %k (= number of CPU core, see Dockerfile)
+      workers = %k
+
+      # Number of threads per worker
+      # default value: 4 (see Dockerfile)
+      threads = 4
+
+      # The right granted on the created socket
+      chmod-socket = 666
+
+      # Plugin to use and interpreter config
+      single-interpreter = true
+      master = true
+      plugin = python3
+      lazy-apps = true
+      enable-threads = 4
+
+      # Module to import
+      module = searx.webapp
+
+      # Virtualenv and python path
+      pythonpath = /usr/local/searxng/
+      chdir = /usr/local/searxng/searx/
+
+      # automatically set processes name to something meaningful
+      auto-procname = true
+
+      # Disable request logging for privacy
+      disable-logging = true
+      log-5xx = true
+
+      # Set the max size of a request (request-body excluded)
+      buffer-size = 8192
+
+      # No keep alive
+      # See https://github.com/searx/searx-docker/issues/24
+      add-header = Connection: close
+
+      # uwsgi serves the static files
+      static-map = /static=/usr/local/searxng/searx/static
+      # expires set to one day
+      static-expires = /* 86400
+      static-gzip-all = True
+      offload-threads = 4
+
+resources:
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
+  limits:
+    # +t9k:form
+    # +t9k:description:en CPU limit for the App container.
+    # +t9k:description:zh App CPU 限制。
+    cpu: 4
+    # +t9k:form
+    # +t9k:description:en Memory limit for the App container.
+    # +t9k:description:zh App 内存限制。
+    memory: 8Gi
+
+# +t9k:form
+# +t9k:description:en Array of extra environment variables.
+# +t9k:description:zh 额外的环境变量列表。
+env:
+  - name: TZ
+    value: "Asia/Shanghai"

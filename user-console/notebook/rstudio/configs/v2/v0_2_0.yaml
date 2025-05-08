@@ -1,0 +1,48 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en RStudio image config.
+# +t9k:description:zh RStudio 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en RStudio image registry.
+  # +t9k:description:zh RStudio 镜像仓库。 
+  registry: docker.io
+  # +t9k:form
+  # +t9k:description:en RStudio image repository.
+  # +t9k:description:zh RStudio 镜像名称。
+  repository: t9kpublic/rocker-4.2.3-rstudio
+  # +t9k:form
+  # +t9k:description:en RStudio image tag.
+  # +t9k:description:zh RStudio 镜像标签。
+  tag: "1.72.1"
+  pullPolicy: IfNotPresent
+
+# +required
+# +t9k:form
+# +t9k:description:zh 绑定一个 PVC 作为 RStudio 工作空间。 
+# +t9k:description:en Mount a PVC as RStudio workspace.
+pvc: ""
+
+resources:
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
+  limits:
+    # +t9k:form
+    # +t9k:description:en CPU limit for the App container.
+    # +t9k:description:zh App CPU 限制。
+    cpu: 16
+    # +t9k:form
+    # +t9k:description:en Memory limit for the App container.
+    # +t9k:description:zh App 内存限制。
+    memory: 32Gi
+
+# ssh:
+#   enabled: true
+#   authorizedKeys:
+#   - "secret-name"
+#   serviceType: ClusterIP
+#
+ssh:
+  enabled: false
+  authorizedKeys: []
+  serviceType: ClusterIP

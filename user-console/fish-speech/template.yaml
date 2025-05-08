@@ -13,7 +13,7 @@ template:
     chart: "fish-speech"
     versions:
     - version: 0.2.2
-      config: "file://$APP_DIR/configs/v0_2_2.yaml"
+      config: "file://$APP_DIR/configs/v2/v0_2_2.yaml"
       urls: []
       # - name: UI
       #   url: /apps/{{ .Release.Namespace }}/fish-speech/{{ .Release.Name }}/

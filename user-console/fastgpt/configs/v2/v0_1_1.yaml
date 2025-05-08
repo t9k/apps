@@ -1,0 +1,269 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en FastGPT image config.
+# +t9k:description:zh FastGPT 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en FastGPT image registry.
+  # +t9k:description:zh FastGPT 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en FastGPT image repository.
+  # +t9k:description:zh FastGPT 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/fastgpt"
+  # +t9k:form
+  # +t9k:description:en FastGPT image tag.
+  # +t9k:description:zh FastGPT 镜像标签。
+  tag: "v4.8.12"
+  pullPolicy: IfNotPresent
+
+resources:
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
+  limits:
+    # +t9k:form
+    # +t9k:description:en CPU limit for the App container.
+    # +t9k:description:zh App CPU 限制。
+    cpu: 1    
+    # +t9k:form
+    # +t9k:description:en Memory limit for the App container.
+    # +t9k:description:zh App 内存限制。
+    memory: 2Gi
+
+# +t9k:description:en FastGPT app config.
+# +t9k:description:zh FastGPT app 配置。
+app:
+  # 应用的设置，请参阅 https://github.com/labring/FastGPT/blob/main/files/docker/docker-compose-pgvector.yml#L94-L118
+
+  # +t9k:form
+  # +t9k:description:en Default root password for FastGPT.
+  # +t9k:description:zh FastGPT 默认 root 密码。
+  defaultRootPassword: "123456"
+  # +t9k:form
+  # +t9k:description:en Base URL for OpenAI API.
+  # +t9k:description:zh OpenAI API 基础 URL。
+  openAiBaseUrl: "http://app-one-api-xxx:3000/v1"
+  # +t9k:form
+  # +t9k:description:en API key for chat service.
+  # +t9k:description:zh FastGPT API Key。
+  chatApiKey: "sk-xxx"
+  # +t9k:form
+  # +t9k:description:en Maximum database connections.
+  # +t9k:description:zh 最大数据库连接数。
+  dbMaxLink: "30"
+  # +t9k:form
+  # +t9k:description:en Token encryption key.
+  # +t9k:description:zh Token 加密密钥。
+  tokenKey: "any"
+  # +t9k:form
+  # +t9k:description:en Root access key.
+  # +t9k:description:zh Root 访问密钥。
+  rootKey: "root_key"
+  # +t9k:form
+  # +t9k:description:en File token key.
+  # +t9k:description:zh 文件 Token 密钥。
+  fileTokenKey: "filetoken"
+  # +t9k:form
+  # +t9k:description:en Application log level.
+  # +t9k:description:zh 应用日志级别。
+  logLevel: "info"
+  # +t9k:form
+  # +t9k:description:en Storage log level.
+  # +t9k:description:zh 存储日志级别。
+  storeLogLevel: "warn"
+
+  # 应用的配置文件，请参阅 https://doc.tryfastgpt.ai/docs/development/configuration/
+  config:
+    systemEnv:
+      openapiPrefix: "fastgpt"
+      vectorMaxProcess: 15
+      qaMaxProcess: 15
+      pgHNSWEfSearch: 100
+
+    llmModels:
+      - model: "gpt-3.5-turbo"
+        name: "gpt-3.5-turbo"
+        maxContext: 16000
+        maxResponse: 4000
+        quoteMaxToken: 13000
+        maxTemperature: 1.2
+        charsPointsPrice: 0
+        censor: false
+        vision: false
+        datasetProcess: true
+        usedInClassify: true
+        usedInExtractFields: true
+        usedInToolCall: true
+        usedInQueryExtension: true
+        toolChoice: true
+        functionCall: false
+        customCQPrompt: ""
+        customExtractPrompt: ""
+        defaultSystemChatPrompt: ""
+        defaultConfig: {}
+      # 其他 llm model 的配置 ...
+
+    vectorModels:
+      - model: "text-embedding-3-large"
+        name: "Embedding-2"
+        charsPointsPrice: 0
+        defaultToken: 512
+        maxToken: 3000
+        weight: 100
+        dbConfig: {}
+        queryConfig: {}
+        defaultConfig:
+          dimensions: 1024
+      # 其他 vector model 的配置 ...
+
+    # reRankModels: []
+
+    # audioSpeechModels: 
+    #   - model: "tts-1"
+    #     name: "OpenAI TTS1"
+    #     charsPointsPrice: 0
+    #     voices:
+    #       - label: "Alloy"
+    #         value: "alloy"
+    #         bufferId: "openai-Alloy"
+    #       # 其他 voices 的配置 ...
+    #   # 其他 audio speech model 的配置
+
+    # whisperModel:
+    #   model: "whisper-1"
+    #   name: "Whisper1"
+    #   charsPointsPrice: 0
+
+# +t9k:description:en Sandbox config.
+# +t9k:description:zh Sandbox 配置。
+sandbox:
+  # +t9k:form
+  # +t9k:description:en Sandbox API key.
+  # +t9k:description:zh Sandbox API key。
+  apiKey: "dify-sandbox"
+  # +t9k:description:en Sandbox image config.
+  # +t9k:description:zh Sandbox 镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en Sandbox image repository.
+    # +t9k:description:zh Sandbox 镜像名称。
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/fastgpt-sandbox"
+    # +t9k:form
+    # +t9k:description:en Sandbox image tag.
+    # +t9k:description:zh Sandbox 镜像标签。
+    tag: "v4.8.12"
+
+  resources:
+    # +t9k:description:en App resource limit.
+    # +t9k:description:zh App 资源限额。
+    limits:
+      # +t9k:form
+      # +t9k:description:en CPU limit for the App container.
+      # +t9k:description:zh App CPU 限制。
+      cpu: 2    
+      # +t9k:form
+      # +t9k:description:en Memory limit for the App container.
+      # +t9k:description:zh App 内存限制。
+      memory: 4Gi
+
+# +t9k:description:en MongoDB config.
+# +t9k:description:zh MongoDB 配置。
+mongodb:
+  # +t9k:form
+  # +t9k:description:en Enable/disable MongoDB installation.
+  # +t9k:description:zh 是否启用 MongoDB 安装。
+  enabled: true
+  # +t9k:form
+  # +t9k:description:en MongoDB deployment architecture.
+  # +t9k:description:zh MongoDB 部署架构。
+  architecture: replicaset
+  # +t9k:form
+  # +t9k:description:en Number of MongoDB replicas.
+  # +t9k:description:zh MongoDB 副本数。
+  replicaCount: 1
+  # +t9k:form
+  # +t9k:description:en MongoDB replica set name.
+  # +t9k:description:zh MongoDB 副本集名称。
+  replicaSetName: rs0
+
+  # +t9k:description:en MongoDB image config.
+  # +t9k:description:zh MongoDB 镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en MongoDB image registry.
+    # +t9k:description:zh MongoDB 镜像仓库。 
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    # +t9k:form
+    # +t9k:description:en MongoDB image repository.
+    # +t9k:description:zh MongoDB 镜像名称。
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/mongodb"
+    # +t9k:form
+    # +t9k:description:en MongoDB image tag.
+    # +t9k:description:zh MongoDB 镜像标签。
+    tag: 8.0.0-debian-12-r1
+
+  # +t9k:description:en MongoDB auth info.
+  # +t9k:description:zh MongoDB 授权信息。
+  auth:
+    # +t9k:form
+    # +t9k:description:en MongoDB root username.
+    # +t9k:description:zh MongoDB root 用户名。
+    rootUser: root
+    # +t9k:form
+    # +t9k:description:en MongoDB root password.
+    # +t9k:description:zh MongoDB root 密码。
+    rootPassword: "123456"
+
+  # +t9k:description:en MongoDB persistent storage.
+  # +t9k:description:zh MongoDB 持久化存储。
+  persistence:
+    # +t9k:form
+    # +t9k:description:en Enable/disable MongoDB persistence.
+    # +t9k:description:zh 是否启用 MongoDB 持久化。
+    enabled: true
+    # +t9k:form
+    # +t9k:description:en Storage class for MongoDB PVC.
+    # +t9k:description:zh MongoDB PVC 存储类。
+    storageClass: ""
+    # +t9k:form
+    # +t9k:description:en Size of MongoDB PVC.
+    # +t9k:description:zh MongoDB PVC 大小。
+    size: 2Gi 
+
+# +t9k:description:en PostgreSQL config.
+# +t9k:description:zh PostgreSQL 配置。
+postgresql:
+  # +t9k:form
+  # +t9k:description:en Enable/disable PostgreSQL installation.
+  # +t9k:description:zh 是否启用 PostgreSQL 安装。
+  enabled: true
+
+  # +t9k:description:en PostgreSQL image config.
+  # +t9k:description:zh PostgreSQL 镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en PostgreSQL image registry.
+    # +t9k:description:zh PostgreSQL 镜像仓库。 
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    # +t9k:form
+    # +t9k:description:en PostgreSQL image repository.
+    # +t9k:description:zh PostgreSQL 镜像名称。
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/linuxsuren-pgvector"
+    # +t9k:form
+    # +t9k:description:en PostgreSQL image tag.
+    # +t9k:description:zh PostgreSQL 镜像标签。
+    tag: v0.0.1
+
+  global:
+    postgresql:
+      # +t9k:description:en PostgreSQL auth info.
+      # +t9k:description:zh PostgreSQL 授权信息。
+      auth:
+        # +t9k:form
+        # +t9k:description:en PostgreSQL admin password.
+        # +t9k:description:zh PostgreSQL admin 密码。
+        postgresPassword: postgres
+        # +t9k:form
+        # +t9k:description:en Default PostgreSQL database name.
+        # +t9k:description:zh 默认 PostgreSQL 数据库名称。
+        database: postgres

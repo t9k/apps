@@ -1,0 +1,86 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en Search with Lepton image config.
+# +t9k:description:zh Search with Lepton 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en Search with Lepton image registry.
+  # +t9k:description:zh Search with Lepton 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en Search with Lepton image repository.
+  # +t9k:description:zh Search with Lepton 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/search-with-lepton"
+  # +t9k:form
+  # +t9k:description:en Search with Lepton image tag.
+  # +t9k:description:zh Search with Lepton 镜像标签。
+  tag: "20240208"
+  # +t9k:form
+  # +t9k:description:en Search with Lepton image pull policy.
+  # +t9k:description:zh Search with Lepton 镜像拉取策略。
+  pullPolicy: IfNotPresent
+
+resources:
+  # +t9k:description:en Search with Lepton container resource limits.
+  # +t9k:description:zh Search with Lepton 容器资源限制。
+  limits:
+    # +t9k:form
+    # +t9k:description:en Search with Lepton container resource limits for CPU.
+    # +t9k:description:zh Search with Lepton 容器资源限制 CPU。
+    cpu: 1
+    # +t9k:form
+    # +t9k:description:en Search with Lepton container resource limits for memory.
+    # +t9k:description:zh Search with Lepton 容器资源限制 内存。
+    memory: 2Gi
+
+# +t9k:description:en LLM config.
+# +t9k:description:zh LLM 配置。
+llm:
+  # 兼容 OpenAI API 的服务器的 URL
+  # 如使用 OpenAI API，请设为 "https://api.openai.com/v1"
+
+  # +t9k:form
+  # +t9k:description:en Base URL for OpenAI API-compatible service.
+  # +t9k:description:zh 兼容 OpenAI API 的服务的 URL。
+  baseUrl: "https://api.openai.com/v1"
+  # +t9k:form
+  # +t9k:description:en API key for accessing the OpenAI API.
+  # +t9k:description:zh 访问 OpenAI API 的 API 密钥。
+  apiKey: ""
+  # 调用的模型名称，例如 "gpt-3.5-turbo"、"gpt-4-turbo" 或 "gpt-4o"
+  # +t9k:form
+  # +t9k:description:en Name of the model to be used.
+  # +t9k:description:zh 要使用的模型名称。
+  modelName: ""
+
+# +t9k:description:en Search engine config.
+# +t9k:description:zh 搜索引擎配置。
+searchEngine:
+  # 使用的搜索引擎提供商
+  # 应为 "BING"、"GOOGLE"、"SERPER" 或 "SEARCHAPI"
+  #
+  # +t9k:form
+  # +t9k:description:en Search engine provider to be used (`BING`, `GOOGLE`, `SERPER`, or `SEARCHAPI`).
+  # +t9k:description:zh 使用的搜索引擎提供商（`BING`, `GOOGLE`, `SERPER`, 或 `SEARCHAPI`）。
+  provider: ""
+  # +t9k:form
+  # +t9k:description:en API key for accessing the search engine provider's API.
+  # +t9k:description:zh 访问搜索引擎提供商 API 的 API 密钥。
+  apiKey: ""
+  google:
+    # +t9k:form
+    # +t9k:description:en Custom search engine (Google) key.
+    # +t9k:description:zh 自定义搜索引擎（Google）密钥。
+    cxKey: ""
+
+# +t9k:form
+# +t9k:description:en Array of extra environment variables.
+# +t9k:description:zh 额外的环境变量列表。
+env: []
+  # # HTTP 和 HTTPS 代理
+  # - name: HTTP_PROXY
+  #   value: ""
+  # - name: HTTPS_PROXY
+  #   value: ""
+  # - name: NO_PROXY
+  #   value: ".cluster.local"

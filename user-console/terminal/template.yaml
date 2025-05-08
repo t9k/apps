@@ -14,7 +14,7 @@ template:
     chart: "terminal"
     versions:
     - version: 0.2.1
-      config: "file://$APP_DIR/configs/v0_2_1.yaml"
+      config: "file://$APP_DIR/configs/v2/v0_2_1.yaml"
       urls: 
       - name: terminal
         url: /apps/{{ .Release.Namespace }}/terminal/{{ .Release.Name }}/

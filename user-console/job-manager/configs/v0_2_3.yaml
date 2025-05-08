@@ -1,3 +1,5 @@
+# +t9k:form:pattern v2
+
 network:
   domain:
     home: "$(T9K_HOME_DOMAIN)"

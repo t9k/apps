@@ -13,7 +13,7 @@ template:
     versions:
     - version: 15.6.1
       urls: []
-      config: "file://$APP_DIR/configs/v15_6_1.yaml"
+      config: "file://$APP_DIR/configs/v2/v15_6_1.yaml"
       readinessProbe:
         resources:
         - group: apps
@@ -25,7 +25,7 @@ template:
       dependencies: {}
     - version: 14.13.0
       urls: []
-      config: "file://$APP_DIR/configs/v14_13_0.yaml"
+      config: "file://$APP_DIR/configs/v2/v14_13_0.yaml"
       readinessProbe:
         resources:
         - group: apps

@@ -1,0 +1,19 @@
+# +t9k:form:pattern v2
+
+serviceAccount: managed-project-sa
+
+# +t9k:description:en Argo Workflow image config.
+# +t9k:description:zh Argo Workflow 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en Argo Workflow image registry.
+  # +t9k:description:zh Argo Workflow 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en Argo Workflow image repository.
+  # +t9k:description:zh Argo Workflow 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/argocli"
+  # +t9k:form
+  # +t9k:description:en Argo Workflow image tag.
+  # +t9k:description:zh Argo Workflow 镜像标签。
+  tag: "v3.6.4"

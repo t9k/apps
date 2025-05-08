@@ -13,7 +13,7 @@ template:
     chart: "one-api"
     versions:
     - version: 0.1.1
-      config: "file://$APP_DIR/configs/v0_1_1.yaml"
+      config: "file://$APP_DIR/configs/v2/v0_1_1.yaml"
       urls: []
       readinessProbe:
         resources:

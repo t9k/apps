@@ -1,0 +1,21 @@
+# +t9k:form:pattern v2
+
+# +required
+# +t9k:form
+# +t9k:description:zh 绑定一个 PVC 作为 File Browser 工作空间。 
+# +t9k:description:en Mount a PVC as File Browser workspace.
+pvc: ""
+
+resources:
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
+  limits:
+    # +t9k:form
+    # +t9k:description:en CPU limit for the App container.
+    # +t9k:description:zh App CPU 限制。
+    cpu: 100m
+    # +t9k:form
+    # +t9k:description:en Memory limit for the App container.
+    # +t9k:description:zh App 内存限制。
+    memory: 200Mi
+

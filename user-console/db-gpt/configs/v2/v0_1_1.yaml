@@ -1,0 +1,93 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en DB-GPT image config.
+# +t9k:description:zh DB-GPT 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en DB-GPT image registry.
+  # +t9k:description:zh DB-GPT 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en DB-GPT image repository.
+  # +t9k:description:zh DB-GPT 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/dbgpt-allinone"
+  # +t9k:form
+  # +t9k:description:en DB-GPT image tag.
+  # +t9k:description:zh DB-GPT 镜像标签。
+  tag: "v0.6.2"
+  pullPolicy: IfNotPresent
+
+# +t9k:description:en Dotenv config.
+# +t9k:description:zh Dotenv 配置。
+dotenv:
+  # +t9k:form
+  # +t9k:description:en Add Dotenv to DB-GPT.
+  # +t9k:description:zh 为 DB-GPT 添加环境变量。
+  enabled: true
+  # 应用的配置，请参阅 https://github.com/eosphoros-ai/DB-GPT/blob/main/.env.template
+  #
+  # 聊天模型配置示例
+  #   LLM_MODEL=proxyllm
+  #   PROXY_SERVER_URL=http://app-vllm-1264b243.dev-xyx.nc201.ksvc.tensorstack.net/v1/chat/completions
+  #   PROXY_API_KEY=any
+  #   PROXYLLM_BACKEND=qwen2.5:7b
+  #
+  # 嵌入模型配置示例
+  #   EMBEDDING_MODEL=proxy_http_openapi
+  #   proxy_http_openapi_proxy_server_url=http://app-vllm-4b9ab43.dev-xyx.nc201.ksvc.tensorstack.net/v1/embeddings
+  #   proxy_http_openapi_proxy_api_key=any
+  #   proxy_http_openapi_proxy_backend=e5-mistral-7b-instruct
+  #
+  # +t9k:form
+  # +t9k:description:en Environment variables configuration.
+  # +t9k:description:zh 环境变量配置。
+  data: |-
+    LLM_MODEL=proxyllm
+    PROXY_SERVER_URL=
+    PROXY_API_KEY=
+    PROXYLLM_BACKEND=
+
+    EMBEDDING_MODEL=proxy_http_openapi
+    proxy_http_openapi_proxy_server_url=
+    proxy_http_openapi_proxy_api_key=
+    proxy_http_openapi_proxy_backend=
+
+    LOCAL_DB_HOST=127.0.0.1
+    LOCAL_DB_PASSWORD=aa123456
+    MYSQL_ROOT_PASSWORD=aa123456
+    ALLOWLISTED_PLUGINS=db_dashboard
+    LANGUAGE=zh
+
+resources:
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
+  limits:
+    # +t9k:form
+    # +t9k:description:en CPU limit for the App container.
+    # +t9k:description:zh App CPU 限制。
+    cpu: 4  
+    # +t9k:form
+    # +t9k:description:en Memory limit for the App container.
+    # +t9k:description:zh App 内存限制。
+    memory: 8Gi
+
+# +t9k:description:en PVC config.
+# +t9k:description:zh 存储卷配置。
+persistence:
+  # +t9k:form
+  # +t9k:description:en Add pvc to DB-GPT.
+  # +t9k:description:zh 为 DB-GPT 添加 PVC。
+  enabled: true
+  # +t9k:form
+  # +t9k:description:en PVC size.
+  # +t9k:description:zh 存储卷大小。
+  size: 20Gi
+  # Storage class for the PVC.
+  storageClass: ""
+  # Access mode for the PVC.
+  accessMode: ReadWriteMany
+
+# +t9k:form
+# +t9k:description:en Array of extra environment variables.
+# +t9k:description:zh 额外的环境变量列表。
+env: []

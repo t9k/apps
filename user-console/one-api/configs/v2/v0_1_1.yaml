@@ -1,0 +1,116 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en One API image config.
+# +t9k:description:zh One API 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en One API image registry.
+  # +t9k:description:zh One API 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en One API image repository.
+  # +t9k:description:zh One API 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/one-api"
+  # +t9k:form
+  # +t9k:description:en One API image tag.
+  # +t9k:description:zh One API 镜像标签。
+  tag: "v0.6.10"
+  pullPolicy: IfNotPresent
+
+resources:
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
+  limits:
+    # +t9k:form
+    # +t9k:description:en CPU limit for the App container.
+    # +t9k:description:zh App CPU 限制。
+    cpu: 1    
+    # +t9k:form
+    # +t9k:description:en Memory limit for the App container.
+    # +t9k:description:zh App 内存限制。
+    memory: 2Gi
+
+# +t9k:description:en One API persistence config.
+# +t9k:description:zh One API 持久化配置。
+persistence:
+  # +t9k:form
+  # +t9k:description:en Enable/disable persistence using PVC.
+  # +t9k:description:zh 是否启用持久化存储。
+  enabled: true
+  # +t9k:form
+  # +t9k:description:en Size of the PVC.
+  # +t9k:description:zh One API 存储卷大小。
+  size: 500Mi
+  # +t9k:form
+  # +t9k:description:en Storage class for the PVC.
+  # +t9k:description:zh One API 存储卷类型。
+  storageClass: ""
+  # +t9k:form
+  # +t9k:description:en Access mode for the PVC.
+  # +t9k:description:zh One API 存储卷访问模式。
+  accessMode: ReadWriteMany
+  # +t9k:form
+  # +t9k:description:en Name of an existing PVC to use.
+  # +t9k:description:zh 使用已存在的存储卷。
+  existingClaim: ""
+
+# +t9k:description:en MySQL config.
+# +t9k:description:zh MySQL 配置。
+mysql:
+  # +t9k:form
+  # +t9k:description:en Enable/disable MySQL.
+  # +t9k:description:zh 是否启用 MySQL。
+  enabled: true
+
+  # +t9k:description:en MySQL image config.
+  # +t9k:description:zh MySQL 镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en MySQL image registry.
+    # +t9k:description:zh MySQL 镜像仓库。
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    # +t9k:form
+    # +t9k:description:en MySQL image repository.
+    # +t9k:description:zh MySQL 镜像名称。
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/mysql"
+    # +t9k:form
+    # +t9k:description:en MySQL image tag.
+    # +t9k:description:zh MySQL 镜像标签。
+    tag: 5.7.43
+    # +t9k:form
+    # +t9k:description:en MySQL image pull policy.
+    # +t9k:description:zh MySQL 镜像拉取策略。
+    pullPolicy: IfNotPresent
+
+  # +t9k:description:en MySQL auth config.
+  # +t9k:description:zh MySQL 认证配置。
+  auth:
+    # +t9k:form
+    # +t9k:description:en MySQL database name.
+    # +t9k:description:zh MySQL 数据库名称。
+    database: oneapi
+    # +t9k:form
+    # +t9k:description:en MySQL root password.
+    # +t9k:description:zh MySQL root 密码。
+    rootPassword: "123456"
+
+  # +t9k:description:en MySQL primary config.
+  # +t9k:description:zh MySQL 主配置。
+  primary:
+    resources:
+      # +t9k:description:en MySQL resource limit.
+      # +t9k:description:zh MySQL 资源限额。
+      limits:
+        # +t9k:form
+        # +t9k:description:en CPU limit for the MySQL container.
+        # +t9k:description:zh MySQL CPU 限制。
+        cpu: 1
+        # +t9k:form
+        # +t9k:description:en Memory limit for the MySQL container.
+        # +t9k:description:zh MySQL 内存限制。
+        memory: 2Gi
+    persistence:
+      # +t9k:form
+      # +t9k:description:en Enable/disable persistence using PVC.
+      # +t9k:description:zh 是否启用持久化存储。
+      enabled: true

@@ -13,7 +13,7 @@ template:
     chart: "nextchat"
     versions:
     - version: 0.2.2
-      config: "file://$APP_DIR/configs/v0_2_2.yaml"
+      config: "file://$APP_DIR/configs/v2/v0_2_2.yaml"
       urls: []
       readinessProbe:
         resources:

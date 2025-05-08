@@ -12,7 +12,7 @@ template:
     chart: "code-server"
     versions:
     - version: 0.3.2
-      config: "file://$APP_DIR/configs/v0_3_2.yaml"
+      config: "file://$APP_DIR/configs/v2/v0_3_2.yaml"
       urls: 
       - name: UI
         url: /apps/{{ .Release.Namespace }}/code-server/{{ .Release.Name }}/

@@ -1,0 +1,167 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en GPT Researcher image config.
+# +t9k:description:zh GPT Researcher 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en GPT Researcher image registry.
+  # +t9k:description:zh GPT Researcher 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en GPT Researcher image repository.
+  # +t9k:description:zh GPT Researcher 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/gpt-researcher"
+  # +t9k:form
+  # +t9k:description:en GPT Researcher image tag.
+  # +t9k:description:zh GPT Researcher 镜像标签。
+  tag: "v3.1.5"
+  pullPolicy: IfNotPresent
+
+resources:
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
+  limits:
+    # +t9k:form
+    # +t9k:description:en CPU limit for the App container.
+    # +t9k:description:zh App CPU 限制。
+    cpu: 1    
+    # +t9k:form
+    # +t9k:description:en Memory limit for the App container.
+    # +t9k:description:zh App 内存限制。
+    memory: 2Gi
+
+# +t9k:description:en LLM config.
+# +t9k:description:zh LLM 配置。
+llm:
+  # 使用的模型提供商，应为 "openai" 或 "ollama"
+  #
+  # +t9k:form
+  # +t9k:description:en Provider of the language model (`openai` or `ollama`).
+  # +t9k:description:zh LLM 提供商，应为 "openai" 或 "ollama"。
+  provider: ""
+  # 兼容 OpenAI API 的服务的 URL
+  # 如使用 OpenAI API，请设为 "https://api.openai.com/v1"
+  # 如使用 Ollama 的 OpenAI 兼容 API，请设为 "http://app-ollama-xxxxxx.project.svc.cluster.local:11434"
+  #
+  # +t9k:form
+  # +t9k:description:en Base URL for OpenAI API-compatible service.
+  # +t9k:description:zh 兼容 OpenAI API 的服务的 URL。
+  baseUrl: ""
+  # +t9k:form
+  # +t9k:description:en API key for the language model provider.
+  # +t9k:description:zh LLM 提供商的 API Key。
+  apiKey: ""
+  # +t9k:form
+  # +t9k:description:en Model name for fast LLM operations such summaries.
+  # +t9k:description:zh 用于快速 LLM 操作的模型名称，如总结。
+  fastLlm: "openai:gpt-4o-mini"
+  # +t9k:form
+  # +t9k:description:en Model name for smart LLM operations such as generating research reports and reasoning.
+  # +t9k:description:zh 用于智能 LLM 操作的模型名称，如生成研究报告和推理。
+  smartLlm: "openai:gpt-4o"
+  # +t9k:form
+  # +t9k:description:en Model name for strategic LLM operations such as generating research plans and strategies.
+  # +t9k:description:zh 用于 LLM 操作的模型名称，如生成研究计划和策略。
+  strategicLlm: "openai:o1-preview"
+  # +t9k:form
+  # +t9k:description:en Embedding model for vector similarity search.
+  # +t9k:description:zh 用于向量相似度搜索的 Embedding 模型。
+  embedding: "openai:text-embedding-3-small"
+  # +t9k:form
+  # +t9k:description:en Maximum token limit for fast LLM responses.
+  # +t9k:description:zh 用于快速 LLM 响应的最大 Token 限制。
+  fastTokenLimit: "2000"
+  # +t9k:form
+  # +t9k:description:en Maximum token limit for smart LLM responses.
+  # +t9k:description:zh 用于智能 LLM 响应的最大 Token 限制。
+  smartTokenLimit: "4000"
+  # +t9k:form
+  # +t9k:description:en Maximum token limit for generating summaries.
+  # +t9k:description:zh 用于生成总结的最大 Token 限制。
+  summaryTokenLimit: "700"
+  # +t9k:form
+  # +t9k:description:en Sampling temperature for LLM responses, typically between 0 and 1. A higher value results in more randomness and creativity, while a lower value results in more focused and deterministic responses.
+  # +t9k:description:zh LLM 响应的采样温度，通常在 0 和 1 之间。较高的值会导致更多的随机性和创造力，而较低的值会导致更集中和确定性的响应。
+  temperature: "0.55"
+
+# +t9k:description:en Retriever config.
+# +t9k:description:zh Retriever 配置。
+retriever:
+  # +t9k:form
+  # +t9k:description:en Provider of the web search engine， refer to https://docs.gptr.dev/docs/gpt-researcher/search-engines/retrievers.
+  # +t9k:description:zh 搜索引擎提供商，请参阅 https://docs.gptr.dev/docs/gpt-researcher/search-engines/retrievers。
+  provider: ""
+  # 对于 "duckduckgo"、"arxiv"，无需提供 API Key
+  # 对于 "Searx"，请设为 Searx 的服务端点
+  #
+  # +t9k:form
+  # +t9k:description:en API key for the search engine provider.
+  # +t9k:description:zh 搜索引擎提供商的 API Key。
+  apiKey: ""
+  google:
+    # +t9k:form
+    # +t9k:description:en CX key for Google search engine provider.
+    # +t9k:description:zh Google 搜索引擎提供商的 CX Key。
+    cxKey: ""
+
+# +t9k:description:en App config.
+# +t9k:description:zh App 配置。
+app:
+  # 应用的其他设置
+  # 
+  # +t9k:form
+  # +t9k:description:en Custom User-Agent string for web crawling and web requests.
+  # +t9k:description:zh 用于 web 爬取和 web 请求的自定义 User-Agent 字符串。
+  userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0"
+  # +t9k:form
+  # +t9k:description:en Threshold for determining when two documents are similar enough to be considered redundant.
+  # +t9k:description:zh 当两个文档足够相似时，认为它们是冗余的阈值。
+  similarityThreshold: 0.38
+  # +t9k:form
+  # +t9k:description:en Maximum length of text chunks to browse in web sources.
+  # +t9k:description:zh 浏览 web 源时文本块的最大长度。
+  browseChunkMaxLength: 8192
+  # +t9k:form
+  # +t9k:description:en Maximum search results per query.
+  # +t9k:description:zh 每个查询的最大搜索结果数。
+  maxSearchResultsPerQuery: 5
+  # +t9k:form
+  # +t9k:description:en Backend used for memory operations, such as local storage of temporary data.
+  # +t9k:description:zh 用于内存操作的后端，如临时数据的本地存储。
+  memoryBackend: local
+  # +t9k:form
+  # +t9k:description:en Total word count limit for document generation or processing tasks.
+  # +t9k:description:zh 文档生成或处理任务的总字数限制。
+  totalWords: 800
+  # +t9k:form
+  # +t9k:description:en Preferred format for report generation (`APA`, `MLA`, `CMS`, `Harvard style`, or `IEEE`).
+  # +t9k:description:zh 报告生成的首选格式（`APA`、`MLA`、`CMS`、`Harvard style` 或 `IEEE`）。
+  reportFormat: APA
+  # +t9k:form
+  # +t9k:description:en Maximum number of iterations for processes like query expansion or search refinement.
+  # +t9k:description:zh 用于查询扩展或搜索细化的进程的最大迭代次数。
+  maxIterations: 3
+  # +t9k:form
+  # +t9k:description:en Role of the agent, this might be used to customize the behavior of the agent based on its assigned roles.
+  # +t9k:description:zh 代理的角色，这可能会根据其分配的角色来定制代理的行为。
+  agentRole: None
+  # +t9k:form
+  # +t9k:description:en Web scraper to use for gathering information.
+  # +t9k:description:zh 用于收集信息的 Web 爬虫。
+  scraper: "bs"
+  # +t9k:form
+  # +t9k:description:en Maximum number of subtopics to generate or consider. 
+  # +t9k:description:zh 要生成或考虑的最大子主题数。
+  maxSubtopics: 3
+
+# +t9k:form
+# +t9k:description:en Array of extra environment variables.
+# +t9k:description:zh 额外的环境变量列表。
+env: []
+  # # HTTP 和 HTTPS 代理
+  # - name: HTTP_PROXY
+  #   value: ""
+  # - name: HTTPS_PROXY
+  #   value: ""
+  # - name: NO_PROXY
+  #   value: ".cluster.local"

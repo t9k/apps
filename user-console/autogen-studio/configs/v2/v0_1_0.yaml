@@ -1,0 +1,31 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en AutoGen Studio image config.
+# +t9k:description:zh AutoGen Studio 镜像信息。
+image:  
+  # +t9k:form
+  # +t9k:description:en AutoGen Studio image registry.
+  # +t9k:description:zh AutoGen Studio 镜像仓库。
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en AutoGen Studio image repository.
+  # +t9k:description:zh AutoGen Studio 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/autogen-studio"
+  # +t9k:form
+  # +t9k:description:en AutoGen Studio image tag.
+  # +t9k:description:zh AutoGen Studio 镜像标签。
+  tag: "v0.4.3"
+  pullPolicy: IfNotPresent
+
+resources:
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
+  limits:
+    # +t9k:form
+    # +t9k:description:en CPU limit for the App container.
+    # +t9k:description:zh App CPU 限制。
+    cpu: 2
+    # +t9k:form
+    # +t9k:description:en Memory limit for the App container.
+    # +t9k:description:zh App 内存限制。
+    memory: 4Gi

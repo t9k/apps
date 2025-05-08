@@ -12,7 +12,7 @@ template:
     chart: "label-studio"
     versions:
     - version: 1.7.2
-      config: "file://$APP_DIR/configs/v1_7_2.yaml"
+      config: "file://$APP_DIR/configs/v2/v1_7_2.yaml"
       urls:
       - name: UI
         url: /apps/{{ .Release.Namespace }}/label-studio/{{ .Release.Name }}/
