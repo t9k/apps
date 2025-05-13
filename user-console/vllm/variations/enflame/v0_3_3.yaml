@@ -107,11 +107,8 @@ server:
       # - "--tensor-parallel-size=4"
       # - "--trust-remote-code"
       # - "--enforce-eager"
-      # - "--gpu-memory-utilization=0.95"
+      # - "--gpu-memory-utilization=1.0"
       # - "--max-model-len=8192"
-      # - "--max-num-seqs=64"
-      # - "--enable-reasoning"
-      # - "--reasoning-parser=deepseek_r1"
       # - "--quantization=bitsandbytes"
       # - "--load-format=bitsandbytes"
 
