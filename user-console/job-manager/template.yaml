@@ -11,7 +11,7 @@ template:
     repo: "oci://docker.io/t9kpublic"
     chart: "job-manager"
     versions:
-    - version: 0.2.3
+    - version: 0.2.4
       config: "file://$APP_DIR/configs/v0_2_3.yaml"
       urls:
       - name: job-manager

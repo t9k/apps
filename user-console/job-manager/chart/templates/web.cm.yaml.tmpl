@@ -7,7 +7,8 @@ data:
       "namespace": "{{ .Release.Namespace }}",
       "gpuExtendedResources": {{ .Values.cluster.extendedResources.gpu | toJson }},
       "appVersion": "{{ .Chart.AppVersion }}",
-      "useT9kScheduler": {{ .Values.t9kScheduler.enabled }}
+      "useT9kScheduler": {{ .Values.t9kScheduler.enabled }},
+      "useKueue": {{ .Values.kueue.enabled }}
     }
 kind: ConfigMap
 metadata:
