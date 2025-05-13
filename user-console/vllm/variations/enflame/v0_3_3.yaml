@@ -1,56 +1,97 @@
-## @param server.image.registry Repository registry for the server image
-## @param server.image.repository Repository name for the server image
-## @param server.image.tag Image tag for the server image (immutable tags are recommended)
-## @param server.image.pullPolicy Image pull policy for the server image
-## @param server.resources.limits.cpu CPU limit for Kubernetes resources
-## @param server.resources.limits.memory Memory limit for Kubernetes resources
-## @param server.resources.limits."enflame.com/gcu" Enflame GCU limit for Kubernetes resources
-## @param server.model.deployName Name by which the model is deployed
-## @param server.model.volume.storageClass Storage class for the model volume
-## @param server.model.volume.size Size of the model volume
-## @param server.model.volume.accessModes Access modes for the model volume
-## @param server.model.volume.existingClaim PVC for the model volume, if bringing your own PVC
-## @param server.model.volume.subPath Subdirectory of the model volume to mount
-## @param server.autoScaling.minReplicas Minimum number of replicas for autoscaling
-## @param server.autoScaling.maxReplicas Maximum number of replicas for autoscaling
-## @param server.autoScaling.annotations Annotations for Knative Service autoscaling
-## @param server.app.extraArgs Extra arguments for vLLM engine
-## @param server.env Extra environment variables to add to vLLM server container
-## @param server.extraVolumeMounts Extra volumeMounts to add to vLLM server container
-## @param server.extraVolume Extra volumes to add to vLLM server Pod
-## @param server.securityContext Extra security contexts to add to vLLM server container
-## @param server.nodeSelector Node labels for vLLM server Pod assignment
-##
+# +t9k:form:pattern v2
+
+# +t9k:description:en vLLM server config.
+# +t9k:description:zh vLLM 服务器配置。
 server:
+  # +t9k:description:en vLLM image config.
+  # +t9k:description:zh vLLM 镜像信息。
   image:
+    # +t9k:form
+    # +t9k:description:en vLLM image registry.
+    # +t9k:description:zh vLLM 镜像仓库。 
     registry: "registry.qy.t9kcloud.cn"
+    # +t9k:form
+    # +t9k:description:en vLLM image repository.
+    # +t9k:description:zh vLLM 镜像名称。
     repository: "topsrider/vllm-openai"
+    # +t9k:form
+    # +t9k:description:en vLLM image tag.
+    # +t9k:description:zh vLLM 镜像标签。
     tag: "20250224"
+    # +t9k:form
+    # +t9k:description:en vLLM image pull policy.
+    # +t9k:description:zh vLLM 镜像拉取策略。
     pullPolicy: IfNotPresent
 
   resources:
+    # +t9k:description:en App resource limit.
+    # +t9k:description:zh App 资源限额。
     limits:
+      # +t9k:form
+      # +t9k:description:en CPU limit for the App container.
+      # +t9k:description:zh App CPU 限制。
       cpu: 4
+      # +t9k:form
+      # +t9k:description:en Memory limit for the App container.
+      # +t9k:description:zh App 内存限制。
       memory: 64Gi
+      # +t9k:form
+      # +t9k:description:en Enflame GCU limit for the App container.
+      # +t9k:description:zh App Enflame GCU 限制。
       enflame.com/gcu: 1
 
+  # +t9k:description:en Model config.
+  # +t9k:description:zh 模型配置。
   model:
     # 模型以该名称被部署
+    #
+    # +t9k:form
+    # +t9k:description:en Name by which the model is deployed.
+    # +t9k:description:zh 模型以该名称被部署。
     deployName: ""
 
+    # +t9k:description:en PVC config.
+    # +t9k:description:zh PVC 配置。
     volume:
+      # t9k:form
+      # +t9k:description:en Storage class for the PVC.
+      # +t9k:description:zh 存储卷的存储类。
       storageClass: ""
+      # +t9k:form
+      # +t9k:description:en Size of the PVC.
+      # +t9k:description:zh 存储卷大小。
       size: 32Gi
+      # +t9k:form
+      # +t9k:description:en Access modes for the PVC.
+      # +t9k:description:zh 存储卷访问模式。
       accessModes:
         - ReadWriteOnce
+      # +t9k:form
+      # +t9k:description:en Name of an existing PVC to use.
+      # +t9k:description:zh 使用一个已有的存储卷。
       existingClaim: ""
+      # +t9k:form
+      # +t9k:description:en Subdirectory of the PVC to mount as model files.
+      # +t9k:description:zh 存储卷的子目录作为模型文件挂载。
       subPath: ""
 
+  # +t9k:description:en vLLM auto scaling config.
+  # +t9k:description:zh vLLM 自动扩缩容配置。
   autoScaling:
+    # +t9k:form
+    # +t9k:description:en Minimum number of replicas for autoscaling.
+    # +t9k:description:zh Autoscaling 的最小副本数。
     minReplicas: 1
+    # +t9k:form
+    # +t9k:description:en Maximum number of replicas for autoscaling.
+    # +t9k:description:zh Autoscaling 的最大副本数。
     maxReplicas: 1
 
     # 为 Knative Service 设置的注解，参考 https://knative.dev/docs/serving/autoscaling/autoscaling-metrics/
+    #
+    # +t9k:form
+    # +t9k:description:en Annotations for Knative Service autoscaling.
+    # +t9k:description:zh Knative Service 的 Autoscaling 注解。
     annotations: {}
       # autoscaling.knative.dev/metric: "concurrency"
       # autoscaling.knative.dev/target-utilization-percentage: "70" 
@@ -58,56 +99,102 @@ server:
   app:
     # 为 vLLM engine 设置的额外参数，参考 https://docs.vllm.ai/en/latest/models/engine_args.html
     # 请勿设置 --model, --served-model-name
+    #
+    # +t9k:form
+    # +t9k:description:en Extra arguments for vLLM engine.
+    # +t9k:description:zh vLLM engine 的额外参数。
     extraArgs: []
       # - "--tensor-parallel-size=4"
       # - "--trust-remote-code"
       # - "--enforce-eager"
-      # - "--gpu-memory-utilization=1.0"
+      # - "--gpu-memory-utilization=0.95"
       # - "--max-model-len=8192"
+      # - "--max-num-seqs=64"
+      # - "--enable-reasoning"
+      # - "--reasoning-parser=deepseek_r1"
       # - "--quantization=bitsandbytes"
       # - "--load-format=bitsandbytes"
 
+  # +t9k:form
+  # +t9k:description:en Array of extra environment variables.
+  # +t9k:description:zh 额外的环境变量。
   env: []
+    # - name: VLLM_USE_V1
+    #   value: "1"
 
+  # +t9k:form
+  # +t9k:description:en Array of extra volumeMounts.
+  # +t9k:description:zh 额外的 volumeMounts。 
   extraVolumeMounts: []
+  # +t9k:form
+  # +t9k:description:en Array of extra volumes.
+  # +t9k:description:zh 额外的 volumes。
   extraVolume: []
 
+  # +t9k:form
+  # +t9k:description:en Extra security contexts to add to vLLM server container.
+  # +t9k:description:zh 额外的安全上下文。
   securityContext: {}
+  # +t9k:form
+  # +t9k:description:en Node labels for vLLM server Pod assignment.
+  # +t9k:description:zh vLLM server Pod 的节点标签。
   nodeSelector: {}
 
-## @param datacube.source Source of the model files (`huggingface`, `git`, `s3`, or "")
-## @param datacube.huggingface.id Hugging Face ID of the model
-## @param datacube.huggingface.files Files to download from the Hugging Face model repository
-## @param datacube.huggingface.existingSecret Secret whose value of key `token` is used as the Hugging Face token
-## @param datacube.git.url Git repository URL for the model
-## @param datacube.git.ref Git branch, tag, or commit for the model
-## @param datacube.git.existingSecret Secret whose value of key `token` is used as the Git token
-## @param datacube.s3.url S3 URL for the model
-## @param datacube.s3.existingSecret Secret of type s3-env containing the S3 credentials
-## @param datacube.env Extra environment variables to add to datacube container
-##
+# +t9k:description:en Datacube config.
+# +t9k:description:zh Datacube 配置。
 datacube:
-  # 模型文件来源，应为 ""、"huggingface"、"git" 或 "s3"，"" 表示模型文件已存在，不使用 DataCube 下载
+  # +t9k:form
+  # +t9k:description:en Source of the model files (`huggingface`, `git`, `s3`, or "").
+  # +t9k:description:zh 模型文件来源，应为 ""、"huggingface"、"git" 或 "s3"，"" 表示模型文件已存在，不使用 DataCube 下载。
   source: ""
+
+  # +t9k:description:en Hugging Face config.
+  # +t9k:description:zh Hugging Face 配置。
   huggingface:
-    # 模型的 Hugging Face ID，例如 "meta-llama/Meta-Llama-3-8B"
+    # +t9k:form
+    # +t9k:description:en Hugging Face ID of the model.
+    # +t9k:description:zh 模型的 Hugging Face ID，例如 "meta-llama/Meta-Llama-3-8B"。
     id: ""
-    # 下载的文件列表，例如 "README.md,tokenizer.json,tokenizer_config.json"，默认为所有文件
+    # +t9k:form
+    # +t9k:description:en Files to download from the Hugging Face model repository.
+    # +t9k:description:zh 从 Hugging Face 模型仓库下载的文件列表，例如 "README.md,tokenizer.json,tokenizer_config.json"，默认为所有文件。
     files: ""
-    # 引用 Secret 的键 token 的值作为 Hugging Face token
+    # +t9k:form
+    # +t9k:description:en Secret whose value of key `token` is used as the Hugging Face token.
+    # +t9k:description:zh 引用 Secret 的 token（Secret 中一个 key）值作为 Hugging Face token。
     existingSecret: ""
+
+  # +t9k:description:en Git config.
+  # +t9k:description:zh Git 配置。
   git:
-    # Git 仓库路径
+    # +t9k:form
+    # +t9k:description:en Git repository URL for the model.
+    # +t9k:description:zh Git 仓库路径。
     url: ""
-    # 分支、标签或 commit
+    # +t9k:form
+    # +t9k:description:en Git branch, tag, or commit for the model.
+    # +t9k:description:zh 分支、标签或 commit。
     ref: ""
-    # 引用 Secret 的键 token 的值作为 Git token
+    # +t9k:form
+    # +t9k:description:en Secret whose value of key `token` is used as the Git token.
+    # +t9k:description:zh 引用 Secret 的 token（Secret 中一个 key）值作为 Git token。
     existingSecret: ""
+  
+  # +t9k:description:en S3 config.
+  # +t9k:description:zh S3 配置。
   s3:
-    # S3 路径
+    # +t9k:form
+    # +t9k:description:en S3 URL for the model.
+    # +t9k:description:zh S3 路径。
     url: ""
-    # 引用 s3-env 类型的 Secret 的键值
+    # +t9k:form
+    # +t9k:description:en Secret of type s3-env containing the S3 credentials.
+    # +t9k:description:zh 引用 s3-env 类型的 Secret 的键值。
     existingSecret: ""
+  
+  # +t9k:form
+  # +t9k:description:en Array of extra environment variables.
+  # +t9k:description:zh 额外的环境变量列表。
   env: []
     # - name: http_proxy
     #   value: ""
@@ -116,10 +203,6 @@ datacube:
     # - name: HF_ENDPOINT
     #   value: ""
 
-## @param initializer.image.registry Repository registry for the initializer image
-## @param initializer.image.repository Repository name for the initializer image
-## @param initializer.image.tag Image tag for the initializer image (immutable tags are recommended)
-## @param initializer.image.pullPolicy Image pull policy for the initializer image
 initializer:
   # 初始化器镜像，请勿修改
   image:
