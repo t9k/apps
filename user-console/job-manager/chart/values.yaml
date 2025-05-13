@@ -36,3 +36,6 @@ cluster:
 
 t9kScheduler:
   enabled: false
+
+kueue:
+  enabled: false
