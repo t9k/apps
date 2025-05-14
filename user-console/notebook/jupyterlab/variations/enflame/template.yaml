@@ -12,8 +12,8 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "jupyterlab-enflame"
     versions:
-    - version: 0.2.3
-      config: "file://$APP_DIR/configs/v0_2_3.yaml"
+    - version: 0.2.4
+      config: "file://$APP_DIR/configs/v0_2_4.yaml"
       urls: 
       - name: "jupyter"
         url: "/t9k/notebooks/projects/{{ .Release.Namespace }}/name/{{ .Release.Name }}/lab"
