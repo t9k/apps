@@ -4,7 +4,10 @@ image:
   tag: "20241031"
   pullPolicy: IfNotPresent
 
-pvc: ""
+volumes:
+  workingDir: 
+    pvc: ""
+  extraVolumes: []
 
 resources:
   limits:
