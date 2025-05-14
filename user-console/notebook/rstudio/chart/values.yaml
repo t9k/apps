@@ -4,7 +4,10 @@ image:
   tag: "1.72.1"
   pullPolicy: IfNotPresent
 
-pvc: ""
+volumes:
+  workingDir: 
+    pvc: ""
+  extraVolumes: []
 
 resources:
   limits:

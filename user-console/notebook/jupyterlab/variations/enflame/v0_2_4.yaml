@@ -1,0 +1,66 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en JupyterLab image config.
+# +t9k:description:zh JupyterLab 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en JupyterLab image registry.
+  # +t9k:description:zh JupyterLab 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en JupyterLab image repository.
+  # +t9k:description:zh JupyterLab 镜像名称。
+  repository: "topsrider/jupyterlab-torch-2.3.0"
+  # +t9k:form
+  # +t9k:description:en JupyterLab image tag.
+  # +t9k:description:zh JupyterLab 镜像标签。
+  tag: "20241224"
+  pullPolicy: IfNotPresent
+
+volumes:
+  workingDir: 
+    # +required
+    # +t9k:form
+    # +t9k:description:zh 绑定一个 PVC 作为 JupyterLab 工作空间（即 /t9k/mnt）。 
+    # +t9k:description:en Mount a PVC as JupyterLab workspace (path /t9k/mnt).
+    pvc: ""
+  # +t9k:description:en Extra volumes for JupyterLab.
+  # +t9k:description:zh JupyterLab 额外挂载的卷。
+  #
+  # 格式如下：
+  #
+  # extraVolumes:
+  # - volume:
+  #     name: volume-name
+  #     persistentVolumeClaim:
+  #       claimName: pvc-name
+  #   mountPath: /path/in/notebook
+  extraVolumes: []
+
+resources:
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
+  limits:
+    # +t9k:form
+    # +t9k:description:en CPU limit for the App container.
+    # +t9k:description:zh App CPU 限制。
+    cpu: 16
+    # +t9k:form
+    # +t9k:description:en Memory limit for the App container.
+    # +t9k:description:zh App 内存限制。
+    memory: 32Gi
+    # +t9k:form
+    # +t9k:description:en Enflame GCU limit for JupyterLab container.
+    # +t9k:description:zh Enflame GCU 限制。
+    enflame.com/gcu: 1
+
+# ssh:
+#   enabled: true
+#   authorizedKeys:
+#   - "secret-name"
+#   serviceType: ClusterIP
+#
+ssh:
+  enabled: false
+  authorizedKeys: []
+  serviceType: ClusterIP

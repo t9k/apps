@@ -16,12 +16,19 @@ spec:
           volumeMounts:
             - name: workingdir
               mountPath: /t9k/mnt
+            {{- range.Values.volumes.extraVolumes }}
+            - name: {{ .volume.name }}
+              mountPath: {{ .mountPath }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
         - name: workingdir
           persistentVolumeClaim:
-            claimName: "{{ .Values.pvc }}"
+            claimName: "{{ .Values.volumes.workingDir.pvc }}"
+        {{- range .Values.volumes.extraVolumes }}
+        - {{ toYaml .volume | nindent 10 | trim }}
+        {{- end }}
   ssh:
   {{- if .Values.ssh.authorizedKeys }}
     authorized_keys: {{ toYaml .Values.ssh.authorizedKeys | nindent 4}}
