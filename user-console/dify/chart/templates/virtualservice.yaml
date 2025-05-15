@@ -45,7 +45,7 @@ spec:
         - cookie
     match:
     - uri:
-        prefix: /apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/api
+        prefix: /apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/apis
     rewrite:
       uri: /
     route:

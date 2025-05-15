@@ -1,20 +1,4 @@
-{{- if .Values.ingress.enabled }}
-{{- range $host := .Values.ingress.hosts }}
-  {{- range .paths }}
-  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}
-  {{- end }}
-{{- end }}
-{{- else }}
-要访问网页 UI，运行：
+Milvus 的 API 服务器为：
 
-  kubectl --namespace {{ .Release.Namespace }} port-forward service/{{ .Release.Name }}-frontend 3000:{{ .Values.frontend.service.port }}
-  kubectl --namespace {{ .Release.Namespace }} port-forward service/{{ .Release.Name }}-api-svc 3001:{{ .Values.api.service.port }}
-
-  或
-
-  t9k-pf --namespace {{ .Release.Namespace }} service {{ .Release.Name }}-frontend 3000:{{ .Values.frontend.service.port }}
-  t9k-pf --namespace {{ .Release.Namespace }} service {{ .Release.Name }}-api-svc 3001:{{ .Values.api.service.port }}
-
-然后访问 http://127.0.0.1:3000
-
-{{- end }}
+* 内部地址：http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local/v1
+* 外部地址：{{ .Values.global.host }}/apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/apis/v1

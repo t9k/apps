@@ -85,13 +85,13 @@ commonBackendEnvs are for api and worker containers
 - name: APP_WEB_URL
   value: {{ .Values.global.host }}/apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}
 - name: APP_API_URL
-  value: {{ .Values.global.host }}/apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/api
+  value: {{ .Values.global.host }}/apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/apis
 - name: CONSOLE_WEB_URL
   value: {{ .Values.global.host }}/apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}
 - name: CONSOLE_API_URL
-  value: {{ .Values.global.host }}/apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/api
+  value: {{ .Values.global.host }}/apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/apis
 - name: SERVICE_API_URL
-  value: {{ .Values.global.host }}/apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/api
+  value: {{ .Values.global.host }}/apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/apis
 - name: CONSOLE_CORS_ALLOW_ORIGINS
   value: "*"
 - name: WEB_API_CORS_ALLOW_ORIGINS
