@@ -1,0 +1,55 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "dify.fullname" . }}-frontend
+  labels:
+    {{- include "dify.labels" . | nindent 4 }}
+spec:
+  gateways:
+  - project-gateway
+  hosts:
+  - '*'
+  http:
+  - headers:
+      request:
+        remove: 
+        - cookie
+    match:
+    - uri:
+        prefix: /apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/
+    rewrite:
+      uri: /apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/
+    route:
+    - destination:
+        host: {{ .Release.Name }}-frontend
+        port:
+          number: {{ .Values.frontend.service.port }}
+
+---
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "dify.fullname" . }}-api
+  labels:
+    {{- include "dify.labels" . | nindent 4 }}
+spec:
+  gateways:
+  - project-gateway
+  hosts:
+  - '*'
+  http:
+  - headers:
+      request:
+        remove: 
+        - cookie
+    match:
+    - uri:
+        prefix: /apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/api
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: {{ .Release.Name }}-api-svc
+        port:
+          number: {{ .Values.api.service.port }}

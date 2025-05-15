@@ -17,7 +17,9 @@ global:
   port: ""
   enableTLS: false
   image:
+    registry: "docker.io"
     tag: ""
+    pullPolicy: IfNotPresent
   edition: "SELF_HOSTED"
   storageType: "s3"
   # the following extra configs would be injected into:
@@ -90,11 +92,24 @@ frontend:
 
   containerPort: 3000
 
-
+  # Resources for the main container
   resources:
     limits:
       cpu: 500m
       memory: 2Gi
+
+  # Resources for the builder init container
+  builderResources:
+    limits:
+      cpu: 4
+      memory: 8Gi
+
+  # Persistence configuration for frontend
+  persistence:
+    enabled: true
+    # storageClass: ""
+    accessMode: ReadWriteOnce
+    size: 4Gi
 
   autoscaling:
     enabled: false
@@ -108,30 +123,24 @@ frontend:
   tolerations: []
 
   affinity: {}
-  livenessProbe:
-    httpGet:
-      path: /apps
-      port: http
-      httpHeaders:
-      - name: accept-language
-        value: en
-    initialDelaySeconds: 3
-    timeoutSeconds: 5
-    periodSeconds: 30
-    successThreshold: 1
-    failureThreshold: 2
-  readinessProbe:
-    httpGet:
-      path: /apps
-      port: http
-      httpHeaders:
-      - name: accept-language
-        value: en
-    initialDelaySeconds: 3
-    timeoutSeconds: 5
-    periodSeconds: 30
-    successThreshold: 1
-    failureThreshold: 2
+  # livenessProbe:
+  #   httpGet:
+  #     path: /
+  #     port: http
+  #   initialDelaySeconds: 5
+  #   timeoutSeconds: 5
+  #   periodSeconds: 10
+  #   successThreshold: 1
+  #   failureThreshold: 3
+  # readinessProbe:
+  #   httpGet:
+  #     path: /
+  #     port: http
+  #   initialDelaySeconds: 5
+  #   timeoutSeconds: 5
+  #   periodSeconds: 5
+  #   successThreshold: 1
+  #   failureThreshold: 3
 
 
 api:

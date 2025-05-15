@@ -219,13 +219,27 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext:
-        {{- toYaml .Values.frontend.podSecurityContext | nindent 8 }}
-      containers:
-        - name: {{ .Chart.Name }}
+        fsGroup: 1001
+        runAsUser: 1001
+      initContainers:
+        - name: {{ .Chart.Name }}-builder
           securityContext:
-            {{- toYaml .Values.frontend.securityContext | nindent 12 }}
+            runAsUser: 0
           image: "{{ .Values.global.image.registry }}/{{ .Values.frontend.image.repository }}:{{ coalesce .Values.frontend.image.tag .Values.global.image.tag .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+          command: ["/bin/sh", "/app/web/build.sh"]
+          env:
+          {{- include "dify.commonEnvs" . | nindent 12 }}
+          volumeMounts:
+            - name: frontend-data
+              mountPath: /shared
+          resources:
+            {{- toYaml .Values.frontend.builderResources | nindent 12 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.global.image.registry }}/{{ .Values.frontend.image.repository }}:{{ coalesce .Values.frontend.image.tag .Values.global.image.tag .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+          command: ["/bin/sh", "/app/web/entrypoint.sh"]
           env:
           {{- include "dify.commonEnvs" . | nindent 12 }}
           {{- with .Values.global.extraEnvs }}
@@ -234,20 +248,41 @@ spec:
           {{- with .Values.frontend.envs }}
           {{- toYaml . | nindent 12 }}
           {{- end }}
+          volumeMounts:
+            - name: frontend-data
+              mountPath: /shared
           ports:
             - name: http
               containerPort: {{ .Values.frontend.containerPort }}
               protocol: TCP
-          {{- with .Values.frontend.livenessProbe }}
           livenessProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- with .Values.frontend.readinessProbe}}
+            httpGet:
+              path: /apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/apps
+              port: http
+            initialDelaySeconds: 10
+            timeoutSeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
           readinessProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
+            httpGet:
+              path: /apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/apps
+              port: http
+            initialDelaySeconds: 10
+            timeoutSeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
           resources:
             {{- toYaml .Values.frontend.resources | nindent 12 }}
+      volumes:
+        - name: frontend-data
+          {{- if .Values.frontend.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "dify.fullname" . }}-frontend-pvc
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
       {{- with .Values.frontend.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

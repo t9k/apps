@@ -83,11 +83,15 @@ commonBackendEnvs are for api and worker containers
 - name: EDITION
   value: {{ .Values.global.edition }}
 - name: APP_WEB_URL
-  value: http://127.0.0.1:3000
-{{- range tuple "CONSOLE_API_URL" "CONSOLE_WEB_URL" "SERVICE_API_URL" "APP_API_URL" }}
-- name: {{ . }}
-  value: http://127.0.0.1:3001
-{{- end }}
+  value: {{ .Values.global.host }}/apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}
+- name: APP_API_URL
+  value: {{ .Values.global.host }}/apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/api
+- name: CONSOLE_WEB_URL
+  value: {{ .Values.global.host }}/apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}
+- name: CONSOLE_API_URL
+  value: {{ .Values.global.host }}/apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/api
+- name: SERVICE_API_URL
+  value: {{ .Values.global.host }}/apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/api
 - name: CONSOLE_CORS_ALLOW_ORIGINS
   value: "*"
 - name: WEB_API_CORS_ALLOW_ORIGINS

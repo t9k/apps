@@ -18,3 +18,23 @@ spec:
   {{- end }}
 {{- end }}
 {{- end }}
+
+---
+{{- if .Values.frontend.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "dify.fullname" . }}-frontend-pvc
+  labels:
+    {{- include "dify.labels" . | nindent 4 }}
+    app.kubernetes.io/component: frontend
+spec:
+  accessModes:
+    - {{ .Values.frontend.persistence.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.frontend.persistence.size | quote }}
+  {{- if .Values.frontend.persistence.storageClass }}
+  storageClassName: {{ .Values.frontend.persistence.storageClass }}
+  {{- end }}
+{{- end }}
