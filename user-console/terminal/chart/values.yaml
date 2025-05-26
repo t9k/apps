@@ -33,6 +33,6 @@ global:
       image:
         registry: "docker.io"
         repository: "t9kpublic/pep-proxy"
-        tag: "1.0.12"
+        tag: "1.0.14"
       args:
         clientID: ""
