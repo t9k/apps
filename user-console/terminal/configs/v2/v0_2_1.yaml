@@ -14,7 +14,7 @@ image:
   # +t9k:form
   # +t9k:description:en Terminal image tag.
   # +t9k:description:zh Terminal 镜像标签。
-  tag: "240819"
+  tag: "250423"
   # +t9k:form
   # +t9k:description:en Terminal image pull policy.
   # +t9k:description:zh Terminal 镜像拉取策略。

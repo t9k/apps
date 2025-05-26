@@ -1,7 +1,7 @@
 image:
   registry: "docker.io"
   repository: "t9kpublic/terminal"
-  tag: "240819"
+  tag: "250423"
   pullPolicy: IfNotPresent
 
 # sh, bash or zsh

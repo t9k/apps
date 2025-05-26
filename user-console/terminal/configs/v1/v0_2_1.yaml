@@ -6,7 +6,7 @@
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
   repository: "$(T9K_APP_IMAGE_NAMESPACE)/terminal"
-  tag: "240819"
+  tag: "250423"
   pullPolicy: IfNotPresent
 
 # sh, bash or zsh

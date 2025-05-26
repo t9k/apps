@@ -23,7 +23,7 @@ web:
   image:
     registry: "docker.io"
     repository: "t9kpublic/service-manager-web"
-    tag: "240815"
+    tag: "250423"
     pullPolicy: IfNotPresent
   resourceTemplates:
     - name: smaller
