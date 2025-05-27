@@ -13,4 +13,4 @@ web:
   image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/service-manager-web"
-    tag: "250306"
+    tag: "250423"

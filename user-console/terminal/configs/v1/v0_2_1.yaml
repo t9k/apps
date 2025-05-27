@@ -6,7 +6,7 @@
 image:
   registry: "$(T9K_APP_IMAGE_REGISTRY)"
   repository: "$(T9K_APP_IMAGE_NAMESPACE)/terminal"
-  tag: "240819"
+  tag: "250423"
   pullPolicy: IfNotPresent
 
 # sh, bash or zsh
@@ -35,6 +35,6 @@ global:
       image:
         registry: "$(T9K_APP_IMAGE_REGISTRY)"
         repository: "$(T9K_APP_IMAGE_NAMESPACE)/pep-proxy"
-        tag: "1.0.12"
+        tag: "1.0.14"
       args:
         clientID: $(T9K_APP_AUTH_CLINET_ID)
