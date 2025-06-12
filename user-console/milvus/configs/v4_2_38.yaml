@@ -18,8 +18,6 @@ image:
 # in the image and helm chart.
 extraConfigFiles:
   user.yaml: |+
-extraConfigFiles:
-  user.yaml: |+
     ## For example enable rest http for milvus proxy
     #  proxy:
     #    http:
