@@ -12,7 +12,7 @@ template:
     chart: "job-manager"
     versions:
     - version: 0.2.4
-      config: "file://$APP_DIR/configs/v0_2_3.yaml"
+      config: "file://$APP_DIR/configs/v0_2_4.yaml"
       urls:
       - name: job-manager
         url: /apps/{{ .Release.Namespace }}/job-manager/{{ .Release.Name }}/web/
