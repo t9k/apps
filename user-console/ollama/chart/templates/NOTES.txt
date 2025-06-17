@@ -6,16 +6,16 @@
 
   curl $ENDPOINT/api/tags  
 
-要从 Ollama 库下载一个模型，运行（以 llama3 为例）：
+要从 Ollama 库下载一个模型，运行（以 qwen3 为例）：
 
-  curl $ENDPOINT/api/pull -d '{"name": "llama3"}'
+  curl $ENDPOINT/api/pull -d '{"name": "qwen3"}'
 
-要测试聊天，运行（以 llama3 为例）：
+要测试聊天，运行（以 qwen3 为例）：
 
-  curl $ENDPOINT/api/chat -d '{"model": "llama3", "messages": [{ "role": "user", "content": "why is the sky blue?" }]}'
+  curl $ENDPOINT/api/chat -d '{"model": "qwen3", "messages": [{ "role": "user", "content": "why is the sky blue?" }], "stream": false}'
 
-要测试生成文本，运行（以 llama3 为例）：
+要测试生成文本，运行（以 qwen3 为例）：
 
-  curl $ENDPOINT/api/generate -d '{"model": "llama3", "prompt": "Why is the sky blue?"}'
+  curl $ENDPOINT/api/generate -d '{"model": "qwen3", "prompt": "Why is the sky blue?"}'
 
 更多 API 请参阅 https://github.com/ollama/ollama/blob/main/docs/api.md

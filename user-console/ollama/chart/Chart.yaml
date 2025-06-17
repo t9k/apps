@@ -3,15 +3,15 @@ name: ollama
 description: Ollama 提供本地使用 LLM 的解决方案。
 type: application
 
-version: 0.54.3
-appVersion: 0.5.2
+version: 0.54.4
+appVersion: 0.9.1
 kubeVersion: "^1.16.0-0"
 
 annotations:
   artifacthub.io/category: ai-machine-learning
   artifacthub.io/changes: |
     - kind: changed
-      description: upgrade ollama to 0.5.2
+      description: upgrade ollama to 0.9.1
 
 home: https://ollama.ai/
 icon: https://ollama.ai/public/ollama.png
