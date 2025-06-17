@@ -752,6 +752,35 @@ entries:
       artifacthub.io/category: ai-machine-learning
       artifacthub.io/changes: |
         - kind: changed
+          description: upgrade ollama to 0.9.1
+    apiVersion: v2
+    appVersion: 0.9.1
+    created: "2025-06-17T07:40:57.773827377Z"
+    description: Ollama 提供本地使用 LLM 的解决方案。
+    digest: 610b035caf3a3ee353f92bc62b63ce3d09ebeeca017e5495f0b47467d26ec7f0
+    home: https://ollama.ai/
+    icon: https://ollama.ai/public/ollama.png
+    keywords:
+    - ai
+    - llm
+    - llama
+    - mistral
+    kubeVersion: ^1.16.0-0
+    maintainers:
+    - email: contact@otwld.com
+      name: OTWLD
+    name: ollama
+    sources:
+    - https://github.com/ollama/ollama
+    - https://github.com/otwld/ollama-helm
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/ollama-0.54.4/ollama-0.54.4.tgz
+    version: 0.54.4
+  - annotations:
+      artifacthub.io/category: ai-machine-learning
+      artifacthub.io/changes: |
+        - kind: changed
           description: upgrade ollama to 0.5.2
     apiVersion: v2
     appVersion: 0.5.2
@@ -1933,4 +1962,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2025-05-15T13:35:04.42381741Z"
+generated: "2025-06-17T07:40:58.157765911Z"
