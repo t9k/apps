@@ -221,6 +221,7 @@ spec:
       securityContext:
         fsGroup: 1001
         runAsUser: 1001
+      enableServiceLinks: false
       initContainers:
         - name: {{ .Chart.Name }}-builder
           securityContext:
