@@ -21,7 +21,7 @@ global:
   host: "$(T9K_HOME_DOMAIN)"
   image:
     registry: "$(T9K_APP_IMAGE_REGISTRY)"
-    tag: "1.3.1.post1"
+    tag: "1.4.3"
     pullPolicy: IfNotPresent
 
   extraEnvs: []
@@ -91,7 +91,7 @@ pluginDaemon:
   difyInnerApiKey: "dify-inner-api-key"
   image:
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/dify-plugin-daemon"
-    tag: "0.0.9-local"
+    tag: "0.1.2-local"
   resources:
     limits:
       cpu: 2
@@ -146,7 +146,7 @@ minio:
 | ---------------------------------------- | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `global.host`                            | 全局主机                                    | `$(T9K_HOME_DOMAIN)`                                                                                                                                                                                                                            |
 | `global.image.registry`                  | 全局镜像注册表                              | `$(T9K_APP_IMAGE_REGISTRY)`                                                                                                                                                                                                                     |
-| `global.image.tag`                       | 全局镜像标签                                | `1.3.1.post1`                                                                                                                                                                                                                                   |
+| `global.image.tag`                       | 全局镜像标签                                | `1.4.3`                                                                                                                                                                                                                                   |
 | `global.image.pullPolicy`                | 全局镜像拉取策略                            | `IfNotPresent`                                                                                                                                                                                                                                  |
 | `global.extraEnvs`                       | 额外的环境变量数组，用于前端、API 和 Worker | `[]`                                                                                                                                                                                                                                            |
 | `global.extraBackendEnvs`                | 额外的环境变量数组，用于 API 和 Worker      | `[{"name": "SECRET_KEY", "value": "tensorstack"}, {"name": "MIGRATION_ENABLED", "value": "true"}, {"name": "UPLOAD_FILE_SIZE_LIMIT", "value": "15"}, {"name": "UPLOAD_FILE_BATCH_LIMIT", "value": "5"}, {"name": "VECTOR_STORE", "value": ""}]` |
@@ -172,7 +172,7 @@ minio:
 | `pluginDaemon.serverKey`                 | PluginDaemon 服务器密钥                     | `dify-plugin-daemon`                                                                                                                                                                                                                            |
 | `pluginDaemon.difyInnerApiKey`           | PluginDaemon Dify 内部 API 密钥             | `dify-inner-api-key`                                                                                                                                                                                                                            |
 | `pluginDaemon.image.repository`          | PluginDaemon 镜像仓库                       | `$(T9K_APP_IMAGE_NAMESPACE)/dify-plugin-daemon`                                                                                                                                                                                                 |
-| `pluginDaemon.image.tag`                 | PluginDaemon 镜像标签                       | `0.0.9-local`                                                                                                                                                                                                                                   |
+| `pluginDaemon.image.tag`                 | PluginDaemon 镜像标签                       | `0.1.2-local`                                                                                                                                                                                                                                   |
 | `pluginDaemon.resources.limits.cpu`      | PluginDaemon CPU 限制                       | `2`                                                                                                                                                                                                                                             |
 | `pluginDaemon.resources.limits.memory`   | PluginDaemon 内存限制                       | `4Gi`                                                                                                                                                                                                                                           |
 | `redis.embedded`                         | 是否启用内置 Redis                          | `true`                                                                                                                                                                                                                                          |

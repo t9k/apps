@@ -1,0 +1,367 @@
+# +t9k:form:pattern v2
+
+# +t9k:description:en Global config.
+# +t9k:description:zh 全局配置。
+global:
+  # +t9k:form
+  # +t9k:description:en Global host.
+  # +t9k:description:zh 全局主机。
+  host: "$(T9K_HOME_DOMAIN)"
+  # +t9k:description:en Global image config.
+  # +t9k:description:zh 全局镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en Global image registry.
+    # +t9k:description:zh 全局镜像仓库。
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    # +t9k:form
+    # +t9k:description:en Global image tag.
+    # +t9k:description:zh 全局镜像标签。
+    tag: "1.4.3"
+    pullPolicy: IfNotPresent
+
+  # +t9k:form
+  # +t9k:description:en Array of extra environment variables for frontend, api and worker.
+  # +t9k:description:zh 额外环境变量，用于前端、API 和 Worker。
+  extraEnvs: []
+
+  # +t9k:form
+  # +t9k:description:en Array of extra backend environment variables for api and worker.
+  # +t9k:description:zh 额外环境变量，用于 API 和 Worker。
+  extraBackendEnvs:
+    - name: SECRET_KEY
+      value: "tensorstack"
+    - name: MIGRATION_ENABLED
+      value: "true"
+    - name: UPLOAD_FILE_SIZE_LIMIT # 设置上传文件大小和批量限制
+      value: "15"
+    - name: UPLOAD_FILE_BATCH_LIMIT
+      value: "5"
+    - name: VECTOR_STORE # 必须设置向量数据库
+      value: ""
+  ## milvus ##
+  # - name: MILVUS_URI
+  #   value: "http://host.docker.internal:19530"
+  # - name: MILVUS_USER
+  #   value: ""
+  # - name: MILVUS_PASSWORD
+  #   value: ""
+  # - name: MILVUS_ENABLE_HYBRID_SEARCH
+  #   value: "true"
+  ## weaviate ##
+  # - name: WEAVIATE_ENDPOINT
+  #   value: "http://weaviate:8080"
+  # - name: WEAVIATE_API_KEY
+  #   value: ""
+  ## qdrant ##
+  # - name: QDRANT_URL
+  #   value: "http://qdrant:6333"
+  # - name: QDRANT_API_KEY
+  #   value: ""
+  # - name: QDRANT_CLIENT_TIMEOUT
+  #   value: "20"
+  # - name: QDRANT_GRPC_ENABLED
+  #   value: "false"
+  # - name: QDRANT_GRPC_PORT
+  #   value: "6334"
+
+# +t9k:description:en Frontend config.
+# +t9k:description:zh 前端配置。
+frontend:
+  # +t9k:description:en Frontend image config.
+  # +t9k:description:zh 前端镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en Frontend image repository.
+    # +t9k:description:zh 前端镜像名称。
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/dify-web"
+  resources:
+    # +t9k:description:en App resource limit.
+    # +t9k:description:zh App 资源限额。
+    limits:
+      # +t9k:form
+      # +t9k:description:en CPU request for the App container.
+      # +t9k:description:zh App CPU 需求。
+      cpu: 500m
+      # +t9k:form
+      # +t9k:description:en Memory limit for the App container.
+      # +t9k:description:zh App 内存限制。
+      memory: 2Gi
+
+# +t9k:description:en API config.
+# +t9k:description:zh API 配置。
+api:
+  # +t9k:description:en API image config.
+  # +t9k:description:zh API 镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en API image repository.
+    # +t9k:description:zh API 镜像名称。
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/dify-api"
+  # +t9k:form
+  # +t9k:description:en API replica count.
+  # +t9k:description:zh API 副本数量。
+  replicaCount: 1 # 1 for testing, 2-3 for production
+  resources:
+    # +t9k:description:en App resource limit.
+    # +t9k:description:zh App 资源限额。
+    limits:
+      # +t9k:form
+      # +t9k:description:en CPU request for the App container.
+      # +t9k:description:zh App CPU 需求。
+      cpu: 2
+      # +t9k:form
+      # +t9k:description:en Memory limit for the App container.
+      # +t9k:description:zh App 内存限制。
+      memory: 8Gi
+
+# +t9k:description:en Worker config.
+# +t9k:description:zh Worker 配置。
+worker:
+  # +t9k:description:en Worker image config.
+  # +t9k:description:zh Worker 镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en Worker image repository.
+    # +t9k:description:zh Worker 镜像名称。
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/dify-api"
+  # +t9k:form
+  # +t9k:description:en Worker replica count.
+  # +t9k:description:zh Worker 副本数量。
+  replicaCount: 1 # 1 for testing, 2-6 for production
+  resources:
+    # +t9k:description:en App resource limit.
+    # +t9k:description:zh App 资源限额。
+    limits:
+      # +t9k:form
+      # +t9k:description:en CPU request for the App container.
+      # +t9k:description:zh App CPU 需求。
+      cpu: 4
+      # +t9k:form
+      # +t9k:description:en Memory limit for the App container.
+      # +t9k:description:zh App 内存限制。
+      memory: 16Gi
+
+# +t9k:description:en Sandbox config.
+# +t9k:description:zh Sandbox 配置。
+sandbox:
+  # +t9k:form
+  # +t9k:description:en Sandbox replica count.
+  # +t9k:description:zh Sandbox 副本数量。
+  replicaCount: 1 # 1 for testing, 2-3 for production
+  # +t9k:form
+  # +t9k:description:en Sandbox API key.
+  # +t9k:description:zh Sandbox API key。
+  apiKey: "dify-sandbox"
+  # +t9k:description:en Sandbox image config.
+  # +t9k:description:zh Sandbox 镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en Sandbox image repository.
+    # +t9k:description:zh Sandbox 镜像名称。
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/dify-sandbox"
+    # +t9k:form
+    # +t9k:description:en Sandbox image tag.
+    # +t9k:description:zh Sandbox 镜像标签。
+    tag: "0.2.12"
+  config:
+    # python_requirements: |
+    #   numpy==1.20.3
+    #   scipy==1.6.3
+    # +t9k:form
+    # +t9k:description:en Python requirements for sandbox.
+    # +t9k:description:zh Sandbox 需求的 python 包。
+    python_requirements: ""
+  resources:
+    # +t9k:description:en App resource limit.
+    # +t9k:description:zh App 资源限额。
+    limits:
+      # +t9k:form
+      # +t9k:description:en CPU request for the App container.
+      # +t9k:description:zh App CPU 需求。
+      cpu: 2
+      # +t9k:form
+      # +t9k:description:en Memory limit for the App container.
+      # +t9k:description:zh App 内存限制。
+      memory: 8Gi
+
+# +t9k:description:en PluginDaemon config.
+# +t9k:description:zh PluginDaemon 配置。
+pluginDaemon:
+  # +t9k:form
+  # +t9k:description:en PluginDaemon replica count.
+  # +t9k:description:zh PluginDaemon 副本数量。
+  replicaCount: 1
+  # +t9k:form
+  # +t9k:description:en PluginDaemon server key.
+  # +t9k:description:zh PluginDaemon server key。
+  serverKey: "dify-plugin-daemon"
+  # +t9k:form
+  # +t9k:description:en PluginDaemon Dify inner api key.
+  # +t9k:description:zh PluginDaemon Dify inner api key。
+  difyInnerApiKey: "dify-inner-api-key"
+  # +t9k:description:en PluginDaemon image config.
+  # +t9k:description:zh PluginDaemon 镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en PluginDaemon image repository.
+    # +t9k:description:zh PluginDaemon 镜像名称。
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/dify-plugin-daemon"
+    # +t9k:form
+    # +t9k:description:en PluginDaemon image tag.
+    # +t9k:description:zh PluginDaemon 镜像标签。
+    tag: "0.1.2-local"
+  resources:
+    # +t9k:description:en App resource limit.
+    # +t9k:description:zh App 资源限额。
+    limits:
+      # +t9k:form
+      # +t9k:description:en CPU request for the App container.
+      # +t9k:description:zh App CPU 需求。
+      cpu: 2
+      # +t9k:form
+      # +t9k:description:en Memory limit for the App container.
+      # +t9k:description:zh App 内存限制。
+      memory: 4Gi
+
+# +t9k:description:en Redis config.
+# +t9k:description:zh Redis 配置。
+redis:
+  # +t9k:form
+  # +t9k:description:en Add Redis to Dify.
+  # +t9k:description:zh 为 Dify 添加 Redis。
+  embedded: true
+
+  # +t9k:description:en Redis image config.
+  # +t9k:description:zh Redis 镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en Redis image registry.
+    # +t9k:description:zh Redis 镜像仓库。
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    # +t9k:form
+    # +t9k:description:en Redis image repository.
+    # +t9k:description:zh Redis 镜像名称。
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/redis"
+    # +t9k:form
+    # +t9k:description:en Redis image tag.
+    # +t9k:description:zh Redis 镜像标签。
+    tag: 7.4.1
+
+  auth:
+    # +t9k:form
+    # +t9k:description:en Redis authentication password.
+    # +t9k:description:zh Redis 验证密码。
+    password: "REDIS_PASSWORD"
+  master:
+    persistence:
+      # +t9k:form
+      # +t9k:description:en Enable Redis persistence.
+      # +t9k:description:zh 为 Redis 创建存储卷。
+      enabled: false
+      # +t9k:form
+      # +t9k:description:en Redis persistent volume size.
+      # +t9k:description:zh 存储卷大小。
+      size: 8Gi
+
+# +t9k:description:en PostgreSQL config.
+# +t9k:description:zh PostgreSQL 配置。
+postgresql:
+  # +t9k:form
+  # +t9k:description:en Add PostgreSQL to Dify.
+  # +t9k:description:zh 为 Dify 添加 PostgreSQL。
+  embedded: true
+
+  # +t9k:description:en PostgreSQL image config.
+  # +t9k:description:zh PostgreSQL 镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en PostgreSQL image registry.
+    # +t9k:description:zh PostgreSQL 镜像仓库。
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    # +t9k:form
+    # +t9k:description:en PostgreSQL image repository.
+    # +t9k:description:zh PostgreSQL 镜像名称。
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/postgresql"
+    # +t9k:form
+    # +t9k:description:en PostgreSQL image tag.
+    # +t9k:description:zh PostgreSQL 镜像标签。
+    tag: 16.3.0-debian-12-r4
+
+  auth:
+    # +t9k:form
+    # +t9k:description:en PostgreSQL admin password.
+    # +t9k:description:zh PostgreSQL 管理员密码。
+    postgresPassword: "testpassword"
+    # +t9k:form
+    # +t9k:description:en Default PostgreSQL database name.
+    # +t9k:description:zh PostgreSQL 默认数据库。
+    database: "dify"
+  primary:
+    # +t9k:form
+    # +t9k:description:en PostgreSQL primary resources preset.
+    # +t9k:description:zh PostgreSQL 主资源预设。
+    resourcesPreset: "xlarge" # xlarge for testing, 2xlarge for production
+
+    # +t9k:description:en PostgreSQL pvc config.
+    # +t9k:description:zh PostgreSQL 存储卷配置。
+    persistence:
+      # +t9k:form
+      # +t9k:description:en Enable PostgreSQL persistence.
+      # +t9k:description:zh 为 PostgreSQL 创建存储卷。
+      enabled: true
+      # +t9k:form
+      # +t9k:description:en PostgreSQL persistent volume size.
+      # +t9k:description:zh 存储卷大小。
+      size: 256Gi
+
+# +t9k:description:en MinIO config.
+# +t9k:description:zh MinIO 配置。
+minio:
+  # +t9k:form
+  # +t9k:description:en Add MinIO to Dify.
+  # +t9k:description:zh 为 Dify 添加 MinIO
+  embedded: true
+
+  # +t9k:description:en MinIO image config.
+  # +t9k:description:zh MinIO 镜像信息。
+  image:
+    # +t9k:form
+    # +t9k:description:en MinIO image registry.
+    # +t9k:description:zh MinIO 镜像仓库。
+    registry: "$(T9K_APP_IMAGE_REGISTRY)"
+    # +t9k:form
+    # +t9k:description:en MinIO image repository.
+    # +t9k:description:zh MinIO 镜像名称。
+    repository: "$(T9K_APP_IMAGE_NAMESPACE)/minio"
+    # +t9k:form
+    # +t9k:description:en MinIO image tag.
+    # +t9k:description:zh MinIO 镜像标签。
+    tag: 2024.4.18-debian-12-r0
+
+  auth:
+    # +t9k:form
+    # +t9k:description:en MinIO root username.
+    # +t9k:description:zh MinIO root 用户名。
+    rootUser: minioadmin
+    # +t9k:form
+    # +t9k:description:en MinIO root password.
+    # +t9k:description:zh MinIO root 密码。
+    rootPassword: minioadmin
+
+  # +t9k:form
+  # +t9k:description:en MinIO resources preset.
+  # +t9k:description:zh MinIO 资源预设。
+  resourcesPreset: "large" # large for testing, xlarge for production
+
+  # +t9k:description:en MinIO pvc config.
+  # +t9k:description:zh MinIO 存储卷配置。
+  persistence:
+    # +t9k:form
+    # +t9k:description:en Enable MinIO persistence.
+    # +t9k:description:zh 为 MinIO 创建存储卷。
+    enabled: true
+    # +t9k:form
+    # +t9k:description:en MinIO persistent volume size.
+    # +t9k:description:zh 存储卷大小。
+    size: 128Gi

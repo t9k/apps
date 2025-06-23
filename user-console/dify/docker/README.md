@@ -8,7 +8,7 @@
 cd apps/user-console/dify/docker  # 切换到当前目录
 git clone https://github.com/langgenius/dify.git
 cd dify
-git checkout 85eb55d
+git checkout 809a0ab
 ```
 
 2. 将 `Dockerfile` 和 `entrypoint.sh` 和 `build.sh` 复制到 `dify/web/` 目录下

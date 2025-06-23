@@ -154,6 +154,9 @@ spec:
             {{- with .Values.global.extraBackendEnvs }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
+            {{- with .Values.worker.envs }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           {{- with .Values.volumeMounts }}
           volumeMounts:
           {{- toYaml . | nindent 10 }}
@@ -219,8 +222,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext:
-        fsGroup: 1001
-        runAsUser: 1001
+        {{- toYaml .Values.frontend.podSecurityContext | nindent 8 }}
+      enableServiceLinks: false
       initContainers:
         - name: {{ .Chart.Name }}-builder
           securityContext:
@@ -237,6 +240,8 @@ spec:
             {{- toYaml .Values.frontend.builderResources | nindent 12 }}
       containers:
         - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.frontend.securityContext | nindent 12 }}
           image: "{{ .Values.global.image.registry }}/{{ .Values.frontend.image.repository }}:{{ coalesce .Values.frontend.image.tag .Values.global.image.tag .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.global.image.pullPolicy }}
           command: ["/bin/sh", "/app/web/entrypoint.sh"]
@@ -408,6 +413,7 @@ spec:
   {{- else }}
   replicas: 1
   {{- end }}
+  strategy: {{- toYaml .Values.pluginDaemon.updateStrategy | nindent 4 }}
   selector:
     matchLabels:
       {{- include "dify.selectorLabels" . | nindent 6 }}
@@ -478,14 +484,6 @@ spec:
             - name: http
               containerPort: {{ .Values.pluginDaemon.containerPort }}
               protocol: TCP
-          {{- with .Values.pluginDaemon.livenessProbe }}
-          livenessProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- with .Values.pluginDaemon.readinessProbe}}
-          readinessProbe:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
           resources:
             {{- toYaml .Values.pluginDaemon.resources | nindent 12 }}
       volumes:

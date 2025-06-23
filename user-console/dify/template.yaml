@@ -12,8 +12,8 @@ template:
     # repo: "https://t9k.github.io/apps/"
     chart: "dify"
     versions:
-    - version: 0.7.0
-      config: "file://$APP_DIR/configs/v2/v0_7_0.yaml"
+    - version: 0.7.1
+      config: "file://$APP_DIR/configs/v2/v0_7_1.yaml"
       urls:
       - name: UI
         url: /apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/apps
@@ -26,15 +26,17 @@ template:
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
       dependencies: {}
-    - version: 0.6.2
-      config: "file://$APP_DIR/configs/v2/v0_6_2.yaml"
-      urls: []
+    - version: 0.7.0
+      config: "file://$APP_DIR/configs/v2/v0_7_0.yaml"
+      urls:
+      - name: UI
+        url: /apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/apps
       readinessProbe:
         resources:
         - group: apps
           version: v1
           resource: deployments
-          name: "{{ .Release.Name }}-api"
+          name: "{{ .Release.Name }}-frontend"
           currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
           desiredStatus: "True"
       dependencies: {}
