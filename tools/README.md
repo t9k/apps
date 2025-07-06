@@ -1,13 +1,15 @@
-# 使用说明
+# Instructions
 
-`tools` 中的脚本用于简化安装 `user-console` 中 APP 时的一些常见操作，例如：
+[中文](./README_zh.md)
 
-1. `image-mirror.sh` 根据 configs 中的 YAML，自动将镜像从一个仓库迁移到另一个仓库中。
-1. `chart-mirror.sh` 根据 template.yaml，自动将 Helm Chart 从一个仓库迁移到另一个仓库中。
+The scripts in `tools` are used to simplify some common operations when installing APPs in `user-console`, for example:
 
-## 运行要求
+1.  `image-mirror.sh` automatically migrates images from one repository to another based on the YAML in configs.
+2.  `chart-mirror.sh` automatically migrates Helm Charts from one repository to another based on template.yaml.
 
-安装了 Docker 和 Helm，并且已经登录了相应的 Registry：
+## Requirements
+
+Docker and Helm are installed, and you have logged in to the corresponding Registry:
 
 ```bash
 docker login <registry>
@@ -17,14 +19,14 @@ docker login <registry>
 helm registry login <registry>
 ```
 
-Helm 版本大于等于 v3.8.0，测试时使用的版本如下：
+Helm version must be greater than or equal to v3.8.0. The version used for testing is as follows:
 
 ```bash
 helm version
 version.BuildInfo{Version:"v3.9.0", GitCommit:"7ceeda6c585217a19a1131663d8cd1f7d641b2a7", GitTreeState:"clean", GoVersion:"go1.17.5"}
 ```
 
-安装了 jq 和 yq，其中 yq 的版本要求是 4.x.x。测试时使用的版本如下：
+jq and yq are installed, and the version requirement for yq is 4.x.x. The versions used for testing are as follows:
 
 ```bash
 $ jq --version
@@ -34,44 +36,42 @@ $ yq --version
 yq (https://github.com/mikefarah/yq/) version 4.25.2
 ```
 
-## 使用方式
+## Usage
 
-### [可选]设置环境变量
+### [Optional] Set Environment Variables
 
-如果本地已经安装了其他版本的 jq 或者 yq，例如：安装了 yq 2.4.0
-
-为了避免冲突，可以使用其他名称安装 yq 4，例如 yq-4，然后通过设置环境变量来正常使用这里的脚本：
+If you have other versions of jq or yq installed locally, for example, yq 2.4.0, you can install yq 4 with a different name, such as yq-4, to avoid conflicts. Then, you can use the scripts here normally by setting environment variables:
 
 ```bash
 export YQ=yq-4
 export JQ=jq
 ```
 
-### Chart 迁移
+### Chart Migration
 
-读取单个 APP 的 `template.yaml` 文件，迁移其中用到的所有 Helm Chart：
+Read the `template.yaml` file of a single APP and migrate all the Helm Charts used in it:
 
 ```bash
 ./chart-mirror.sh ../user-console/job-manager --source docker.io/t9kpublic --target registry.t9kcloud.cn/t9kcharts
 ```
 
-遍历一个目录（例如 user-console）中所有 `template.yaml` 文件，迁移用到的所有 Helm Chart：
+Traverse all `template.yaml` files in a directory (e.g., user-console) and migrate all the Helm Charts used:
 
 ```bash
 ./chart-mirror.sh ../user-console --source docker.io/t9kpublic --target registry.t9kcloud.cn/t9kcharts
 ```
 
-### 镜像迁移
+### Image Migration
 
-读取单个 APP 的 `configs` 目录，迁移其中所有 config 文件中用到的所有容器镜像：
+Read the `configs` directory of a single APP and migrate all the container images used in all the config files in it:
 
 ```bash
 ./image-mirror.sh ../user-console/job-manager --source docker.io/t9kpublic --target registry.cn-hangzhou.aliyuncs.com/t9k
 ```
 
-注意：由于目前单个 configs 目录中的不同版本 config 往往会使用相同的镜像，这可能导致同样的镜像被多次 mirror。计划下一个版本去除掉重复的镜像。
+Note: Since different versions of configs in a single configs directory often use the same image, this may cause the same image to be mirrored multiple times. It is planned to remove duplicate images in the next version.
 
-遍历一个目录（例如 user-console）中所有 `configs` 文件夹中的所有文件，迁移用到的所有容器镜像：
+Traverse all files in all `configs` folders in a directory (e.g., user-console) and migrate all the container images used:
 
 ```bash
 ./image-mirror.sh ../user-console --source docker.io/t9kpublic --target registry.cn-hangzhou.aliyuncs.com/t9k
