@@ -69,7 +69,7 @@ All Apps are categorized into two tiers: Core and Experimental.
 
 ## Related Documentation
 
-*   [Apps System Overview](../docs/overview.md)
+*   [Apps System Overview](../docs/README.md)
 *   [App Registration and Unregistration](../docs/register.md)
 *   [App Template Format](../docs/template.md)
 *   [App Development](../docs/dev.md)

@@ -69,7 +69,7 @@ TensorStack AI 平台的 User Console 提供了运行 **应用（Apps）** 的�
 
 ## 相关文档
 
-* [Apps 系统概述](../docs/overview.md)
+* [Apps 系统概述](../docs/README.md)
 * [Apps 的注册和注销](../docs/register.md)
 * [Apps 模版的格式](../docs/template.md)
 * [Apps 开发](../docs/dev.md)

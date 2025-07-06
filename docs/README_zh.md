@@ -1,5 +1,7 @@
 # 概述
 
+[English](./README.md)
+
 应用（Apps），指在 TensorStack AI 集群中实现特定功能、可独立安装、卸载的软件模块。目前，TensorStack AI 平台支持以 Helm Chart 和 CRD 两种形式定义 Apps，其它方式（例如 Operator），如有需要可另行扩展。
 
 ![architecture](./img/arch.drawio.svg)

@@ -1,6 +1,8 @@
-# 应用模版
+# Application Template
 
-注册应用时需提供 App 的模版（Template），描述 App 的信息。以 Terminal App 为例：
+[中文](./template_zh.md)
+
+When registering an application, a template for the App must be provided to describe its information. Taking the Terminal App as an example:
 
 ```yaml
 apiVersion: app.tensorstack.dev/v1beta1
@@ -37,111 +39,110 @@ template:
           resource: virtualservices
 ```
 
-* `apiVersion` 和 `kind` 采用 K8s API 的 `metav1.TypeMeta` 标记 API 类型和版本。
-* `metadata` 记录 App 的基本信息，包括名称、分类等。
-  * `defaultVersion`：默认版本，在 App 有多个版本的情况下，示意默认版本。如果管理员在注册应用时没有设置该字段，则 `versions[]` 中定义的第一个 App 版本为默认版本（具体参考 `template.crd.versions` 和 `template.helm.versions`）。
-  * `icon`：应用图标 url，指向图标文件地址。可以用变量 `$APP_DIR` 表示模板文件所在文件夹， 方便指定本地文件系统中的文件。
-* `template` 定义 App 模版的具体内容。
-  * 目前支持 Helm 和 CRD 类型的应用，分别通过 `template.helm` 和 `template.crd` 字段定义，参考 [CRD 应用和 Helm 应用](#crd-和-helm-模版)。
-  * `versions`：记录 App 各版本信息，主要包含以下字段：
-    * `urls`：App 实例的访问链接，可根据 App 实例安装/部署配置生成，`name` 和 `url` 两个子字段都可以用 Go Template 格式填写（Go Template 格式字符串的替换规则见 [Go Template 替换规则](#go-template-替换规则)）。`url` 子字段用于在前端打开 App 链接，所以满足前端对 URL 的通用处理方式：
-      * 如果 `url` 中包含协议（如 `http://`），则用完整地 `url` 打开新的标签页。
-      * 如果 `url` 中不包含协议，但是以 `/` 开头，则将 `url` 字段内容视为**路径**，结合当前页面（User Console）的域名，打开新标签页。
-      * [不推荐] 如果 `url` 中不包含协议且不以 `/` 开头，则将 `url` 字段内容视为**子路径**，结合当前页面（User Console）的域名和路径，打开新标签页。
-    * `config`：App 的 [部署配置](#部署配置)，可以是模版的具体内容（YAML 字符串），也可以引用一个本地文件。
-    * `readinessProbe`：探测 App 是否正常运行。配置方法参考 [App 运行监测](#app-运行检测)。
-    * `dependencies`：记录 App 依赖的集群环境，包括 API 资源和集群中的服务。配置方法参考 [应用依赖](#应用依赖)。
+*   `apiVersion` and `kind` use the `metav1.TypeMeta` of the K8s API to mark the API type and version.
+*   `metadata` records the basic information of the App, including its name, category, etc.
+    *   `defaultVersion`: The default version. If the App has multiple versions, this indicates the default version. If the administrator does not set this field when registering the application, the first App version defined in `versions[]` will be the default version (see `template.crd.versions` and `template.helm.versions` for details).
+    *   `icon`: The URL of the application icon, pointing to the icon file address. The variable `$APP_DIR` can be used to represent the folder where the template file is located, making it easy to specify files in the local file system.
+*   `template` defines the specific content of the App template.
+    *   Currently, it supports Helm and CRD type applications, which are defined by the `template.helm` and `template.crd` fields, respectively. See [CRD and Helm Templates](#crd-and-helm-templates).
+    *   `versions`: Records the information of each version of the App, mainly including the following fields:
+        *   `urls`: The access link of the App instance, which can be generated based on the installation/deployment configuration of the App instance. Both the `name` and `url` sub-fields can be filled in Go Template format (for the replacement rules of Go Template format strings, see [Go Template Replacement Rules](#go-template-replacement-rules)). The `url` sub-field is used to open the App link in the front end, so it meets the general processing method of the front end for URLs:
+            *   If `url` contains a protocol (such as `http://`), a new tab page is opened with the complete `url`.
+            *   If `url` does not contain a protocol but starts with `/`, the content of the `url` field is treated as a **path**, and a new tab page is opened in combination with the domain name of the current page (User Console).
+            *   [Not recommended] If `url` does not contain a protocol and does not start with `/`, the content of the `url` field is treated as a **subpath**, and a new tab page is opened in combination with the domain name and path of the current page (User Console).
+        *   `config`: The [deployment configuration](#deployment-configuration) of the App, which can be the specific content of the template (YAML string) or a reference to a local file.
+        *   `readinessProbe`: Detects whether the App is running normally. For configuration methods, see [App Running Detection](#app-running-detection).
+        *   `dependencies`: Records the cluster environment on which the App depends, including API resources and services in the cluster. For configuration methods, see [Application Dependencies](#application-dependencies).
 
-## CRD 和 Helm 模版
+## CRD and Helm Templates
 
-系统目前支持 Helm 和 CRD 两种类型的 App 模版。
+The system currently supports two types of App templates: Helm and CRD.
 
-1) Helm 类型 App 的模版示例（简化版）：
+1)  Helm type App template example (simplified version):
 
-```yaml
-apiVersion: app.tensorstack.dev/v1beta1
-kind: Template
-metadata:
- ...
-template:
- helm:
-    repo: "oci://docker.io/t9kpublic"
-    chart: "terminal"
-    versions:
-    - version: 0.1.1
-      config: "file://$APP_DIR/manifests/v0_1_1.yaml"
-      urls: []
-      readinessProbe: {}
-      dependencies: {}
-```
+    ```yaml
+    apiVersion: app.tensorstack.dev/v1beta1
+    kind: Template
+    metadata:
+     ...
+    template:
+     helm:
+        repo: "oci://docker.io/t9kpublic"
+        chart: "terminal"
+        versions:
+        - version: 0.1.1
+          config: "file://$APP_DIR/manifests/v0_1_1.yaml"
+          urls: []
+          readinessProbe: {}
+          dependencies: {}
+    ```
 
-2) CRD 应用的模版示例（简化版）：
+2)  CRD application template example (simplified version):
 
-```yaml
-apiVersion: app.tensorstack.dev/v1beta1
-kind: Template
-metadata:
-  ...
-template:
-  crd:
-    group: tensorstack.dev
-    resource: notebooks
-    versions:
-    - version: v1beta1
-      config: "file://$APP_DIR/config.yaml"
-      readme: "file://$APP_DIR/README.md"
-      note: "file://$APP_DIR/NOTE.txt"
-      urls: []
-      readinessProbe: {}
-      dependencies: {}
-```
+    ```yaml
+    apiVersion: app.tensorstack.dev/v1beta1
+    kind: Template
+    metadata:
+      ...
+    template:
+      crd:
+        group: tensorstack.dev
+        resource: notebooks
+        versions:
+        - version: v1beta1
+          config: "file://$APP_DIR/config.yaml"
+          readme: "file://$APP_DIR/README.md"
+          note: "file://$APP_DIR/NOTE.txt"
+          urls: []
+          readinessProbe: {}
+          dependencies: {}
+    ```
 
-两者对比：
+Comparison of the two:
 
-* 模版的 `apiVersion`、`kind`、`metadata` 字段格式都是相同的，含义一致。
-* Helm App 和 CRD 使用不同的应用声明方式，前者使用 `repo` 和 `chart` 字段指定 Helm Chart 所在位置，后者使用 `group``、resource` 字段指定 CRD 类型。
-* Helm App 的 `version` 参考 [Chart.yaml](https://helm.sh/docs/topics/charts/#the-chartyaml-file) 中的 `version` 字段，CRD 应用的 `version` 指一个 CRD 的 [API Version](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/)。
-* Helm App 在打包时支持同时上传 README.md 和 NOTE.txt 文件，但是 CRD 在开发、部署后，没有这部分信息。所以在应用模版中，为 CRD 应用添加 readme 和 note 字段，来补充这部分内容。其中 note 的内容可以用 Go Template 填写，所能引用的模版变量请参考 [Go Template 替换规则](#go-template-替换规则)。
-* 两种 Apps 的其他字段含义和内容，都是相同的，在文档后续内容介绍。
+*   The format and meaning of the `apiVersion`, `kind`, and `metadata` fields of the template are the same.
+*   Helm App and CRD use different application declaration methods. The former uses the `repo` and `chart` fields to specify the location of the Helm Chart, while the latter uses the `group` and `resource` fields to specify the CRD type.
+*   The `version` of a Helm App refers to the `version` field in `Chart.yaml` ([Chart.yaml File](https://helm.sh/docs/topics/charts/#the-chartyaml-file)), while the `version` of a CRD application refers to the [API Version](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/) of a CRD.
+*   Helm App supports uploading README.md and NOTE.txt files at the same time when packaging, but CRD does not have this information after development and deployment. Therefore, in the application template, `readme` and `note` fields are added for CRD applications to supplement this information. The content of `note` can be filled in with Go Template, and the template variables that can be referenced are described in [Go Template Replacement Rules](#go-template-replacement-rules).
+*   The meaning and content of other fields of the two types of Apps are the same and will be introduced in the subsequent content of the document.
 
 > [!NOTE]
-> 1. 目前 t9k-app 仅支持注销单个 App，不支持批量注销。
-> 2. 目前 t9k-app 仅支持注销整个 App，不支持注销 App 的特定版本。如果用户想要注销 App 的某一特定版本，可以在 App 模板中去掉该版本信息，然后更新该 App。
+> 1.  Currently, `t9k-app` only supports unregistering a single App at a time, not batch unregistration.
+> 2.  Currently, `t9k-app` only supports unregistering an entire App, not a specific version of an App. If a user wants to unregister a specific version of an App, they can remove the version information from the App template and then update the App.
 
+## Deployment Configuration
 
-## 部署配置
+When deploying Apps, users need to provide a **deployment configuration**.
 
-部署 Apps 时，用户需要提供一个**部署配置**。
+When registering Apps, administrators can set a **deployment configuration template** for Helm applications and CRD applications through the `template.helm.versions[@].config` and `template.crd.versions[@].config` fields, respectively, to help users construct the deployment configuration.
 
-管理员在注册 Apps 时，可以通过 `template.helm.versions[@].config` 和 `template.crd.versions[@].config` 两个字段分别为 Helm 应用和 CRD 应用设置**部署配置模版**，以帮助用户构造部署配置。
+Both of the above fields support filling in with external files and inline content.
 
-上述两个字段，都支持使用外部文件和内连内容（inline）两种方式填写。
+1)  External file:
 
-1) 外部文件：
+    ```yaml
+    apiVersion: app.tensorstack.dev/v1beta1
+    kind: Template
+    template:
+      helm: 
+        versions:
+        # Use local file path to fill in
+        - config: "file://$APP_DIR/manifests/v0_1_1.yaml"
+    ```
 
-```yaml
-apiVersion: app.tensorstack.dev/v1beta1
-kind: Template
-template:
-  helm: 
-    versions:
-    # 使用本地文件路径填写
-    - config: "file://$APP_DIR/manifests/v0_1_1.yaml"
-```
+2)  Inline content:
 
-2) 内连（inline）内容：
+    ```yaml
+    apiVersion: app.tensorstack.dev/v1beta1
+    kind: Template
+    config:
+      helm: 
+        versions:
+        # Use inline content to fill in
+        - config: "# sh, bash or zsh\n## @param shell Select a shell to start terminal.\nshell: bash\n\n## @param resources.limits.cpu The maximum number of CPU the terminal can use.\n## @param resources.limits.memory The maximum number of memory the terminal can use.\nresources:\n  limits:\n    cpu: 200m\n    memory: 200Mi\n\n## @param resources.limits.cpu Mount pvcs to terminal.\npvcs: []\n\nglobal:\n  t9k:\n    homeURL: \"$(HOME_URL)\"\n    securityService:\n      enabled: true\n      endpoints:\n        oidc: \"$(OIDC_ENDPOINT)\"\n        securityServer: \"$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)\"\n    pepProxy:\n      args:\n        clientID: $(APP_AUTH_CLINET_ID)"
+    ```
 
-```yaml
-apiVersion: app.tensorstack.dev/v1beta1
-kind: Template
-config:
-  helm: 
-    versions:
-    # 使用 inline 内容填写
-    - config: "# sh, bash or zsh\n## @param shell Select a shell to start terminal.\nshell: bash\n\n## @param resources.limits.cpu The maximum number of CPU the terminal can use.\n## @param resources.limits.memory The maximum number of memory the terminal can use.\nresources:\n  limits:\n    cpu: 200m\n    memory: 200Mi\n\n## @param resources.limits.cpu Mount pvcs to terminal.\npvcs: []\n\nglobal:\n  t9k:\n    homeURL: \"$(HOME_URL)\"\n    securityService:\n      enabled: true\n      endpoints:\n        oidc: \"$(OIDC_ENDPOINT)\"\n        securityServer: \"$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)\"\n    pepProxy:\n      args:\n        clientID: $(APP_AUTH_CLINET_ID)"
-```
-
-以下为 Terminal 应用的部署配置模版：
+Below is the deployment configuration template for the Terminal application:
 
 ```yaml
 # sh, bash or zsh
@@ -171,31 +172,31 @@ global:
         clientID: $(T9K_APP_AUTH_CLINET_ID)
 ```
 
-其中：
+Where:
 
-* User Console 的部署页面会识别所有以 `## @param` 开头的注释，并将整合这些注释所指定的字段为一个表单（Web Form），方便用户填写。
-  * 注释的格式为 `## @param <field-path> <field-description>`。
-  * （User Console 1.79.7 之后的版本，支持使用 `## @param[required] <field-path> <field-description>` 表示必填字段）
-* 在部署应用时，应用控制器提供系统变量支持，实现灵活配置。
-  * 在配置中，使用变量的语法为：`$(<variable-name>)`，例如 `"$(T9K_HOME_URL)"`。
-  * 部署配置模版中支持使用的变量请参考[系统变量](#系统变量)。
+*   The deployment page of the User Console will recognize all comments starting with `## @param` and integrate the fields specified by these comments into a web form to facilitate user filling.
+    *   The format of the comment is `## @param <field-path> <field-description>`.
+    *   (User Console versions after 1.79.7 support using `## @param[required] <field-path> <field-description>` to indicate required fields)
+*   When deploying an application, the application controller provides system variable support to achieve flexible configuration.
+    *   In the configuration, the syntax for using variables is: `$(<variable-name>)`, for example, `"$(T9K_HOME_URL)"`.
+    *   For the variables that can be used in the deployment configuration template, please refer to [System Variables](#system-variables).
 
-### 系统变量
+### System Variables
 
-目前，部署配置模版中支持使用以下变量：
+Currently, the following variables are supported in the deployment configuration template:
 
-1. `$(T9K_HOME_URL)`：平台暴露服务所使用的域名。管理员可以在应用模版中配置应用使用该域名暴露应用服务。
-2. `$(T9K_OIDC_ENDPOINT)`：平台的 OIDC 服务地址。
-3. `$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)`：平台的 Security Console 服务器地址。
-4. `$(T9K_APP_AUTH_CLINET_ID)`：表示一个 Client ID（OAuth 协议中的概念），需要授权的应用应使用该 Client ID 向授权服务器申请授权。
-5. `$(T9K_HOME_DOMAIN)`：平台的域名。
-6. `$(T9K_AUTH_DOMAIN)`：平台授权服务所在域名。
-7. `$(T9K_APP_IMAGE_REGISTRY)`：安装 APP 时，拉取镜像的 Registry 地址。
-8. `$(T9K_APP_IMAGE_NAMESPACE)`：安装 APP 时，拉取镜像的命名空间或者项目。
+1.  `$(T9K_HOME_URL)`: The domain name used by the platform to expose services. Administrators can configure the application to use this domain name to expose application services in the application template.
+2.  `$(T9K_OIDC_ENDPOINT)`: The OIDC service address of the platform.
+3.  `$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)`: The Security Console server address of the platform.
+4.  `$(T9K_APP_AUTH_CLINET_ID)`: Represents a Client ID (a concept in the OAuth protocol). Applications that require authorization should use this Client ID to apply for authorization from the authorization server.
+5.  `$(T9K_HOME_DOMAIN)`: The domain name of the platform.
+6.  `$(T9K_AUTH_DOMAIN)`: The domain name where the platform authorization service is located.
+7.  `$(T9K_APP_IMAGE_REGISTRY)`: The Registry address for pulling images when installing an APP.
+8.  `$(T9K_APP_IMAGE_NAMESPACE)`: The namespace or project for pulling images when installing an APP.
 
-## App 运行检测
+## App Running Detection
 
-应用模板中的 `readinessProbe` 字段定义如何检测应用是否在正常运行。
+The `readinessProbe` field in the application template defines how to detect whether the application is running normally.
 
 ```yaml
 template:
@@ -223,13 +224,13 @@ template:
           desiredStatus: "True"
 ```
 
-如上述 YAML 所示，App 模版中可以定义三种 `readinessProbe`：
+As shown in the YAML above, three types of `readinessProbe` can be defined in the App template:
 
-* `tcpSocket` 检查一个 Host（当前环境下，指 Pod、Service 等）上指定端口能否连通。
-* `httpGet` 检查能否向一个指定路径发送 Get 请求。
-* `resources` 检查指定资源的状态；如果该字段填写了多个资源的判定条件，则只有所有资源都通过判定，该 `readinessProbe` 才通过判定。
-  * 当根据 `currentStatus` 生成的字符串与 `desiredStatus` 相同，说明当前资源就绪。
-  * 如果判定当前资源未就绪，控制器会根据 `message` 字段生成错误提示，该错误提示将被记录在 Instance 资源对象中，也可以在 User Console 页面中看到。
+*   `tcpSocket` checks whether a specified port on a Host (in the current environment, this refers to Pods, Services, etc.) can be connected to.
+*   `httpGet` checks whether a Get request can be sent to a specified path.
+*   `resources` checks the status of the specified resources; if this field is filled with the judgment conditions of multiple resources, the `readinessProbe` will only pass the judgment if all resources pass the judgment.
+    *   When the string generated according to `currentStatus` is the same as `desiredStatus`, it means that the current resource is ready.
+    *   If it is determined that the current resource is not ready, the controller will generate an error message based on the `message` field. This error message will be recorded in the Instance resource object and can also be seen on the User Console page.
 
 ```yaml
 readinessProbe:
@@ -243,20 +244,20 @@ readinessProbe:
     desiredStatus: "True"
 ```
 
-以上为一个 `resources` 类型的 `readinessProbe`，其含义为：检查类型为 `Ready` 的 `.status.conditions` 字段的 `status` 子字段，如果该字段内容为 `True`，则说明 `notebook` 资源已就绪；否则返回 类型为 `Ready` 的 `.status.conditions` 字段的 `message` 子字段作为错误提示。
+Above is a `resources` type `readinessProbe`, which means: check the `status` sub-field of the `.status.conditions` field with `type` as `Ready`. If the content of this field is `True`, it means that the `notebook` resource is ready; otherwise, return the `message` sub-field of the `.status.conditions` field with `type` as `Ready` as an error message.
 
-应用模板可以不填写任何 `readinessProbe`，表示应用一旦部署就处于 `Ready` 状态；也可以同时填写多个 `readinessProbe`，表示只有所有 `readinessProbe` 都通过验证，应用实例才进入 `Ready` 状态。
+The application template can be left without any `readinessProbe`, which means that the application is in the `Ready` state as soon as it is deployed; you can also fill in multiple `readinessProbe` at the same time, which means that the application instance will only enter the `Ready` state after all `readinessProbe` have passed verification.
 
-章节开头的示例中，所有 `{{ .go-template }}` 都表示当前字段可以用 Go Template 字符串来填写。
+In the example at the beginning of the chapter, all `{{ .go-template }}` indicate that the current field can be filled with a Go Template string.
 
 > [!NOTE]
-> `resources[@].currentStatus` 和 `resources[@].message` 字段的 Go Template 变量是使用运行的应用实例中的资源对象属性，而不是部署应用时所用的配置（CR Object 定义、Helm Values）配置填写，参考 [Go Template 替换规则](#go-template-替换规则)。
+> The Go Template variables for the `resources[@].currentStatus` and `resources[@].message` fields are filled using the resource object attributes in the running application instance, not the configuration used when deploying the application (CR Object definition, Helm Values). See [Go Template Replacement Rules](#go-template-replacement-rules).
 
-## 应用依赖
+## Application Dependencies
 
-应用模板中的 `dependencies` 字段定义应用的依赖。
+The `dependencies` field in the application template defines the dependencies of the application.
 
-在注册 App 时，如果当前集群不满足应用依赖，则 App 服务器会拒绝该 App 的注册；在注册之后，如果集群中这些应用依赖项丢失，则在用户部署 App 时，无法看到这些依赖丢失的 App。
+When registering an App, if the current cluster does not meet the application dependencies, the App server will reject the registration of the App; after registration, if these application dependencies are lost in the cluster, users will not be able to see these dependency-lost Apps when deploying them.
 
 ```yaml
 template:
@@ -272,46 +273,46 @@ template:
           name: build-console-web
 ```
 
-可以定义两种依赖：
+Two types of dependencies can be defined:
 
-* `crds`：应用依赖特定的 CRD。
-* `services`：应用依赖特定的服务。（此处不检查服务是否可用，原因是服务可能因为网络波动等原因出现临时不可用的情况，当类似情况发生，容易出现应用在“可部署”和“不可部署”间波动。这里假设只要服务存在，即 Service 资源存在，就满足应用部署的前提）
+*   `crds`: The application depends on a specific CRD.
+*   `services`: The application depends on a specific service. (Here, it is not checked whether the service is available, because the service may be temporarily unavailable due to network fluctuations, etc. When a similar situation occurs, it is easy for the application to fluctuate between "deployable" and "undeployable". Here, it is assumed that as long as the service exists, that is, the Service resource exists, the prerequisite for application deployment is met.)
 
-## Go Template 替换规则
+## Go Template Replacement Rules
 
-在应用模板中，有些字段需要引用应用实例部署时的信息或部署后产生的资源的信息，采用 Go Template 格式填写：
+In the application template, some fields need to refer to the information of the application instance during deployment or the information of the resources generated after deployment, which are filled in Go Template format:
 
-* Go Template 语法请参考：https://developer.hashicorp.com/nomad/tutorials/templates/go-template-syntax。
-* Go Template 所使用的变量，分为以下三种情况在下面进行讨论：
-  1. 应用类型为 Helm；
-  2. 应用类型为 CRD；
-  3. `readinessProbe.resources[@].currentStatus|message` 字段所使用的 Go Template 变量。
+*   For Go Template syntax, please refer to: [https://developer.hashicorp.com/nomad/tutorials/templates/go-template-syntax](https://developer.hashicorp.com/nomad/tutorials/templates/go-template-syntax).
+*   The variables used by Go Template are discussed below in the following three situations:
+    1.  The application type is Helm;
+    2.  The application type is CRD;
+    3.  The Go Template variables used by the `readinessProbe.resources[@].currentStatus|message` field.
 
-### 应用类型为 Helm
+### Application Type is Helm
 
-可使用的变量包括：
+The available variables include:
 
-1. `{{ .Release.Namespace }}`：应用实例所在的命名空间。
-2. `{{ .Release.Name }}`：应用实例的名称。
-3. `{{ .Values.xxx }}`：应用实例的部署配置中的字段。
+1.  `{{ .Release.Namespace }}`: The namespace where the application instance is located.
+2.  `{{ .Release.Name }}`: The name of the application instance.
+3.  `{{ .Values.xxx }}`: The fields in the deployment configuration of the application instance.
 
-以下为 Terminal 应用的部分部署配置：
+Below is part of the deployment configuration for the Terminal application:
 
 ```yaml
 shell: bash
 pingIntervalSeconds: 30
 ```
 
-用户在 Go Template 中可以用 `{{ .Values.shell }}` 引用上述配置中 `shell` 字段的值。
+Users can use `{{ .Values.shell }}` in Go Template to refer to the value of the `shell` field in the above configuration.
 
 > [!NOTE]
-> [Helm Build-in Object](https://helm.sh/docs/chart_template_guide/builtin_objects/) 支持更多变量，但这些变量大多需要读取 Chart 文件、检查本地环境等，获取较为麻烦且在应用模板中用途较小。所以在应用模板中只支持 `{{ .Release.Namespace }}` 和 `{{ .Release.Name }}` 两个内置变量。
+> [Helm Build-in Object](https://helm.sh/docs/chart_template_guide/builtin_objects/) supports more variables, but most of these variables require reading Chart files, checking the local environment, etc., which are more troublesome to obtain and have little use in application templates. Therefore, only the two built-in variables `{{ .Release.Namespace }}` and `{{ .Release.Name }}` are supported in the application template.
 
-### 应用类型为 CRD
+### Application Type is CRD
 
-CRD 应用模板中的 Go Template 可以引用部署配置中的字段。
+The Go Template in the CRD application template can refer to the fields in the deployment configuration.
 
-以下为 JupyterLab 应用的部分部署配置：
+Below is part of the deployment configuration for the JupyterLab application:
 
 ```yaml
 apiVersion: tensorstack.dev/v1beta1
@@ -324,24 +325,24 @@ spec:
   ...
 ```
 
-用户可以用 `{{ .metadata.namespace }}` 引用应用实例所在的命名空间，用 `{{ .spec.type }}` 引用 Notebook 类型。
+Users can use `{{ .metadata.namespace }}` to refer to the namespace where the application instance is located, and `{{ .spec.type }}` to refer to the Notebook type.
 
 > [!NOTE]
-> 如果 CRD 应用的部署配置中的 `.metadata.namespace` 字段如果没有填写，则 App Server 会自动根据用户所在的 namespace 填写该字段，所以不用担心 `{{ .metadata.namespace }}` 变量会引用空值。但其他字段则没有默认值，所以需要注意。
+> If the `.metadata.namespace` field in the deployment configuration of the CRD application is not filled in, the App Server will automatically fill in this field according to the user's namespace, so there is no need to worry that the `{{ .metadata.namespace }}` variable will refer to a null value. However, other fields do not have default values, so you need to pay attention.
 
 ### readinessProbe.resources[@].currentStatus|message
 
-指以下字段：
+Refers to the following fields:
 
-* `template.crd.versions[@].readinessProbe.resources[@].currentStatus`
-* `template.crd.versions[@].readinessProbe.resources[@].message`
-* `template.helm.versions[@].readinessProbe.resources[@].currentStatus`
-* `template.helm.versions[@].readinessProbe.resources[@].message`
+*   `template.crd.versions[@].readinessProbe.resources[@].currentStatus`
+*   `template.crd.versions[@].readinessProbe.resources[@].message`
+*   `template.helm.versions[@].readinessProbe.resources[@].currentStatus`
+*   `template.helm.versions[@].readinessProbe.resources[@].message`
 
 > [!NOTE]
-> 与其他支持 Go Template 格式的字段不同，`currentStatus` 和 `message` 用于在应用实例部署后判断子资源状态，而其他字段在部署应用实例时就会进行解析。
+> Unlike other fields that support Go Template format, `currentStatus` and `message` are used to determine the status of sub-resources after the application instance is deployed, while other fields are parsed when the application instance is deployed.
 
-以下为 Terminal 应用的部分应用模板：
+Below is part of the application template for the Terminal application:
 
 ```yaml
 apiVersion: app.tensorstack.dev/v1beta1
@@ -359,4 +360,4 @@ template:
           desiredStatus: "True"
 ```
 
-假定用户部署应用名为 `demo`，根据 [Helm 应用变量](#应用类型为-helm) 中的规则，上述 `name` 字段为 `terminal-demo`。所以根据 `readinessProbe`，实例控制器需要检查 `terminal-demo` Deployment 的状态。上述 `currentStatus` 中的变量引用 Deployment 的字段，其逻辑为：查找 `type` 字段为 `Available` 的 `.status.conditions` 并返回其 `status` 子字段。
+Assuming the user deploys an application named `demo`, according to the rules in [Helm Application Variables](#application-type-is-helm), the `name` field above is `terminal-demo`. Therefore, according to the `readinessProbe`, the instance controller needs to check the status of the `terminal-demo` Deployment. The variables in `currentStatus` above refer to the fields of the Deployment, and its logic is: find the `.status.conditions` with `type` as `Available` and return its `status` sub-field.

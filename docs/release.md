@@ -1,25 +1,27 @@
-# 应用发布
+# Application Release
 
-本文介绍[应用开发](./dev.md)完成后，如何在 TensorStack AI 平台中发布应用。需要发布的内容包括三类：
+[中文](./release_zh.md)
 
-1. 对应的 [镜像](./dev.md#构建镜像)；
-2. 对应的 [Helm Chart](./dev.md#开发-helm-chart)；
-3. 对应的 [注册相关文件](./dev.md#发布-app)。
+This article describes how to release an application on the TensorStack AI platform after completing [application development](./dev.md). The content to be released includes three categories:
 
-## 私有发布
+1.  The corresponding [image](./dev.md#building-the-image);
+2.  The corresponding [Helm Chart](./dev.md#developing-the-helm-chart);
+3.  The corresponding [registration-related files](./dev.md#publishing-the-app).
 
-如果开发的应用仅在自有环境（如私有化部署的 TensorStack AI 平台）使用，需要：
+## Private Release
 
-1. 将镜像上传至私有镜像仓库，例如内网部署的 [Harbor](https://goharbor.io/)；
-2. 将 Helm Chart 上传至私有 Chart 仓库，例如内网部署的 [Harbor](https://goharbor.io/)；
-3. 将 Apps [注册相关文件](./dev.md#发布-app) 保存好，例如上传至自有 Git 仓库。
+If the developed application is only used in your own environment (such as a privately deployed TensorStack AI platform), you need to:
 
-## 公开发布
+1.  Upload the image to a private image repository, such as a self-hosted [Harbor](https://goharbor.io/);
+2.  Upload the Helm Chart to a private Chart repository, such as a self-hosted [Harbor](https://goharbor.io/);
+3.  Save the Apps [registration-related files](./dev.md#publishing-the-app), for example, by uploading them to your own Git repository.
 
-如果开发的应用希望更多用户使用、可在公网发布，需要：
+## Public Release
 
-1. 将镜像上传至公开镜像仓库，例如 DockerHub 或 TensorStack 提供的公开镜像仓库；
-2. 将 Helm Chart 上传至公开 Chart 仓库，例如 DockerHub 或 TensorStack 提供的公开 Chart 仓库；
-3. 将注册相关文件通过 Pull Request 提交给 [TensorStack GitHub 仓库](https://github.com/t9k/apps/pulls)。
+If you want the developed application to be used by more users and can be released publicly, you need to:
 
-注意：公开发布时，选择的 ”镜像/Chart 仓库” 时，需要考虑该仓库是不是可以高速、方便地被目标用户集群方便访问。
+1.  Upload the image to a public image repository, such as DockerHub or the public image repository provided by TensorStack;
+2.  Upload the Helm Chart to a public Chart repository, such as DockerHub or the public Chart repository provided by TensorStack;
+3.  Submit the registration-related files to the [TensorStack GitHub repository](https://github.com/t9k/apps/pulls) via a Pull Request.
+
+Note: When making a public release, the chosen "image/Chart repository" should be one that can be accessed quickly and easily by the target user cluster.

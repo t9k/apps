@@ -1,14 +1,16 @@
-# 附录
+# Appendix
 
-## 命令行工具  -  t9k-app
+[中文](./appendix_zh.md)
 
-管理员使用命令行工具 t9k-app 管理 Apps。
+## Command-Line Tool - t9k-app
 
-### 下载方式
+Administrators use the command-line tool `t9k-app` to manage Apps.
 
-从 https://github.com/t9k/user-manuals/releases 中获取最新的 t9k-app 命令行工具。
+### Download
 
-以 Linux 操作系统为例，在命令行中执行以下命令：
+Get the latest `t9k-app` command-line tool from [https://github.com/t9k/user-manuals/releases](https://github.com/t9k/user-manuals/releases).
+
+For example, on a Linux operating system, execute the following commands in the command line:
 
 ```bash
 wget https://github.com/t9k/user-manuals/releases/download/2024-07-21/t9k-app-linux-amd64
@@ -16,18 +18,18 @@ mv t9k-app-linux-amd64 t9k-app
 sudo chmod +x t9k-app
 ```
 
-### 列举 Apps
+### List Apps
 
 ```bash
 t9k-app list -s <server> -k <apikey>
 ```
 
-参数说明：
+**Parameters:**
 
-* `-k`：[必填] 一个具有管理员权限的 API Key。
-* `-s`：[必填] App Server 服务地址。
+*   `-k`: [Required] An API Key with administrator privileges.
+*   `-s`: [Required] The App Server service address.
 
-输出结果：
+**Output:**
 
 ```
 NAME               DISPLAY NAME                DEFAULT VERSION     CATEGORIES
@@ -43,46 +45,46 @@ jupyterlab-gpu     JupyterLab (Nvidia GPU)     0.1.2               IDE
 label-studio       Label Studio                1.4.8               AI, Tool
 ```
 
-### 注册/更新 Apps
+### Register/Update Apps
 
 ```bash
 t9k-app register -f <template.yaml> -s <server> -k <apikey> [flags]
 ```
 
-参数说明：
+**Parameters:**
 
-* `-f`：[必填] 应用模版路径。
-  * 一条命令中可以多次使用 `-f` 参数，读取多个应用模版，如 `t9k-app register -f template-1.yaml -f template-2.yaml`。
-  * 应用模版路径可以包含通配符，`t9k-app` 会读取所有匹配的应用模版，如 `t9k-app register -f "apps/t9k_*/template.yaml"`。
-* `-k`：[必填] 一个具有管理员权限的 API Key。
-* `-s`：[必填] App Server 服务地址。
-* `-u`：如果应用已经存在，则更新该应用。
-  * 如果应用已经存在且未设置该参数，则不注册该应用。
-* `-v`：日志等级。数字越大，日志的信息量越多，默认为 0。
+*   `-f`: [Required] The path to the application template.
+    *   You can use the `-f` parameter multiple times in a single command to read multiple application templates, e.g., `t9k-app register -f template-1.yaml -f template-2.yaml`.
+    *   The application template path can include wildcards. `t9k-app` will read all matching application templates, e.g., `t9k-app register -f "apps/t9k_*/template.yaml"`.
+*   `-k`: [Required] An API Key with administrator privileges.
+*   `-s`: [Required] The App Server service address.
+*   `-u`: If the application already exists, update it.
+    *   If the application already exists and this parameter is not set, the application will not be registered.
+*   `-v`: Log level. The larger the number, the more detailed the log information. The default is 0.
 
-### 注销 Apps
+### Unregister Apps
 
 ```bash
 t9k-app unregister <app-name> -s <server> -k <apikey>
 ```
 
-参数说明：
+**Parameters:**
 
-* `<app-name>`：[必填] 应用的名称，注意不是展示名称（display name）。
-* `-k`：[必填] 一个具有管理员权限的 API Key。
-* `-s`：[必填] App Server 服务地址。
-* `-v`：日志等级。数字越大，日志的信息量越多，默认为 0。
+*   `<app-name>`: [Required] The name of the application, not the display name.
+*   `-k`: [Required] An API Key with administrator privileges.
+*   `-s`: [Required] The App Server service address.
+*   `-v`: Log level. The larger the number, the more detailed the log information. The default is 0.
 
-## 获取管理员 API Key
+## Get Administrator API Key
 
-使用管理员账号登录 User Console，并通过左侧导航栏进入 **账户设置 > 安全设置** 页面：
+Log in to the User Console with an administrator account and navigate to the **Account Settings > Security Settings** page from the left navigation bar:
 
 ![User Console](./img/user-console.png)
 
-点击 **生成 API Key 按钮**，在权限列表中选择 **集群 - 管理** 权限，生成 API Key：
+Click the **Generate API Key** button, select the **Cluster - Admin** permission from the permission list, and generate the API Key:
 
 ![Admin Permission](./img/admin-permission.png)
 
-生成 API Key 后，点击复制按钮复制 API Key：
+After generating the API Key, click the copy button to copy the API Key:
 
 ![Copy](./img/copy-apikey.png)

@@ -1,29 +1,31 @@
-# 应用开发
+# Application Development
 
-本文介绍 Helm 和 CRD 两种形式 Apps 的开发过程。
+[中文](./dev_zh.md)
+
+This article describes the development process for Apps in both Helm and CRD formats.
 
 ## Helm Apps
 
-开发 Helm 形式的 Apps 包括如下步骤：
+The development of Helm-based Apps involves the following steps:
 
-1. 把 App 容器化，构架容器镜像，并使用 K8s 的 APIs 和服务；
-2. 使用 Helm Chart 打包应用，并符合 T9k Apps 的规范；
-3. 发布 App，使用 T9k Apps 定义的规范和流程发布 Apps。
+1.  Containerize the App, build a container image, and use K8s APIs and services.
+2.  Package the application using a Helm Chart that conforms to the T9k Apps specification.
+3.  Publish the App using the specifications and processes defined by T9k Apps.
 
-### 构建镜像
+### Building the Image
 
 > [!NOTE]
-> 1. 镜像是容器镜像（container image）简称。
-> 1. 如果 App 使用已有镜像，则可跳过该步骤。
+> 1.  "Image" is short for container image.
+> 2.  If the App uses an existing image, this step can be skipped.
 
-构建镜像一般需要：
+Building an image generally requires:
 
-* Dockerfile：一个文本文件，其中包含构建镜像的各个步骤。
-* 上下文：构建镜像有时需要使用本地文件，这些本地文件就是构建镜像过程中的上下文。
+*   A `Dockerfile`: A text file that contains the steps for building the image.
+*   Context: Building an image sometimes requires local files, which constitute the context for the build process.
 
-参考 [Docker: Building Images](https://docs.docker.com/build/building/packaging/)。
+Refer to [Docker: Building Images](https://docs.docker.com/build/building/packaging/).
 
-以下是一个简单的 Dockerfile：
+Here is a simple `Dockerfile`:
 
 ```dockerfile
 FROM centos:7.6.1810
@@ -65,27 +67,27 @@ ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 CMD ["ttyd", "-p", "8080", "bash"]
 ```
 
-在该镜像中，我们使用 `centos:7.6.1810` 基础镜像，安装了 `gcc` 等工具，并安装了 `ttyd` 软件。在最后指定 `ttyd -p 8080 bash` 作为容器默认启动命令。
-Dockerfile 更多语法，请参考 [Docker: Dockerfile Reference](https://docs.docker.com/reference/dockerfile/)。
+In this image, we use the `centos:7.6.1810` base image, install tools like `gcc`, and install the `ttyd` software. Finally, we specify `ttyd -p 8080 bash` as the default container startup command.
+For more `Dockerfile` syntax, please refer to [Docker: Dockerfile Reference](https://docs.docker.com/reference/dockerfile/).
 
-在准备好 Dockerfile 和上下文后，使用以下命令构建镜像：
+After preparing the `Dockerfile` and context, use the following command to build the image:
 
 ```bash
 docker build -f <dockerfile-path> -t <image-tag> <runtime-path>
 ```
 
-构建好的镜像需要上传到一个镜像仓库中，方便在其他机器上使用时拉取：
+The built image needs to be uploaded to an image repository so that it can be pulled for use on other machines:
 
 ```bash
 docker push <image-tag>
 ```
 
-### 开发 Helm Chart
+### Developing the Helm Chart
 
 > [!NOTE]
-> 如果使用已有 Helm Chart，跳过该步骤。但由于 T9k Apps 的 Charts 需要符合特定的规范，一般情况下，用户总是需要自己构建 Charts。
+> If you are using an existing Helm Chart, you can skip this step. However, since T9k Apps' Charts need to conform to specific specifications, users will generally need to build their own Charts.
 
-一个 Helm Chart 示例：
+A Helm Chart example:
 
 ```
 chart
@@ -99,75 +101,75 @@ chart
 └── values.yaml
 ```
 
-其中：
+Where:
 
-* `Chart.yaml`：Chart 的基本信息。
-* `README.md`：Chart 的介绍，在应用注册成功后，用户可以在 User Console 的应用介绍页面看到这部分内容。
-* `templates`：Helm 模版文件，其中一般包括：
-  * `NOTES.txt`：介绍一个 Helm Release（部署后的 Helm Chart 实例）信息。
-  * 模版文件：K8s 资源模版，可以使用一些逻辑语句和函数。
-* `values.yaml`：Helm Chart 的默认配置（Default Values）。
-* 更多 Helm Chart 的介绍请参考 [Helm: Getting Started](https://helm.sh/docs/chart_template_guide/getting_started/)。
+*   `Chart.yaml`: Basic information about the Chart.
+*   `README.md`: An introduction to the Chart. After the application is successfully registered, users can see this content on the application introduction page in the User Console.
+*   `templates`: Helm template files, which generally include:
+    *   `NOTES.txt`: Introduces information about a Helm Release (an instance of a deployed Helm Chart).
+    *   Template files: K8s resource templates, which can use some logical statements and functions.
+*   `values.yaml`: The default configuration (Default Values) of the Helm Chart.
+*   For more information on Helm Charts, please refer to [Helm: Getting Started](https://helm.sh/docs/chart_template_guide/getting_started/).
 
-#### 设置 Values
+#### Setting Values
 
-T9k Apps 支持 2 种方式设置 Charts 的 `Values` ：
+T9k Apps supports two ways to set the `Values` of a Chart:
 
-1. Default Values：Helm Chart 的默认变量值，在开发 Helm Chart 时，记录在 `values.yaml` 文件中。
-2. User Values：额外变量值。用户在部署应用的时候时设置，服务器会将该 Values 与 Default Values 合并（字段冲突时，User Values 优先级更高），然后用于部署 App。
+1.  Default Values: The default variable values of the Helm Chart, recorded in the `values.yaml` file during Helm Chart development.
+2.  User Values: Additional variable values. Users set these when deploying the application. The server will merge these Values with the Default Values (User Values have higher priority in case of field conflicts) and then use them to deploy the App.
 
-#### 调试
+#### Debugging
 
-在上传 Helm Chart 前，开发者应在集群中完成完整的测试，以保证 Chart 确实可用。
+Before uploading the Helm Chart, developers should complete a full test in the cluster to ensure that the Chart is indeed usable.
 
-这里叙述一个简单的流程，使用本地文件夹 `./chart` 中的内容进行测试：
+Here is a simple process for testing with the contents of the local folder `./chart`:
 
-1) 使用 `helm template` 生成部署清单：
+1) Use `helm template` to generate the deployment manifest:
 
 ```bash
 helm template <release-name> -n <release-ns> ./chart > manifests.yaml
 ```
 
-开发者检查生成的清单文件 `manifests.yaml` 以确保符合预期。
+Developers should check the generated `manifests.yaml` file to ensure it meets expectations.
 
-2) 使用 `helm install` 部署应用：
+2) Use `helm install` to deploy the application:
 
 ```bash
 helm install <release-name> -n <release-ns> ./chart
 ```
 
-3) 应用被部署到集群中后，开发人员检查应用是否运行正常，能否访问。
+3) After the application is deployed to the cluster, developers should check whether the application is running normally and can be accessed.
 
-#### 上传
+#### Uploading
 
-在调试好 Helm Chart 后，打包 Helm Chart：
+After debugging the Helm Chart, package it:
 
 ```bash
 helm package ./chart
 ```
 
-在执行完命令后，Helm Chart 会被打包成一个 `.tgz` 文件，其名称格式为 `<chart-name>-<chart-version>.tgz`。
+After executing the command, the Helm Chart will be packaged into a `.tgz` file with the format `<chart-name>-<chart-version>.tgz`.
 
-将打包后的 Helm Chart 压缩包上传到 Chart 仓库：
+Upload the packaged Helm Chart to the Chart repository:
 
 ```bash
 helm push <tgz-file> <registry-url>
 ```
->[!NOTE]
-> 一般使用公开仓库如 Docker Hub，则 `<registry-url>` 格式类似 `oci://docker.io/t9kpublic`，
-> 但如果 Docker Hub 不可访问，用户需要使用其它 OCI Registry 云服务或搭建自己的 `oci` 仓库，参考 [Harbor](https://goharbor.io/))
 
-#### 注意事项
+> [!NOTE]
+> Generally, a public repository such as Docker Hub is used, in which case the `<registry-url>` format is similar to `oci://docker.io/t9kpublic`. However, if Docker Hub is not accessible, users will need to use other OCI Registry cloud services or set up their own `oci` repository, see [Harbor](https://goharbor.io/).
 
-1. 如果 App 需要设置 Service Account，可使用 Proejct 中预置的 ServiceAccount `managed-project-sa`，该 ServiceAccount 具有用户 Proejct 中的全部权限。请勿另行创建 ServiceAccount、Role 和 RoleBinding 等 RBAC 资源。
+#### Notes
 
-1. 如果预制的 Service Account 不满足用户 App 的需求，用户需要联系系统管理员，以获得合适的 RBAC 设置。
+1.  If the App needs to set a Service Account, you can use the pre-configured ServiceAccount `managed-project-sa` in the Project, which has full permissions in the user's Project. Do not create additional ServiceAccounts, Roles, RoleBindings, or other RBAC resources.
 
-### 发布 App
+2.  If the pre-configured Service Account does not meet the needs of the user's App, the user needs to contact the system administrator to obtain the appropriate RBAC settings.
 
-App 发布流程完成对 Helm Chart 定义相关 App Template 及配置文件，以支持 App 注册。
+### Publishing the App
 
-一般应准备以下内容：
+The App publishing process completes the definition of the relevant App Template and configuration files for the Helm Chart to support App registration.
+
+Generally, the following should be prepared:
 
 ```
 .
@@ -180,15 +182,15 @@ App 发布流程完成对 Helm Chart 定义相关 App Template 及配置文件�
 └── template.yaml
 ```
 
-其中：
+Where:
 
-* `configs` 文件夹：存储各版本应用的默认部署配置，也就是用户在前端部署应用时显示的默认配置。
-* `icon.png`：应用图标。
-* `template.yaml`：应用模版文件。
+*   `configs` folder: Stores the default deployment configurations for each version of the application, which is the default configuration displayed to the user when deploying the application in the frontend.
+*   `icon.png`: The application icon.
+*   `template.yaml`: The application template file.
 
-上述内容的格式请参考[应用模版](./template.md#应用模版)。
+The format of the above content can be found in [Application Template](./template.md#application-template).
 
-以下为 Terminal 应用的模版文件：
+Below is the template file for the Terminal application:
 
 ```yaml
 apiVersion: app.tensorstack.dev/v1beta1
@@ -210,15 +212,15 @@ template:
       ...
 ```
 
-其中：
+Where:
 
-* `metadata.icon` 中填写 `icon` 地址，除了本地文件以外，还支持通过 url 使用互联网图片.
-* `template.helm.versions[@].config` 中设置各版本应用的默认部署配置文件。
-* `template.helm.repo` 和 `template.helm.chart` 填写[开发 Helm Chart](#开发-helm-chart) 一节中 Chart 上传的仓库地址和名称。
+*   `metadata.icon` specifies the address of the icon. In addition to local files, it also supports using internet images via URL.
+*   `template.helm.versions[@].config` sets the default deployment configuration file for each version of the application.
+*   `template.helm.repo` and `template.helm.chart` specify the repository address and name of the Chart uploaded in the [Developing the Helm Chart](#developing-the-helm-chart) section.
 
-更多应用模版介绍，请参考[应用模版](./template.md#应用模版)。
+For more information on application templates, please refer to [Application Template](./template.md#application-template).
 
-使用命令行工具 t9k-app 注册应用：
+Use the command-line tool `t9k-app` to register the application:
 
 ```bash
 export APIKEY='xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
@@ -229,46 +231,46 @@ t9k-app register \
   -f template.yaml
 ```
 
-使用如下命令检查应用是否注册成功：
+Use the following command to check if the application was registered successfully:
 
 ```bash
 t9k-app list -k $APIKEY -s $APP_SERVER | grep terminal
 ```
 
-#### 部署及测试
+#### Deployment and Testing
 
-登录 User Console 页面，进入所注册应用的部署界面：
+Log in to the User Console page and go to the deployment interface of the registered application:
 
-检查：
+Check:
 
-1. 版本信息是否符合预期
-1. 表单、YAML 编辑器、README 的内容是否符合预期
-1. 部署后，查看集群中创建的资源是否符合预期；应用链接是否正常工作。
+1.  Whether the version information is as expected.
+2.  Whether the content of the form, YAML editor, and README is as expected.
+3.  After deployment, check whether the resources created in the cluster are as expected and whether the application link works properly.
 
-卸载应用，查看是否有数据残留。（有些数据遗留行为是符合预期的，比如卸载应用后，希望应用产生的数据可以保留，以用于其他用途。）
+Uninstall the application and check for any residual data. (Some data legacy behavior is expected, for example, if you want to keep the data generated by the application for other purposes after uninstalling it.)
 
-## CRD 应用
+## CRD Applications
 
-### CRD 开发
+### CRD Development
 
-CRD 是对 Kubernetes API 的扩展，其定义参考 [K8s Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)。
+A CRD is an extension of the Kubernetes API. Its definition can be found in [K8s Custom Resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
 
-K8s 提供了丰富的工具和代码包帮助开发者快速开发一个 CRD，比如 [Kubebuilder](https://book.kubebuilder.io/)，用户可参考该文档学习 CRD 的开发。
+K8s provides a rich set of tools and code packages to help developers quickly develop a CRD, such as [Kubebuilder](https://book.kubebuilder.io/). Users can refer to this documentation to learn about CRD development.
 
-#### 调试
+#### Debugging
 
-参考文档 [Running and deploying the controller](https://book.kubebuilder.io/cronjob-tutorial/running)：
+Refer to the documentation [Running and deploying the controller](https://book.kubebuilder.io/cronjob-tutorial/running):
 
-* 部署 CRD 及控制器；
-* 创建一个资源对象，确定资源对象的行为符合预期：
-  * 如果 CRD 用于提供服务，则需要检查服务是否正常运行；
-  * 如果 CRD 用于执行任务，则需要测试任务是否正常完成；
-  * 在任务、服务执行完成或失败后，CRD 的状态是否符合预期；
-  * …
+*   Deploy the CRD and the controller.
+*   Create a resource object and confirm that the behavior of the resource object is as expected:
+    *   If the CRD is used to provide a service, you need to check if the service is running properly.
+    *   If the CRD is used to perform a task, you need to test whether the task is completed normally.
+    *   After the task or service is completed or fails, check whether the status of the CRD is as expected.
+    *   …
 
-### App 发布
+### App Publishing
 
-注册 CRD 应用，一般应准备以下内容：
+To register a CRD application, you should generally prepare the following:
 
 ```
 ├── configs
@@ -279,17 +281,17 @@ K8s 提供了丰富的工具和代码包帮助开发者快速开发一个 CRD，
 └── template.yaml
 ```
 
-其中：
+Where:
 
-* `configs` 文件夹：存储各版本应用的默认部署配置，也就是用户在前端部署应用时显示的默认配置。
-* `icon.png`：应用图标。
-* `README.md`：应用介绍。
-* `NOTE.txt`：应用实例部署后，提供给用户的实例信息。
-* `template.yaml`：应用模版文件。
+*   `configs` folder: Stores the default deployment configurations for each version of the application, which is the default configuration displayed to the user when deploying the application in the frontend.
+*   `icon.png`: The application icon.
+*   `README.md`: The application introduction.
+*   `NOTE.txt`: Information about the application instance provided to the user after deployment.
+*   `template.yaml`: The application template file.
 
-上述内容的格式请参考 [应用模版](./template.md#应用模版)。
+The format of the above content can be found in [Application Template](./template.md#application-template).
 
-以下为 JupyterLab 应用的模版文件：
+Below is the template file for the JupyterLab application:
 
 ```yaml
 apiVersion: app.tensorstack.dev/v1beta1
@@ -300,7 +302,7 @@ metadata:
   defaultVersion: "0.1.1"
   categories: 
   - IDE
-  description: "JupyterLab 是最新的基于 Web 的交互式开发环境，用于代码开发和数据处理。其灵活的界面允许用户配置和安排数据科学、科学计算、计算新闻和机器学习中的工作流程。"
+  description: "JupyterLab is the latest web-based interactive development environment for code development and data processing. Its flexible interface allows users to configure and arrange workflows in data science, scientific computing, computational journalism, and machine learning."
   icon: "file://$APP_DIR/icon.svg"
 template:
   crd:
@@ -314,16 +316,16 @@ template:
       ...
 ```
 
-其中：
+Where:
 
-* `metadata.icon` 中填写 icon 地址，除了本地文件以外，还支持通过 url 使用互联网图片.
-* `template.crd.versions[@]` 中 `config`、`readme`、`note` 字段填写对应文件路径。
-* `template.crd.versions[@].version` 需要与 CRD 的版本对应。
-* `template.crd.group` 和 `template.crd.resource` 填写 CRD 的对应信息，参考。
+*   `metadata.icon` specifies the address of the icon. In addition to local files, it also supports using internet images via URL.
+*   In `template.crd.versions[@]`, the `config`, `readme`, and `note` fields specify the corresponding file paths.
+*   `template.crd.versions[@].version` needs to correspond to the version of the CRD.
+*   `template.crd.group` and `template.crd.resource` specify the corresponding information of the CRD.
 
-更多应用模版介绍，请参考 [应用模版](./template.md#应用模版)。
+For more information on application templates, please refer to [Application Template](./template.md#application-template).
 
-使用命令行工具 `t9k-app` 注册应用：
+Use the command-line tool `t9k-app` to register the application:
 
 ```bash
 export APIKEY='xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
@@ -334,12 +336,12 @@ t9k-app register \
   -f template.yaml
 ```
 
-使用如下命令检查应用是否注册成功：
+Use the following command to check if the application was registered successfully:
 
 ```bash
 t9k-app list -k $APIKEY -s $APP_SERVER | grep terminal
 ```
 
-#### 部署及测试
+#### Deployment and Testing
 
-这部分与 [Helm 应用的部署及测试](#部署及测试) 相同，不再赘述。
+This part is the same as the [Deployment and Testing of Helm Applications](#deployment-and-testing), so it will not be repeated here.
