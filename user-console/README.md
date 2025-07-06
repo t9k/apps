@@ -1,75 +1,77 @@
-# User Console 应用 （Apps）
+# User Console Apps
 
-TensorStack AI 平台的 User Console 提供了运行 **应用（Apps）** 的功能。管理员需要先向 App Server 注册 Apps，然后用户可以在 User Console 安装和使用 Apps。
+[中文](./README_zh.md)
 
-## 目录结构
+The User Console of the TensorStack AI platform provides the functionality to run **Apps**. Administrators need to register Apps with the App Server first, then users can install and use them in the User Console.
 
-当前目录下组织存放了所有可注册 Apps 的相关文件，结构如下：
+## Directory Structure
 
-1. 每个子目录一般对应一个 App，但也可对应多个（例如 [notebook](./notebook/)）；
-2. 每个子目录下的 `template.yaml` 文件为 **应用模版**（参考：[应用模板规范](../docs/template.md)），用于注册该 App；
-3. 每个子目录下可进一步创建子目录以存放其他开发文件，例如 `chart/` 存放 Helm Chart 文件，`docker/` 存放 Dockerfile。
+This directory organizes all the files related to registrable Apps, with the following structure:
 
-## Apps 分级
+1. Each subdirectory generally corresponds to one App, but can also correspond to multiple (e.g., [notebook](./notebook/)).
+2. The `template.yaml` file in each subdirectory is the **App Template** (see: [App Template Specification](../docs/template.md)), used to register the App.
+3. Subdirectories can be created within each App's directory to store other development files, such as `chart/` for Helm Chart files and `docker/` for Dockerfiles.
 
-所有 Apps 分为核心和实验性两个级别：
+## App Tiers
 
-* **核心**：承载平台核心功能，具备高可用性和可靠性，持续更新维护；适用于生产环境。
-* **实验性**：用于探索新功能或实验性功能，可能存在运行不稳定或使用上的不完善之处，更新频率不定；请谨慎在生产环境中使用。
+All Apps are categorized into two tiers: Core and Experimental.
 
-核心 Apps 包括：
+*   **Core**: These Apps carry the core functionalities of the platform, with high availability and reliability, and are continuously updated and maintained. They are suitable for production environments.
+*   **Experimental**: These Apps are for exploring new or experimental features. They may be unstable or have imperfections in their usage, and their update frequency is uncertain. Please use them with caution in production environments.
 
-| 应用            | 描述                                                                                                                                        |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| Argo Workflows  | 开源的工作流引擎，用于编排多步骤并行作业。                                                                                                  |
-| Code Server     | 基于浏览器的 VSCode 环境。                                                                                                                  |
-| ComfyUI         | 功能强大且模块化的 Stable Diffusion 图形用户界面和后端，支持基于图、节点和流程图设计和执行高级流水线。                                      |
-| Dify            | 开源的 LLM 应用开发平台。其直观的界面结合了智能 AI 工作流、RAG 管道、代理能力、模型管理、可观测性功能等，使你能够快速从原型开发到生产部署。 |
-| File Browser    | 为指定目录提供了一个文件管理界面，用于上传、删除、预览、重命名和编辑文件。                                                                  |
-| Job Manager     | 用于管理 T9k Job 的控制台，通过直观的界面方便用户创建 Job、查看 Job 的详细信息以及监控计算资源的使用情况。                                  |
-| Label Studio    | 开源的数据标注工具，支持音频、文本、图像、视频和时间序列等数据类型的标注。通过简单的界面，用户可以轻松标注数据并导出为多种格式。            |
-| Milvus          | 专为海量数据设计的高性能向量数据库。它通过高效组织和检索文本、图像及多模态信息等非结构化数据，为各类AI应用提供核心支持。                    |
-| MongoDB         | 开源的 NoSQL 数据库，使用 JSON 样式文档存储数据，支持自动扩展和高性能，适合开发云原生应用。                                                 |
-| MySQL           | 开源的关系型数据库管理系统，以高性能、可靠性和易用性著称，广泛应用于网站和应用程序的数据存储与管理。                                        |
-| JupyterLab      | 基于 Web 的交互式开发环境，用于代码开发和数据处理，支持数据科学、科学计算和机器学习等任务。                                                 |
-| RStudio         | 集成开发环境，帮助你提高 R 和 Python 的开发效率。                                                                                           |
-| Ollama          | 提供本地使用 LLM 的解决方案。                                                                                                               |
-| Open WebUI      | 用户友好的聊天交互网页界面。                                                                                                                |
-| PostgreSQL      | 开源对象关系数据库，支持 ACID 事务，提供外键、联接、视图、触发器和存储过程等功能。                                                          |
-| Redis           | 内存数据库，支持多种数据结构如字符串、列表、集合等，同时数据持久化到磁盘。                                                                  |
-| Service Manager | 用于管理推理服务的控制台，可执行创建服务、查看服务状态、监控服务事件等操作。                                                                |
-| TensorBoard     | TensorFlow 的可视化工具，展示模型训练过程中的各种数据。                                                                                     |
-| Terminal        | 在浏览器中直接打开和操作的集群终端，便于管理集群。                                                                                          |
-| Virtual Machine | 通过软件模拟的具有完整硬件系统功能的、运行在一个完全隔离环境中的完整计算机系统。                                                            |
-| vLLM            | 高吞吐量和内存高效的 LLM 推理和服务引擎。                                                                                                   |
-| Workflow        | 用于管理工作流的控制台，可执行创建工作流、查看运行状态等操作。                                                                              |
+### Core Apps
 
-实验性 Apps 包括：
+| App               | Description                                                                                                                                                           |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Argo Workflows    | An open-source workflow engine for orchestrating multi-step parallel jobs.                                                                                            |
+| Code Server       | A browser-based VSCode environment.                                                                                                                                   |
+| ComfyUI           | A powerful and modular Stable Diffusion GUI and backend that supports designing and executing advanced pipelines with a graph-based interface.                        |
+| Dify              | An open-source LLM application development platform. Its intuitive interface combines smart AI workflows, RAG pipelines, agent capabilities, model management, and more. |
+| File Browser      | Provides a file management interface for a specified directory, used for uploading, deleting, previewing, renaming, and editing files.                                |
+| Job Manager       | A console for managing T9k Jobs, providing an intuitive interface for users to create Jobs, view Job details, and monitor resource usage.                             |
+| Label Studio      | An open-source data annotation tool that supports labeling audio, text, images, videos, and time-series data.                                                         |
+| Milvus            | A high-performance vector database designed for massive-scale data. It provides core support for various AI applications by efficiently organizing and retrieving unstructured data. |
+| MongoDB           | An open-source NoSQL database that uses JSON-style documents to store data, supporting automatic scaling and high performance for cloud-native applications.          |
+| MySQL             | An open-source relational database management system known for its high performance, reliability, and ease of use, widely used for data storage and management.        |
+| JupyterLab        | A web-based interactive development environment for code development and data processing, supporting data science, scientific computing, and machine learning tasks.    |
+| RStudio           | An integrated development environment that helps you improve your development efficiency with R and Python.                                                           |
+| Ollama            | Provides a solution for using LLMs locally.                                                                                                                           |
+| Open WebUI        | A user-friendly chat interface for web-based interaction.                                                                                                             |
+| PostgreSQL        | An open-source object-relational database that supports ACID transactions, foreign keys, joins, views, triggers, and stored procedures.                               |
+| Redis             | An in-memory database that supports various data structures like strings, lists, and sets, while also persisting data to disk.                                         |
+| Service Manager   | A console for managing inference services, allowing you to create services, view their status, and monitor service events.                                            |
+| TensorBoard       | A visualization toolkit for TensorFlow, displaying various data from the model training process.                                                                      |
+| Terminal          | A cluster terminal that can be opened and operated directly in the browser, facilitating cluster management.                                                          |
+| Virtual Machine   | A complete computer system simulated by software with full hardware system functionality, running in a completely isolated environment.                               |
+| vLLM              | A high-throughput and memory-efficient LLM inference and serving engine.                                                                                              |
+| Workflow          | A console for managing workflows, allowing you to create workflows and view their running status.                                                                     |
 
-| 应用                       | 描述                                                                                                                                                        |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| AnythingLLM                | 全栈应用程序，可以将任何文档、资源或内容转换为 LLM 在聊天过程中可以用作参考的上下文。                                                                       |
-| AutoGen Studio             | 无代码的多智能体工作流原型设计和运行工具。                                                                                                                  |
-| AutoTune                   | 自动化机器学习（AutoML）工具。                                                                                                                              |
-| Chat Nio                   | 下一代的 AI 一站式解决方案，面向 B/C 端用户，全面支持多种主流 AI 模型。                                                                                     |
-| DB-GPT                     | 开源的 AI 原生数据应用开发框架，具有 AWEL（Agentic Workflow Expression Language，代理工作流表达语言）和代理功能。                                           |
-| FastGPT                    | 基于 LLM 的知识平台，提供了一整套开箱即用的功能，如数据处理、RAG 检索和可视化 AI 工作流编排，使您能够轻松开发和部署复杂的问答系统，而无需大量的设置或配置。 |
-| Fish Speech                | 一套全新的 TTS 解决方案，支持无微调的音色克隆。                                                                                                             |
-| GPT Researcher             | 专门用于各种任务的综合在线研究的智能体代理。                                                                                                                |
-| Llama Board                | LLaMA-Factory 项目的网页 UI，用于（增量）预训练、指令微调和评估开源 LLM。                                                                                   |
-| MLflow                     | 旨在简化机器学习开发的平台，包括跟踪实验、将代码打包成可重现的运行、以及分享和部署模型。                                                                    |
-| NextChat                   | 设计精良的 ChatGPT 网页 UI，支持多种聊天服务，包括 ChatGPT、Claude、Gemini 和本地推理服务。                                                                 |
-| One API                    | OpenAI 接口管理与分发系统，支持多个主流 LLM 服务提供商。                                                                                                    |
-| Qdrant                     | 面向 AI 应用的向量数据库。                                                                                                                                  |
-| Search with Lepton         | 开源的对话式搜索引擎（conversational search engine）。                                                                                                      |
-| SearXNG                    | 一个免费的互联网元搜索引擎，它汇总来自各种搜索服务和数据库的结果。用户不会被追踪或建立个人档案。                                                            |
-| Stable Diffusion WebUI aki | 基于开源项目 Stable Diffusion WebUI 的整合包，由 bilibili@秋葉 aaaki 制作。                                                                                 |
+### Experimental Apps
 
-## 相关文档
+| App                        | Description                                                                                                                                                                   |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AnythingLLM                | A full-stack application that can convert any document, resource, or content into context that an LLM can use as a reference during a chat.                                      |
+| AutoGen Studio             | A no-code tool for prototyping and running multi-agent workflows.                                                                                                             |
+| AutoTune                   | An automated machine learning (AutoML) tool.                                                                                                                                  |
+| Chat Nio                   | A next-generation, all-in-one AI solution for B/C end-users, with comprehensive support for various mainstream AI models.                                                      |
+| DB-GPT                     | An open-source, AI-native data application development framework with AWEL (Agentic Workflow Expression Language) and agent capabilities.                                       |
+| FastGPT                    | A knowledge-based platform based on LLM, providing a full set of out-of-the-box features like data processing, RAG retrieval, and visual AI workflow orchestration.             |
+| Fish Speech                | A brand-new TTS solution that supports zero-shot voice cloning.                                                                                                               |
+| GPT Researcher             | An intelligent agent specialized in comprehensive online research for various tasks.                                                                                          |
+| Llama Board                | A web UI for the LLaMA-Factory project, used for (incremental) pre-training, instruction fine-tuning, and evaluation of open-source LLMs.                                      |
+| MLflow                     | A platform to streamline machine learning development, including tracking experiments, packaging code into reproducible runs, and sharing and deploying models.                 |
+| NextChat                   | A well-designed ChatGPT web UI that supports multiple chat services, including ChatGPT, Claude, Gemini, and local inference services.                                          |
+| One API                    | An OpenAI interface management and distribution system that supports multiple mainstream LLM service providers.                                                                 |
+| Qdrant                     | A vector database for AI applications.                                                                                                                                        |
+| Search with Lepton         | An open-source conversational search engine.                                                                                                                                  |
+| SearXNG                    | A free internet metasearch engine that aggregates results from various search services and databases. Users are not tracked or profiled.                                        |
+| Stable Diffusion WebUI aki | An integrated package based on the open-source project Stable Diffusion WebUI, created by bilibili@秋葉aaaki.                                                                 |
 
-* [Apps 系统概述](../docs/overview.md)
-* [Apps 的注册和注销](../docs/register.md)
-* [Apps 模版的格式](../docs/template.md)
-* [Apps 开发](../docs/dev.md)
-* [Apps 发布](../docs/release.md)
-* [命令行工具 - t9k-app](../docs/appendix.md)
+## Related Documentation
+
+*   [Apps System Overview](../docs/overview.md)
+*   [App Registration and Unregistration](../docs/register.md)
+*   [App Template Format](../docs/template.md)
+*   [App Development](../docs/dev.md)
+*   [App Release](../docs/release.md)
+*   [Command-Line Tool - t9k-app](../docs/appendix.md)
