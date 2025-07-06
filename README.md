@@ -1,6 +1,8 @@
 # TensorStack AI Platform Applications
 
-This repository contains a curated collection of third-party applications packaged for easy deployment on the [TensorStack AI Platform](https://www.tensorstack.dev/). These applications, referred to as "Apps," are designed to be managed through the platform's User Console, simplifying the process of installation, configuration, and management for end-users.
+[中文](./README_zh.md)
+
+This repository contains a curated collection of third-party applications packaged for easy deployment on the [TensorStack AI Platform](https://t9k.github.io/ucman/latest/index.html). These applications, referred to as "Apps," are designed to be managed through the platform's User Console, simplifying the process of installation, configuration, and management for end-users.
 
 ## How It Works
 
@@ -27,7 +29,7 @@ The repository is organized as follows:
 ```
 
 - **`user-console/`**: This is the main directory containing the application packages. Each subdirectory represents a single application.
-- **`docs/`**: Contains all the necessary documentation for understanding the App architecture, developing a new App, and the release process. See the [Docs README](./docs/README.md) to get started.
+- **`docs/`**: Contains all the necessary documentation for understanding the App architecture, developing a new App, and the release process. See the [./docs/README.md](./docs/README.md) to get started.
 - **`tools/`**: Includes scripts like `image-mirror.sh` and `chart-mirror.sh` to help manage application dependencies.
 - **`archived/`**: Contains definitions for applications that are no longer actively maintained but are kept for historical purposes.
 
