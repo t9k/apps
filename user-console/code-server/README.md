@@ -1,4 +1,62 @@
-# Code Server 应用模板
+# Code Server
+
+基于浏览器的 VSCode 环境。
+
+## 镜像构建
+
+Code Server 应用需要构建一个镜像：
+
+- `codeserver`: 应用镜像
+
+### 构建 codeserver 镜像
+
+在 `products/discrete-images/codeserver` 目录中执行以下命令：
+
+```bash
+# 设置环境变量
+export VERSION=4.23.1
+export IMAGE_PREFIX=tsz.io/t9k
+
+# 构建 AMD64 架构镜像
+[~/repos/products/discrete-images/codeserver]$ ./docker-build.sh --arch amd64 --tag ${VERSION}-amd64
+
+# 构建 ARM64 架构镜像
+[~/repos/products/discrete-images/codeserver]$ ./docker-build.sh --arch arm64 --tag ${VERSION}-arm64
+
+# 推送镜像到仓库
+docker push ${IMAGE_PREFIX}/codeserver:${VERSION}-amd64 && docker push ${IMAGE_PREFIX}/codeserver:${VERSION}-arm64
+
+# 创建多架构镜像清单
+docker manifest create ${IMAGE_PREFIX}/codeserver:${VERSION} \
+    ${IMAGE_PREFIX}/codeserver:${VERSION}-amd64 \
+    ${IMAGE_PREFIX}/codeserver:${VERSION}-arm64
+
+# 推送镜像清单
+docker manifest push ${IMAGE_PREFIX}/codeserver:${VERSION}
+```
+
+### 镜像说明
+
+- **镜像前缀**: 通过 `IMAGE_PREFIX` 环境变量配置（默认: `tsz.io/t9k`）
+- **支持架构**: AMD64, ARM64
+- **版本号**: 通过 `VERSION` 环境变量配置，使用语义化版本号（如 `4.23.1`）
+- **依赖仓库**:
+  - `products/discrete-images/codeserver`: 镜像构建代码目录
+
+### 环境变量
+
+| 变量名 | 描述 | 示例值 |
+|--------|------|--------|
+| `VERSION` | 镜像版本号 | `4.23.1` |
+| `IMAGE_PREFIX` | 镜像仓库前缀 | `tsz.io/t9k` |
+
+### 注意事项
+
+1. 构建前确保已经克隆了相应的 git 仓库
+2. 确保 Docker 客户端已登录到镜像仓库（通过 `IMAGE_PREFIX` 指定）
+3. 根据实际版本和目标仓库调整环境变量值
+4. 构建脚本为 `docker-build.sh`，位于 `products/discrete-images/codeserver` 目录
+5. 需要手动推送构建好的镜像到仓库
 
 ## 支持 NVIDIA 以外的 GPU 类型
 
