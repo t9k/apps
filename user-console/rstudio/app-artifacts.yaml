@@ -1,0 +1,5 @@
+versions:
+- version: 0.2.2
+  images:
+  - docker.io/t9kpublic/rocker-4.2.3-rstudio:1.72.1
+  chart: oci://docker.io/t9kpublic/rstudio:0.2.2

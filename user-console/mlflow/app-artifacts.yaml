@@ -1,0 +1,4 @@
+versions:
+- version: 2.2.1
+  images: []
+  chart: oci://docker.io/t9kpublic/mlflow:2.2.1

@@ -1,0 +1,4 @@
+versions:
+- version: 0.2.1
+  images: []
+  chart: oci://docker.io/t9kpublic/filebrowser:0.2.1
