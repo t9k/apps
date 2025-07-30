@@ -1,0 +1,5 @@
+versions:
+- version: 0.54.4
+  images:
+  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/ollama:0.9.1
+  chart: oci://docker.io/t9kpublic/ollama:0.54.4

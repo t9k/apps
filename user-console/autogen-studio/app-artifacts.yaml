@@ -1,0 +1,5 @@
+versions:
+- version: 0.1.0
+  images:
+  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/autogen-studio:v0.4.3
+  chart: oci://docker.io/t9kpublic/autogen-studio:0.1.0

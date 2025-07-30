@@ -1,0 +1,13 @@
+versions:
+- version: 19.5.0
+  images:
+  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/redis:7.2.5-debian-12-r0
+  chart: oci://docker.io/t9kpublic/redis:19.5.0
+- version: 18.19.4
+  images:
+  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/redis:7.2.4-debian-12-r9
+  chart: oci://docker.io/t9kpublic/redis:18.19.4
+- version: 17.17.1
+  images:
+  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/redis:7.0.12-debian-11-r34
+  chart: oci://docker.io/t9kpublic/redis:17.17.1
