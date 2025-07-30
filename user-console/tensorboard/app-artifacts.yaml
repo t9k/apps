@@ -1,0 +1,5 @@
+versions:
+- version: 0.2.0
+  images:
+  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/tensorboard:2.17.0
+  chart: oci://docker.io/t9kpublic/tensorboard:0.2.0
