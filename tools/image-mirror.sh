@@ -57,13 +57,12 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-for configDir in $(find $userconsolePath -type d -name "configs"); do
-    for config in $(ls $configDir); do
-        for image in $($YQ e '.. | select(has("image")) | .image' -o=json "$configDir/$config" | $JQ -c .); do
-            imageName=$(echo $image | $JQ -r .repository | sed 's|.*/||'):$(echo $image | $JQ -r .tag)
-            sourceImage="$source_registry/$imageName"
-            targetImage="$target_registry/$imageName"
-            dockerMirror "$sourceImage" "$targetImage"
-        done
+for appArtifact in $(find $userconsolePath -name "app-artifacts.yaml"); do
+    for image in $($YQ e '.versions[].images[]' "$appArtifact"); do
+        # 提取镜像名称，去掉变量前缀
+        imageName=$(echo $image | sed 's|\$(T9K_APP_IMAGE_REGISTRY)/\$(T9K_APP_IMAGE_NAMESPACE)/||')
+        sourceImage="$source_registry/$imageName"
+        targetImage="$target_registry/$imageName"
+        dockerMirror "$sourceImage" "$targetImage"
     done
 done

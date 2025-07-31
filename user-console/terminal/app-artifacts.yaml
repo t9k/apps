@@ -1,0 +1,6 @@
+versions:
+- version: 0.2.1
+  images:
+  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/terminal:250423
+  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/pep-proxy:1.0.14
+  chart: oci://docker.io/t9kpublic/terminal:0.2.1

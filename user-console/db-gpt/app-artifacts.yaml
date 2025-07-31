@@ -1,0 +1,5 @@
+versions:
+- version: 0.1.1
+  images:
+  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/dbgpt-allinone:v0.6.2
+  chart: oci://docker.io/t9kpublic/db-gpt:0.1.1

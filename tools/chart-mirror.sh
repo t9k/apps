@@ -57,9 +57,17 @@ while [[ $# -gt 0 ]]; do
 done
 
 downloadDir=$(mktemp -d -t helm-download-XXXXXX)
-for config in $(find "$userconsolePath" -type f -name "template.yaml"); do
-    chartName=$($YQ e '.template.helm.chart' "$config")
-    for version in $($YQ e '.template.helm.versions[].version' "$config"); do
+for appArtifact in $(find "$userconsolePath" -type f -name "app-artifacts.yaml"); do
+    for chart in $($YQ e '.versions[].chart' "$appArtifact"); do
+        # 去掉 oci:// 前缀
+        chartPath=$(echo "$chart" | sed 's|oci://||')
+        # 提取 registry/chartname:version
+        chartWithVersion=$(echo "$chartPath" | sed 's|.*/||')
+        # 提取 chartname (去掉 :version 部分)
+        chartName=$(echo "$chartWithVersion" | sed 's|:.*||')
+        # 提取 version (去掉 chartname: 部分)
+        version=$(echo "$chartWithVersion" | sed 's|.*:||')
+        
         helmMirror "$source_registry" "$target_registry" "$chartName" "$version" "$downloadDir"
     done
 done
