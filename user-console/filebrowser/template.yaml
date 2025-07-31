@@ -4,34 +4,33 @@ metadata:
   name: filebrowser
   displayName: "File Browser"
   categories:
-  - Tool
+    - Tool
   description: "File Browser 为指定目录提供了一个文件管理界面，用于上传、删除、预览、重命名和编辑文件。"
   icon:
     url: "file://$APP_DIR/icon.svg"
 template:
   versions:
-  - version: 0.2.1
-    pausable: false
-    chart:
-      repo: "oci://docker.io/t9kpublic"
-      name: "filebrowser"
-      version: 0.2.1
-    config: "file://$APP_DIR/configs/v2/v0_2_1.yaml"
-    urls:
-    - name: "filebrowser"
-      url: "/t9k/build-console/projects/{{ .Release.Namespace }}/explorers/{{ .Release.Name }}/filebrowser/"
-    readinessProbe:
-      resources:
-      - group: tensorstack.dev
-        version: v1beta1
-        resource: explorers
-        name: "{{ .Release.Name }}"
-        message: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .message }}{{- end }}{{- end }}"
-        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
-        desiredStatus: "True"
-    dependencies:
-      crds:
-      - group: tensorstack.dev
-        version: v1beta1
-        resource: explorers
-
+    - version: 0.2.1
+      pausable: false
+      chart:
+        repo: "oci://docker.io/t9kpublic"
+        name: "filebrowser"
+        version: 0.2.1
+      config: "file://$APP_DIR/configs/v2/v0_2_1.yaml"
+      urls:
+        - name: "filebrowser"
+          url: "/t9k/build-console/projects/{{ .Release.Namespace }}/explorers/{{ .Release.Name }}/filebrowser/"
+      readinessProbe:
+        resources:
+          - group: tensorstack.dev
+            version: v1beta1
+            resource: explorers
+            name: "{{ .Release.Name }}"
+            message: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .message }}{{- end }}{{- end }}"
+            currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
+            desiredStatus: "True"
+      dependencies:
+        crds:
+          - group: tensorstack.dev
+            version: v1beta1
+            resource: explorers

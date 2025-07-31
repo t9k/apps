@@ -1,0 +1,76 @@
+apps:
+- name: argo-workflows
+  versions: 
+  - 0.2.2
+- name: code-server
+  versions: 
+  - 0.3.2
+- name: comfyui
+  versions:
+  - 1.0.0
+  - 1.0.1
+- name: dify
+  versions:
+  - 0.7.0
+  - 0.7.1
+- name: filebrowser
+  versions:
+  - 0.2.1
+- name: job-manager
+  versions:
+  - 0.2.4
+- name: jupyterlab
+  versions:
+  - 0.2.4
+- name: label-studio
+  versions:
+  - 1.7.2
+- name: milvus
+  versions:
+  - 4.2.38
+- name: mongodb
+  versions:
+  - 15.6.1
+  - 14.13.0
+- name: mysql
+  versions:
+  - 11.1.20
+  - 9.23.0
+- name: ollama
+  versions:
+  - 0.54.4
+- name: open-webui
+  versions:
+  - 5.20.1
+- name: postgresql
+  versions:
+  - 15.5.15
+  - 12.12.10
+- name: redis
+  versions:
+  - 19.5.0
+  - 18.19.4
+  - 17.17.1
+- name: rstudio
+  versions:
+  - 0.2.2
+- name: service-manager
+  versions:
+  - 0.2.1
+  - 0.2.0
+- name: tensorboard
+  versions:
+  - 0.2.0
+- name: terminal
+  versions:
+  - 0.2.1
+- name: virtual-machine
+  versions:
+  - 0.1.1
+  - 0.1.2
+- name: vllm
+  versions:
+  - 0.3.4
+- name: workflow
+  versions:
+  - 0.1.2

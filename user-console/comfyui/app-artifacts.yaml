@@ -1,4 +1,8 @@
 versions:
+- version: 1.0.0
+  images:
+  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/comfyui:v0.2.3
+  chart: oci://docker.io/t9kpublic/comfyui:1.0.0
 - version: 1.0.1
   images:
   - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/comfyui:v0.3.27

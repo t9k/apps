@@ -1,9 +1,0 @@
-## @param pvc Select a pvc as Code Server workspace.
-pvc: ""
-
-## @param resources.limits.cpu CPU limit for the App container
-## @param resources.limits.memory Memory limit for the App container
-resources:
-  limits:
-    cpu: 1
-    memory: 2Gi
