@@ -2,7 +2,7 @@
 
 [English](./dev.md)
 
-本文介绍 Helm 和 CRD 两种形式 Apps 的开发过程。
+本文介绍 Apps 的开发过程。
 
 ## Helm Apps
 
@@ -188,37 +188,38 @@ App 发布流程完成对 Helm Chart 定义相关 App Template 及配置文件�
 * `icon.png`：应用图标。
 * `template.yaml`：应用模版文件。
 
-上述内容的格式请参考[应用模版](./template.md#应用模版)。
+上述内容的格式请参考[应用模版](./template_zh.md)。
 
 以下为 Terminal 应用的模版文件：
 
 ```yaml
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: terminal
   displayName: Terminal
-  defaultVersion: "0.1.1"
   categories: ["Tool"]
   description: "This is a App Template Demo"
-  icon: "file://$APP_DIR/icon.png"
+  icon:
+    url: "file://$APP_DIR/icon.png"
 template:
-  helm: 
-    repo: "oci://docker.io/t9kpublic"
-    chart: "terminal"
-    versions:
-    - version: 0.1.1
-      config: "file://$APP_DIR/manifests/v0_1_1.yaml"
-      ...
+  versions:
+  - version: v1
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "terminal"
+      version: 0.2.1
+    config: "file://$APP_DIR/configs/v0_2_1.yaml"
+    ...
 ```
 
 其中：
 
-* `metadata.icon` 中填写 `icon` 地址，除了本地文件以外，还支持通过 url 使用互联网图片.
-* `template.helm.versions[@].config` 中设置各版本应用的默认部署配置文件。
-* `template.helm.repo` 和 `template.helm.chart` 填写[开发 Helm Chart](#开发-helm-chart) 一节中 Chart 上传的仓库地址和名称。
+*   `metadata.icon.url` 中填写 `icon` 地址，除了本地文件以外，还支持通过 url 使用互联网图片.
+*   `template.versions[@].config` 中设置各版本应用的默认部署配置文件。
+*   `template.versions[@].chart` 填写[开发 Helm Chart](#开发-helm-chart) 一节中 Chart 上传的仓库地址、名称和版本。
 
-更多应用模版介绍，请参考[应用模版](./template.md#应用模版)。
+更多应用模版介绍，请参考[应用模版](./template_zh.md)。
 
 使用命令行工具 t9k-app 注册应用：
 
@@ -249,99 +250,4 @@ t9k-app list -k $APIKEY -s $APP_SERVER | grep terminal
 
 卸载应用，查看是否有数据残留。（有些数据遗留行为是符合预期的，比如卸载应用后，希望应用产生的数据可以保留，以用于其他用途。）
 
-## CRD 应用
 
-### CRD 开发
-
-CRD 是对 Kubernetes API 的扩展，其定义参考 [K8s Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)。
-
-K8s 提供了丰富的工具和代码包帮助开发者快速开发一个 CRD，比如 [Kubebuilder](https://book.kubebuilder.io/)，用户可参考该文档学习 CRD 的开发。
-
-#### 调试
-
-参考文档 [Running and deploying the controller](https://book.kubebuilder.io/cronjob-tutorial/running)：
-
-* 部署 CRD 及控制器；
-* 创建一个资源对象，确定资源对象的行为符合预期：
-  * 如果 CRD 用于提供服务，则需要检查服务是否正常运行；
-  * 如果 CRD 用于执行任务，则需要测试任务是否正常完成；
-  * 在任务、服务执行完成或失败后，CRD 的状态是否符合预期；
-  * …
-
-### App 发布
-
-注册 CRD 应用，一般应准备以下内容：
-
-```
-├── configs
-│   └── v0_1_1.yaml
-├── icon.png
-├── README.md
-├── NOTE.txt
-└── template.yaml
-```
-
-其中：
-
-* `configs` 文件夹：存储各版本应用的默认部署配置，也就是用户在前端部署应用时显示的默认配置。
-* `icon.png`：应用图标。
-* `README.md`：应用介绍。
-* `NOTE.txt`：应用实例部署后，提供给用户的实例信息。
-* `template.yaml`：应用模版文件。
-
-上述内容的格式请参考 [应用模版](./template.md#应用模版)。
-
-以下为 JupyterLab 应用的模版文件：
-
-```yaml
-apiVersion: app.tensorstack.dev/v1beta1
-kind: Template
-metadata:
-  name: jupyterlab-cpu
-  displayName: "JupyterLab (CPU)"
-  defaultVersion: "0.1.1"
-  categories: 
-  - IDE
-  description: "JupyterLab 是最新的基于 Web 的交互式开发环境，用于代码开发和数据处理。其灵活的界面允许用户配置和安排数据科学、科学计算、计算新闻和机器学习中的工作流程。"
-  icon: "file://$APP_DIR/icon.svg"
-template:
-  crd:
-    group: tensorstack.dev
-    resource: notebooks
-    versions:
-    - version: v1beta1
-      config: "file://$APP_DIR/configs/v0_1_1.yaml"
-      readme: "file://$APP_DIR/README.md"
-      note: "file://$APP_DIR/NOTE.txt"
-      ...
-```
-
-其中：
-
-* `metadata.icon` 中填写 icon 地址，除了本地文件以外，还支持通过 url 使用互联网图片.
-* `template.crd.versions[@]` 中 `config`、`readme`、`note` 字段填写对应文件路径。
-* `template.crd.versions[@].version` 需要与 CRD 的版本对应。
-* `template.crd.group` 和 `template.crd.resource` 填写 CRD 的对应信息，参考。
-
-更多应用模版介绍，请参考 [应用模版](./template.md#应用模版)。
-
-使用命令行工具 `t9k-app` 注册应用：
-
-```bash
-export APIKEY='xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
-export APP_SERVER='https://home.sample.t9kcloud.cn/t9k/app/server'
-t9k-app register \
-  -k $APIKEY \
-  -s $APP_SERVER \
-  -f template.yaml
-```
-
-使用如下命令检查应用是否注册成功：
-
-```bash
-t9k-app list -k $APIKEY -s $APP_SERVER | grep terminal
-```
-
-#### 部署及测试
-
-这部分与 [Helm 应用的部署及测试](#部署及测试) 相同，不再赘述。
