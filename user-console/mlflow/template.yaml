@@ -1,28 +1,29 @@
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: mlflow
   displayName: "MLflow"
   categories: ["AI"]
   description: "MLflow 是一个旨在简化机器学习开发的平台，包括跟踪实验、将代码打包成可重现的运行、以及分享和部署模型。"
-  icon: "file://$APP_DIR/icon.svg"
+  icon:
+    url: "file://$APP_DIR/icon.svg"
 template:
-  helm:
-    repo: "oci://docker.io/t9kpublic"
-    # repo: "https://t9k.github.io/apps/"
-    chart: "mlflow"
-    versions:
-    - version: 2.2.1
-      # config: "file://$APP_DIR/configs/v2_2_1.yaml"
-      urls:
-      - name: UI
-        url: /apps/{{ .Release.Namespace }}/mlflow/{{ .Release.Name }}/
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}-tracking"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
+  versions:
+  - version: 2.2.1
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "mlflow"
+      version: 2.2.1
+    urls:
+    - name: UI
+      url: /apps/{{ .Release.Namespace }}/mlflow/{{ .Release.Name }}/
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}-tracking"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}

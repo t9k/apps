@@ -5,7 +5,11 @@ metadata:
     app: {{ .Release.Name }}
   name: {{ .Release.Name }}
 spec:
+  {{- if .Values.paused }}
+  replicas: 0
+  {{- else }}
   replicas: 1
+  {{- end }}
   selector:
     matchLabels:
       app: {{ .Release.Name }}

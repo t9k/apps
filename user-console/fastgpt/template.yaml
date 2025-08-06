@@ -1,26 +1,28 @@
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: fastgpt
   displayName: "FastGPT"
   categories: ["AI"]
   description: "FastGPT 是一个基于 LLM 的知识平台，提供了一整套开箱即用的功能，如数据处理、RAG 检索和可视化 AI 工作流编排，使您能够轻松开发和部署复杂的问答系统，而无需大量的设置或配置。"
-  icon: "file://$APP_DIR/icon.svg"
+  icon:
+    url: "file://$APP_DIR/icon.svg"
 template:
-  helm:
-    repo: "oci://docker.io/t9kpublic"
-    # repo: "https://t9k.github.io/apps/"
-    chart: "fastgpt"
-    versions:
-    - version: 0.1.1
-      config: "file://$APP_DIR/configs/v2/v0_1_1.yaml"
-      urls: []
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
+  versions:
+  - version: 0.1.1
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "fastgpt"
+      version: 0.1.1
+    config: "file://$APP_DIR/configs/v2/v0_1_1.yaml"
+    urls: []
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}

@@ -7,41 +7,49 @@ metadata:
   categories: 
   - Tool
   description: "虚拟机（Virtual Machine）指通过软件模拟的具有完整硬件系统功能的、运行在一个完全隔离环境中的完整计算机系统。"
-  icon: "file://$APP_DIR/icon.svg"
+  icon:
+    url: "file://$APP_DIR/icon.svg"
 template:
-  helm: 
-    repo: "oci://docker.io/t9kpublic"
-    chart: "virtual-machine"
-    versions:
-    - version: 0.1.1
-      config: "file://$APP_DIR/configs/v0_1_1.yaml"
-      readinessProbe:
-        resources:
-        - group: kubevirt.io
-          version: v1
-          resource: virtualmachines
-          name: "{{ .Release.Name }}"
-          message: "Status: {{ .status.printableStatus }}"
-          currentStatus: "{{ .status.printableStatus }}"
-          desiredStatus: "Running"
-      dependencies:
-        crds:
-        - group: kubevirt.io
-          version: v1
-          resource: virtualmachines
-    - version: 0.1.2
-      config: "file://$APP_DIR/configs/v0_1_2.yaml"
-      readinessProbe:
-        resources:
-        - group: kubevirt.io
-          version: v1
-          resource: virtualmachines
-          name: "{{ .Release.Name }}"
-          message: "Status: {{ .status.printableStatus }}"
-          currentStatus: "{{ .status.printableStatus }}"
-          desiredStatus: "Running"
-      dependencies:
-        crds:
-        - group: kubevirt.io
-          version: v1
-          resource: virtualmachines
+  versions:
+  - version: 0.1.1
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "virtual-machine"
+      version: 0.1.1
+    config: "file://$APP_DIR/configs/v0_1_1.yaml"
+    readinessProbe:
+      resources:
+      - group: kubevirt.io
+        version: v1
+        resource: virtualmachines
+        name: "{{ .Release.Name }}"
+        message: "Status: {{ .status.printableStatus }}"
+        currentStatus: "{{ .status.printableStatus }}"
+        desiredStatus: "Running"
+    dependencies:
+      crds:
+      - group: kubevirt.io
+        version: v1
+        resource: virtualmachines
+  - version: 0.1.2
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "virtual-machine"
+      version: 0.1.2
+    config: "file://$APP_DIR/configs/v0_1_2.yaml"
+    readinessProbe:
+      resources:
+      - group: kubevirt.io
+        version: v1
+        resource: virtualmachines
+        name: "{{ .Release.Name }}"
+        message: "Status: {{ .status.printableStatus }}"
+        currentStatus: "{{ .status.printableStatus }}"
+        desiredStatus: "Running"
+    dependencies:
+      crds:
+      - group: kubevirt.io
+        version: v1
+        resource: virtualmachines

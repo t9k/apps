@@ -1,33 +1,36 @@
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: jupyterlab-enflame
   displayName: "JupyterLab (Enflame GCU)"
   categories: ["IDE"]
   description: "JupyterLab 是一个基于 Web 的交互式开发环境，用于代码开发和数据处理，支持数据科学、科学计算和机器学习等任务。"
-  icon: "file://$APP_DIR/icon.svg"
+  icon:
+    url: "file://$APP_DIR/icon.svg"
 template:
-  helm:
-    repo: "oci://registry.qingyang.t9kcloud.cn/t9kcharts"
-    # repo: "https://t9k.github.io/apps/"
-    chart: "jupyterlab-enflame"
-    versions:
-    - version: 0.2.4
-      config: "file://$APP_DIR/configs/v0_2_4.yaml"
-      urls: 
-      - name: "jupyter"
-        url: "/t9k/notebooks/projects/{{ .Release.Namespace }}/name/{{ .Release.Name }}/lab"
-      readinessProbe:
-        resources:
-        - group: tensorstack.dev
-          version: v1beta1
-          resource: notebooks
-          name: "{{ .Release.Name }}"
-          message: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .message }}{{- end }}{{- end }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies:
-        crds:
-        - group: tensorstack.dev
-          version: v1beta1
-          resource: notebooks
+  versions:
+  - version: 0.2.4
+    pausable: false
+    chart:
+      repo: "oci://registry.qingyang.t9kcloud.cn/t9kcharts"
+      name: "jupyterlab-enflame"
+      version: 0.2.4
+    config: "file://$APP_DIR/configs/v0_2_4.yaml"
+    urls:
+    - name: "jupyter"
+      url: "/t9k/notebooks/projects/{{ .Release.Namespace }}/name/{{ .Release.Name }}/lab"
+    readinessProbe:
+      resources:
+      - group: tensorstack.dev
+        version: v1beta1
+        resource: notebooks
+        name: "{{ .Release.Name }}"
+        message: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .message }}{{- end }}{{- end }}"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies:
+      crds:
+      - group: tensorstack.dev
+        version: v1beta1
+        resource: notebooks
+

@@ -1,27 +1,30 @@
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: label-studio
   displayName: "Label Studio"
   categories: ["AI", "Tool"]
   description: "Label Studio 是一个开源的数据标注工具，支持音频、文本、图像、视频和时间序列等数据类型的标注。通过简单的界面，用户可以轻松标注数据并导出为多种格式。"
-  icon: "file://$APP_DIR/icon.png"
+  icon:
+    url: "file://$APP_DIR/icon.png"
 template:
-  helm:
-    repo: "oci://docker.io/t9kpublic"
-    chart: "label-studio"
-    versions:
-    - version: 1.7.2
-      config: "file://$APP_DIR/configs/v2/v1_7_2.yaml"
-      urls:
-      - name: UI
-        url: /apps/{{ .Release.Namespace }}/label-studio/{{ .Release.Name }}/
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}-ls-app"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
+  versions:
+  - version: 1.7.2
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "label-studio"
+      version: 1.7.2
+    config: "file://$APP_DIR/configs/v2/v1_7_2.yaml"
+    urls:
+    - name: UI
+      url: /apps/{{ .Release.Namespace }}/label-studio/{{ .Release.Name }}/
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}-ls-app"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}

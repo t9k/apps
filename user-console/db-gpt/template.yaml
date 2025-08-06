@@ -1,26 +1,28 @@
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: db-gpt
   displayName: "DB-GPT"
   categories: ["AI"]
   description: "DB-GPT 是一个开源的 AI 原生数据应用开发框架，具有 AWEL（Agentic Workflow Expression Language，代理工作流表达语言）和代理功能。"
-  icon: "file://$APP_DIR/icon.png"
+  icon:
+    url: "file://$APP_DIR/icon.png"
 template:
-  helm:
-    repo: "oci://docker.io/t9kpublic"
-    # repo: "https://t9k.github.io/apps/"
-    chart: "db-gpt"
-    versions:
-    - version: 0.1.1
-      config: "file://$APP_DIR/configs/v2/v0_1_1.yaml"
-      urls: []
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
+  versions:
+  - version: 0.1.1
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "db-gpt"
+      version: 0.1.1
+    config: "file://$APP_DIR/configs/v2/v0_1_1.yaml"
+    urls: []
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}

@@ -1,28 +1,28 @@
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: llama-board
   displayName: "Llama Board"
   categories: ["AI"]
   description: "Llama Board 是 LLaMA-Factory 项目的网页 UI，用于（增量）预训练、指令微调和评估开源 LLM。"
-  icon: "file://$APP_DIR/icon.png"
+  icon:
+    url: "file://$APP_DIR/icon.png"
 template:
-  helm:
-    repo: "oci://docker.io/t9kpublic"
-    # repo: "https://t9k.github.io/apps/"
-    chart: "llama-board"
-    versions:
-    - version: 0.2.1
-      config: "file://$APP_DIR/configs/v2/v0_2_1.yaml"
-      urls: []
-      # - name: UI
-      #   url: /apps/{{ .Release.Namespace }}/fish-speech/{{ .Release.Name }}/
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
+  versions:
+  - version: 0.2.1
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "llama-board"
+      version: 0.2.1
+    config: "file://$APP_DIR/configs/v2/v0_2_1.yaml"
+    urls: []
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}

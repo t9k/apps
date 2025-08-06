@@ -1,28 +1,28 @@
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: llama-board-metax
   displayName: "Llama Board (MetaX GPU)"
   categories: ["AI"]
   description: "Llama Board 是 LLaMA-Factory 项目的网页 UI，用于（增量）预训练、指令微调和评估开源 LLM。"
-  icon: "file://$APP_DIR/icon.png"
+  icon:
+    url: "file://$APP_DIR/icon.png"
 template:
-  helm:
-    repo: "oci://registry.bnu.t9kcloud.cn:8443/t9kcharts"
-    # repo: "https://t9k.github.io/apps/"
-    chart: "llama-board-metax"
-    versions:
-    - version: 0.2.1
-      config: "file://$APP_DIR/configs/v0_2_1.yaml"
-      urls: []
-      # - name: UI
-      #   url: /apps/{{ .Release.Namespace }}/fish-speech/{{ .Release.Name }}/
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
+  versions:
+  - version: 0.2.1
+    pausable: false
+    chart:
+      repo: "oci://registry.bnu.t9kcloud.cn:8443/t9kcharts"
+      name: "llama-board-metax"
+      version: 0.2.1
+    config: "file://$APP_DIR/configs/v0_2_1.yaml"
+    urls: []
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}

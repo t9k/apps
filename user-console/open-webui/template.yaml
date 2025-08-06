@@ -5,22 +5,24 @@ metadata:
   displayName: "Open WebUI"
   categories: ["AI"]
   description: "Open WebUI 是一个用户友好的聊天交互网页界面。"
-  icon: "file://$APP_DIR/icon.png"
+  icon: 
+    url: "file://$APP_DIR/icon.png"
 template:
-  helm:
-    repo: "oci://docker.io/t9kpublic"
-    # repo: "https://t9k.github.io/apps/"
-    chart: "open-webui"
-    versions:
-    - version: 5.20.1
-      config: "file://$APP_DIR/configs/v2/v5_20_1.yaml"
-      urls: []
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: statefulsets
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
+  versions:
+  - version: 5.20.1
+    config: "file://$APP_DIR/configs/v2/v5_20_1.yaml"
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "open-webui"
+      version: 5.20.1
+    urls: []
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: statefulsets
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}

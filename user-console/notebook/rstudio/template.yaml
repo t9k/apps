@@ -1,32 +1,36 @@
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: rstudio
   displayName: RStudio
-  categories: 
+  categories:
   - IDE
   description: "RStudio 是一个集成开发环境，帮助你提高 R 和 Python 的开发效率。"
-  icon: "file://$APP_DIR/icon.svg"
+  icon:
+    url: "file://$APP_DIR/icon.svg"
 template:
-  helm: 
-    repo: "oci://docker.io/t9kpublic"
-    chart: "rstudio"
-    versions:
-    - version: 0.2.2
-      config: "file://$APP_DIR/configs/v2/v0_2_2.yaml"
-      urls: 
-      - name: "rstudio"
-        url: "/t9k/notebooks/projects/{{ .Release.Namespace }}/name/{{ .Release.Name }}/"
-      readinessProbe:
-        resources:
-        - group: tensorstack.dev
-          version: v1beta1
-          resource: notebooks
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies:
-        crds:
-        - group: tensorstack.dev
-          version: v1beta1
-          resource: notebooks
+  versions:
+  - version: 0.2.2
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "rstudio"
+      version: 0.2.2
+    config: "file://$APP_DIR/configs/v2/v0_2_2.yaml"
+    urls:
+    - name: "rstudio"
+      url: "/t9k/notebooks/projects/{{ .Release.Namespace }}/name/{{ .Release.Name }}/"
+    readinessProbe:
+      resources:
+      - group: tensorstack.dev
+        version: v1beta1
+        resource: notebooks
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies:
+      crds:
+      - group: tensorstack.dev
+        version: v1beta1
+        resource: notebooks
+
