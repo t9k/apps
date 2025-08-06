@@ -32,11 +32,12 @@ For example, in [jupyter-lab-cpu/template.yaml](https://github.com/t9k/apps/blob
 ```yaml
 ...
 template:
-  helm: 
-    repo: "oci://docker.io/t9kpublic"
-    chart: "jupyterlab-cpu"
-    versions:
-    - version: 0.2.0
+  versions:
+  - version: v1
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "jupyterlab-cpu"
+      version: 0.2.0
 ...
 ```
 

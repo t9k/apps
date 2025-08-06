@@ -2,7 +2,7 @@
 
 [中文](./overview_zh.md)
 
-Applications (Apps) are software modules that implement specific functions and can be independently installed and uninstalled in a TensorStack AI cluster. Currently, the TensorStack AI platform supports defining Apps in two formats: Helm Chart and CRD. Other methods (such as Operator) can be extended if needed.
+Applications (Apps) are software modules that implement specific functions and can be independently installed and uninstalled in a TensorStack AI cluster. Currently, the TensorStack AI platform supports defining Apps in Helm Chart format. Other methods (such as Operator) can be extended if needed.
 
 ![architecture](./img/arch.drawio.svg)
 
@@ -10,7 +10,7 @@ Applications (Apps) are software modules that implement specific functions and c
 
 The Apps system consists of the following components:
 
-1.  **App Instance Controller (AIC):** Responsible for handling user requests for application installation and uninstallation. The AIC automatically deploys (installs) Apps in the cluster as Helm Releases or CRD Objects.
+1.  **App Instance Controller (AIC):** Responsible for handling user requests for application installation and uninstallation. The AIC automatically deploys (installs) Apps in the cluster as Helm Releases.
 2.  **App Server:** Provides application management APIs, including operations such as application registration, unregistration, and querying.
 3.  **t9k-app:** A command-line tool for administrators to register and unregister applications.
 4.  **User Console:** A web front-end for users to install, manage, and use Apps.

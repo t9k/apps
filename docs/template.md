@@ -5,47 +5,50 @@
 When registering an application, a template for the App must be provided to describe its information. Taking the Terminal App as an example:
 
 ```yaml
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: terminal
   displayName: Terminal
-  defaultVersion: "0.1.0"
   categories: ["Tool"]
   description: "This is a App Template Demo"
-  icon: "file://$APP_DIR/icon.png"
+  icon: 
+    url: "file://$APP_DIR/icon.png"
 template:
-  helm: 
-    repo: "oci://docker.io/t9kpublic"
-    chart: "terminal"
-    versions:
-    - version: 0.1.1
-      config: "file://$APP_DIR/manifests/v0_1_1.yaml"
-      urls: 
-      - name: terminal
-        url: /apps/{{ .Release.Namespace }}/terminal/{{ .Release.Name }}/
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: terminal-{{ .Release.Name }}
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies: 
-        crds:
-        - group: networking.istio.io
-          version: v1beta1
-          resource: virtualservices
+  versions: 
+  - version: v1
+    pausable: true
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: terminal
+      version: 0.2.1
+    config: "file://$APP_DIR/configs/v2/v0_2_1.yaml"
+    urls: 
+    - name: terminal
+      url: /apps/{{ .Release.Namespace }}/terminal/{{ .Release.Name }}/
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies:
+      crds:
+      - group: networking.istio.io
+        version: v1beta1
+        resource: virtualservices
 ```
 
 *   `apiVersion` and `kind` use the `metav1.TypeMeta` of the K8s API to mark the API type and version.
 *   `metadata` records the basic information of the App, including its name, category, etc.
-    *   `defaultVersion`: The default version. If the App has multiple versions, this indicates the default version. If the administrator does not set this field when registering the application, the first App version defined in `versions[]` will be the default version (see `template.crd.versions` and `template.helm.versions` for details).
-    *   `icon`: The URL of the application icon, pointing to the icon file address. The variable `$APP_DIR` can be used to represent the folder where the template file is located, making it easy to specify files in the local file system.
+    *   `icon`: The URL of the application icon, pointing to the icon file address. It is an object containing a `url` field. The variable `$APP_DIR` can be used to represent the folder where the template file is located, making it easy to specify files in the local file system.
 *   `template` defines the specific content of the App template.
-    *   Currently, it supports Helm and CRD type applications, which are defined by the `template.helm` and `template.crd` fields, respectively. See [CRD and Helm Templates](#crd-and-helm-templates).
-    *   `versions`: Records the information of each version of the App, mainly including the following fields:
+    *   `versions`: Records the information of each version of the App. It is a list, where each item represents a version of the application and contains the following fields:
+        *   `version`: The version of the App.
+        *   `pausable`: A boolean that indicates whether the App instance can be paused.
+        *   `chart`: This object specifies the Helm chart information, including `repo`, `name`, and `version`.
         *   `urls`: The access link of the App instance, which can be generated based on the installation/deployment configuration of the App instance. Both the `name` and `url` sub-fields can be filled in Go Template format (for the replacement rules of Go Template format strings, see [Go Template Replacement Rules](#go-template-replacement-rules)). The `url` sub-field is used to open the App link in the front end, so it meets the general processing method of the front end for URLs:
             *   If `url` contains a protocol (such as `http://`), a new tab page is opened with the complete `url`.
             *   If `url` does not contain a protocol but starts with `/`, the content of the `url` field is treated as a **path**, and a new tab page is opened in combination with the domain name of the current page (User Console).
@@ -54,57 +57,25 @@ template:
         *   `readinessProbe`: Detects whether the App is running normally. For configuration methods, see [App Running Detection](#app-running-detection).
         *   `dependencies`: Records the cluster environment on which the App depends, including API resources and services in the cluster. For configuration methods, see [Application Dependencies](#application-dependencies).
 
-## CRD and Helm Templates
-
-The system currently supports two types of App templates: Helm and CRD.
-
-1)  Helm type App template example (simplified version):
+## Helm Configuration
 
     ```yaml
-    apiVersion: app.tensorstack.dev/v1beta1
+    apiVersion: app.tensorstack.dev/v1beta2
     kind: Template
     metadata:
      ...
     template:
-     helm:
-        repo: "oci://docker.io/t9kpublic"
-        chart: "terminal"
-        versions:
-        - version: 0.1.1
-          config: "file://$APP_DIR/manifests/v0_1_1.yaml"
-          urls: []
-          readinessProbe: {}
-          dependencies: {}
+      versions:
+      - version: v1
+        chart:
+          repo: "oci://docker.io/t9kpublic"
+          name: "terminal"
+          version: 0.2.1
+        config: "file://$APP_DIR/manifests/v0_1_1.yaml"
+        urls: []
+        readinessProbe: {}
+        dependencies: {}
     ```
-
-2)  CRD application template example (simplified version):
-
-    ```yaml
-    apiVersion: app.tensorstack.dev/v1beta1
-    kind: Template
-    metadata:
-      ...
-    template:
-      crd:
-        group: tensorstack.dev
-        resource: notebooks
-        versions:
-        - version: v1beta1
-          config: "file://$APP_DIR/config.yaml"
-          readme: "file://$APP_DIR/README.md"
-          note: "file://$APP_DIR/NOTE.txt"
-          urls: []
-          readinessProbe: {}
-          dependencies: {}
-    ```
-
-Comparison of the two:
-
-*   The format and meaning of the `apiVersion`, `kind`, and `metadata` fields of the template are the same.
-*   Helm App and CRD use different application declaration methods. The former uses the `repo` and `chart` fields to specify the location of the Helm Chart, while the latter uses the `group` and `resource` fields to specify the CRD type.
-*   The `version` of a Helm App refers to the `version` field in `Chart.yaml` ([Chart.yaml File](https://helm.sh/docs/topics/charts/#the-chartyaml-file)), while the `version` of a CRD application refers to the [API Version](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/) of a CRD.
-*   Helm App supports uploading README.md and NOTE.txt files at the same time when packaging, but CRD does not have this information after development and deployment. Therefore, in the application template, `readme` and `note` fields are added for CRD applications to supplement this information. The content of `note` can be filled in with Go Template, and the template variables that can be referenced are described in [Go Template Replacement Rules](#go-template-replacement-rules).
-*   The meaning and content of other fields of the two types of Apps are the same and will be introduced in the subsequent content of the document.
 
 > [!NOTE]
 > 1.  Currently, `t9k-app` only supports unregistering a single App at a time, not batch unregistration.
@@ -114,49 +85,80 @@ Comparison of the two:
 
 When deploying Apps, users need to provide a **deployment configuration**.
 
-When registering Apps, administrators can set a **deployment configuration template** for Helm applications and CRD applications through the `template.helm.versions[@].config` and `template.crd.versions[@].config` fields, respectively, to help users construct the deployment configuration.
+When registering Apps, administrators can set a **deployment configuration template** for each version of an application through the `template.versions[@].config` field to help users construct the deployment configuration.
 
-Both of the above fields support filling in with external files and inline content.
+This field supports filling in with external files and inline content.
 
 1)  External file:
 
     ```yaml
-    apiVersion: app.tensorstack.dev/v1beta1
+    apiVersion: app.tensorstack.dev/v1beta2
     kind: Template
     template:
-      helm: 
-        versions:
-        # Use local file path to fill in
-        - config: "file://$APP_DIR/manifests/v0_1_1.yaml"
+      versions:
+      # Use local file path to fill in
+      - config: "file://$APP_DIR/manifests/v0_1_1.yaml"
     ```
 
 2)  Inline content:
 
     ```yaml
-    apiVersion: app.tensorstack.dev/v1beta1
+    apiVersion: app.tensorstack.dev/v1beta2
     kind: Template
-    config:
-      helm: 
-        versions:
-        # Use inline content to fill in
-        - config: "# sh, bash or zsh\n## @param shell Select a shell to start terminal.\nshell: bash\n\n## @param resources.limits.cpu The maximum number of CPU the terminal can use.\n## @param resources.limits.memory The maximum number of memory the terminal can use.\nresources:\n  limits:\n    cpu: 200m\n    memory: 200Mi\n\n## @param resources.limits.cpu Mount pvcs to terminal.\npvcs: []\n\nglobal:\n  t9k:\n    homeURL: \"$(HOME_URL)\"\n    securityService:\n      enabled: true\n      endpoints:\n        oidc: \"$(OIDC_ENDPOINT)\"\n        securityServer: \"$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)\"\n    pepProxy:\n      args:\n        clientID: $(APP_AUTH_CLINET_ID)"
+    template:
+      versions:
+      # Use inline content to fill in
+      - config: "# +t9k:form:pattern v2\n# +t9k:description:en Terminal image config.\n# +t9k:description:zh Terminal 镜像信息。\nimage:\n  # +t9k:form\n  # +t9k:description:en Terminal image registry.\n  # +t9k:description:zh Terminal 镜像仓库。 \n  registry: \"$(T9K_APP_IMAGE_REGISTRY)\"\n  # +t9k:form\n  # +t9k:description:en Terminal image repository.\n  # +t9k:description:zh Terminal 镜像名称。\n  repository: \"$(T9K_APP_IMAGE_NAMESPACE)/terminal\"\n  # +t9k:form\n  # +t9k:description:en Terminal image tag.\n  # +t9k:description:zh Terminal 镜像标签。\n  tag: \"250423\"\n  # +t9k:form\n  # +t9k:description:en Terminal image pull policy.\n  # +t9k:description:zh Terminal 镜像拉取策略。\n  pullPolicy: IfNotPresent\n# sh, bash or zsh\n#\n# +t9k:form\n# +t9k:description:en Select a shell to start terminal.\n# +t9k:description:zh 选择一个 Shell 启动 Terminal。\nshell: bash\nresources:\n  # +t9k:description:en App resource limit.\n  # +t9k:description:zh App 资源限额。\n  limits:\n    # +t9k:form\n    # +t9k:description:en CPU limit for the App container.\n    # +t9k:description:zh App CPU 限制。\n    cpu: 200m\n    # +t9k:form\n    # +t9k:description:en Memory limit for the App container.\n    # +t9k:description:zh App 内存限制。\n    memory: 400Mi\n# +t9k:form\n# +t9k:description:en Mount pvcs to terminal.\n# +t9k:description:zh 挂载 pvcs 到 Terminal。\npvcs: []\nglobal:\n  t9k:\n    homeURL: \"$(T9K_HOME_URL)\"\n    securityService:\n      enabled: true\n      endpoints:\n        oidc: \"$(T9K_OIDC_ENDPOINT)\"\n        securityServer: \"$(T9K_SECURITY_CONSOLE_SERVER_ENDPOINT)\"\n    pepProxy:\n      args:\n        clientID: $(T9K_APP_AUTH_CLINET_ID)"
     ```
 
 Below is the deployment configuration template for the Terminal application:
 
 ```yaml
+# +t9k:form:pattern v2
+
+# +t9k:description:en Terminal image config.
+# +t9k:description:zh Terminal 镜像信息。
+image:
+  # +t9k:form
+  # +t9k:description:en Terminal image registry.
+  # +t9k:description:zh Terminal 镜像仓库。 
+  registry: "$(T9K_APP_IMAGE_REGISTRY)"
+  # +t9k:form
+  # +t9k:description:en Terminal image repository.
+  # +t9k:description:zh Terminal 镜像名称。
+  repository: "$(T9K_APP_IMAGE_NAMESPACE)/terminal"
+  # +t9k:form
+  # +t9k:description:en Terminal image tag.
+  # +t9k:description:zh Terminal 镜像标签。
+  tag: "250423"
+  # +t9k:form
+  # +t9k:description:en Terminal image pull policy.
+  # +t9k:description:zh Terminal 镜像拉取策略。
+  pullPolicy: IfNotPresent
+
 # sh, bash or zsh
-## @param shell Select a shell to start terminal.
+#
+# +t9k:form
+# +t9k:description:en Select a shell to start terminal.
+# +t9k:description:zh 选择一个 Shell 启动 Terminal。
 shell: bash
 
 resources:
+  # +t9k:description:en App resource limit.
+  # +t9k:description:zh App 资源限额。
   limits:
-    ## @param resources.limits.cpu The maximum number of CPU the terminal can use.
-    ## @param resources.limits.memory The maximum number of memory the terminal can use.
+    # +t9k:form
+    # +t9k:description:en CPU limit for the App container.
+    # +t9k:description:zh App CPU 限制。
     cpu: 200m
-    memory: 200Mi
+    # +t9k:form
+    # +t9k:description:en Memory limit for the App container.
+    # +t9k:description:zh App 内存限制。
+    memory: 400Mi
 
-## @param resources.limits.cpu Mount pvcs to terminal.
+# +t9k:form
+# +t9k:description:en Mount pvcs to terminal.
+# +t9k:description:zh 挂载 pvcs 到 Terminal。
 pvcs: []
 
 global:
@@ -174,9 +176,9 @@ global:
 
 Where:
 
-*   The deployment page of the User Console will recognize all comments starting with `## @param` and integrate the fields specified by these comments into a web form to facilitate user filling.
-    *   The format of the comment is `## @param <field-path> <field-description>`.
-    *   (User Console versions after 1.79.7 support using `## @param[required] <field-path> <field-description>` to indicate required fields)
+*   The User Console's deployment page will recognize all comments starting with `# +t9k:` and integrate the fields specified by these comments into a web form to facilitate user filling.
+    *   `# +t9k:form` indicates that the field is a form item.
+    *   `# +t9k:description:en` and `# +t9k:description:zh` provide English and Chinese descriptions for the field.
 *   When deploying an application, the application controller provides system variable support to achieve flexible configuration.
     *   In the configuration, the syntax for using variables is: `$(<variable-name>)`, for example, `"$(T9K_HOME_URL)"`.
     *   For the variables that can be used in the deployment configuration template, please refer to [System Variables](#system-variables).
@@ -200,28 +202,27 @@ The `readinessProbe` field in the application template defines how to detect whe
 
 ```yaml
 template:
-  helm: 
-    versions:
-    - readinessProbe:
-        tcpSocket: 
-          port: "{{ .go-template }}"
-          host: "{{ .go-template }}"
-        httpGet:
-          scheme: "{{ .go-template }}"
-          port: "{{ .go-template }}"
-          host: "{{ .go-template }}"
-          path: "{{ .go-template }}"
-          httpHeaders: 
-          - name: header-name
-            value: "{{ .go-template }}"
-        resources:
-        - group: tensorstack.dev
-          version: v1beta1
-          resource: notebooks
-          name: "{{ .go-template }}"
-          message: "{{ .go-template }}"
-          currentStatus: "{{ .go-template }}"
-          desiredStatus: "True"
+  versions:
+  - readinessProbe:
+      tcpSocket: 
+        port: "{{ .go-template }}"
+        host: "{{ .go-template }}"
+      httpGet:
+        scheme: "{{ .go-template }}"
+        port: "{{ .go-template }}"
+        host: "{{ .go-template }}"
+        path: "{{ .go-template }}"
+        httpHeaders: 
+        - name: header-name
+          value: "{{ .go-template }}"
+      resources:
+      - group: tensorstack.dev
+        version: v1beta1
+        resource: notebooks
+        name: "{{ .go-template }}"
+        message: "{{ .go-template }}"
+        currentStatus: "{{ .go-template }}"
+        desiredStatus: "True"
 ```
 
 As shown in the YAML above, three types of `readinessProbe` can be defined in the App template:
@@ -261,16 +262,15 @@ When registering an App, if the current cluster does not meet the application de
 
 ```yaml
 template:
-  helm: 
-    versions:
-    - dependencies:
-        crds:
-        - group: tensorstack.dev
-          version: v1beta1
-          resources: notebook
-        services: 
-        - namespace: t9k-system
-          name: build-console-web
+  versions:
+  - dependencies:
+      crds:
+      - group: tensorstack.dev
+        version: v1beta1
+        resources: notebook
+      services: 
+      - namespace: t9k-system
+        name: build-console-web
 ```
 
 Two types of dependencies can be defined:
@@ -284,11 +284,10 @@ In the application template, some fields need to refer to the information of the
 
 *   For Go Template syntax, please refer to: [https://developer.hashicorp.com/nomad/tutorials/templates/go-template-syntax](https://developer.hashicorp.com/nomad/tutorials/templates/go-template-syntax).
 *   The variables used by Go Template are discussed below in the following three situations:
-    1.  The application type is Helm;
-    2.  The application type is CRD;
-    3.  The Go Template variables used by the `readinessProbe.resources[@].currentStatus|message` field.
+    1.  Helm Configuration;
+    2.  The Go Template variables used by the `readinessProbe.resources[@].currentStatus|message` field.
 
-### Application Type is Helm
+### Helm Configuration
 
 The available variables include:
 
@@ -308,36 +307,12 @@ Users can use `{{ .Values.shell }}` in Go Template to refer to the value of the 
 > [!NOTE]
 > [Helm Build-in Object](https://helm.sh/docs/chart_template_guide/builtin_objects/) supports more variables, but most of these variables require reading Chart files, checking the local environment, etc., which are more troublesome to obtain and have little use in application templates. Therefore, only the two built-in variables `{{ .Release.Namespace }}` and `{{ .Release.Name }}` are supported in the application template.
 
-### Application Type is CRD
-
-The Go Template in the CRD application template can refer to the fields in the deployment configuration.
-
-Below is part of the deployment configuration for the JupyterLab application:
-
-```yaml
-apiVersion: tensorstack.dev/v1beta1
-kind: Notebook
-metadata:
-  name: notebook-demo
-  namespace: demo
-spec:
-  type: jupyter
-  ...
-```
-
-Users can use `{{ .metadata.namespace }}` to refer to the namespace where the application instance is located, and `{{ .spec.type }}` to refer to the Notebook type.
-
-> [!NOTE]
-> If the `.metadata.namespace` field in the deployment configuration of the CRD application is not filled in, the App Server will automatically fill in this field according to the user's namespace, so there is no need to worry that the `{{ .metadata.namespace }}` variable will refer to a null value. However, other fields do not have default values, so you need to pay attention.
-
 ### readinessProbe.resources[@].currentStatus|message
 
 Refers to the following fields:
 
-*   `template.crd.versions[@].readinessProbe.resources[@].currentStatus`
-*   `template.crd.versions[@].readinessProbe.resources[@].message`
-*   `template.helm.versions[@].readinessProbe.resources[@].currentStatus`
-*   `template.helm.versions[@].readinessProbe.resources[@].message`
+*   `template.versions[@].readinessProbe.resources[@].currentStatus`
+*   `template.versions[@].readinessProbe.resources[@].message`
 
 > [!NOTE]
 > Unlike other fields that support Go Template format, `currentStatus` and `message` are used to determine the status of sub-resources after the application instance is deployed, while other fields are parsed when the application instance is deployed.
@@ -345,19 +320,18 @@ Refers to the following fields:
 Below is part of the application template for the Terminal application:
 
 ```yaml
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 template:
-  helm: 
-    versions:
-    - readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: terminal-{{ .Release.Name }}
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
+  versions:
+  - readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
 ```
 
-Assuming the user deploys an application named `demo`, according to the rules in [Helm Application Variables](#application-type-is-helm), the `name` field above is `terminal-demo`. Therefore, according to the `readinessProbe`, the instance controller needs to check the status of the `terminal-demo` Deployment. The variables in `currentStatus` above refer to the fields of the Deployment, and its logic is: find the `.status.conditions` with `type` as `Available` and return its `status` sub-field.
+Assuming the user deploys an application named `demo`, according to the rules in [Helm Configuration](#helm-configuration), the `name` field above is `demo`. Therefore, according to the `readinessProbe`, the instance controller needs to check the status of the `demo` Deployment. The variables in `currentStatus` above refer to the fields of the Deployment, and its logic is: find the `.status.conditions` with `type` as `Available` and return its `status` sub-field.
