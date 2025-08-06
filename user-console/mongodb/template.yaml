@@ -1,37 +1,46 @@
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: mongodb
   displayName: "MongoDB"
   categories: ["Database"]
   description: "MongoDB 是一个开源的 NoSQL 数据库，使用 JSON 样式文档存储数据，支持自动扩展和高性能，适合开发云原生应用。"
-  icon: "file://$APP_DIR/icon.svg"
+  icon:
+    url: "file://$APP_DIR/icon.svg"
 template:
-  helm:
-    repo: "oci://docker.io/t9kpublic"
-    chart: "mongodb"
-    versions:
-    - version: 15.6.1
-      urls: []
-      config: "file://$APP_DIR/configs/v2/v15_6_1.yaml"
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
-    - version: 14.13.0
-      urls: []
-      config: "file://$APP_DIR/configs/v2/v14_13_0.yaml"
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
+  versions:
+  - version: 15.6.1
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "mongodb"
+      version: 15.6.1
+    config: "file://$APP_DIR/configs/v2/v15_6_1.yaml"
+    urls: []
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}
+  - version: 14.13.0
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "mongodb"
+      version: 14.13.0
+    config: "file://$APP_DIR/configs/v2/v14_13_0.yaml"
+    urls: []
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}
+

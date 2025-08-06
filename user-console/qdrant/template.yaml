@@ -5,20 +5,23 @@ metadata:
   displayName: "Qdrant"
   categories: ["Database"]
   description: "Qdrant 是一个面向 AI 应用的向量数据库。"
-  icon: "file://$APP_DIR/icon.svg"
+  icon: 
+    url: "file://$APP_DIR/icon.svg"
 template:
-  helm:
-    repo: "https://qdrant.github.io/qdrant-helm"
-    chart: "qdrant"
-    versions:
-    - version: 0.9.1
-      urls: []
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: statefulsets
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
+  versions:
+  - version: 0.9.1
+    pausable: false
+    chart:
+      repo: "https://qdrant.github.io/qdrant-helm"
+      name: "qdrant"
+      version: 0.9.1
+    urls: []
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: statefulsets
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}

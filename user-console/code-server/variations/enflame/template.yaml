@@ -1,28 +1,30 @@
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: code-server-enflame
   displayName: "Code Server (Enflame GCU)"
   categories: ["IDE"]
   description: "Code Server 是一个基于浏览器的 VSCode 环境。"
-  icon: "file://$APP_DIR/icon.svg"
+  icon:
+    url: "file://$APP_DIR/icon.svg"
 template:
-  helm: 
-    repo: "oci://registry.qingyang.t9kcloud.cn/t9kcharts"
-    # repo: "https://t9k.github.io/apps/"
-    chart: "code-server-enflame"
-    versions:
-    - version: 0.3.2
-      config: "file://$APP_DIR/configs/v0_3_2.yaml"
-      urls: 
-      - name: UI
-        url: /apps/{{ .Release.Namespace }}/code-server/{{ .Release.Name }}/
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
+  versions:
+  - version: 0.3.2
+    pausable: false
+    chart:
+      repo: "oci://registry.qingyang.t9kcloud.cn/t9kcharts"
+      name: "code-server-enflame"
+      version: 0.3.2
+    config: "file://$APP_DIR/configs/v0_3_2.yaml"
+    urls:
+    - name: UI
+      url: /apps/{{ .Release.Namespace }}/code-server/{{ .Release.Name }}/
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}

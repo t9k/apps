@@ -1,26 +1,28 @@
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: gpt-researcher
   displayName: "GPT Researcher"
   categories: ["AI"]
   description: "GPT Researcher 是一个智能体代理，专门用于各种任务的综合在线研究。"
-  icon: "https://s2.loli.net/2024/06/05/KuShAgEN9zWXnPH.png"
+  icon:
+    url: "https://s2.loli.net/2024/06/05/KuShAgEN9zWXnPH.png"
 template:
-  helm:
-    repo: "oci://docker.io/t9kpublic"
-    # repo: "https://t9k.github.io/apps/"
-    chart: "gpt-researcher"
-    versions:
-    - version: 0.2.1
-      config: "file://$APP_DIR/configs/v2/v0_2_1.yaml"
-      urls: []
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
+  versions:
+  - version: 0.2.1
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "gpt-researcher"
+      version: 0.2.1
+    config: "file://$APP_DIR/configs/v2/v0_2_1.yaml"
+    urls: []
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}

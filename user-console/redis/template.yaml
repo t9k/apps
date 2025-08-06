@@ -5,30 +5,42 @@ metadata:
   displayName: "Redis"
   categories: ["Database"]
   description: "Redis 是一个内存数据库，支持多种数据结构如字符串、列表、集合等，同时数据持久化到磁盘。"
-  icon: "file://$APP_DIR/icon.svg"
+  icon:
+    url: "file://$APP_DIR/icon.svg"
 template:
-  helm:
-    repo: "oci://docker.io/t9kpublic"
-    # repo: "https://charts.bitnami.com/bitnami"
-    chart: "redis"
-    versions:
-    - version: 19.5.0
-      urls: []
-      config: "file://$APP_DIR/configs/v2/v19_5_0.yaml"
-      # readinessProbe:
-      #   resources:
-      #   - group: apps
-      #     version: v1
-      #     resource: statefulset
-      #     name: {{ .Release.Name }}-redis-master
-      #     currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
-      #     desiredStatus: "True"
-      dependencies: {}
-    - version: 18.19.4
-      urls: []
-      config: "file://$APP_DIR/configs/v2/v18_19_4.yaml"
-      dependencies: {}
-    - version: 17.17.1
-      urls: []
-      config: "file://$APP_DIR/configs/v2/v17_17_1.yaml"
-      dependencies: {}
+  versions:
+  - version: 19.5.0
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "redis"
+      version: 19.5.0
+    urls: []
+    config: "file://$APP_DIR/configs/v2/v19_5_0.yaml"
+    # readinessProbe:
+    #   resources:
+    #   - group: apps
+    #     version: v1
+    #     resource: statefulset
+    #     name: {{ .Release.Name }}-redis-master
+    #     currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
+    #     desiredStatus: "True"
+    dependencies: {}
+  - version: 18.19.4
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "redis"
+      version: 18.19.4
+    urls: []
+    config: "file://$APP_DIR/configs/v2/v18_19_4.yaml"
+    dependencies: {}
+  - version: 17.17.1
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "redis"
+      version: 17.17.1
+    urls: []
+    config: "file://$APP_DIR/configs/v2/v17_17_1.yaml"
+    dependencies: {}

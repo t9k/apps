@@ -1,27 +1,30 @@
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: code-server
   displayName: "Code Server"
   categories: ["IDE"]
   description: "Code Server 是一个基于浏览器的 VSCode 环境。"
-  icon: "file://$APP_DIR/icon.svg"
+  icon:
+    url: "file://$APP_DIR/icon.svg"
 template:
-  helm: 
-    repo: "oci://docker.io/t9kpublic"
-    chart: "code-server"
-    versions:
-    - version: 0.3.2
-      config: "file://$APP_DIR/configs/v2/v0_3_2.yaml"
-      urls: 
-      - name: UI
-        url: /apps/{{ .Release.Namespace }}/code-server/{{ .Release.Name }}/
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
+  versions:
+  - version: 0.3.2
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "code-server"
+      version: 0.3.2
+    config: "file://$APP_DIR/configs/v2/v0_3_2.yaml"
+    urls:
+    - name: UI
+      url: /apps/{{ .Release.Namespace }}/code-server/{{ .Release.Name }}/
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}

@@ -49,7 +49,15 @@ image:
   tag: "20241031"
   pullPolicy: IfNotPresent
 
-pvc: "demo"
+volumes:
+  workingDir:
+    pvc: "demo"
+  extraVolumes:
+    - volume:
+        name: volume-name
+        persistentVolumeClaim:
+          claimName: "demo2"
+      mountPath: /volume/mount/path
 
 resources:
   limits:
@@ -60,26 +68,31 @@ resources:
 ssh:
   enabled: true
   authorizedKeys:
-  - <YOUR_SECRET_OF_SSH_PUBLIC_KEY>
+    - <YOUR_SECRET_OF_SSH_PUBLIC_KEY>
   serviceType: ClusterIP
 ```
 
 ### 字段
 
-| 名称                                | 描述                                                        | 值                                                  |
-| ----------------------------------- | ----------------------------------------------------------- | --------------------------------------------------- |
-| `image.registry`                    | JupyterLab 镜像注册表                                       | `$(T9K_APP_IMAGE_REGISTRY)`                         |
-| `image.repository`                  | JupyterLab 镜像仓库                                         | `$(T9K_APP_IMAGE_NAMESPACE)/jupyterlab-torch-2.5.0` |
-| `image.tag`                         | JupyterLab 镜像标签                                         | `20241031`                                          |
-| `image.pullPolicy`                  | JupyterLab 镜像拉取策略                                     | `IfNotPresent`                                      |
-| `pvc`                               | 挂载到 JupyterLab 上的 PVC 名称，作为 JupyterLab 的工作空间 | `""`                                                |
-| `resources.limits.cpu`              | JupyterLab 容器能使用的 CPU 上限                            | `16`                                                |
-| `resources.limits.memory`           | JupyterLab 容器能使用的内存上限                             | `32Gi`                                              |
-| `resources.limits."nvidia.com/gpu"` | JupyterLab 容器能使用的 NVIDIA GPU 上限                     | `1`                                                 |
-| `ssh.enabled`                       | 是否为 JupyterLab 启用 SSH 服务                             | `false`                                             |
-| `ssh.authorizedKeys`                | 一系列记录 SSH 公钥的 K8s Secret 资源                       | `[]`                                                |
-| `ssh.serviceType`                   | SSH 服务类型，支持 ClusterIP 和 NodePort 两种               | `ClusterIP`                                         |
-| `nodeSelector`                      | 用于选择节点，JupyterLab 只会被调度到标签与之匹配的节点上   | `[]`                                                |
+| 名称                                | 描述                                                                                                                                                | 值                                                  |
+| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| `image.registry`                    | JupyterLab 镜像注册表                                                                                                                               | `$(T9K_APP_IMAGE_REGISTRY)`                         |
+| `image.repository`                  | JupyterLab 镜像仓库                                                                                                                                 | `$(T9K_APP_IMAGE_NAMESPACE)/jupyterlab-torch-2.5.0` |
+| `image.tag`                         | JupyterLab 镜像标签                                                                                                                                 | `20241031`                                          |
+| `image.pullPolicy`                  | JupyterLab 镜像拉取策略                                                                                                                             | `IfNotPresent`                                      |
+| `volumes`                           | 挂载到 JupyterLab 上的存储卷                                                                                                                        | `{}`                                                |
+| `volumes.workingDir`                | 挂在一个 PVC 到 JupyterLab 上，作为 JupyterLab 的工作空间                                                                                           | `{}`                                                |
+| `volumes.workingDir.pvc`            | 作为 JupyterLab 的工作空间挂载到 JupyterLab 上的 PVC 名称                                                                                           | `""`                                                |
+| `volumes.extraVolumes`              | 挂载到 JupyterLab 上的额外存储卷                                                                                                                    | `[]`                                                |
+| `volumes.extraVolumes[].volume`     | 额外挂载的存储卷，可设置的存储卷类型和结构，请参考：https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/#Volume | `{}`                                                |
+| `volumes.extraVolumes[].mountPath`  | 存储卷的挂载路径                                                                                                                                    | `""`                                                |
+| `resources.limits.cpu`              | JupyterLab 容器能使用的 CPU 上限                                                                                                                    | `16`                                                |
+| `resources.limits.memory`           | JupyterLab 容器能使用的内存上限                                                                                                                     | `32Gi`                                              |
+| `resources.limits."nvidia.com/gpu"` | JupyterLab 容器能使用的 NVIDIA GPU 上限                                                                                                             | `1`                                                 |
+| `ssh.enabled`                       | 是否为 JupyterLab 启用 SSH 服务                                                                                                                     | `false`                                             |
+| `ssh.authorizedKeys`                | 一系列记录 SSH 公钥的 K8s Secret 资源                                                                                                               | `[]`                                                |
+| `ssh.serviceType`                   | SSH 服务类型，支持 ClusterIP 和 NodePort 两种                                                                                                       | `ClusterIP`                                         |
+| `nodeSelector`                      | 用于选择节点，JupyterLab 只会被调度到标签与之匹配的节点上                                                                                           | `[]`                                                |
 
 ### 镜像列表
 

@@ -5,22 +5,24 @@ metadata:
   displayName: "One API"
   categories: ["AI"]
   description: "One API 是一个 OpenAI 接口管理与分发系统，支持多个主流 LLM 服务提供商。"
-  icon: "file://$APP_DIR/icon.png"
+  icon: 
+    url: "file://$APP_DIR/icon.png"
 template:
-  helm:
-    repo: "oci://docker.io/t9kpublic"
-    # repo: "https://t9k.github.io/apps/"
-    chart: "one-api"
-    versions:
-    - version: 0.1.1
-      config: "file://$APP_DIR/configs/v2/v0_1_1.yaml"
-      urls: []
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
+  versions:
+  - version: 0.1.1
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "one-api"
+      version: 0.1.1
+    config: "file://$APP_DIR/configs/v2/v0_1_1.yaml"
+    urls: []
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}

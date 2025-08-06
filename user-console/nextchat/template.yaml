@@ -1,26 +1,28 @@
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: nextchat
   displayName: NextChat
   categories: ["AI"]
   description: "NextChat 是一个设计精良的 ChatGPT 网页 UI，支持多种聊天服务，包括 ChatGPT、Claude、Gemini 和本地推理服务。"
-  icon: "file://$APP_DIR/icon.png"
+  icon:
+    url: "file://$APP_DIR/icon.png"
 template:
-  helm:
-    repo: "oci://docker.io/t9kpublic"
-    # repo: "https://t9k.github.io/apps/"
-    chart: "nextchat"
-    versions:
-    - version: 0.2.2
-      config: "file://$APP_DIR/configs/v2/v0_2_2.yaml"
-      urls: []
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
+  versions:
+  - version: 0.2.2
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "nextchat"
+      version: 0.2.2
+    config: "file://$APP_DIR/configs/v2/v0_2_2.yaml"
+    urls: []
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}

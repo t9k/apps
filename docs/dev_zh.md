@@ -118,6 +118,10 @@ T9k Apps 支持 2 种方式设置 Charts 的 `Values` ：
 1. Default Values：Helm Chart 的默认变量值，在开发 Helm Chart 时，记录在 `values.yaml` 文件中。
 2. User Values：额外变量值。用户在部署应用的时候时设置，服务器会将该 Values 与 Default Values 合并（字段冲突时，User Values 优先级更高），然后用于部署 App。
 
+#### Pause Functionality
+
+如果想给 APP 添加暂停功能，则需要在 Helm Chart Values 中添加 `paused` 字段，同时在 Helm Chart 中针对 `paused` 字段进行暂停处理。
+
 #### 调试
 
 在上传 Helm Chart 前，开发者应在集群中完成完整的测试，以保证 Chart 确实可用。
@@ -205,6 +209,7 @@ metadata:
 template:
   versions:
   - version: v1
+    pausable: true
     chart:
       repo: "oci://docker.io/t9kpublic"
       name: "terminal"
@@ -218,6 +223,7 @@ template:
 *   `metadata.icon.url` 中填写 `icon` 地址，除了本地文件以外，还支持通过 url 使用互联网图片.
 *   `template.versions[@].config` 中设置各版本应用的默认部署配置文件。
 *   `template.versions[@].chart` 填写[开发 Helm Chart](#开发-helm-chart) 一节中 Chart 上传的仓库地址、名称和版本。
+*   `template.versions[@].pausable` 表示该 App 是否可以暂停。
 
 更多应用模版介绍，请参考[应用模版](./template_zh.md)。
 
@@ -249,5 +255,3 @@ t9k-app list -k $APIKEY -s $APP_SERVER | grep terminal
 1. 部署后，查看集群中创建的资源是否符合预期；应用链接是否正常工作。
 
 卸载应用，查看是否有数据残留。（有些数据遗留行为是符合预期的，比如卸载应用后，希望应用产生的数据可以保留，以用于其他用途。）
-
-

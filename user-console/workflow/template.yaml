@@ -6,45 +6,48 @@ metadata:
   defaultVersion: 0.1.2
   categories: ["Tool", "AI"]
   description: "Workflow 是一个用于管理工作流的控制台，可执行创建工作流、查看运行状态等操作。"
-  icon: "file://$APP_DIR/icon.svg"
+  icon:
+    url: "file://$APP_DIR/icon.svg"
 template:
-  helm: 
-    repo: "oci://docker.io/t9kpublic"
-    chart: "workflow"
-    versions:
-    - version: 0.1.2
-      config: "file://$APP_DIR/configs/v0_1_2.yaml"
-      urls: 
-      - name: workflow
-        url: /apps/{{ .Release.Namespace }}/workflow/{{ .Release.Name }}/web/
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}-web"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}-server"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies:
-        crds:
-        - group: networking.istio.io
-          version: v1beta1
-          resource: virtualservices
-        - group: batch.tensorstack.dev
-          version: v1beta1
-          resource: workflowtemplates
-        - group: batch.tensorstack.dev
-          version: v1beta1
-          resource: workflowruns
-        - group: batch.tensorstack.dev
-          version: v1beta1
-          resource: cronworkflowruns
-        services: 
-        - namespace: t9k-system
-          name: k8s-resource-server
+  versions:
+  - version: 0.1.2
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "workflow"
+      version: 0.1.2
+    config: "file://$APP_DIR/configs/v0_1_2.yaml"
+    urls: 
+    - name: workflow
+      url: /apps/{{ .Release.Namespace }}/workflow/{{ .Release.Name }}/web/
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}-web"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}-server"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies:
+      crds:
+      - group: networking.istio.io
+        version: v1beta1
+        resource: virtualservices
+      - group: batch.tensorstack.dev
+        version: v1beta1
+        resource: workflowtemplates
+      - group: batch.tensorstack.dev
+        version: v1beta1
+        resource: workflowruns
+      - group: batch.tensorstack.dev
+        version: v1beta1
+        resource: cronworkflowruns
+      services: 
+      - namespace: t9k-system
+        name: k8s-resource-server

@@ -1,40 +1,44 @@
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: job-manager
   displayName: Job Manager
   categories: ["Tool", "AI"]
   description: "Job Manager 是一个用于管理 T9k Job 的控制台，通过直观的界面方便用户创建 Job、查看 Job 的详细信息以及监控计算资源的使用情况"
-  icon: "file://$APP_DIR/icon.svg"
+  icon:
+    url: "file://$APP_DIR/icon.svg"
 template:
-  helm: 
-    repo: "oci://docker.io/t9kpublic"
-    chart: "job-manager"
-    versions:
-    - version: 0.2.4
-      config: "file://$APP_DIR/configs/v0_2_4.yaml"
-      urls:
-      - name: job-manager
-        url: /apps/{{ .Release.Namespace }}/job-manager/{{ .Release.Name }}/web/
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}-server"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}-web"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies:
-        crds:
-        - group: networking.istio.io
-          version: v1beta1
-          resource: virtualservices
-        services:
-        - namespace: t9k-system
-          name: k8s-resource-server
+  versions:
+  - version: 0.2.4
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "job-manager"
+      version: 0.2.4
+    config: "file://$APP_DIR/configs/v0_2_4.yaml"
+    urls:
+    - name: job-manager
+      url: /apps/{{ .Release.Namespace }}/job-manager/{{ .Release.Name }}/web/
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}-server"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}-web"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies:
+      crds:
+      - group: networking.istio.io
+        version: v1beta1
+        resource: virtualservices
+      services:
+      - namespace: t9k-system
+        name: k8s-resource-server
+

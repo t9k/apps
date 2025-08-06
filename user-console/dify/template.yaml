@@ -1,42 +1,50 @@
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: dify
   displayName: Dify
   categories: ["AI"]
   description: "Dify 是一个开源的 LLM 应用开发平台。其直观的界面结合了智能 AI 工作流、RAG 管道、代理能力、模型管理、可观测性功能等，使你能够快速从原型开发到生产部署。"
-  icon: "file://$APP_DIR/icon.png"
+  icon:
+    url: "file://$APP_DIR/icon.png"
 template:
-  helm:
-    repo: "oci://docker.io/t9kpublic"
-    # repo: "https://t9k.github.io/apps/"
-    chart: "dify"
-    versions:
-    - version: 0.7.1
-      config: "file://$APP_DIR/configs/v2/v0_7_1.yaml"
-      urls:
-      - name: UI
-        url: /apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/apps
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}-frontend"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
-    - version: 0.7.0
-      config: "file://$APP_DIR/configs/v2/v0_7_0.yaml"
-      urls:
-      - name: UI
-        url: /apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/apps
-      readinessProbe:
-        resources:
-        - group: apps
-          version: v1
-          resource: deployments
-          name: "{{ .Release.Name }}-frontend"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies: {}
+  versions:
+  - version: 0.7.1
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "dify"
+      version: 0.7.1
+    config: "file://$APP_DIR/configs/v2/v0_7_1.yaml"
+    urls:
+    - name: UI
+      url: /apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/apps
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}-frontend"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}
+  - version: 0.7.0
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "dify"
+      version: 0.7.0
+    config: "file://$APP_DIR/configs/v2/v0_7_0.yaml"
+    urls:
+    - name: UI
+      url: /apps/{{ .Release.Namespace }}/dify/{{ .Release.Name }}/apps
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: deployments
+        name: "{{ .Release.Name }}-frontend"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Available\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}
+
