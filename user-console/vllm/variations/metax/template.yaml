@@ -1,33 +1,35 @@
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: vllm-metax
   displayName: "vLLM (MetaX GPU)"
   categories: ["AI"]
   description: "vLLM 是一个高吞吐量和内存高效的 LLM 推理和服务引擎。"
-  icon: "file://$APP_DIR/icon.png"
+  icon:
+    url: "file://$APP_DIR/icon.png"
 template:
-  helm:
-    repo: "oci://registry.bnu.t9kcloud.cn:8443/t9kcharts"
-    # repo: "https://t9k.github.io/apps/"
-    chart: "vllm-metax"
-    versions:
-    - version: 0.3.3
-      config: "file://$APP_DIR/configs/v0_3_3.yaml"
-      urls: []
-      readinessProbe:
-        resources:
-        - group: tensorstack.dev
-          version: v1beta1
-          resource: mlservices
-          name: "{{ .Release.Name }}"
-          currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
-          desiredStatus: "True"
-      dependencies:
-        crds:
-        - group: tensorstack.dev
-          version: v1beta1
-          resource: mlservices
-        - group: tensorstack.dev
-          version: v1beta1
-          resource: datacubes
+  versions:
+  - version: 0.3.3
+    pausable: false
+    chart:
+      repo: "oci://registry.bnu.t9kcloud.cn:8443/t9kcharts"
+      name: "vllm-metax"
+      version: 0.3.3
+    config: "file://$APP_DIR/configs/v0_3_3.yaml"
+    urls: []
+    readinessProbe:
+      resources:
+      - group: tensorstack.dev
+        version: v1beta1
+        resource: mlservices
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- range .status.conditions }}{{- if eq .type \"Ready\" }}{{- .status }}{{- end }}{{- end }}"
+        desiredStatus: "True"
+    dependencies:
+      crds:
+      - group: tensorstack.dev
+        version: v1beta1
+        resource: mlservices
+      - group: tensorstack.dev
+        version: v1beta1
+        resource: datacubes
