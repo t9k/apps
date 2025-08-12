@@ -1,4 +1,4 @@
-apiVersion: app.tensorstack.dev/v1beta1
+apiVersion: app.tensorstack.dev/v1beta2
 kind: Template
 metadata:
   name: redis
