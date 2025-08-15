@@ -1,0 +1,42 @@
+name: Release Virtual Machine Helm Charts
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "user-console/virtual-machine/chart/Chart.yaml"
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Log in to T9K Registry
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          registry: registry.t9kcloud.cn
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Package and push chart
+        run: |
+          cd $GITHUB_WORKSPACE
+          cd user-console/virtual-machine
+          helm dependency update ./chart
+          helm package ./chart
+          helm push *.tgz oci://docker.io/t9kpublic
+          helm push *.tgz oci://registry.t9kcloud.cn/t9kcharts 
