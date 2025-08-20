@@ -26,14 +26,6 @@
 3. `icon.png` 为该应用的图标。
 4. `template.yaml` 为 APP 模版，用于注册 APP。
 
-## 镜像构建
-
-```bash
-docker build -f docker/Dockerfile -t <tag> docker
-```
-
-构建镜像之后需要更新 chart 文件夹中安装模版，同时将新版本的 chart 上传到 oci 仓库中。
-
 ## Helm Chart
 
 Helm Chart 的开发方式参考 [Helm Getting Start](https://helm.sh/docs/chart_template_guide/getting_started/) 。
