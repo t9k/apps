@@ -4,8 +4,9 @@
 
 The scripts in `tools` are used to simplify some common operations when installing APPs in `user-console`, for example:
 
-1.  `image-mirror.sh` automatically migrates images from one repository to another based on the YAML in configs.
-2.  `chart-mirror.sh` automatically migrates Helm Charts from one repository to another based on template.yaml.
+1. `image-mirror.sh` automatically migrates images from one repository to another based on the specified app configuration file and `app-artifacts.yaml`.
+2. `chart-mirror.sh` automatically migrates Helm Charts from one repository to another based on the specified app configuration file and `app-artifacts.yaml`.
+3. `app-register.sh` helps in registering applications by automating the necessary steps based on the provided configuration.
 
 ## Requirements
 
@@ -49,30 +50,63 @@ export JQ=jq
 
 ### Chart Migration
 
-Read the `template.yaml` file of a single APP and migrate all the Helm Charts used in it:
+The script automatically detects default paths based on its location, so you can run it from any directory:
 
 ```bash
-./chart-mirror.sh ../user-console/job-manager --source docker.io/t9kpublic --target registry.t9kcloud.cn/t9kcharts
-```
+# Use default configuration (core apps)
+./chart-mirror.sh
 
-Traverse all `template.yaml` files in a directory (e.g., user-console) and migrate all the Helm Charts used:
+# Specify experimental apps configuration
+./chart-mirror.sh -c ../register-list/experimental-appstore-config.yaml
 
-```bash
-./chart-mirror.sh ../user-console --source docker.io/t9kpublic --target registry.t9kcloud.cn/t9kcharts
+# Customize all parameters
+./chart-mirror.sh \
+  -c /path/to/your-config.yaml \
+  -u /path/to/user-console \
+  --source docker.io/t9kpublic \
+  --target registry.t9kcloud.cn/t9kcharts
+
+# Show help information
+./chart-mirror.sh --help
 ```
 
 ### Image Migration
 
-Read the `configs` directory of a single APP and migrate all the container images used in all the config files in it:
+Similarly, the image migration script also supports flexible parameter configuration:
 
 ```bash
-./image-mirror.sh ../user-console/job-manager --source docker.io/t9kpublic --target registry.cn-hangzhou.aliyuncs.com/t9k
+# Use default configuration (core apps)
+./image-mirror.sh
+
+# Specify experimental apps configuration
+./image-mirror.sh -c ../register-list/experimental-appstore-config.yaml
+
+# Customize all parameters
+./image-mirror.sh \
+  -c /path/to/your-config.yaml \
+  -u /path/to/user-console \
+  --source docker.io/t9kpublic \
+  --target registry.cn-hangzhou.aliyuncs.com/t9k
+
+# Show help information
+./image-mirror.sh --help
 ```
 
-Note: Since different versions of configs in a single configs directory often use the same image, this may cause the same image to be mirrored multiple times. It is planned to remove duplicate images in the next version.
+### Parameter Description
 
-Traverse all files in all `configs` folders in a directory (e.g., user-console) and migrate all the container images used:
+Both scripts support the following parameters:
 
-```bash
-./image-mirror.sh ../user-console --source docker.io/t9kpublic --target registry.cn-hangzhou.aliyuncs.com/t9k
-```
+- `-c, --config <file>`: Specify app configuration file path (default: `../register-list/core-appstore-config.yaml` relative to script)
+- `-u, --user-console <path>`: Specify user-console directory path (default: `../user-console` relative to script)
+- `--source <registry>`: Source image/Chart registry URL
+- `--target <registry>`: Target image/Chart registry URL
+- `-h, --help`: Show help message
+
+### Path Handling
+
+The scripts will automatically:
+1. Calculate default configuration file and user-console paths based on the script's location
+2. Validate that specified files and directories exist
+3. Display the actual paths being used for debugging
+
+This means you can run the scripts from any directory without worrying about path issues.
