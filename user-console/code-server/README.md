@@ -1,4 +1,6 @@
-# Code Server 应用模板
+# Code Server
+
+基于浏览器的 VSCode 环境。
 
 ## 支持 NVIDIA 以外的 GPU 类型
 
