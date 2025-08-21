@@ -2,7 +2,7 @@
 
 ## 镜像构建
 
-Service Manager 应用需要构建一个镜像：
+Service Manager 应用需要构建以下镜像：
 
 - `service-manager-web`: 前端界面镜像，在私有的 gitlab 仓库 `mdeploy-web` 中，使用通用发布脚本 `./repo/workflows/docker-build-common.sh` 进行构建。
 

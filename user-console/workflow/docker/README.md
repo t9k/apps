@@ -2,7 +2,7 @@
 
 ## 镜像构建
 
-Workflow 应用需要构建一个镜像：
+Workflow 应用需要构建以下镜像：
 
 - `workflow-app`: 应用镜像，在私有的 gitlab 仓库 `workflow-app` 中，使用通用发布脚本 `./repo/workflows/docker-build-app.sh` 进行构建。
 

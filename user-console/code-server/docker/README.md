@@ -9,7 +9,7 @@
 
 ## 镜像构建
 
-Code Server 应用需要用到一个镜像：
+Code Server 应用需要构建以下镜像：
 
 - `code-server`: 应用镜像，在当前目录下构建。
 
