@@ -546,6 +546,17 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/job-manager-0.1.1/job-manager-0.1.1.tgz
     version: 0.1.1
+  jupyterlab:
+  - apiVersion: v2
+    appVersion: 4.2.3
+    created: "2025-08-22T10:21:55.645491468Z"
+    description: JupyterLab 是一个基于 Web 的交互式开发环境，用于代码开发和数据处理，支持数据科学、科学计算和机器学习等任务。
+    digest: ea36e92e355a69ec11b785c3fb781335221934e3e534fd28dcd9b4ce57fb91f5
+    name: jupyterlab
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/jupyterlab-0.2.4/jupyterlab-0.2.4.tgz
+    version: 0.2.4
   label-studio:
   - apiVersion: v2
     appVersion: 1.14.0.post0
@@ -1410,6 +1421,17 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/qdrant-0.9.0/qdrant-0.9.0.tgz
     version: 0.9.0
+  rstudio:
+  - apiVersion: v2
+    appVersion: 2023.03.0+386
+    created: "2025-08-22T10:21:56.908182672Z"
+    description: RStudio 是一个集成开发环境，帮助你提高 R 和 Python 的开发效率。
+    digest: df9237af896a4110ff77ec991431c120e788939ae728ece0a16bb1f4689a7abf
+    name: rstudio
+    type: application
+    urls:
+    - https://github.com/t9k/apps/releases/download/rstudio-0.2.2/rstudio-0.2.2.tgz
+    version: 0.2.2
   search-with-lepton:
   - apiVersion: v2
     appVersion: 0.0.1
@@ -1988,4 +2010,4 @@ entries:
     urls:
     - https://github.com/t9k/apps/releases/download/workflow-0.1.1/workflow-0.1.1.tgz
     version: 0.1.1
-generated: "2025-06-23T03:05:41.036510649Z"
+generated: "2025-08-22T10:21:58.323429522Z"
