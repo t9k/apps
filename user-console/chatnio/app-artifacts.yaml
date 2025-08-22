@@ -1,7 +1,7 @@
 versions:
 - version: 0.1.0
   images:
-  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/chatnio:20241109
-  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/mysql:5.7.43
-  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/redis:7.4.1
+  - docker.io/t9kpublic/chatnio:20241109
+  - docker.io/t9kpublic/mysql:5.7.43
+  - docker.io/t9kpublic/redis:7.4.1
   chart: oci://docker.io/t9kpublic/chatnio:0.1.0

@@ -4,6 +4,6 @@ versions:
   chart: oci://docker.io/t9kpublic/virtual-machine:0.1.1
 - version: 0.1.2
   images:
-  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/fedora-cloud-container-disk-demo:v0.36.4
-  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/ubuntu-server-cloud:20.04-240819
+  - docker.io/t9kpublic/fedora-cloud-container-disk-demo:v0.36.4
+  - docker.io/t9kpublic/ubuntu-server-cloud:20.04-240819
   chart: oci://docker.io/t9kpublic/virtual-machine:0.1.2

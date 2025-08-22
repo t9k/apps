@@ -1,5 +1,5 @@
 versions:
 - version: 0.2.1
   images:
-  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/llama-board:20250314
+  - docker.io/t9kpublic/llama-board:20250314
   chart: oci://docker.io/t9kpublic/llama-board:0.2.1

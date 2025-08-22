@@ -86,7 +86,6 @@ export JQ=jq
 # 自定义所有参数
 ./image-mirror.sh \
   -c /path/to/your-config.yaml \
-  -u /path/to/user-console \
   --source docker.io/t9kpublic \
   --target registry.cn-hangzhou.aliyuncs.com/t9k
 
@@ -99,7 +98,6 @@ export JQ=jq
 两个脚本都支持以下参数：
 
 - `-c, --config <file>`：指定应用配置文件路径（默认：相对于脚本的 `../register-list/core-appstore-config.yaml`）
-- `-u, --user-console <path>`：指定 user-console 目录路径（默认：相对于脚本的 `../user-console`）
 - `--source <registry>`：源镜像/Chart 仓库地址
 - `--target <registry>`：目标镜像/Chart 仓库地址
 - `-h, --help`：显示帮助信息

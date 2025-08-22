@@ -84,7 +84,6 @@ Similarly, the image migration script also supports flexible parameter configura
 # Customize all parameters
 ./image-mirror.sh \
   -c /path/to/your-config.yaml \
-  -u /path/to/user-console \
   --source docker.io/t9kpublic \
   --target registry.cn-hangzhou.aliyuncs.com/t9k
 
@@ -97,7 +96,6 @@ Similarly, the image migration script also supports flexible parameter configura
 Both scripts support the following parameters:
 
 - `-c, --config <file>`: Specify app configuration file path (default: `../register-list/core-appstore-config.yaml` relative to script)
-- `-u, --user-console <path>`: Specify user-console directory path (default: `../user-console` relative to script)
 - `--source <registry>`: Source image/Chart registry URL
 - `--target <registry>`: Target image/Chart registry URL
 - `-h, --help`: Show help message

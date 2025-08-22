@@ -1,6 +1,6 @@
 versions:
 - version: 1.7.2
   images:
-  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/label-studio:1.14.0.post0
-  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/postgresql:13.15.0
+  - docker.io/t9kpublic/label-studio:1.14.0.post0
+  - docker.io/t9kpublic/postgresql:13.15.0
   chart: oci://docker.io/t9kpublic/label-studio:1.7.2

@@ -1,5 +1,5 @@
 versions:
 - version: 0.2.2
   images:
-  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/chatgpt-next-web:v2.15.8
+  - docker.io/t9kpublic/chatgpt-next-web:v2.15.8
   chart: oci://docker.io/t9kpublic/nextchat:0.2.2

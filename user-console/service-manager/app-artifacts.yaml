@@ -1,11 +1,11 @@
 versions:
 - version: 0.2.1
   images:
-  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/pep-proxy:1.0.14
-  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/service-manager-web:250423
+  - docker.io/t9kpublic/pep-proxy:1.0.14
+  - docker.io/t9kpublic/service-manager-web:250423
   chart: oci://docker.io/t9kpublic/service-manager:0.2.1
 - version: 0.2.0
   images:
-  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/pep-proxy:1.0.12
-  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/service-manager-web:240815
+  - docker.io/t9kpublic/pep-proxy:1.0.12
+  - docker.io/t9kpublic/service-manager-web:240815
   chart: oci://docker.io/t9kpublic/service-manager:0.2.0

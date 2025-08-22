@@ -1,6 +1,6 @@
 versions:
 - version: 0.3.4
   images:
-  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/vllm-openai:v0.8.5
-  - $(T9K_APP_IMAGE_REGISTRY)/$(T9K_APP_IMAGE_NAMESPACE)/kubectl:1.27
+  - docker.io/t9kpublic/vllm-openai:v0.8.5
+  - docker.io/t9kpublic/kubectl:1.27
   chart: oci://docker.io/t9kpublic/vllm:0.3.4
