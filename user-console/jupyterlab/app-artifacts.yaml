@@ -1,0 +1,5 @@
+versions:
+- version: 0.2.4
+  images:
+  - docker.io/t9kpublic/jupyterlab-torch-2.5.0:20241031
+  chart: oci://docker.io/t9kpublic/jupyterlab:0.2.4

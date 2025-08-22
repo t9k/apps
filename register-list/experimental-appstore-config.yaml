@@ -1,0 +1,56 @@
+apps:
+- name: anythingllm
+  versions:
+  - 0.1.1
+- name: autogen-studio
+  versions:
+  - 0.1.0
+- name: autotune
+  versions:
+  - 0.1.2
+- name: chatnio
+  versions:
+  - 0.1.0
+- name: db-gpt
+  versions:
+  - 0.1.1
+- name: fastgpt
+  versions:
+  - 0.1.1
+- name: fish-speech
+  versions:
+  - 0.2.2
+- name: gpt-researcher
+  versions:
+  - 0.2.1
+- name: llama-board
+  versions:
+  - 0.2.1
+- name: mlflow
+  versions:
+  - 2.2.1
+- name: nextchat
+  versions:
+  - 0.2.2
+- name: one-api
+  versions:
+  - 0.1.1
+- name: qdrant
+  versions:
+  - 0.9.1
+- name: search-with-lepton
+  versions:
+  - 0.2.0
+- name: searxng
+  versions:
+  - 0.1.0
+- name: stable-diffusion-webui-aki
+  versions:
+  - 0.2.0
+
+image:
+  registry: docker.io
+  repository: t9kpublic
+chart:
+  registry: docker.io
+  repository: t9kpublic

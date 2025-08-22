@@ -1,0 +1,6 @@
+versions:
+- version: 0.2.1
+  images:
+  - docker.io/t9kpublic/terminal:250423
+  - docker.io/t9kpublic/pep-proxy:1.0.14
+  chart: oci://docker.io/t9kpublic/terminal:0.2.1

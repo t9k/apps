@@ -1,0 +1,5 @@
+versions:
+- version: 0.2.0
+  images:
+  - docker.io/t9kpublic/search-with-lepton:20240208
+  chart: oci://docker.io/t9kpublic/search-with-lepton:0.2.0

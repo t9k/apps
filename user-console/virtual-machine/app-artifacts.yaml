@@ -1,0 +1,9 @@
+versions:
+- version: 0.1.1
+  images: []
+  chart: oci://docker.io/t9kpublic/virtual-machine:0.1.1
+- version: 0.1.2
+  images:
+  - docker.io/t9kpublic/fedora-cloud-container-disk-demo:v0.36.4
+  - docker.io/t9kpublic/ubuntu-server-cloud:20.04-240819
+  chart: oci://docker.io/t9kpublic/virtual-machine:0.1.2

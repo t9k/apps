@@ -1,0 +1,9 @@
+versions:
+- version: 15.6.1
+  images:
+  - docker.io/t9kpublic/mongodb:7.0.11-debian-12-r0
+  chart: oci://docker.io/t9kpublic/mongodb:15.6.1
+- version: 14.13.0
+  images:
+  - docker.io/t9kpublic/mongodb:7.0.6-debian-12-r0
+  chart: oci://docker.io/t9kpublic/mongodb:14.13.0

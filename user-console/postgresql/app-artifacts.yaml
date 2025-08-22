@@ -1,0 +1,9 @@
+versions:
+- version: 15.5.15
+  images:
+  - docker.io/t9kpublic/postgresql:16.3.0-debian-12-r19
+  chart: oci://docker.io/t9kpublic/postgresql:15.5.15
+- version: 12.12.10
+  images:
+  - docker.io/t9kpublic/postgresql:15.4.0-debian-11-r45
+  chart: oci://docker.io/t9kpublic/postgresql:12.12.10

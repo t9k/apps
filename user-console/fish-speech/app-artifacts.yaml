@@ -1,0 +1,5 @@
+versions:
+- version: 0.2.2
+  images:
+  - docker.io/t9kpublic/fish-speech:v1.5.0
+  chart: oci://docker.io/t9kpublic/fish-speech:0.2.2

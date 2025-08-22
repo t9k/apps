@@ -4,8 +4,9 @@
 
 `tools` 中的脚本用于简化安装 `user-console` 中 APP 时的一些常见操作，例如：
 
-1. `image-mirror.sh` 根据 configs 中的 YAML，自动将镜像从一个仓库迁移到另一个仓库中。
-1. `chart-mirror.sh` 根据 template.yaml，自动将 Helm Chart 从一个仓库迁移到另一个仓库中。
+1. `image-mirror.sh` 根据指定的应用列表，读取应用的配置文件 `app-artifacts.yaml`，自动将镜像从一个仓库迁移到另一个仓库中。
+1. `chart-mirror.sh` 根据指定的应用列表，读取应用的配置文件 `app-artifacts.yaml`，自动将 Helm Chart 从一个仓库迁移到另一个仓库中。
+1. `app-register.sh` 根据指定的应用列表注册应用程序，通过自动化必要的步骤来完成注册。
 
 ## 运行要求
 
@@ -51,29 +52,95 @@ export JQ=jq
 
 ### Chart 迁移
 
-读取单个 APP 的 `template.yaml` 文件，迁移其中用到的所有 Helm Chart：
+脚本自动根据脚本所在位置检测默认路径，你可以在任何目录下运行脚本：
 
 ```bash
-./chart-mirror.sh ../user-console/job-manager --source docker.io/t9kpublic --target registry.t9kcloud.cn/t9kcharts
-```
+# 使用默认配置（core apps）
+./chart-mirror.sh
 
-遍历一个目录（例如 user-console）中所有 `template.yaml` 文件，迁移用到的所有 Helm Chart：
+# 指定实验性应用配置
+./chart-mirror.sh -c ../register-list/experimental-appstore-config.yaml
 
-```bash
-./chart-mirror.sh ../user-console --source docker.io/t9kpublic --target registry.t9kcloud.cn/t9kcharts
+# 自定义所有参数
+./chart-mirror.sh \
+  -c /path/to/your-config.yaml \
+  -u /path/to/user-console \
+  --source docker.io/t9kpublic \
+  --target registry.t9kcloud.cn/t9kcharts
+
+# 显示帮助信息
+./chart-mirror.sh --help
 ```
 
 ### 镜像迁移
 
-读取单个 APP 的 `configs` 目录，迁移其中所有 config 文件中用到的所有容器镜像：
+类似地，镜像迁移脚本也支持灵活的参数配置：
 
 ```bash
-./image-mirror.sh ../user-console/job-manager --source docker.io/t9kpublic --target registry.cn-hangzhou.aliyuncs.com/t9k
+# 使用默认配置（core apps）
+./image-mirror.sh
+
+# 指定实验性应用配置
+./image-mirror.sh -c ../register-list/experimental-appstore-config.yaml
+
+# 自定义所有参数
+./image-mirror.sh \
+  -c /path/to/your-config.yaml \
+  --source docker.io/t9kpublic \
+  --target registry.cn-hangzhou.aliyuncs.com/t9k
+
+# 显示帮助信息
+./image-mirror.sh --help
 ```
 
-注意：由于目前单个 configs 目录中的不同版本 config 往往会使用相同的镜像，这可能导致同样的镜像被多次 mirror。计划下一个版本去除掉重复的镜像。
+### 应用注册
 
-遍历一个目录（例如 user-console）中所有 `configs` 文件夹中的所有文件，迁移用到的所有容器镜像：
+应用注册脚本帮助将应用注册到应用商店。在使用此脚本之前，需要设置必要的环境变量：
 
 ```bash
-./image-mirror.sh ../user-console --source docker.io/t9kpublic --target registry.cn-hangzhou.aliyuncs.com/t9k
+# 设置必需的环境变量
+export API_KEY="your-api-key"
+export APP_SERVER="your-app-server-url"
+
+# 使用默认配置（core apps）
+./app-register.sh
+
+# 指定实验性应用配置
+./app-register.sh -c ../register-list/experimental-appstore-config.yaml
+
+# 自定义 chart 仓库
+./app-register.sh \
+  -c /path/to/your-config.yaml \
+  --chart registry.t9kcloud.cn/t9kcharts
+
+# 显示帮助信息
+./app-register.sh --help
+```
+
+### 参数说明
+
+镜像和 Chart 迁移脚本支持以下参数：
+
+- `-c, --config <file>`：指定应用配置文件路径（默认：相对于脚本的 `../register-list/core-appstore-config.yaml`）
+- `--source <registry>`：源镜像/Chart 仓库地址
+- `--target <registry>`：目标镜像/Chart 仓库地址
+- `-h, --help`：显示帮助信息
+
+应用注册脚本支持以下参数：
+
+- `-c, --config <file>`：指定应用配置文件路径（默认：相对于脚本的 `../register-list/core-appstore-config.yaml`）
+- `--chart <registry>`：应用 Chart 仓库地址
+- `-h, --help`：显示帮助信息
+
+应用注册所需的环境变量：
+- `API_KEY`：用于身份验证的 API 密钥
+- `APP_SERVER`：应用服务器 URL
+
+### 路径处理
+
+脚本会自动：
+1. 根据脚本自身的位置计算默认的配置文件和 user-console 路径
+2. 验证指定的文件和目录是否存在
+3. 显示实际使用的路径，便于调试
+
+这意味着你可以在任何目录下运行脚本，不用担心路径问题。

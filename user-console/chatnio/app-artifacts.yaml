@@ -1,0 +1,7 @@
+versions:
+- version: 0.1.0
+  images:
+  - docker.io/t9kpublic/chatnio:20241109
+  - docker.io/t9kpublic/mysql:5.7.43
+  - docker.io/t9kpublic/redis:7.4.1
+  chart: oci://docker.io/t9kpublic/chatnio:0.1.0

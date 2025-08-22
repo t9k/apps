@@ -1,0 +1,5 @@
+versions:
+- version: 0.1.0
+  images:
+  - docker.io/t9kpublic/searxng:2024.11.17-10d3af84b
+  chart: oci://docker.io/t9kpublic/searxng:0.1.0

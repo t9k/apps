@@ -1,0 +1,6 @@
+versions:
+- version: 0.1.2
+  images:
+  - docker.io/t9kpublic/autotune-app:240822
+  - docker.io/t9kpublic/pep-proxy:1.0.14
+  chart: oci://docker.io/t9kpublic/autotune:0.1.2

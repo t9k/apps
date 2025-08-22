@@ -1,0 +1,7 @@
+versions:
+- version: 0.2.4
+  images:
+  - docker.io/t9kpublic/pep-proxy:1.0.14
+  - docker.io/t9kpublic/job-manager-server:250513
+  - docker.io/t9kpublic/job-manager-web:250513
+  chart: oci://docker.io/t9kpublic/job-manager:0.2.4

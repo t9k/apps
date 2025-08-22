@@ -1,0 +1,11 @@
+versions:
+- version: 0.2.1
+  images:
+  - docker.io/t9kpublic/pep-proxy:1.0.14
+  - docker.io/t9kpublic/service-manager-web:250423
+  chart: oci://docker.io/t9kpublic/service-manager:0.2.1
+- version: 0.2.0
+  images:
+  - docker.io/t9kpublic/pep-proxy:1.0.12
+  - docker.io/t9kpublic/service-manager-web:240815
+  chart: oci://docker.io/t9kpublic/service-manager:0.2.0

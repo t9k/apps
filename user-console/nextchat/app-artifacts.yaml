@@ -1,0 +1,5 @@
+versions:
+- version: 0.2.2
+  images:
+  - docker.io/t9kpublic/chatgpt-next-web:v2.15.8
+  chart: oci://docker.io/t9kpublic/nextchat:0.2.2

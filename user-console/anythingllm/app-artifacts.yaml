@@ -1,0 +1,5 @@
+versions:
+- version: 0.1.1
+  images:
+  - docker.io/t9kpublic/anythingllm:1.7.6
+  chart: oci://docker.io/t9kpublic/anythingllm:0.1.1

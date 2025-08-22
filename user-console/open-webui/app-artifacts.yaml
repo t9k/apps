@@ -1,0 +1,6 @@
+versions:
+- version: 5.20.1
+  images:
+  - docker.io/t9kpublic/open-webui:v0.5.18
+  - docker.io/t9kpublic/pipelines:main
+  chart: oci://docker.io/t9kpublic/open-webui:5.20.1

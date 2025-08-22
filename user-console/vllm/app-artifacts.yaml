@@ -1,0 +1,6 @@
+versions:
+- version: 0.3.4
+  images:
+  - docker.io/t9kpublic/vllm-openai:v0.8.5
+  - docker.io/t9kpublic/kubectl:1.27
+  chart: oci://docker.io/t9kpublic/vllm:0.3.4

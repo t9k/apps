@@ -1,0 +1,5 @@
+versions:
+- version: 0.1.1
+  images:
+  - docker.io/t9kpublic/one-api:v0.6.10
+  chart: oci://docker.io/t9kpublic/one-api:0.1.1

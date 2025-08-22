@@ -1,0 +1,4 @@
+versions:
+- version: 0.9.1
+  images: []
+  chart: qdrant/qdrant:0.9.1
