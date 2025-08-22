@@ -120,8 +120,8 @@ for appName in $($YQ e '.apps[].name' "$configFile"); do
                 continue
             fi
             
-            # 提取镜像名称，去掉变量前缀
-            imageName=$(echo $image | sed 's|\$(T9K_APP_IMAGE_REGISTRY)/\$(T9K_APP_IMAGE_NAMESPACE)/||')
+            # 提取镜像名称，获取最后一个"/"后面的内容
+            imageName=$(basename "$image")
             images+=("$imageName")
         done
     done

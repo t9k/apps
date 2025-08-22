@@ -90,13 +90,12 @@ filterTemplate() {
 # Update chart repository in template.yaml
 updateChartRepo() {
     local templateFile=$1
-    local sourceRegistry=$2
-    local targetRegistry=$3
+    local chartRegistry=$2
     
-    echo "  ${C_yellow}Updating chart repository from $sourceRegistry to $targetRegistry...${C_reset}"
+    echo "  ${C_yellow}Updating chart repository to $chartRegistry...${C_reset}"
     
-    # Use sed to replace the chart repository
-    sed -i "s|repo: \"$sourceRegistry\"|repo: \"$targetRegistry\"|g" "$templateFile"
+    # Use yq to replace the chart repository
+    $YQ e -i "(.template.versions[].chart.repo) = \"oci://$chartRegistry\"" "$templateFile"
 }
 
 # Register single app
@@ -124,8 +123,7 @@ scriptDir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Set default parameters based on script location
 configFile="$scriptDir/../register-list/core-appstore-config.yaml"
-sourceRegistry="oci://docker.io/t9kpublic"
-targetRegistry=""
+chartRegistry=""
 
 # Parse command line arguments
 POSITIONAL=()
@@ -137,13 +135,8 @@ while [[ $# -gt 0 ]]; do
       shift # past argument
       shift # past value
       ;;
-      --source)
-      sourceRegistry="$2"
-      shift # past argument
-      shift # past value
-      ;;
-      --target)
-      targetRegistry="$2"
+      --chart)
+      chartRegistry="$2"
       shift # past argument
       shift # past value
       ;;
@@ -151,8 +144,7 @@ while [[ $# -gt 0 ]]; do
       echo "Usage: $0 [options]"
       echo "Options:"
       echo "  -c, --config <file>           Specify config file path (default: <script_dir>/../register-list/core-appstore-config.yaml)"
-      echo "  --source <registry>           Source chart registry (default: oci://docker.io/t9kpublic)"  
-      echo "  --target <registry>           Target chart registry (default: oci://registry.sample.t9kcloud.cn/appcharts)"
+      echo "  --chart <registry>            App chart registry"
       echo "  -h, --help                    Show this help message"
       exit 0
       ;;
@@ -175,13 +167,12 @@ if [[ ! -d "$scriptDir/../user-console" ]]; then
     exit 1
 fi
 
-if [[ -z "$targetRegistry" ]]; then
-    targetRegistry=$($YQ e '.chart.registry' "$configFile")/$($YQ e '.chart.repository' "$configFile")
+if [[ -z "$chartRegistry" ]]; then
+    chartRegistry=$($YQ e '.chart.registry' "$configFile")/$($YQ e '.chart.repository' "$configFile")
 fi
 
 echo "Using config file: $configFile"
-echo "Source chart registry: $sourceRegistry"
-echo "Target chart registry: $targetRegistry"
+echo "App chart registry: $chartRegistry"
 
 # Validate environment
 validateEnvironment
@@ -210,7 +201,7 @@ for appName in $($YQ e '.apps[].name' "$configFile"); do
     fi
     
     # Update chart repository
-    updateChartRepo "$templateFile" "$sourceRegistry" "$targetRegistry"
+    updateChartRepo "$templateFile" "$chartRegistry"
     
     # Register the app
     if registerApp "$templateFile" "$appName"; then
@@ -219,10 +210,9 @@ for appName in $($YQ e '.apps[].name' "$configFile"); do
         echo "  ${C_red}✗ Failed to register $appName${C_reset}"
     fi
     
-    # Restore original template
-    mv "${templateFile}.original" "$templateFile"
+    # # Restore original template
+    # mv "${templateFile}.original" "$templateFile"
     
-    echo
 done
 
 echo "${C_green}App registration process completed!${C_reset}" 

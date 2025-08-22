@@ -93,14 +93,48 @@ export JQ=jq
 ./image-mirror.sh --help
 ```
 
+### 应用注册
+
+应用注册脚本帮助将应用注册到应用商店。在使用此脚本之前，需要设置必要的环境变量：
+
+```bash
+# 设置必需的环境变量
+export API_KEY="your-api-key"
+export APP_SERVER="your-app-server-url"
+
+# 使用默认配置（core apps）
+./app-register.sh
+
+# 指定实验性应用配置
+./app-register.sh -c ../register-list/experimental-appstore-config.yaml
+
+# 自定义 chart 仓库
+./app-register.sh \
+  -c /path/to/your-config.yaml \
+  --chart registry.t9kcloud.cn/t9kcharts
+
+# 显示帮助信息
+./app-register.sh --help
+```
+
 ### 参数说明
 
-两个脚本都支持以下参数：
+镜像和 Chart 迁移脚本支持以下参数：
 
 - `-c, --config <file>`：指定应用配置文件路径（默认：相对于脚本的 `../register-list/core-appstore-config.yaml`）
 - `--source <registry>`：源镜像/Chart 仓库地址
 - `--target <registry>`：目标镜像/Chart 仓库地址
 - `-h, --help`：显示帮助信息
+
+应用注册脚本支持以下参数：
+
+- `-c, --config <file>`：指定应用配置文件路径（默认：相对于脚本的 `../register-list/core-appstore-config.yaml`）
+- `--chart <registry>`：应用 Chart 仓库地址
+- `-h, --help`：显示帮助信息
+
+应用注册所需的环境变量：
+- `API_KEY`：用于身份验证的 API 密钥
+- `APP_SERVER`：应用服务器 URL
 
 ### 路径处理
 

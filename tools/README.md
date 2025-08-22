@@ -91,14 +91,48 @@ Similarly, the image migration script also supports flexible parameter configura
 ./image-mirror.sh --help
 ```
 
+### App Registration
+
+The app registration script helps register applications to the app store. Before using this script, you need to set the required environment variables:
+
+```bash
+# Set required environment variables
+export API_KEY="your-api-key"
+export APP_SERVER="your-app-server-url"
+
+# Use default configuration (core apps)
+./app-register.sh
+
+# Specify experimental apps configuration
+./app-register.sh -c ../register-list/experimental-appstore-config.yaml
+
+# Customize chart registry
+./app-register.sh \
+  -c /path/to/your-config.yaml \
+  --chart registry.t9kcloud.cn/t9kcharts
+
+# Show help information
+./app-register.sh --help
+```
+
 ### Parameter Description
 
-Both scripts support the following parameters:
+The image and chart migration scripts support the following parameters:
 
 - `-c, --config <file>`: Specify app configuration file path (default: `../register-list/core-appstore-config.yaml` relative to script)
 - `--source <registry>`: Source image/Chart registry URL
 - `--target <registry>`: Target image/Chart registry URL
 - `-h, --help`: Show help message
+
+The app registration script supports:
+
+- `-c, --config <file>`: Specify app configuration file path (default: `../register-list/core-appstore-config.yaml` relative to script)
+- `--chart <registry>`: App chart registry URL
+- `-h, --help`: Show help message
+
+Required environment variables for app registration:
+- `API_KEY`: API key for authentication
+- `APP_SERVER`: App server URL
 
 ### Path Handling
 
