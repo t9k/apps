@@ -47,3 +47,10 @@ apps:
 - name: stable-diffusion-webui-aki
   versions:
   - 0.2.0
+
+image:
+  registry: docker.io
+  repository: t9kpublic
+chart:
+  registry: docker.io
+  repository: t9kpublic

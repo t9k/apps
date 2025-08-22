@@ -40,7 +40,7 @@ scriptDir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Set default parameters based on script location
 configFile="$scriptDir/../register-list/core-appstore-config.yaml"
 sourceRegistry="docker.io/t9kpublic"
-targetRegistry="registry.t9kcloud.cn/t9kcharts"
+targetRegistry=""
 
 # Parse command line arguments
 POSITIONAL=()
@@ -88,6 +88,10 @@ fi
 if [[ ! -d "$scriptDir/../user-console" ]]; then
     echo "Error: User console directory not found: $scriptDir/../user-console"
     exit 1
+fi
+
+if [[ -z "$targetRegistry" ]]; then
+    targetRegistry=$($YQ e '.chart.registry' "$configFile")/$($YQ e '.chart.repository' "$configFile")
 fi
 
 echo "Using config file: $configFile"

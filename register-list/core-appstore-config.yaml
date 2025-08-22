@@ -74,3 +74,10 @@ apps:
 - name: workflow
   versions:
   - 0.1.2
+
+image:
+  registry: docker.io
+  repository: t9kpublic
+chart:
+  registry: docker.io
+  repository: t9kpublic
