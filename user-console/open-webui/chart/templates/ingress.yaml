@@ -5,9 +5,12 @@ metadata:
   name: {{ include "open-webui.fullname" . }}
   labels:
     {{- include "open-webui.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
-  annotations:
+    {{- with .Values.ingress.extraLabels }}
     {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- if .Values.ingress.annotations }}
+  annotations:
+    {{- tpl (toYaml .Values.ingress.annotations | nindent 4) . }}
   {{- end }}
 spec:
   {{- with .Values.ingress.class }}

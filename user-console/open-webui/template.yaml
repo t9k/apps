@@ -9,6 +9,23 @@ metadata:
     url: "file://$APP_DIR/icon.png"
 template:
   versions:
+  - version: 7.0.2
+    config: "file://$APP_DIR/configs/v2/v7_0_2.yaml"
+    pausable: false
+    chart:
+      repo: "oci://docker.io/t9kpublic"
+      name: "open-webui"
+      version: 7.0.2
+    urls: []
+    readinessProbe:
+      resources:
+      - group: apps
+        version: v1
+        resource: statefulsets
+        name: "{{ .Release.Name }}"
+        currentStatus: "{{- if ge .status.availableReplicas 1 }}True{{- else }}False{{- end }}"
+        desiredStatus: "True"
+    dependencies: {}
   - version: 5.20.1
     config: "file://$APP_DIR/configs/v2/v5_20_1.yaml"
     pausable: false

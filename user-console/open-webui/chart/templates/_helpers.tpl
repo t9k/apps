@@ -164,3 +164,104 @@ Create the service endpoint to use for Pipelines if the subchart is used
 {{- printf "http://%s.%s.svc.%s:%s" (include "pipelines.name" .) (.Release.Namespace) $clusterDomain $pipelinesServicePort }}
 {{- end }}
 {{- end }}
+
+{{/*
+Create selector labels to include on chart all websocket resources
+*/}}
+{{- define "websocket.redis.selectorLabels" -}}
+{{ include "base.selectorLabels" . }}
+app.kubernetes.io/component: {{ .Values.websocket.redis.name }}
+{{- end }}
+
+{{/*
+Create labels to include on chart all websocket resources
+*/}}
+{{- define "websocket.redis.labels" -}}
+{{ include "base.labels" . }}
+{{ include "websocket.redis.selectorLabels" . }}
+{{- end }}
+
+{{/*
+Validate SSO ClientSecret to be set literally or via Secret
+*/}}
+{{- define "sso.validateClientSecret" -}}
+{{- $provider := .provider }}
+{{- $values := .values }}
+{{- if and (empty (index $values $provider "clientSecret")) (empty (index $values $provider "clientExistingSecret")) }}
+  {{- fail (printf "You must provide either .Values.sso.%s.clientSecret or .Values.sso.%s.clientExistingSecret" $provider $provider) }}
+{{- end }}
+{{- end }}
+
+{{- /*
+Fail template rendering if invalid log component
+*/ -}}
+{{- define "logging.isValidComponent" -}}
+  {{- $component := . | lower -}}
+  {{- $validComponents := dict
+      "audio" true
+      "comfyui" true
+      "config" true
+      "db" true
+      "images" true
+      "main" true
+      "models" true
+      "ollama" true
+      "openai" true
+      "rag" true
+      "webhook" true
+  -}}
+  {{- hasKey $validComponents $component -}}
+{{- end }}
+
+
+{{- define "logging.assertValidComponent" -}}
+  {{- $component := lower . -}}
+  {{- $res := include "logging.isValidComponent" $component }}
+  {{- if ne $res "true" }}
+    {{- fail (printf "Invalid logging component name: '%s'. Valid names: audio, comfyui, config, db, images, main, models, ollama, openai, rag, webhook" $component) }}
+  {{- end }}
+{{- end }}
+
+{{- /*
+Fail template rendering if invalid log level
+*/ -}}
+{{- define "logging.assertValidLevel" -}}
+  {{- $level := lower . }}
+  {{- $validLevels := dict "notset" true "debug" true "info" true "warning" true "error" true "critical" true }}
+  {{- if not (hasKey $validLevels $level) }}
+    {{- fail (printf "Invalid log level: '%s'. Valid values are: notset, debug, info, warning, error, critical" $level) }}
+  {{- end }}
+{{- end }}
+
+{{- /*
+Render a logging env var for a component, validating value
+*/ -}}
+{{- define "logging.componentEnvVar" -}}
+  {{- $name := .componentName }}
+  {{- $level := .logLevel }}
+{{- include "logging.assertValidComponent" $name -}}
+{{- include "logging.assertValidLevel" $level }}
+- name: {{ printf "%s_LOG_LEVEL" (upper $name) | quote }}
+  value: {{ $level | quote | trim }}
+{{- end }}
+
+{{- /*
+Constructs a string containing the URLs of the Open WebUI based on the ingress configuration
+used to populate the variable WEBUI_URL  
+*/ -}}
+{{- define "open-webui.url" -}}
+  {{- $url := "" -}}
+  {{- range .Values.extraEnvVars }}
+    {{- if and (eq .name "WEBUI_URL") .value }}
+      {{- $url = .value }}
+    {{- end }}
+  {{- end }}
+  {{- if not $url }}
+    {{- $proto := "http" -}}
+    {{- if .Values.ingress.tls }}
+      {{- $proto = "https" -}}
+    {{- end }}
+    {{- $url = printf "%s://%s" $proto .Values.ingress.host }}
+  {{- end }}
+  {{- $url }}
+{{- end }}

@@ -1,12 +1,12 @@
 apiVersion: v2
 name: open-webui
-version: 5.20.1
-appVersion: 0.5.18
+version: 7.0.2
+appVersion: 0.6.21
 
 home: https://www.openwebui.com/
 icon: https://raw.githubusercontent.com/open-webui/open-webui/main/static/favicon.png
 
-description: "Open WebUI 是一个用户友好的聊天交互网页界面。"
+description: "Open WebUI: A User-Friendly Web Interface for Chat Interactions \U0001F44B"
 keywords:
 - llm
 - chat
@@ -28,4 +28,3 @@ annotations:
 sources:
 - https://github.com/open-webui/helm-charts
 - https://github.com/open-webui/open-webui/pkgs/container/open-webui
-- https://charts.bitnami.com/bitnami

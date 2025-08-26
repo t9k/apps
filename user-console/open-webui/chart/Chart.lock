@@ -1,6 +1,6 @@
 dependencies:
 - name: pipelines
   repository: https://helm.openwebui.com
-  version: 0.4.0
-digest: sha256:7239c0f143b0c1c4a1e8daf06da1ec46ddee9ba7006c16a84c3b55037a8d7b1e
-generated: "2025-02-28T16:43:29.105126+08:00"
+  version: 0.7.0
+digest: sha256:c11e15debe5899007904cdad9b77aaddeadacbbc1f9f94ee70ebc211b283ef6d
+generated: "2025-08-07T18:15:15.603111+08:00"
