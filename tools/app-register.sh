@@ -210,8 +210,8 @@ for appName in $($YQ e '.apps[].name' "$configFile"); do
         echo "  ${C_red}✗ Failed to register $appName${C_reset}"
     fi
     
-    # # Restore original template
-    # mv "${templateFile}.original" "$templateFile"
+    # Restore original template
+    mv "${templateFile}.original" "$templateFile"
     
 done
 
