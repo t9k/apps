@@ -1,0 +1,66 @@
+{{- if and .Values.otel.enabled .Values.otel.grafana.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "otel.grafana.name" . }}
+  labels:
+    {{- include "open-webui.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "otel.grafana.name" . }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "otel.grafana.name" . }}
+        {{- with .Values.otel.grafana.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.otel.grafana.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      containers:
+      - name: grafana-lgtm
+        image: {{ .Values.otel.grafana.image.repository }}:{{ .Values.otel.grafana.image.tag }}
+        imagePullPolicy: {{ .Values.otel.grafana.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.otel.grafana.service.containerPorts.http }}
+          name: http
+        - containerPort: {{ .Values.otel.grafana.service.containerPorts.otlpGrpc }}
+          name: otlp-grpc
+        - containerPort: {{ .Values.otel.grafana.service.containerPorts.otlpHttp }}
+          name: otlp-http
+        # The image already bundles grafana, loki, tempo, prometheus/otelcol
+        # Optionally set admin user/pass via env here
+        env: []
+        resources:
+          {{- toYaml (.Values.otel.grafana.resources | default dict) | nindent 10 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "otel.grafana.name" . }}
+  labels:
+    {{- include "open-webui.labels" . | nindent 4 }}
+  {{- with .Values.otel.grafana.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.otel.grafana.service.type }}
+  selector:
+    app.kubernetes.io/name: {{ include "otel.grafana.name" . }}
+  ports:
+  - name: http
+    port: {{ .Values.otel.grafana.service.ports.http }}
+    targetPort: {{ .Values.otel.grafana.service.containerPorts.http }}
+  - name: otlp-grpc
+    port: {{ .Values.otel.grafana.service.ports.otlpGrpc }}
+    targetPort: {{ .Values.otel.grafana.service.containerPorts.otlpGrpc }}
+  - name: otlp-http
+    port: {{ .Values.otel.grafana.service.ports.otlpHttp }}
+    targetPort: {{ .Values.otel.grafana.service.containerPorts.otlpHttp }}
+{{- end }}

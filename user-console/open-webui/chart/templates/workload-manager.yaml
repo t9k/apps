@@ -361,6 +361,26 @@ spec:
           value: {{ .Values.logging.level | quote }}
         {{- end }}
 
+        {{- if .Values.otel.enabled }}
+        - name: "ENABLE_OTEL"
+          value: "true"
+        {{- if .Values.otel.exporter.metricsEnabled }}
+        - name: "ENABLE_OTEL_METRICS"
+          value: "true"
+        {{- end }}
+        - name: "OTEL_SERVICE_NAME"
+          value: {{ .Values.otel.serviceName | default "open-webui" | quote }}
+        - name: "OTEL_EXPORTER_OTLP_INSECURE"
+          value: {{ ternary "true" "false" .Values.otel.exporter.insecure | quote }}
+        - name: "OTEL_EXPORTER_OTLP_ENDPOINT"
+          {{- $otelEndpoint := .Values.otel.exporter.endpoint }}
+          {{- if and (not $otelEndpoint) .Values.otel.grafana.enabled }}
+          value: {{ printf "http://%s:%d" (include "otel.grafana.name" .) (int (default 4317 .Values.otel.grafana.service.ports.otlpGrpc)) | quote }}
+          {{- else }}
+          value: {{ $otelEndpoint | quote }}
+          {{- end }}
+        {{- end }}
+
         {{- if .Values.logging.components }}
         {{- range $name, $level := .Values.logging.components }}
         {{- if $level }}

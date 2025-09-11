@@ -14,7 +14,7 @@ image:
   # +t9k:form
   # +t9k:description:en WebUI image tag.
   # +t9k:description:zh WebUI 镜像标签。
-  tag: "v0.6.21"
+  tag: "v0.6.25"
   # +t9k:form
   # +t9k:description:en WebUI image pull policy.
   # +t9k:description:zh WebUI 镜像拉取策略。

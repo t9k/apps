@@ -28,6 +28,14 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 
 {{/*
+Set the name of the integrated Grafana/OTEL (LGTM) resources
+*/}}
+{{- define "otel.grafana.name" -}}
+{{- $base := .Values.otel.grafana.name | default "open-webui-grafana" -}}
+{{- printf "%s-%s" .Release.Name $base -}}
+{{- end -}}
+
+{{/*
 Set the name of the integrated Ollama resources
 */}}
 {{- define "ollama.name" -}}

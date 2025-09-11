@@ -100,6 +100,48 @@ websocket:
       # runAsUser: 999
       # runAsGroup: 1000
 
+# -- OpenTelemetry configuration
+otel:
+  # -- Enable OpenTelemetry integration for Open WebUI
+  enabled: false
+  # -- Service name to report to OTEL collector
+  serviceName: open-webui
+  exporter:
+    # -- Explicit OTLP endpoint. If empty, will default to the built-in Grafana OTLP gRPC endpoint
+    endpoint: ""
+    # -- Enable insecure OTLP transport (true by default; disable in production)
+    insecure: true
+    # -- Enable OTEL metrics export
+    metricsEnabled: true
+  grafana:
+    # -- Deploy built-in Grafana LGTM all-in-one collector (otelcol + loki + tempo + grafana)
+    enabled: true
+    # -- Resource name for Grafana/OTEL Service/Deployment
+    name: grafana
+    image:
+      repository: grafana/otel-lgtm
+      tag: latest
+      pullPolicy: IfNotPresent
+    # -- Grafana/OTEL service configuration
+    service:
+      type: ClusterIP
+      annotations: {}
+      labels: {}
+      # -- Service ports
+      ports:
+        http: 3000       # Grafana UI
+        otlpGrpc: 4317   # OTLP gRPC
+        otlpHttp: 4318   # OTLP HTTP
+      # -- Container ports (normally same as service ports)
+      containerPorts:
+        http: 3000
+        otlpGrpc: 4317
+        otlpHttp: 4318
+    # -- Pod-level customizations
+    podAnnotations: {}
+    podLabels: {}
+    resources: {}
+
 # -- Value of cluster domain
 clusterDomain: cluster.local
 
