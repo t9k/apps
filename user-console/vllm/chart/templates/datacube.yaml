@@ -13,7 +13,11 @@ spec:
   sink: 
     type: pvc
     pvc:
+      {{- if .Values.server.model.volume.existingClaim }}
+      name: {{ .Values.server.model.volume.existingClaim }}
+      {{- else }}
       name: {{ include "vllm.fullname" . }}
+      {{- end }}
       subPath: {{ .Values.server.model.volume.subPath }}
   executor:
     env:

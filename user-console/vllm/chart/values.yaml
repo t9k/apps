@@ -60,3 +60,8 @@ initializer:
     repository: "$(T9K_APP_IMAGE_NAMESPACE)/kubectl"
     tag: "1.27"
     pullPolicy: IfNotPresent
+
+  resources:
+    limits:
+      cpu: 100m
+      memory: 64Mi

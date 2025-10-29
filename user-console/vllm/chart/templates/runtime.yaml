@@ -17,6 +17,8 @@ spec:
         imagePullPolicy: {{ .Values.initializer.image.pullPolicy }}
         command: ["/bin/sh", "-c"]
         args: ["kubectl wait --for=condition=Complete datacube/{{ include "vllm.fullname" . }} --timeout=-1s"]
+        resources:
+          {{- toYaml .Values.initializer.resources | nindent 10 }}
       {{- end }}
       serviceAccountName: managed-project-sa
       nodeSelector:
